@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MudletPackage>
+<MudletPackage version="1.001">
+	<ScriptPackage>
+		<ScriptGroup isActive="yes" isFolder="yes">
+			<name>AvalonGUI</name>
+			<packageName></packageName>
+			<script>-- newline
+-- Put your Lua functions here.
+			</script>
+			<eventHandlerList />
+			<Script isActive="yes" isFolder="no">
+				<name>AvalonGUI</name>
+				<packageName></packageName>
+				<script>-- newline
+require "AvalonMaster.scripts.gui"     -- lädt die angegebene lua-datei
+				</script>
+				<eventHandlerList />
+			</Script>
+		</ScriptGroup>
+		<Script isActive="yes" isFolder="no">
+			<name>AvalonMaster</name>
+			<packageName></packageName>
+			<script>-- newline
+-- local scriptTest = require("AvalonMaster.AvalonMaster")
+require "AvalonMaster"                 -- lädt die init.lua
+-- require "AvalonMaster.scripts.gui"     -- lädt die angegebene lua-datei
+-- require "AvalonMaster.scripts.atcp"     -- lädt die angegebene lua-datei
+			</script>
+			<eventHandlerList />
+		</Script>
+		<ScriptGroup isActive="yes" isFolder="yes">
+			<name>AvalonATCP</name>
+			<packageName></packageName>
+			<script>-- newline
+-- Put your Lua functions here.
+			</script>
+			<eventHandlerList />
+			<Script isActive="yes" isFolder="no">
+				<name>AvalonATCP</name>
+				<packageName></packageName>
+				<script>-- newline
+require "AvalonMaster.scripts.atcp"     -- lädt die angegebene lua-datei
+				</script>
+				<eventHandlerList />
+			</Script>
+		</ScriptGroup>
+	</ScriptPackage>
+</MudletPackage>
