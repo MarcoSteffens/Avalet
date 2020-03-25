@@ -242,7 +242,7 @@ raiseEvent("onKeyPad",5)
 			<Alias isActive="yes" isFolder="no">
 				<name>Rein</name>
 				<script>raiseEvent("onKeyPad",12)
-send(matches[1])</script>
+-- send(matches[1])</script>
 				<command></command>
 				<packageName></packageName>
 				<regex>^(rein)$</regex>
@@ -250,7 +250,7 @@ send(matches[1])</script>
 			<Alias isActive="yes" isFolder="no">
 				<name>Raus</name>
 				<script>raiseEvent("onKeyPad",13)
-send(matches[1])</script>
+-- send(matches[1])</script>
 				<command></command>
 				<packageName></packageName>
 				<regex>^(raus)$</regex>

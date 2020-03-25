@@ -5,11 +5,6 @@
 ---------------------------------------------------------------------------
 
 
-
-
-
-
-
 -- Script: onKeyPad
 -- fuer das Laufen per Keypad, und fuer das Catchen
 -- der letzten Bewegung fuer den Mapper
