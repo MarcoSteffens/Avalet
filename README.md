@@ -2,6 +2,9 @@
 
 > **Dieses Projekt ist noch *pre-pre-alpha*! Es gibt hier also vielleicht schon was zu sehen, aber nichts davon funktioniert. Auch wenn der Text was anderes behauptet. Wenn das Modul was gescheites macht, steht das hier auch. (Bzw. das hier steht hier dann nicht mehr.)**
 
+> **Wer Texte für Timer zuliefern möchte kann das auch in einem Dropbox-Paper machen. Nämlich hier: [Schildzauber, Auren und andere Timer in Avalon](https://paper.dropbox.com/doc/Schilde-Auren-und-andere-Timer-in-Avalon--AwzQroKtD73zHn6jNa2GIFiWAQ-1yKShCfqPZ6b21iU5vWO4). Dort ist auch nochmal beschrieben, was genau ich brauche.**
+> **Aber ich nehme das auch per Mudmail (Rofhessa), Mail (rofhessa@gmx-topmail.de), PasteBin, Brieftaube oder wie auch immer entgegen. Hauptsache, die originale Formatierung bleibt erhalten.**
+
 Avalet ist ein Mudlet-Module für das MUD Avalon. Für ein bisschen (mehr) Farbe und ein bisschen Klicki-Bunti.
 
 Avalet bietet in erster Linie:
@@ -18,9 +21,8 @@ Avalet bietet in erster Linie:
            |                                                        | |
            \________________________________________________________\_/
             |                                                       |
-            |   Das Avalet-Modul fehlt definitiv noch in meinem     |
-            |   Portfolie. Nur - wer kauft dann noch den anderen    |
-            |   Schrott?                                            |_
+            |   Wenn so heisser Scheiss jetzt schon verschenkt      |
+            |   wird, kann ich den Laden ja bald zumachen!          |_
             |                           Zwoniman über Avalet        | |
             \_______________________________________________________\_/
 
@@ -51,8 +53,7 @@ Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das A
            \________________________________________________________\_/
             |                                                       |
             |      Suuuuperschnelle Lieferung! Dafür gibt es        |
-            |      ein extra <3 von mir!                            |
-            |                                                       |_
+            |      ein extra <3 von mir!                            |_
             |                         Lorielle ueber Avalet         | |
             \_______________________________________________________\_/
 
@@ -71,11 +72,6 @@ Wenn du Lust hast, in dieses Projekt auch ein bisschen Zeit zu investieren, freu
 Besonders freuen würde ich mich aber über Mitarbeit in zwei Bereichen. Und zwar einmal im Bereich "Benutzbarkeit mit Screenreader" und besonders auch im Bereich Oberflächen-Gestaltung. Leider bin ich in beiden Themen überhaupt nicht fit. Wenn du dich da einbringen willst, sprich mich bitte an und lass uns einen Weg finden.
 
 Du kannst mich auch in Avalon kontaktieren, da heiße ich grade zum Beispiel Rofhessa.
-
-## Shownotes
-
-Avalet würde wirklich überhaupt nicht existieren ohne jemanden, der nicht genannt werden darf. (Naja, will. Bisher.) Nennen wir ihn also Voldemort. Was auch immer hieraus noch wird, Voldi - Du bis Schuld!
-
 ```
             __________________________________________________________
            /                                                        / \
@@ -87,3 +83,7 @@ Avalet würde wirklich überhaupt nicht existieren ohne jemanden, der nicht gena
             \_______________________________________________________\_/
 
 ```
+
+## Shownotes
+
+Avalet würde wirklich überhaupt nicht existieren ohne jemanden, der nicht genannt werden darf. (Naja, will. Bisher.) Nennen wir ihn also Voldemort. Was auch immer hieraus noch wird, Voldi - Du bis Schuld!
