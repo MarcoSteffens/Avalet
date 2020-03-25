@@ -12,6 +12,20 @@ Avalet bietet in erster Linie:
 - Noch vieles mehr! *(coming soon)*
 - Und noch mehr! *(coming soon)*
 
+```
+            __________________________________________________________
+           /                                                        / \
+           |                                                        | |
+           \________________________________________________________\_/
+            |                                                       |
+            |   Das Avalet-Modul fehlt definitiv noch in meinem     |
+            |   Portfolie. Nur - wer kauft dann noch den anderen    |
+            |   Schrott?                                            |_
+            |                           Zwoniman über Avalet        | |
+            \_______________________________________________________\_/
+
+```
+
 ## Letzter Screenshot
 
 So sieht Avalet grade aus. (Bzw. in diesem Fall ist es nur der Screenshot von meiner Version, nicht von der hier liegenden.)
@@ -30,6 +44,20 @@ Avalet ist kein Ersatz für das Soundpack oder für die Arbeit von Ban. Wenn du 
 
 Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das Avalon-Volk zu bringen oder um meine Script-Sammlung zu teilen. Irgendwelche Geheimnisse werden hier nicht aufgedeckt. (Aber es gibt ja die Möglichkeit, Sub-Module hinzuzufügen. Wenn du also *deine* Script-Sammlung gern mit *mir* teilen möchtest - *email me*! :) )
 
+```
+            __________________________________________________________
+           /                                                        / \
+           |                                                        | |
+           \________________________________________________________\_/
+            |                                                       |
+            |      Suuuuperschnelle Lieferung! Dafür gibt es        |
+            |      ein extra <3 von mir!                            |
+            |                                                       |_
+            |                         Lorielle ueber Avalet         | |
+            \_______________________________________________________\_/
+
+```
+
 ## Installation
 
 Das eigentliche Modul besteht wahlweise aus der Datei AvalonMaster.zip oder aus der Datei AvalonMaster.mpackage. Abgesehen vom Namen sind die beiden identisch. Du kannst dir also eine davon aussuchen und dann downloaden. (Ich empfehle die .mpackage, das ist das Standardformat von Mudlet.)
@@ -47,3 +75,15 @@ Du kannst mich auch in Avalon kontaktieren, da heiße ich grade zum Beispiel Rof
 ## Shownotes
 
 Avalet würde wirklich überhaupt nicht existieren ohne jemanden, der nicht genannt werden darf. (Naja, will. Bisher.) Nennen wir ihn also Voldemort. Was auch immer hieraus noch wird, Voldi - Du bis Schuld!
+
+```
+            __________________________________________________________
+           /                                                        / \
+           |                                                        | |
+           \________________________________________________________\_/
+            |                                                       |
+            |   Ich bin Groot!                                      |_
+            |                            Groot über Avalet          | |
+            \_______________________________________________________\_/
+
+```
