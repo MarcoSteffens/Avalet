@@ -2,6 +2,19 @@
 
 > **Dieses Projekt ist noch *pre-pre-alpha*! Es gibt hier also vielleicht schon was zu sehen, aber nichts davon funktioniert. Auch wenn der Text was anderes behauptet. Wenn das Modul was gescheites macht, steht das hier auch. (Bzw. das hier steht hier dann nicht mehr.)**
 
+```
+            __________________________________________________________
+           /                                                        / \
+           |                                                        | |
+           \________________________________________________________\_/
+            |                                                       |
+            |      Mit Avalet haette ich es auch in 79 Tagen        |
+            |      geschafft!                                       |_
+            |                         Phileas Fogg ueber Avalet     | |
+            \_______________________________________________________\_/
+
+```
+
 > **Wer Texte für Timer zuliefern möchte kann das auch in einem Dropbox-Paper machen. Nämlich hier: [Schildzauber, Auren und andere Timer in Avalon](https://paper.dropbox.com/doc/Schilde-Auren-und-andere-Timer-in-Avalon--AwzQroKtD73zHn6jNa2GIFiWAQ-1yKShCfqPZ6b21iU5vWO4). Dort ist auch nochmal beschrieben, was genau ich brauche.**
 > **Aber ich nehme das auch per Mudmail (Rofhessa), Mail (rofhessa@gmx-topmail.de), PasteBin, Brieftaube oder wie auch immer entgegen. Hauptsache, die originale Formatierung bleibt erhalten.**
 
