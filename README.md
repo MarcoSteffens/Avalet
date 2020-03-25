@@ -46,8 +46,7 @@ Außerdem bietet Avalet die Möglichkeit, eigene Erweiterungen mit einzubinden. 
            |                                                        | |
            \________________________________________________________\_/
             |                                                       |
-            |      Mit Avalet haette ich es auch in 79 Tagen        |
-            |      schaffen koennen!                                |_
+            |    Mit Avalet haette ich es in 79 Tagen geschafft!    |_
             |                         Phileas Fogg ueber Avalet     | |
             \_______________________________________________________\_/
 
