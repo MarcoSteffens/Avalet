@@ -46,4 +46,215 @@ require "AvalonMaster.scripts.atcp"     -- lädt die angegebene lua-datei
 			</Script>
 		</ScriptGroup>
 	</ScriptPackage>
+	<KeyPackage>
+		<KeyGroup isActive="yes" isFolder="yes">
+			<name>Keypadfunktionen</name>
+			<packageName></packageName>
+			<script></script>
+			<command></command>
+			<keyCode>-1</keyCode>
+			<keyModifier>-1</keyModifier>
+			<Key isActive="yes" isFolder="no">
+				<name>9 - nordosten</name>
+				<packageName></packageName>
+				<script>raiseEvent("onKeyPad",9)</script>
+				<command></command>
+				<keyCode>57</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>8 - norden</name>
+				<packageName></packageName>
+				<script>raiseEvent("onKeyPad",8)</script>
+				<command></command>
+				<keyCode>56</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>7 - nordwesten</name>
+				<packageName></packageName>
+				<script>raiseEvent("onKeyPad",7)</script>
+				<command></command>
+				<keyCode>55</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>6 - osten</name>
+				<packageName></packageName>
+				<script>raiseEvent("onKeyPad",6)</script>
+				<command></command>
+				<keyCode>54</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>5 - schau</name>
+				<packageName></packageName>
+				<script>sendATCP("ava_req_iid", "hier")
+raiseEvent("onKeyPad",5)
+				</script>
+				<command></command>
+				<keyCode>53</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>4 - westen</name>
+				<packageName></packageName>
+				<script>raiseEvent("onKeyPad",4)</script>
+				<command></command>
+				<keyCode>52</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>3 - suedosten</name>
+				<packageName></packageName>
+				<script>raiseEvent("onKeyPad",3)</script>
+				<command></command>
+				<keyCode>51</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>2 - sueden</name>
+				<packageName></packageName>
+				<script>raiseEvent("onKeyPad",2)</script>
+				<command></command>
+				<keyCode>50</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>1 - suedwesten</name>
+				<packageName></packageName>
+				<script>raiseEvent("onKeyPad",1)</script>
+				<command></command>
+				<keyCode>49</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>- - hoch</name>
+				<packageName></packageName>
+				<script>raiseEvent("onKeyPad",10)</script>
+				<command></command>
+				<keyCode>45</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>+ - runter</name>
+				<packageName></packageName>
+				<script>raiseEvent("onKeyPad",11)</script>
+				<command></command>
+				<keyCode>43</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>/ - rein</name>
+				<packageName></packageName>
+				<script>raiseEvent("onKeyPad",12)</script>
+				<command></command>
+				<keyCode>47</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>* - raus</name>
+				<packageName></packageName>
+				<script>raiseEvent("onKeyPad",13)</script>
+				<command></command>
+				<keyCode>42</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+		</KeyGroup>
+	</KeyPackage>	
+	<AliasPackage>
+		<AliasGroup isActive="yes" isFolder="yes">
+			<name>Bewegung</name>
+			<script></script>
+			<command></command>
+			<packageName></packageName>
+			<regex></regex>
+			<Alias isActive="yes" isFolder="no">
+				<name>Norden</name>
+				<script>raiseEvent("onKeyPad",8)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(n|norden)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Nordosten</name>
+				<script>raiseEvent("onKeyPad",9)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(no|nordosten)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Osten</name>
+				<script>raiseEvent("onKeyPad",6)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(o|osten)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Suedosten</name>
+				<script>raiseEvent("onKeyPad",3)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(so|suedosten|os)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Sueden</name>
+				<script>raiseEvent("onKeyPad",2)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(s|sueden)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Suedwesten</name>
+				<script>raiseEvent("onKeyPad",1)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(sw|suedwesten)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Westen</name>
+				<script>raiseEvent("onKeyPad",4)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(w|westen)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Nordwesten</name>
+				<script>raiseEvent("onKeyPad",7)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(nw|nordwesten)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Hoch</name>
+				<script>raiseEvent("onKeyPad",10)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(h|hoch)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Runter</name>
+				<script>raiseEvent("onKeyPad",11)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(r|runter)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Rein</name>
+				<script>raiseEvent("onKeyPad",12)
+send(matches[1])</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(rein)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Raus</name>
+				<script>raiseEvent("onKeyPad",13)
+send(matches[1])</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(raus)$</regex>
+			</Alias>
+		</AliasGroup>
+	</AliasPackage>
 </MudletPackage>
