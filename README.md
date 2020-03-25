@@ -5,7 +5,7 @@
 > **Wer Texte für Timer zuliefern möchte kann das auch in einem Dropbox-Paper machen. Nämlich hier: [Schildzauber, Auren und andere Timer in Avalon](https://paper.dropbox.com/doc/Schilde-Auren-und-andere-Timer-in-Avalon--AwzQroKtD73zHn6jNa2GIFiWAQ-1yKShCfqPZ6b21iU5vWO4). Dort ist auch nochmal beschrieben, was genau ich brauche.**
 > **Aber ich nehme das auch per Mudmail (Rofhessa), Mail (rofhessa@gmx-topmail.de), PasteBin, Brieftaube oder wie auch immer entgegen. Hauptsache, die originale Formatierung bleibt erhalten.**
 
-Avalet ist ein Mudlet-Module für das MUD Avalon. Für ein bisschen (mehr) Farbe und ein bisschen Klicki-Bunti.
+Avalet ist ein Mudlet-Module für das [MUD Avalon](https://avalon.mud.de/). Für ein bisschen (mehr) Farbe und ein bisschen Klicki-Bunti.
 
 Avalet bietet in erster Linie:
 - Einen nicht zu übersehenden Überblick über TP, ZP, AP und Mana!*(coming soon)*
@@ -23,7 +23,7 @@ Avalet bietet in erster Linie:
             |                                                       |
             |   Wenn so heisser Scheiss jetzt schon verschenkt      |
             |   wird, kann ich den Laden ja bald zumachen!          |_
-            |                           Zwoniman über Avalet        | |
+            |                           Zwoniman ueber Avalet       | |
             \_______________________________________________________\_/
 
 ```
@@ -52,7 +52,7 @@ Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das A
            |                                                        | |
            \________________________________________________________\_/
             |                                                       |
-            |      Suuuuperschnelle Lieferung! Dafür gibt es        |
+            |      Suuuuperschnelle Lieferung! Dafuer gibt es       |
             |      ein extra <3 von mir!                            |_
             |                         Lorielle ueber Avalet         | |
             \_______________________________________________________\_/
@@ -79,7 +79,7 @@ Du kannst mich auch in Avalon kontaktieren, da heiße ich grade zum Beispiel Rof
            \________________________________________________________\_/
             |                                                       |
             |   Ich bin Groot!                                      |_
-            |                            Groot über Avalet          | |
+            |                            Groot ueber Avalet         | |
             \_______________________________________________________\_/
 
 ```
