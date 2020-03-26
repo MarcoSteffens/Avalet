@@ -365,7 +365,7 @@ GUI.GaugeBackCSS = CSSMan.new([[
   border-color: white;
   border-width: 1px;
   border-radius: 5px;
-  margin: 5px;
+  padding: 5px;
   width: 30%;
   height: 80%;
 ]])
@@ -376,7 +376,14 @@ GUI.GaugeFrontCSS = CSSMan.new([[
   border-color: white;
   border-width: 1px;
   border-radius: 5px;
-  margin: 5px;
+  padding: 5px;
+  width: 30%;
+  height: 80%;
+]])
+
+--	background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #78bd33, stop: 0.1 #6ebd20, stop: 0.49 #4c9900, stop: 0.5 #387000, stop: 1 #4c9900);
+GUI.GaugeTextCSS = CSSMan.new([[
+	padding: 25px;
 ]])
 
 GUI.Health = Geyser.Gauge:new({
@@ -384,52 +391,53 @@ GUI.Health = Geyser.Gauge:new({
   x = "2%", y = "0%",
   width="30%", height="80%",
   orientation="vertical",
---},GUI.LeftColumn)
 },GUI.Box7)
 GUI.Health.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
 GUI.GaugeFrontCSS:set("background-color","red")
 GUI.Health.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
-GUI.Health:setValue(math.random(100),100)
-GUI.Health.front:echo("TP")
-
-GUI.Mana = Geyser.Gauge:new({
-  name = "GUI.Mana",
-  x = "34%", y = "0%",
-  width="30%", height="80%",
-  orientation="vertical",
---},GUI.LeftColumn)
-},GUI.Box7)
-GUI.Mana.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
-GUI.GaugeFrontCSS:set("background-color","blue")
-GUI.Mana.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
-GUI.Mana:setValue(math.random(100),100)
-GUI.Mana.front:echo("ZP")
+GUI.Health.text:setStyleSheet(GUI.GaugeTextCSS:getCSS())
+GUI.Health:setValue(100,100)
+--GUI.Health.front:echo("TP")
+--GUI.Health:setValue(player.stats.tp, player.stats.tp_max, "<b>" .. tostring(player.stats.tp) .. "/" .. tostring(player.stats.tp_max) .. "</b>")
+--GUI.Health.front:echo("<b>" .. player.stats.tp .. "/" .. player.stats.tp_max .. "</b>")
 
 GUI.Endurance = Geyser.Gauge:new({
   name = "GUI.Endurance",
-  x = "66%", y = "0%",
+  x = "34%", y = "0%",
   width="30%", height="80%",
   orientation="vertical",
---},GUI.RightColumn)
 },GUI.Box7)
 GUI.Endurance.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
 GUI.GaugeFrontCSS:set("background-color","yellow")
 GUI.Endurance.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
-GUI.Endurance:setValue(math.random(100),100)
+GUI.Endurance.text:setStyleSheet(GUI.GaugeTextCSS:getCSS())
+GUI.Endurance:setValue(100,100)
 --GUI.Endurance.front:echo("GUI.Endurance")
-GUI.Endurance.front:echo([[<span style = "color: black">AP</span>]])
+--GUI.Endurance.front:echo([[<span style = "color: black">AP</span>]])
 
-GUI.Willpower = Geyser.Gauge:new({
-  name = "GUI.Willpower",
+GUI.Spellpoints = Geyser.Gauge:new({
+  name = "GUI.Spellpoints",
+  x = "66%", y = "0%",
+  width="30%", height="80%",
+  orientation="vertical",
+},GUI.Box7)
+GUI.Spellpoints.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
+GUI.GaugeFrontCSS:set("background-color","blue")
+GUI.Spellpoints.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
+GUI.Spellpoints.text:setStyleSheet(GUI.GaugeTextCSS:getCSS())
+GUI.Spellpoints:setValue(100,100)
+--GUI.Spellpoints.front:echo("ZP")
+
+GUI.Mana = Geyser.Gauge:new({
+  name = "GUI.Mana",
   x = "2%", y = "80%",
   width="96%", height="20%",
---},GUI.RightColumn)
 },GUI.Box7)
-GUI.Willpower.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
+GUI.Mana.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
 GUI.GaugeFrontCSS:set("background-color","green")
-GUI.Willpower.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
-GUI.Willpower:setValue(math.random(9999),9999)
-GUI.Willpower.front:echo("Mana")
+GUI.Mana.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
+GUI.Mana:setValue(9999,9999)
+--GUI.Mana.front:echo("Mana")
 
 
 
@@ -695,7 +703,7 @@ local sort_func = function( a,b ) return a.name < b.name end
 table.sort( HeaderMenu, sort_func )
 
 for i, record in ipairs( HeaderMenu ) do
-	echo(i .. " -" .. record.name .. "\n")
+	--echo(i .. " -" .. record.name .. "\n")
 end
 
 
@@ -916,3 +924,4 @@ end
 --	hideWindow("TopMenuPrefs5")
 --	hideWindow("TopMenuPrefs6")
 -- end
+

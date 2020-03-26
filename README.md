@@ -82,6 +82,8 @@ Wenn du Lust hast, in dieses Projekt auch ein bisschen Zeit zu investieren, freu
 
 Besonders freuen würde ich mich aber über Mitarbeit in zwei Bereichen. Und zwar einmal im Bereich "Benutzbarkeit mit Screenreader" und besonders auch im Bereich Design. Darin bin ich nämlich absoluter Anfänger. Wenn du dich da einbringen willst, sprich mich bitte an und lass uns einen Weg finden.
 
+Beachte aber bitte, dass Avalet unter einer sehr freien Lizenz steht. Das würde Deinen Beitrag dann einschließen.
+
 Du kannst mich auch in Avalon kontaktieren, da heiße ich grade Rofhessa.
 
 ## Shownotes
