@@ -21,8 +21,8 @@ Avalet bietet in erster Linie:
            |                                                        | |
            \________________________________________________________\_/
             |                                                       |
-            |   Wenn so heisser Scheiss jetzt schon verschenkt      |
-            |   wird, kann ich den Laden ja bald zumachen!          |_
+            |  "Wenn so heisser Scheiss jetzt schon verschenkt      |
+            |   wird, kann ich den Laden ja bald zumachen!"         |_
             |                           Zwoniman ueber Avalet       | |
             \_______________________________________________________\_/
 
@@ -46,7 +46,7 @@ Außerdem bietet Avalet die Möglichkeit, eigene Erweiterungen mit einzubinden. 
            |                                                        | |
            \________________________________________________________\_/
             |                                                       |
-            |    Mit Avalet haette ich es in 79 Tagen geschafft!    |_
+            |  "Mit Avalet haette ich es in 30 Tagen geschafft!"    |_
             |                         Phileas Fogg ueber Avalet     | |
             \_______________________________________________________\_/
 
@@ -70,19 +70,19 @@ Für die Installation nimmst Du am besten ein sauberes, also ein neues Profil in
            |                                                        | |
            \________________________________________________________\_/
             |                                                       |
-            |      Suuuuperschnelle Lieferung! Dafuer gibt es       |
-            |      ein extra <3 von mir!                            |_
+            |     "Suuuuperschnelle Lieferung! Dafuer gibt es       |
+            |      ein extra <3 von mir!"                           |_
             |                         Lorielle ueber Avalet         | |
             \_______________________________________________________\_/
 
 ```
 ## Mitmachen?
 
-Wenn du Lust hast, in dieses Projekt auch ein bisschen Zeit zu investieren, freue ich mich natürlich. Du kannst das mit den Werkzeugen machen, die Github so bereit stellt. Also erstmal einen Patch einreichen beispielsweise oder *Issues* melden oder so.
+Wenn du Lust hast, in dieses Projekt auch ein bisschen Zeit zu investieren, freue ich mich natürlich. Du kannst das mit den Werkzeugen machen, die Github so bereit stellt. Also erstmal einen Patch einreichen beispielsweise oder *Issues* melden oder so. Später kannst Du auch *Collaborator* werden, aber im Moment gibt es dafür noch nicht die nötige Struktur.
 
-Besonders freuen würde ich mich aber über Mitarbeit in zwei Bereichen. Und zwar einmal im Bereich "Benutzbarkeit mit Screenreader" und besonders auch im Bereich Oberflächen-Gestaltung. Leider bin ich in beiden Themen überhaupt nicht fit. Wenn du dich da einbringen willst, sprich mich bitte an und lass uns einen Weg finden.
+Besonders freuen würde ich mich aber über Mitarbeit in zwei Bereichen. Und zwar einmal im Bereich "Benutzbarkeit mit Screenreader" und besonders auch im Bereich Design. Darin bin ich nämlich absoluter Anfänger. Wenn du dich da einbringen willst, sprich mich bitte an und lass uns einen Weg finden.
 
-Du kannst mich auch in Avalon kontaktieren, da heiße ich grade zum Beispiel Rofhessa.
+Du kannst mich auch in Avalon kontaktieren, da heiße ich grade Rofhessa.
 
 ## Shownotes
 
@@ -94,7 +94,7 @@ Avalet würde wirklich überhaupt nicht existieren ohne jemanden, der nicht gena
            |                                                        | |
            \________________________________________________________\_/
             |                                                       |
-            |   Ich bin Groot!                                      |_
+            |   "Ich bin Groot!"                                    |_
             |                            Groot ueber Avalet         | |
             \_______________________________________________________\_/
 
