@@ -131,61 +131,57 @@ GUI.BoxCSS = CSSMan.new([[
   margin: 10px;
 ]])
 
---GUI.Box1 = Geyser.Label:new({
---  name = "GUI.Box1",
---  x = 0, y = 0,
---  width = "100%",
---  height = "50%",
---},GUI.Right)
---GUI.Box1:setStyleSheet(GUI.BoxCSS:getCSS())
---GUI.Box1:echo("<center>GUI.Box1")
+GUI.Box1 = Geyser.Label:new({
+  name = "GUI.Box1",
+  x = 0, y = 0,
+  width = "100%",
+  height = "50%",
+},GUI.Right)
+GUI.Box1:setStyleSheet(GUI.BoxCSS:getCSS())
+GUI.Box1:echo("<center>GUI.Box1")
 
 
 GUI.Spielstand = Geyser.MiniConsole:new({
   name="Spielstand",
-  x="5%", y="5%",
-  width = "90%",
-  height = "40%",
+  x="3%", y="3%",
+  width = "94%",
+  height = "94%",
   --autoWrap = true,
   color = "black",
   scrollBar = false,
-  fontSize = 8,
-}, GUI.Right)
+  fontSize = 9,
+}, GUI.Box1)
 GUI.Spielstand:setColor("black") -- give it a nice black background
 GUI.Spielstand:setFont("Bitstream Vera Sans Mono")
 clearWindow("Spielstand")
-GUI.Spielstand:echo("+-------------------------------------------------------------------------+\n")
-GUI.Spielstand:echo("|          Handelsvertreter Ryley Rofhessa, der angesehene Mann           |\n")
-GUI.Spielstand:echo("+-------------------------------------------------------------------------+\n")
-GUI.Spielstand:echo("|  Staerke.........: 100   Ausdauer........:  51   Geschicklichkeit:  55  |\n")
-GUI.Spielstand:echo("|  Intelligenz.....:  65   Weisheit........:  70   Aura............:  48  |\n")
-GUI.Spielstand:echo("|  Schnelligkeit...:  68   Vitalitaet......:  75   Konzentration...: 100  |\n")
-GUI.Spielstand:echo("+-------------------------------------------------------------------------+\n")
-GUI.Spielstand:echo("|                             0%       25%        50%       75%     100%  |\n")
-GUI.Spielstand:echo("|  Trefferpunkte:  202 ( 202) ##########################################  |\n")
-GUI.Spielstand:echo("|  Aktionspunkte:   16 ( 104) ######                                      |\n")
-GUI.Spielstand:echo("|  Zauberpunkte:   116 ( 184) ##########################                  |\n")
-GUI.Spielstand:echo("|  Manapunkte:    9369 (9999) #######################################     |\n")
-GUI.Spielstand:echo("|  Tragkraft             92%  #######################################     |\n")
-GUI.Spielstand:echo("+-------------------------------------+-----------------------------------+\n")
-GUI.Spielstand:echo("|  Erfahrungspunkte:          502762  |  Flucht bei:          (80 TP) an  |\n")
-GUI.Spielstand:echo("|  Raetselpunkte:           685/1180  |  Angriff:                     an  |\n")
-GUI.Spielstand:echo("|  Spielepunkte:            204/ 659  |  Gegenangriff:                an  |\n")
-GUI.Spielstand:echo("|  Lernpunkte:                 10425  |  Verteidigung:                an  |\n")
-GUI.Spielstand:echo("|  Erfahrung heute:             2210  |  Kampfmodus:            defensiv  |\n")
-GUI.Spielstand:echo("+-------------------------------------+---------------+-------------------+\n")
-GUI.Spielstand:echo("|  Tipp:   Mit Freunden \"verabreden\".                 |           Magier  |\n")
-GUI.Spielstand:echo("|  Alter:  16 Tage 19 Stunden 36 Minuten              |   Stufe 2 in S46  |\n")
-GUI.Spielstand:echo("+-----------------------------------------------------+-------------------+\n")
+GUI.Spielstand:echo("                                                                     \n")
+GUI.Spielstand:echo("        Handelsvertreter Ryley Rofhessa, der angesehene Mann         \n")
+GUI.Spielstand:echo("                                                                     \n")
+GUI.Spielstand:echo("Staerke.........: 100   Ausdauer........:  51   Geschicklichkeit:  55\n")
+GUI.Spielstand:echo("Intelligenz.....:  65   Weisheit........:  70   Aura............:  48\n")
+GUI.Spielstand:echo("Schnelligkeit...:  68   Vitalitaet......:  75   Konzentration...: 100\n")
+GUI.Spielstand:echo("                                                                     \n")
+GUI.Spielstand:echo("                           0%       25%        50%       75%     100%\n")
+GUI.Spielstand:echo("Tragkraft             92%  #######################################   \n")
+GUI.Spielstand:echo("                                                                     \n")
+GUI.Spielstand:echo("Erfahrungspunkte:          502762     Flucht bei:          (80 TP) an\n")
+GUI.Spielstand:echo("Raetselpunkte:           685/1180     Angriff:                     an\n")
+GUI.Spielstand:echo("Spielepunkte:            204/ 659     Gegenangriff:                an\n")
+GUI.Spielstand:echo("Lernpunkte:                 10425     Verteidigung:                an\n")
+GUI.Spielstand:echo("Erfahrung heute:             2210     Kampfmodus:            defensiv\n")
+GUI.Spielstand:echo("                                                                     \n")
+GUI.Spielstand:echo("Tipp:   Mit Freunden \"verabreden\".                             Magier\n")
+GUI.Spielstand:echo("Alter:  16 Tage 19 Stunden 36 Minuten                  Stufe 2 in S46\n")
+GUI.Spielstand:echo("                                                                      ")
 
 
---GUI.Box2 = Geyser.Label:new({
---  name = "GUI.Box2",
---  x = 0, y = "50%",
---  width = "100%",-- 50%
---  height = "50%",
---},GUI.Right)
---GUI.Box2:setStyleSheet(GUI.BoxCSS:getCSS())
+GUI.Box2 = Geyser.Label:new({
+  name = "GUI.Box2",
+  x = 0, y = "50%",
+  width = "100%",-- 50%
+  height = "50%",
+},GUI.Right)
+GUI.Box2:setStyleSheet(GUI.BoxCSS:getCSS())
 --GUI.Box2:echo("<center>GUI.Box2")
 
 --GUI.Box3 = Geyser.Label:new({
@@ -439,86 +435,69 @@ GUI.Mana.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
 GUI.Mana:setValue(9999,9999)
 --GUI.Mana.front:echo("Mana")
 
+---------------------------------------------------------------------------
 
+-- Dummy-Daten für die Timer-Liste. Die Startzeit ist später einfach os.time()
+listOfTimers = {
+  {["name"] = "Arkanschild", ["starttime"] = (os.time() - 550), ["duration"] = 600},
+  {["name"] = "Kampfbeschwörung", ["starttime"] = (os.time() - 580), ["duration"] = 600},
+  {["name"] = "Erdaura", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
+  {["name"] = "Schild", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
+  {["name"] = "Magiertrance", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
+  {["name"] = "Magieaufladung", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
+  {["name"] = "Steinhaut", ["starttime"] = false, ["duration"] = false},
+  {["name"] = "Windhaut", ["starttime"] = false, ["duration"] = false},
+  {["name"] = "Manarausch", ["starttime"] = false, ["duration"] = false},
+}
 
-local Timer={}
-setmetatable(Timer, {
-  __index=function(cls, key)
-    return getmetatable(cls)[key]
-  end,
-  __call=function(cls, ...)
-    return getmetatable(cls).new(...)
-  end,
-  new=function(name, starttime, duration, remaining)
-    local self=setmetatable({}, getmetatable(Timer))
-    self.name = name
-    self.starttime = starttime
-    self.duration = duration
-    self.remaining = remaining
-    return self
-  end,
-  __tostring=function(v)
-    return string.format()
-  end,
-})    
-    
-local TimerList={}
-setmetatable(TimerList, {
-  __index=function(cls, key)
-    return getmetatable(cls)[key]
-  end,
-  __call=function(cls, ...)
-    return getmetatable(cls).new(...)
-  end,
-  new=function()
-    local self=setmetatable({}, getmetatable(TimerList))
-    return self
-  end,
-  add=function()
-    --...
-  end,
-  refresh=function()
-    --...
-  end,
-  sort=function()
-    --...
-  end,
-  delete=function()
-    --...
-  end,
-})
-
-
-timerList = {}
-table.insert(timerList,Timer.new(14,14,8))
-table.insert(timerList,Timer.new(10,7,12))
-
---for _,component in ipairs(timerList) do
---        holds = component:getvolume()
---        print (_,holds)
---        end
-
-for i=1,9 do
-  GUI["Timer"..i] = Geyser.Gauge:new({
-    name = "GUI.Timer"..i,
-    x = "4%", y = (100-(i*10)-5).."%",
-    width="92%", height="11%",
-  },GUI.Box5)
-  GUI["Timer"..i].back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
-  GUI.GaugeFrontCSS:set("background-color","purple")
-  GUI["Timer"..i].front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
-  GUI["Timer"..i]:echo("<center>GUI.Timer"..i)
-  GUI["Timer"..i]:setValue(math.random(100),100)
+sortedListOfTimers = {}
+for k, v in pairs(listOfTimers) do
+	if v["starttime"] == false then
+		table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = 600, ["duration"] = 600})
+	else
+		-- remaining < 0 abfangen!
+		table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = v["duration"] - ((os.time() - v["starttime"])), ["duration"] = 600})
+	end
+	--table.insert(sortedListOfTimers, {})
 end
+
+sortMyTimers = function(a, b) return a["remaining"] > b["remaining"] end
+table.sort(sortedListOfTimers, sortMyTimers)
+
+for k, v in pairs(sortedListOfTimers) do
+--  print(k, v["name"])
+  GUI["Timer"..k] = Geyser.Gauge:new({
+    name = "GUI.Timer"..k,
+    x = "4%", y = (100-(k*10)-5).."%",
+    width="90%", height="9%",
+	orientation = "goofy",
+  },GUI.Box5)
+  if v["remaining"] < 30 then
+	echo("kleiner als 30")
+	GUI.GaugeBackCSS:set("background-color","red")
+  elseif v["remaining"] < 60 then
+	echo("kleiner als 60")
+	GUI.GaugeBackCSS:set("background-color","yellow")
+  end
+  GUI["Timer"..k].back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
+  GUI.GaugeFrontCSS:set("background-color","purple")
+  GUI["Timer"..k].front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
+  --GUI["Timer"..k]:echo("<center>GUI.Timer"..k)
+  echo("Restlaufzeit: " .. tostring(v["remaining"]) .. "sec. von " .. tostring(v["duration"]) .. "sec " .. v["name"] .. "\n")
+  GUI["Timer"..k]:setValue(v["remaining"], v["duration"] , v["name"])
+end
+
 
 --------------------------------------------
 --- Tabs-Element
 -------------------------------------------
 
 menu = menu or {
-  tabs = {"Schwafel","Laber","Volk","Gilde", "Gruppe", "Sag", "Rede", "ATCP", "YourTabHere"},
-  color1 = "rgb(0,0,70)",
-  color2 = "rgb(0,0,50)",
+  tabs = {"Schwafel","Laber","Volk","Gilde", "Gruppe", "Sag", "Rede"},
+--  color1 = "rgb(0,0,70)",
+--  color2 = "rgb(0,0,50)",
+  color1 = "red",
+  color2 = "white",
   width = "10%",
   height = "40%",
 }
@@ -527,10 +506,10 @@ menu.current = menu.current or menu.tabs[1]
 
 menu.container = Geyser.Container:new({
   name = "menu.back",
-  x = "2%", y = "50%",
-  width = "96%",
-  height = "47%",
-},GUI.Right)
+  x = "3%", y = "3%",
+  width = "94%",
+  height = "94%",
+},GUI.Box2)
 
 menu.header = Geyser.HBox:new({
   name = "menu.header",
@@ -564,8 +543,9 @@ menu.center = Geyser.Label:new({
 },menu.footer)
 
 --  background-color: ]]..menu.color2..[[;
+--  background-color: rgb(20,0,20);
 menu.center:setStyleSheet([[
-  background-color: rgb(20,0,20);
+  background-color: rgb(255,255,255);
   border-radius: 10px;
   margin: 5px;
 ]])

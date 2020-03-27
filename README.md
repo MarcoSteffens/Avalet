@@ -30,7 +30,7 @@ Avalet bietet in erster Linie:
 
 ## Letzter Screenshot
 
-So sieht Avalet grade aus. (Bzw. in diesem Fall ist es nur der Screenshot von meiner Version, nicht von der hier liegenden.)
+So sieht Avalet grade aus.
 
 ![letzter Screenshot](latest_screenshot.png)
 
@@ -78,7 +78,7 @@ Für die Installation nimmst Du am besten ein sauberes, also ein neues Profil in
 ```
 ## Mitmachen?
 
-Wenn du Lust hast, in dieses Projekt auch ein bisschen Zeit zu investieren, freue ich mich natürlich. Du kannst das mit den Werkzeugen machen, die Github so bereit stellt. Also erstmal einen Patch einreichen beispielsweise oder *Issues* melden oder so. Später kannst Du auch *Collaborator* werden, aber im Moment gibt es dafür noch nicht die nötige Struktur.
+Wenn du Lust hast, in dieses Projekt auch ein bisschen Zeit zu investieren, freue ich mich natürlich. Ich würde mich zum Beispiel über Bug-Hinweise und Feature-Vorschläge freuen! Du kannst auch die Werkzeuge verwenden, die Github so bereit stellt. Also einen Patch einreichen beispielsweise oder *Issues* melden oder so. Wenn Du mehr machen möchtest, kannst Du später auch *Collaborator* werden, aber im Moment gibt es dafür noch nicht die nötige Struktur.
 
 Besonders freuen würde ich mich aber über Mitarbeit in zwei Bereichen. Und zwar einmal im Bereich "Benutzbarkeit mit Screenreader" und besonders auch im Bereich Design. Darin bin ich nämlich absoluter Anfänger. Wenn du dich da einbringen willst, sprich mich bitte an und lass uns einen Weg finden.
 
