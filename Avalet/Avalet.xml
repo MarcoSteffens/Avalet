@@ -13,20 +13,20 @@
 				<name>AvalonGUI</name>
 				<packageName></packageName>
 				<script>-- newline
---require "AvalonMaster.scripts.gui"           -- lädt die angegebene lua-datei
---require "AvalonMaster.scripts.character"     -- lädt die angegebene lua-datei
+--require "Avalet.scripts.gui"           -- lädt die angegebene lua-datei
+--require "Avalet.scripts.character"     -- lädt die angegebene lua-datei
 				</script>
 				<eventHandlerList />
 			</Script>
 		</ScriptGroup>
 		<Script isActive="yes" isFolder="no">
-			<name>AvalonMaster</name>
+			<name>Avalet</name>
 			<packageName></packageName>
 			<script>-- newline
--- local scriptTest = require("AvalonMaster.AvalonMaster")
-require "AvalonMaster"                 -- lädt die init.lua
--- require "AvalonMaster.scripts.gui"     -- lädt die angegebene lua-datei
--- require "AvalonMaster.scripts.atcp"     -- lädt die angegebene lua-datei
+-- local scriptTest = require("Avalet.Avalet")
+require "Avalet"                 -- lädt die init.lua
+-- require "Avalet.scripts.gui"     -- lädt die angegebene lua-datei
+-- require "Avalet.scripts.atcp"     -- lädt die angegebene lua-datei
 			</script>
 			<eventHandlerList />
 		</Script>
@@ -41,7 +41,7 @@ require "AvalonMaster"                 -- lädt die init.lua
 				<name>AvalonATCP</name>
 				<packageName></packageName>
 				<script>-- newline
--- require "AvalonMaster.scripts.atcp"     -- lädt die angegebene lua-datei
+-- require "Avalet.scripts.atcp"     -- lädt die angegebene lua-datei
 				</script>
 				<eventHandlerList />
 			</Script>

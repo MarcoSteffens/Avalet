@@ -1,19 +1,32 @@
 ---------------------------------------------------------------------------
--- Initialisierung des AvalonMaster-Plugins
+-- Initialisierung des Avalet-Plugins
 --
 -- 
 ---------------------------------------------------------------------------
 
 echo("verdammte axt\n")
 
+-- Speicherort des Moduls
+-- C:/Users/<usrdir>/Documents/Avalet/Avalet.mpackage
+path = getModulePath("Avalet")
+echo("Path zu Avalet-Modul: " .. path .. "\n" )
+
+path = getMudletHomeDir()
+echo("Path MudletHomeDir: " .. path .. "\n" )
+
+
+
+
+
+
 --if _LOADED["character"] ~= nil then
 --	echo("vorher: character ist schon geladen")
 --else
 --	echo("vorher: character ist noch nicht geladen")
 --end
-require "AvalonMaster.scripts.character"
-require "AvalonMaster.scripts.gui"
-require "AvalonMaster.scripts.atcp"
+require "Avalet.scripts.character"
+require "Avalet.scripts.gui"
+require "Avalet.scripts.atcp"
 --if _LOADED["character"] ~= nil then
 --	echo("nachher: character ist schon geladen")
 --else

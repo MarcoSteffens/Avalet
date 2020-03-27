@@ -60,9 +60,11 @@ Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das A
 
 ## Installation
 
-Das eigentliche Modul besteht wahlweise aus der Datei AvalonMaster.zip oder aus der Datei AvalonMaster.mpackage. Abgesehen vom Namen sind die beiden identisch. Du kannst dir also eine davon aussuchen und dann downloaden. (Ich empfehle die .mpackage, das ist das Standardformat von Mudlet.)
+Das eigentliche Modul besteht aus der Datei Avalet.mpackage. Die speicherst du bei dir irgendwo ab. Und importierst sie dann dann mit dem **Modul-Manager** von Mudlet in ein Profil. Vorzugsweise tust du das in ein neues, also sauberes Profil, dann gibt es keine Wechselwirkungen.
 
-Für die Installation nimmst Du am besten ein sauberes, also ein neues Profil in Mudlet. Und importierst Avalet dann mit dem **Modul-Manager**. Wichtig ist, dass Du in den `Preferences` auf dem Reiter `General` und in der Rubrik `Game protocols` den Haken bei `Enable GMCP` entfernst. GMCP darf nicht aktiviert sein! Ava*lon* sendet per ATCP stattdessen, und mit eingeschaltetem GMCP funktioniert Ava*let* nicht.
+Wichtig ist noch, dass Du in den `Preferences` auf dem Reiter `General` und in der Rubrik `Game protocols` den Haken bei `Enable GMCP` entfernst. GMCP darf nicht aktiviert sein! Ava*lon* sendet per ATCP stattdessen, und mit eingeschaltetem GMCP funktioniert Ava*let* nicht.
+
+Die Datei Avalet.zip ist identisch mit der .mpackage-Datei, die kannst du also auch nehmen. Aber .mpackage ist der Standard.
 
 ```
             __________________________________________________________
