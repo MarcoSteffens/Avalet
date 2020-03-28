@@ -140,6 +140,45 @@ GUI.Box1 = Geyser.Label:new({
 GUI.Box1:setStyleSheet(GUI.BoxCSS:getCSS())
 GUI.Box1:echo("<center>GUI.Box1")
 
+--string.len("")
+echo("Länge: " .. tostring(string.len(player.vollername)) .. "\n")
+textInfobox = "\n"
+if string.len(player.vollername) ~= 0 then
+	textInfobox = textInfobox .. "In Avalon bist Du bekannt als\n\n  " .. player.vollername .. "\n\n"
+	if string.len(player.gilde) ~= 0 then
+		if player.gilde == "keine" then
+			textInfobox = textInfobox .. "Du bist noch in keiner Gilde.\n"
+		else
+			textInfobox = textInfobox .. "Du bist " .. player.gilde .. ".\n"
+		end
+	end
+	if string.len(player.zuenfte) ~= 0 then
+		textInfobox = textInfobox .. "Deine Berufe sind: " .. player.zuenfte .. ".\n"
+	end
+	if string.len(player.alter) ~= 0 then
+		textInfobox = textInfobox .. "Dein Alter: " .. player.alter .. "\n"
+	end
+	if string.len(player.portfolio) ~= 0 then
+		textInfobox = textInfobox .. "Portfolio: " .. player.portfolio .. "\n\n"
+	end
+	if string.len(player.level) ~= 0 then
+		textInfobox = textInfobox .. "Dein Level: " .. player.level .. "\n"
+	end
+	if string.len(player.ep) ~= 0 then
+		textInfobox = textInfobox .. "Dafür hast du bisher " .. player.ep .. " Erfahrungspunkte gesammelt.\n\n"
+	end
+	if string.len(player.gesinnung) ~= 0 then
+		textInfobox = textInfobox .. "Gesinnung: " .. player.gesinnung .. "\n"
+	end
+	if string.len(player.hunger) ~= 0 then
+		textInfobox = textInfobox .. "Hunger: " .. player.hunger .. "\n"
+	end
+	if string.len(player.durst) ~= 0 then
+		textInfobox = textInfobox .. "Durst: " .. player.durst .. "\n"
+	end
+end
+
+--textInfobox ="\nIn Avalon bist Du bekannt als\n\n   Handelsvertreter Ryley Rofhessa, der angesehene Mann\n\nDu bist Arkanmagier der Magiergilde.\nDu uebst die Berufe Reisender, Schneider und Bote aus.\nDu bist etwa 16 Tage 19 Stunden und 36 Minuten alt.\nDu gehoerst zu keinem Portfolio.\n\nDu hast Stufe 2 in Level 46 erreicht.\nDafuer hast Du bisher 502762 Erfahrungspunkte gesammelt.\n\nGesinnung:\nHunger:\nDurst:\nAlkohol:\n\n"
 
 GUI.Spielstand = Geyser.MiniConsole:new({
   name="Spielstand",
@@ -149,31 +188,29 @@ GUI.Spielstand = Geyser.MiniConsole:new({
   --autoWrap = true,
   color = "black",
   scrollBar = false,
-  fontSize = 9,
+  fontSize = 11,
 }, GUI.Box1)
 GUI.Spielstand:setColor("black") -- give it a nice black background
 GUI.Spielstand:setFont("Bitstream Vera Sans Mono")
 clearWindow("Spielstand")
-GUI.Spielstand:echo("                                                                     \n")
-GUI.Spielstand:echo("        Handelsvertreter Ryley Rofhessa, der angesehene Mann         \n")
-GUI.Spielstand:echo("                                                                     \n")
-GUI.Spielstand:echo("Staerke.........: 100   Ausdauer........:  51   Geschicklichkeit:  55\n")
-GUI.Spielstand:echo("Intelligenz.....:  65   Weisheit........:  70   Aura............:  48\n")
-GUI.Spielstand:echo("Schnelligkeit...:  68   Vitalitaet......:  75   Konzentration...: 100\n")
-GUI.Spielstand:echo("                                                                     \n")
-GUI.Spielstand:echo("                           0%       25%        50%       75%     100%\n")
-GUI.Spielstand:echo("Tragkraft             92%  #######################################   \n")
-GUI.Spielstand:echo("                                                                     \n")
-GUI.Spielstand:echo("Erfahrungspunkte:          502762     Flucht bei:          (80 TP) an\n")
-GUI.Spielstand:echo("Raetselpunkte:           685/1180     Angriff:                     an\n")
-GUI.Spielstand:echo("Spielepunkte:            204/ 659     Gegenangriff:                an\n")
-GUI.Spielstand:echo("Lernpunkte:                 10425     Verteidigung:                an\n")
-GUI.Spielstand:echo("Erfahrung heute:             2210     Kampfmodus:            defensiv\n")
-GUI.Spielstand:echo("                                                                     \n")
-GUI.Spielstand:echo("Tipp:   Mit Freunden \"verabreden\".                             Magier\n")
-GUI.Spielstand:echo("Alter:  16 Tage 19 Stunden 36 Minuten                  Stufe 2 in S46\n")
-GUI.Spielstand:echo("                                                                      ")
-
+GUI.Spielstand:echo(textInfobox)
+--GUI.Spielstand:echo("In Avalon bist Du bekannt als                                        \n")
+--GUI.Spielstand:echo("                                                                     \n")
+--GUI.Spielstand:echo("    Handelsvertreter Ryley Rofhessa, der angesehene Mann             \n")
+--GUI.Spielstand:echo("                                                                     \n")
+--GUI.Spielstand:echo("Du bist Arkanmagier der Magiergilde.                                 \n")
+--GUI.Spielstand:echo("Du uebst die Berufe Reisender, Schneider und Bote aus.               \n")
+--GUI.Spielstand:echo("Du bist etwa 16 Tage 19 Stunden und 36 Minuten alt.                  \n")
+--GUI.Spielstand:echo("Du gehoerst zu keinem Portfolio.                                     \n")
+--GUI.Spielstand:echo("                                                                     \n")
+--GUI.Spielstand:echo("Du hast Stufe 2 in Level 46 erreicht.                                \n")
+--GUI.Spielstand:echo("Dafuer hast Du bisher 502762 Erfahrungspunkte gesammelt.             \n")
+--GUI.Spielstand:echo("                                                                     \n")
+--GUI.Spielstand:echo("Gesinnung:                                                           \n")
+--GUI.Spielstand:echo("Hunger:                                                              \n")
+--GUI.Spielstand:echo("Durst:                                                               \n")
+--GUI.Spielstand:echo("Alkohol:                                                             \n")
+--GUI.Spielstand:echo("                                                                     \n")
 
 GUI.Box2 = Geyser.Label:new({
   name = "GUI.Box2",
@@ -473,18 +510,18 @@ for k, v in pairs(sortedListOfTimers) do
 	orientation = "goofy",
   },GUI.Box5)
   if v["remaining"] < 30 then
-	echo("kleiner als 30")
+	--echo("kleiner als 30")
 	GUI.GaugeBackCSS:set("background-color","red")
   elseif v["remaining"] < 60 then
-	echo("kleiner als 60")
+	--echo("kleiner als 60")
 	GUI.GaugeBackCSS:set("background-color","yellow")
   end
   GUI["Timer"..k].back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
   GUI.GaugeFrontCSS:set("background-color","purple")
   GUI["Timer"..k].front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
   --GUI["Timer"..k]:echo("<center>GUI.Timer"..k)
-  echo("Restlaufzeit: " .. tostring(v["remaining"]) .. "sec. von " .. tostring(v["duration"]) .. "sec " .. v["name"] .. "\n")
-  GUI["Timer"..k]:setValue(v["remaining"], v["duration"] , v["name"])
+  --echo("Restlaufzeit: " .. tostring(v["remaining"]) .. "sec. von " .. tostring(v["duration"]) .. "sec " .. v["name"] .. "\n")
+  GUI["Timer"..k]:setValue(v["remaining"], v["duration"] , "<b>" .. v["name"] .. "</b>")
 end
 
 
@@ -492,18 +529,20 @@ end
 --- Tabs-Element
 -------------------------------------------
 
+-- Generelle Variablen für das Tab-Element
 menu = menu or {
   tabs = {"Schwafel","Laber","Volk","Gilde", "Gruppe", "Sag", "Rede"},
---  color1 = "rgb(0,0,70)",
---  color2 = "rgb(0,0,50)",
-  color1 = "red",
-  color2 = "white",
+  color1 = "rgb(0,0,70)",
+  color2 = "rgb(0,0,50)",
+--  color1 = "red",
+--  color2 = "white",
   width = "10%",
   height = "40%",
 }
+-- Speichert das aktuell ausgewählte Element:
 menu.current = menu.current or menu.tabs[1]
 
-
+-- Container, der alles andere enthält. Container sind unsichtbar, deshalb kein Stylesheet
 menu.container = Geyser.Container:new({
   name = "menu.back",
   x = "3%", y = "3%",
@@ -511,6 +550,7 @@ menu.container = Geyser.Container:new({
   height = "94%",
 },GUI.Box2)
 
+-- die Kopfzeile des Tab-Elements, also da wo die Tabs sind
 menu.header = Geyser.HBox:new({
   name = "menu.header",
   x = 0, y = 0,
@@ -518,7 +558,8 @@ menu.header = Geyser.HBox:new({
   height = "10%",
 },menu.container)
 
-
+-- Der Körper des Tab-Elements, also da wo der Inhalt steht.
+-- Der Container für jeden TAb-Inhalt
 menu.footer = Geyser.Label:new({
   name = "menu.footer",
   x = 0, y = "10%",
@@ -527,89 +568,154 @@ menu.footer = Geyser.Label:new({
 },menu.container)
 
 
+--  background-color:black;
 --  background-color: ]]..menu.color1..[[;
 --  background-color: rgb(20,0,20);
 menu.footer:setStyleSheet([[
-  background-color:black;
+  background-color: ]]..menu.color1..[[;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 ]])
 
+-- Each window actually has two labels. One for the light blue background, and another for the dark blue center. This will create that dark blue center. 
 menu.center = Geyser.Label:new({
   name = "menu.center",
   x = 0, y = 0,
   width = "100%",
   height = "100%",
 },menu.footer)
-
---  background-color: ]]..menu.color2..[[;
 --  background-color: rgb(20,0,20);
+--  background-color: rgb(255,255,255);
 menu.center:setStyleSheet([[
-  background-color: rgb(255,255,255);
+  background-color: ]]..menu.color2..[[;
   border-radius: 10px;
   margin: 5px;
 ]])
 
+-- Hier werden die Tabs und die Seiten dazu erzeugt.
 for k,v in pairs(menu.tabs) do
 
-menu[v.."tab"] = Geyser.Label:new({
-    name = "menu."..v.."tab",
-  },menu.header)
+	-- Erzeugt einen Tab für jeden Eintrag in der Menu-Liste
+	menu[v.."tab"] = Geyser.Label:new({
+		name = "menu."..v.."tab",
+	  },menu.header)
+	-- Stylesheet für jeden Tab
+	--background-color: ]]..menu.color1..[[;
+	--background-color: rgb(20,0,20);
+	menu[v.."tab"]:setStyleSheet([[
+		background-color: ]]..menu.color1..[[;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		margin-right: 1px;
+		margin-left: 1px;
+	  ]])
+	-- Beschriftung für jeden Tab
+	menu[v.."tab"]:echo("<center>"..v)
 
---    background-color: ]]..menu.color1..[[;
-menu[v.."tab"]:setStyleSheet([[
-    background-color: rgb(20,0,20);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    margin-right: 1px;
-    margin-left: 1px;
-  ]])
+	-- We need our tabs to do stuff when clicked, so we'll assign it a callback function, menu.click, which we'll create later on. Our tab name is the argument. 
+	menu[v.."tab"]:setClickCallback("menu.click",v)
 
-menu[v.."tab"]:echo("<center>"..v)
+	-- Now we create the windows that appear when each tab is clicked. Each window has two labels, one atop the other. The first, which we'll create here, has rounded edges on its bottom. 
+	menu[v] = Geyser.Label:new({
+		name = "menu."..v,
+		x = 0, y = 0,
+		width = "100%",
+		height = "100%",
+	  },menu.footer)
+	  menu[v]:setStyleSheet([[
+		background-color: ]]..menu.color1..[[;
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
+	  ]])
+	-- The second label serves as the window's center and has rounded edges on all sides. And a margin of 5px from it's parent, the label we just created. When adding stuff to your windows, this is the label you'll want to use. menu.<tabname>center
+	menu[v.."center"] = Geyser.Label:new({
+		name = "menu."..v.."center",
+		x = 0, y = 0,
+		width = "100%",
+		height = "100%",
+	  },menu[v])
+--	echo("menu."..tostring(v).."center\n")
 
+	  menu[v.."center"]:setStyleSheet([[
+		background-color: ]]..menu.color2..[[;
+		border-radius: 10px;
+		margin: 5px;
+	  ]])
+	  
+	menu[v.."console"] = Geyser.MiniConsole:new({
+	  name=v,
+	  x="3%", y="3%",
+	  width = "94%",
+	  height = "94%",
+	  --autoWrap = true,
+	  color = "black",
+	  scrollBar = false,
+	  fontSize = 11,
+	}, menu[v.."center"])
+	--GUI.Spielstand:setColor("black") -- give it a nice black background
+	--GUI.Spielstand:setFont("Bitstream Vera Sans Mono")
+	--clearWindow("menu." .. v .. "console")
+	menu[v.."console"]:echo(v.."-Kanal")
+	  
 
-menu[v.."tab"]:setClickCallback("menu.click",v)
-
-
-menu[v] = Geyser.Label:new({
-    name = "menu."..v,
-    x = 0, y = 0,
-    width = "100%",
-    height = "100%",
-  },menu.footer)
-
-  menu[v]:setStyleSheet([[
-    background-color: ]]..menu.color1..[[;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-  ]])
-
-menu[v.."center"] = Geyser.Label:new({
-    name = "menu."..v.."center",
-    x = 0, y = 0,
-    width = "100%",
-    height = "100%",
-  },menu[v])
-
-  menu[v.."center"]:setStyleSheet([[
-    background-color: ]]..menu.color2..[[;
-    border-radius: 10px;
-    margin: 5px;
-  ]])
-
-
- menu[v]:hide()
+	-- Finally, we hide all the windows and end the for loop.
+	 menu[v]:hide()
 end
+menu[menu.current]:show()
 
 
+-- The last step is to create our callback function for when a tab is clicked. This will hide that tab that is stored in menu.current, set menu.current to the clicked tab, and then show the menu.current tab. 
 function menu.click(tab)
+	echo("Jeztt sollte was passiert sein! Und zwar durch tab " .. tab .. "\n")
   menu[menu.current]:hide()
   menu.current = tab
   menu[menu.current]:show()
 end
 
+-- Adding content to your windows
+-- Add content to menu.<tab name>center
+-- So if we wanted to display our gold in a window we could:
+--menu.Labercenter:echo("bla")
+--menu.Schwafelcenter:echo("bläh")
+--menu.Redecenter:echo("blubb")
+-- If we wanted to add a map to a window we could:
+--myMap = Geyser.Mapper:new({
+--  name = "myMap",
+--  x = 0, y = 0,
+--  width = "100%",
+--  height = "100%",
+--},menu.Tab2center)
 
+--------
+-- Inhalte der Tabs
+-- Alle Tabs enthalten eine Mini-Console.
+-- Bei den Kanal-Tabs wird dort die Ausgabe der entsprechenden Kanäle gesammelt angezeigt.
+-- Bei anderen Tabs gibt es andere Inhalte.
+-- Jede Minikonsole ist ansprechbar über ... ???
 
+--textInfobox ="\nIn Avalon bist Du bekannt als\n\n   Handelsvertreter Ryley Rofhessa, der angesehene Mann\n\nDu bist Arkanmagier der Magiergilde.\nDu uebst die Berufe Reisender, Schneider und Bote aus.\nDu bist etwa 16 Tage 19 Stunden und 36 Minuten alt.\nDu gehoerst zu keinem Portfolio.\n\nDu hast Stufe 2 in Level 46 erreicht.\nDafuer hast Du bisher 502762 Erfahrungspunkte gesammelt.\n\nGesinnung:\nHunger:\nDurst:\nAlkohol:\n\n"
+function dummy()
+for k,v in pairs(menu.tabs) do
+
+	echo("menu."..v.."console\n")
+
+	menu[v.."console"] = Geyser.MiniConsole:new({
+	  name=v,
+	  x="3%", y="3%",
+	  width = "94%",
+	  height = "94%",
+	  --autoWrap = true,
+	  color = "black",
+	  scrollBar = false,
+	  fontSize = 11,
+	}, menu[v.."center"])
+	--GUI.Spielstand:setColor("black") -- give it a nice black background
+	--GUI.Spielstand:setFont("Bitstream Vera Sans Mono")
+	--clearWindow("menu." .. v .. "console")
+	menu[v.."console"]:echo(v.."-Kanal")
+
+end
+end
 -------------------------------------------------------------
 --- Top-Menü
 -------------------------------------------------------------

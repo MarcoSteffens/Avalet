@@ -59,15 +59,28 @@ function onATCPEvent(event, arg)
 --	end
 --	atcp={}
 
-	if event == "AvalonName" then echo ("AvalonName = " .. arg .. "\n")
-	elseif event == "AvalonGilde" then echo("AvalonGilde = " .. arg .. "\n")
-	elseif event == "AvalonVollName" then echo("AvalonVollName = " .. arg .. "\n")
+	if event == "AvalonName" then 
+		echo ("AvalonName = " .. arg .. "\n")
+		player.name = arg
+	elseif event == "AvalonGilde" then 
+		echo("AvalonGilde = " .. arg .. "\n")
+		player.gilde = arg
+	elseif event == "AvalonVollName" then
+		echo("AvalonVollName = " .. arg .. "\n")
+		player.vollername = arg
+		--raiseEvent("RefreshCharacterVollername", arg)
 	elseif event == "AvalonHoehe" then echo("AvalonHoehe = " .. arg .. "\n")
 	elseif event == "AuthRequest" then echo("AuthRequest = " .. arg .. "\n")
-	elseif event == "AvalonDurst" then echo("AvalonDurst = " .. arg .. "\n")
+	elseif event == "AvalonDurst" then 
+		echo("AvalonDurst = " .. arg .. "\n")
+		player.durst = arg
 	elseif event == "AvalonDunkel" then echo("AvalonDunkel = " .. arg .. "\n")
-	elseif event == "AvalonZuenfte" then echo("AvalonZuenfte = " .. arg .. "\n")
-	elseif event == "AvalonPortfolio" then echo("AvalonPortfolio = " .. arg .. "\n")
+	elseif event == "AvalonZuenfte" then 
+		echo("AvalonZuenfte = " .. arg .. "\n")
+		player.zuenfte = arg
+	elseif event == "AvalonPortfolio" then 
+		echo("AvalonPortfolio = " .. arg .. "\n")
+		player.portfolio = arg
 	elseif event == "AvalonFlucht" then echo("AvalonFlucht = " .. arg .. "\n")
 	elseif event == "AvalonSchutz" then echo("AvalonSchutz = " .. arg .. "\n")
 	elseif event == "AvalonTP" then 
@@ -94,14 +107,24 @@ function onATCPEvent(event, arg)
 	elseif event == "AvalonMAXMP" then 
 		player.stats.mp_max = tonumber(arg)
 		raiseEvent("RefreshManaBar", {player.stats.mp, player.stats.mp_max})
-	elseif event == "AvalonHunger" then echo("AvalonHunger = " .. arg .. "\n")
+	elseif event == "AvalonHunger" then 
+		echo("AvalonHunger = " .. arg .. "\n")
+		player.hunger = arg
 	elseif event == "AvalonRoomID" then echo("AvalonRoomID = " .. arg .. "\n")
-	elseif event == "AvalonAlter" then echo("AvalonAlter = " .. arg .. "\n")
-	elseif event == "AvalonGesinnung" then echo("AvalonGesinnung = " .. arg .. "\n")
+	elseif event == "AvalonAlter" then 
+		echo("AvalonAlter = " .. arg .. "\n")
+		player.alter = arg
+	elseif event == "AvalonGesinnung" then 
+		echo("AvalonGesinnung = " .. arg .. "\n")
+		player.gesinnung = arg
 	elseif event == "AvalonGruppe" then echo("AvalonGruppe = " .. arg .. "\n")
 	elseif event == "RoomBrief" then echo("RoomBrief = " .. arg .. "\n")
-	elseif event == "AvalonEP" then echo("AvalonEP = " .. arg .. "\n")
-	elseif event == "AvalonLevel" then echo("AvalonLevel = " .. arg .. "\n")
+	elseif event == "AvalonEP" then 
+		echo("AvalonEP = " .. arg .. "\n")
+		player.ep = arg
+	elseif event == "AvalonLevel" then 
+		echo("AvalonLevel = " .. arg .. "\n")
+		player.level = arg
 	elseif event == "AvalonArea" then echo("AvalonArea = " .. arg .. "\n")
 	elseif event == "AvalonInv" then echo("AvalonInv = " .. arg .. "\n")
 	elseif event == "AvalonSite" then echo("AvalonSite = " .. arg .. "\n")
@@ -182,6 +205,15 @@ registerAnonymousEventHandler("AvalonAngegriffen", "onATCPEvent")
 registerAnonymousEventHandler("AvalonGetoetet", "onATCPEvent")
 registerAnonymousEventHandler("AvalonGruppeGetoetet", "onATCPEvent")
 registerAnonymousEventHandler("AvalonAllyGetoetet", "onATCPEvent")
+
+function onRefreshCharacterVollername(event, args)
+	GUI.Spielstand:echo(args)
+	--GUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "<b>" .. args[1] .. "/" .. args[2] .. "</b>")
+end
+registerAnonymousEventHandler("RefreshCharacterVollername", "onRefreshCharacterVollername")
+
+--raiseEvent("RefreshCharacterVollername", ???)
+
 
 function onRefreshHealthBar(event, args)
 	GUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "<b>" .. args[1] .. "/" .. args[2] .. "</b>")

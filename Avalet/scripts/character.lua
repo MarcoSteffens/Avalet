@@ -84,6 +84,8 @@
 --		"555568850","618764807","689149304","767540037","854847716","952086644","1060386500"
 --	}
 
+local avaletCharacterFile = "AvaletCharacter.json"
+
 
 Character = {}
 setmetatable(Character, {
@@ -120,8 +122,8 @@ setmetatable(Character, {
 --	elseif event == "AvalonHunger" then echo("AvalonHunger = " .. arg .. "\n")
 --
     self.stats = {}
-    self.stats.tp = 75
-    self.stats.tp_max = 200
+    self.stats.tp = 0
+    self.stats.tp_max = 0
     self.stats.ap = 0
     self.stats.ap_max = 0
     self.stats.zp = 0
@@ -160,6 +162,19 @@ setmetatable(Character, {
   end,
   __tostring=function(v)
     return string.format()
+  end,
+  __writeToFS=function()
+	file = io.open (getMudletHomeDir() .. "/" .. avaletCharacterFile, "w")
+	file:write(yajl.to_string(self))
+	file:flush()
+	file:close()
+	return true
+  end,
+  __readFromFS=function()
+		file = io.open (getMudletHomeDir() .. "/" .. avaletCharacterFile, "r")
+		self = yajl.to_value(file:read())
+		file:close()  
+		return true
   end,
 })
 

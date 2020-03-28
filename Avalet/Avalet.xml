@@ -5,16 +5,19 @@
 		<ScriptGroup isActive="yes" isFolder="yes">
 			<name>AvalonGUI</name>
 			<packageName></packageName>
-			<script>-- newline
--- Put your Lua functions here.
+			<script>-- Avalet-Kram
+-- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
+-- ENDE Avalet-Kram
 			</script>
 			<eventHandlerList />
 			<Script isActive="yes" isFolder="no">
 				<name>AvalonGUI</name>
 				<packageName></packageName>
-				<script>-- newline
+				<script>-- Avalet-Kram
+-- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
 --require "Avalet.scripts.gui"           -- lädt die angegebene lua-datei
 --require "Avalet.scripts.character"     -- lädt die angegebene lua-datei
+-- ENDE Avalet-Kram
 				</script>
 				<eventHandlerList />
 			</Script>
@@ -22,26 +25,31 @@
 		<Script isActive="yes" isFolder="no">
 			<name>Avalet</name>
 			<packageName></packageName>
-			<script>-- newline
+			<script>-- Avalet-Kram
+-- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
 -- local scriptTest = require("Avalet.Avalet")
 require "Avalet"                 -- lädt die init.lua
 -- require "Avalet.scripts.gui"     -- lädt die angegebene lua-datei
 -- require "Avalet.scripts.atcp"     -- lädt die angegebene lua-datei
+-- ENDE Avalet-Kram
 			</script>
 			<eventHandlerList />
 		</Script>
 		<ScriptGroup isActive="yes" isFolder="yes">
 			<name>AvalonATCP</name>
 			<packageName></packageName>
-			<script>-- newline
--- Put your Lua functions here.
+			<script>-- Avalet-Kram
+-- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
+-- ENDE Avalet-Kram
 			</script>
 			<eventHandlerList />
 			<Script isActive="yes" isFolder="no">
 				<name>AvalonATCP</name>
 				<packageName></packageName>
-				<script>-- newline
+				<script>-- Avalet-Kram
+-- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
 -- require "Avalet.scripts.atcp"     -- lädt die angegebene lua-datei
+-- ENDE Avalet-Kram
 				</script>
 				<eventHandlerList />
 			</Script>
