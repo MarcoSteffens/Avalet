@@ -71,10 +71,13 @@ GUI = GUI or {}
 -- CSS
 ----------------------------------------
 
+-- CSS Backgrounds
+
 GUI.BackgroundCSS = CSSMan.new([[
   background-color: rgb(20,0,20);
 ]])
 
+-- CSS Boxes
 
 GUI.BoxCSS = CSSMan.new([[
   background-color: rgba(0,0,0,100);
@@ -86,6 +89,34 @@ GUI.BoxCSS = CSSMan.new([[
   margin: 10px;
 ]])
 
+-- CSS Gauges
+
+GUI.GaugeBackCSS = CSSMan.new([[
+  background-color: rgba(0,0,0,0);
+  border-style: solid;
+  border-color: white;
+  border-width: 1px;
+  border-radius: 5px;
+  padding: 5px;
+  width: 30%;
+  height: 80%;
+]])
+
+GUI.GaugeFrontCSS = CSSMan.new([[
+  background-color: rgba(0,0,0,0);
+  border-style: solid;
+  border-color: white;
+  border-width: 1px;
+  border-radius: 5px;
+  padding: 5px;
+  width: 30%;
+  height: 80%;
+]])
+
+--	background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #78bd33, stop: 0.1 #6ebd20, stop: 0.49 #4c9900, stop: 0.5 #387000, stop: 1 #4c9900);
+GUI.GaugeTextCSS = CSSMan.new([[
+	padding: 25px;
+]])
 
 ----------------------------------------
 -- Set Borders
@@ -178,12 +209,59 @@ GUI.Box1 = Geyser.Label:new({
   x = 0, y = 0,
   width = "100%",
   height = "50%",
-},GUI.Right)
+}, GUI.Right)
 GUI.Box1:setStyleSheet(GUI.BoxCSS:getCSS())
-GUI.Box1:echo("<center>GUI.Box1")
+--GUI.Box1:echo("<center>GUI.Box1")
 
---string.len("")
-echo("Länge: " .. tostring(string.len(player.vollername)) .. "\n")
+
+-- Box2: In diesem Bereich wird das Tabulatoren-Element rechts unten angezeigt.
+GUI.Box2 = Geyser.Label:new({
+  name = "GUI.Box2",
+  x = 0, y = "50%",
+  width = "100%",-- 50%
+  height = "50%",
+},GUI.Right)
+GUI.Box2:setStyleSheet(GUI.BoxCSS:getCSS())
+
+
+-- Box4 enthält das Mapper-Element, also das Karten-Widget links oben
+GUI.Box4 = Geyser.Label:new({
+  name = "GUI.Box4",
+  x = "0%", y = "0%",
+  width = "100%",
+  height = "50%",
+},GUI.Left)
+GUI.Box4:setStyleSheet(GUI.BoxCSS:getCSS())
+--GUI.Box4:echo("<center>GUI.Box4")
+
+-- Box5 enthält die Fortschrittsbalken, mit denen die Timer angezeigt werden. Links in 
+-- der Mitte. Box5 ist kein Label-Element, sondern ein Container, und die sind unsichtbar(?)
+-- Deshalb geht das hier mit dem weißen Rahmen nicht. Lösung wäre, hier noch ein Label
+-- zu nehmen, dort dann den Container drin, und in dem dann die Gauges. Das ist ein TODO.
+GUI.Box5 = Geyser.Container:new({
+  name = "GUI.Box5",
+  x = "0%", y = "50%",
+  width = "100%",
+  height = "35%",
+}, GUI.Left)
+--GUI.Box5:setStyleSheet(GUI.BoxCSS:getCSS())
+
+
+-- Box7 enthält die Fortschrittsbalken, mit denen TP, AP, ZP und Mana angezeigt werden. Links
+-- unten. Box7 ist auch kein Label-Element, sondern ein Container, deshalb gilt auch hier,
+-- was oben bei Box5 dokumentiert ist. Auch ein TODO.
+GUI.Box7 = Geyser.Container:new({
+  name = "GUI.Box7",
+  x = "0%", y = "85%",
+  width = "100%",
+  height = "15%",
+},GUI.Left)
+--GUI.Box7:setStyleSheet(GUI.BoxCSS:getCSS())
+
+-----------------------------------------------------
+-- Charakter-Informationen rechts oben
+-----------------------------------------------------
+
 textInfobox = "\n"
 if string.len(player.vollername) ~= 0 then
 	textInfobox = textInfobox .. "In Avalon bist Du bekannt als\n\n  " .. player.vollername .. "\n\n"
@@ -220,8 +298,6 @@ if string.len(player.vollername) ~= 0 then
 	end
 end
 
---textInfobox ="\nIn Avalon bist Du bekannt als\n\n   Handelsvertreter Ryley Rofhessa, der angesehene Mann\n\nDu bist Arkanmagier der Magiergilde.\nDu uebst die Berufe Reisender, Schneider und Bote aus.\nDu bist etwa 16 Tage 19 Stunden und 36 Minuten alt.\nDu gehoerst zu keinem Portfolio.\n\nDu hast Stufe 2 in Level 46 erreicht.\nDafuer hast Du bisher 502762 Erfahrungspunkte gesammelt.\n\nGesinnung:\nHunger:\nDurst:\nAlkohol:\n\n"
-
 GUI.Spielstand = Geyser.MiniConsole:new({
   name="Spielstand",
   x="3%", y="3%",
@@ -236,339 +312,10 @@ GUI.Spielstand:setColor("black") -- give it a nice black background
 GUI.Spielstand:setFont("Bitstream Vera Sans Mono")
 clearWindow("Spielstand")
 GUI.Spielstand:echo(textInfobox)
---GUI.Spielstand:echo("In Avalon bist Du bekannt als                                        \n")
---GUI.Spielstand:echo("                                                                     \n")
---GUI.Spielstand:echo("    Handelsvertreter Ryley Rofhessa, der angesehene Mann             \n")
---GUI.Spielstand:echo("                                                                     \n")
---GUI.Spielstand:echo("Du bist Arkanmagier der Magiergilde.                                 \n")
---GUI.Spielstand:echo("Du uebst die Berufe Reisender, Schneider und Bote aus.               \n")
---GUI.Spielstand:echo("Du bist etwa 16 Tage 19 Stunden und 36 Minuten alt.                  \n")
---GUI.Spielstand:echo("Du gehoerst zu keinem Portfolio.                                     \n")
---GUI.Spielstand:echo("                                                                     \n")
---GUI.Spielstand:echo("Du hast Stufe 2 in Level 46 erreicht.                                \n")
---GUI.Spielstand:echo("Dafuer hast Du bisher 502762 Erfahrungspunkte gesammelt.             \n")
---GUI.Spielstand:echo("                                                                     \n")
---GUI.Spielstand:echo("Gesinnung:                                                           \n")
---GUI.Spielstand:echo("Hunger:                                                              \n")
---GUI.Spielstand:echo("Durst:                                                               \n")
---GUI.Spielstand:echo("Alkohol:                                                             \n")
---GUI.Spielstand:echo("                                                                     \n")
-
-GUI.Box2 = Geyser.Label:new({
-  name = "GUI.Box2",
-  x = 0, y = "50%",
-  width = "100%",-- 50%
-  height = "50%",
-},GUI.Right)
-GUI.Box2:setStyleSheet(GUI.BoxCSS:getCSS())
---GUI.Box2:echo("<center>GUI.Box2")
-
---GUI.Box3 = Geyser.Label:new({
---  name = "GUI.Box3",
---  x = "50%", y = "50%",
---  width = "50%",
---  height = "50%",
---},GUI.Right)
---GUI.Box3:setStyleSheet(GUI.BoxCSS:getCSS())
---GUI.Box3:echo("<center>GUI.Box3")
-
-GUI.Box4 = Geyser.Label:new({
-  name = "GUI.Box4",
-  x = "0%", y = "0%",
-  width = "100%",
-  height = "50%",
-},GUI.Left)
-GUI.Box4:setStyleSheet(GUI.BoxCSS:getCSS())
-GUI.Box4:echo("<center>GUI.Box4")
-
-
-GUI.Mapper = Geyser.Mapper:new({ name = "Mapper",x = "5%", y = "5%", width = "90%", height = "90%"}, GUI.Box4)
-
-
---GUI.Box5 = Geyser.Label:new({
---  name = "GUI.Box5",
---  x = "0%", y = "50%",
---  width = "100%",
---  height = "35%",
---},GUI.Left)
---GUI.Box5:setStyleSheet(GUI.BoxCSS:getCSS())
---GUI.Box5:echo("<center>GUI.Box5")
-
-
-GUI.Box5 = Geyser.Container:new({
-  name = "GUI.Box5",
-  x = "0%", y = "50%",
-  width = "100%",
-  height = "35%",
-},GUI.Left)
--- GUI.Box5:setStyleSheet(GUI.BoxCSS:getCSS())
--- GUI.Box5:echo("<center>GUI.Box5")
-
-
-
---GUI.Box6 = Geyser.Label:new({
---  name = "GUI.Box6",
---  x = "50%", y = "25%",
---  width = "50%",
---  height = "50%",
---},GUI.Left)
---GUI.Box6:setStyleSheet(GUI.BoxCSS:getCSS())
---GUI.Box6:echo("<center>GUI.Box6")
-
-GUI.Box7 = Geyser.Container:new({
-  name = "GUI.Box7",
-  x = "0%", y = "85%",
-  width = "100%",
-  height = "15%",
-},GUI.Left)
---GUI.Box7:setStyleSheet(GUI.BoxCSS:getCSS())
---GUI.Box7:echo("<center>GUI.Box7")
-
---GUI.Box7 = Geyser.Label:new({
---  name = "GUI.Box7",
---  x = "0%", y = "75%",
---  width = "100%",
---  height = "25%",
---},GUI.Left)
---GUI.Box7:setStyleSheet(GUI.BoxCSS:getCSS())
---GUI.Box7:echo("<center>GUI.Box7")
-
-
-
--- Arkanschild-Gauge (Test):
-----  background-color: rgba(0,0,0,0);
---GUI.myGaugeBackCSS = CSSMan.new([[
---  background-color: QRadialGradient(cx:.3,cy:1,radius:1,stop:0 rgb(0,0,50),stop:.5 rgb(0,0,100),stop:1 rgb(0,0,255));
---  border-style: solid;
---  border-color: white;
---  border-width: 1px;
---  border-radius: 2px;
---  margin: 2px;
---]])
---
-----   background-color: rgba(0,0,0,0);
---GUI.myGaugeFrontCSS = CSSMan.new([[
---  background-color: QRadialGradient(cx:.3,cy:1,radius:1,stop:0 rgb(50,0,0),stop:.5 rgb(100,0,0),stop:1 rgb(255,0,0));
---  border-style: solid;
---  border-color: white;
---  border-width: 1px;
---  border-radius: 2px;
---  margin: 2px;
---]])
-
---GUI.Arkanschild = Geyser.Gauge:new({
---  name = "GUI.Arkanschild",
---  width="100px", height="100px",
---  orientation="vertical",
---},GUI.Box1)
---GUI.Arkanschild.back:setStyleSheet(GUI.myGaugeBackCSS:getCSS())
-----GUI.myGaugeFrontCSS:set("background-color","red")
---GUI.Arkanschild.front:setStyleSheet(GUI.myGaugeFrontCSS:getCSS())
-----GUI.Arkanschild:setValue(math.random(100),100)
---GUI.Arkanschild:setValue(100,100)
-----GUI.Arkanschild.front:echo("GUI.Arkanschild")
---GUI.Arkanschild.front:echo([[<span style = "color: black">GUI.Arkanschild</span>]])
-
-
-
-
-
-
-----------------------------------------
--- Header Icons
-----------------------------------------
-
-GUI.Header = Geyser.HBox:new({
-  name = "GUI.Header",
-  x = "0%", y = "0%",
-  width = "100%",
-  height = "100%",
-},GUI.Top)
-
---GUI.IconCSS = CSSMan.new([[
---  background-color: rgba(0,0,0,100);
---  border-style: solid;
---  border-width: 1px;
---  border-color: white;
---  border-radius: 5px;                   
---  margin: 5px;
---  qproperty-wordWrap: true;
---]])
-
---GUI.IconCSS = CSSMan.new([[
---  background-color: rgba(0,0,0,100);
---  border-style: solid;
---  border-width: 1px;
---  border-color: white;
---  border-radius: 5px;                       ]]..tostring(compass.back:get_width()/2-14)..[[px; margin: 10px;
---  margin: 5px;
---  qproperty-wordWrap: true;
---]])
-
---for i=1,12 do
---  GUI["Icon"..i] = Geyser.Label:new({
---    name = "GUI.Icon"..i,
---  },GUI.Header)
---  GUI["Icon"..i]:setStyleSheet(GUI.IconCSS:getCSS())
---  GUI["Icon"..i]:echo("<center>GUI. Icon"..i)
---end
-
-
-
------------------------------------
--- Gauges
------------------------------------
-
---GUI.Footer = Geyser.HBox:new({
---  name = "GUI.Footer",
---  x = 0, y = 0,
---  width = "100%",
---  height = "100%",
---},GUI.Bottom)
-
---GUI.LeftColumn = Geyser.VBox:new({
---  name = "GUI.LeftColumn",
---},GUI.Footer)
-
---GUI.RightColumn = Geyser.VBox:new({
---  name = "GUI.RightColumn",
---},GUI.Footer)
-
-GUI.GaugeBackCSS = CSSMan.new([[
-  background-color: rgba(0,0,0,0);
-  border-style: solid;
-  border-color: white;
-  border-width: 1px;
-  border-radius: 5px;
-  padding: 5px;
-  width: 30%;
-  height: 80%;
-]])
-
-GUI.GaugeFrontCSS = CSSMan.new([[
-  background-color: rgba(0,0,0,0);
-  border-style: solid;
-  border-color: white;
-  border-width: 1px;
-  border-radius: 5px;
-  padding: 5px;
-  width: 30%;
-  height: 80%;
-]])
-
---	background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #78bd33, stop: 0.1 #6ebd20, stop: 0.49 #4c9900, stop: 0.5 #387000, stop: 1 #4c9900);
-GUI.GaugeTextCSS = CSSMan.new([[
-	padding: 25px;
-]])
-
-GUI.Health = Geyser.Gauge:new({
-  name = "GUI.Health",
-  x = "2%", y = "0%",
-  width="30%", height="80%",
-  orientation="vertical",
-},GUI.Box7)
-GUI.Health.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
-GUI.GaugeFrontCSS:set("background-color","red")
-GUI.Health.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
-GUI.Health.text:setStyleSheet(GUI.GaugeTextCSS:getCSS())
-GUI.Health:setValue(100,100)
---GUI.Health.front:echo("TP")
---GUI.Health:setValue(player.stats.tp, player.stats.tp_max, "<b>" .. tostring(player.stats.tp) .. "/" .. tostring(player.stats.tp_max) .. "</b>")
---GUI.Health.front:echo("<b>" .. player.stats.tp .. "/" .. player.stats.tp_max .. "</b>")
-
-GUI.Endurance = Geyser.Gauge:new({
-  name = "GUI.Endurance",
-  x = "34%", y = "0%",
-  width="30%", height="80%",
-  orientation="vertical",
-},GUI.Box7)
-GUI.Endurance.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
-GUI.GaugeFrontCSS:set("background-color","yellow")
-GUI.Endurance.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
-GUI.Endurance.text:setStyleSheet(GUI.GaugeTextCSS:getCSS())
-GUI.Endurance:setValue(100,100)
---GUI.Endurance.front:echo("GUI.Endurance")
---GUI.Endurance.front:echo([[<span style = "color: black">AP</span>]])
-
-GUI.Spellpoints = Geyser.Gauge:new({
-  name = "GUI.Spellpoints",
-  x = "66%", y = "0%",
-  width="30%", height="80%",
-  orientation="vertical",
-},GUI.Box7)
-GUI.Spellpoints.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
-GUI.GaugeFrontCSS:set("background-color","blue")
-GUI.Spellpoints.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
-GUI.Spellpoints.text:setStyleSheet(GUI.GaugeTextCSS:getCSS())
-GUI.Spellpoints:setValue(100,100)
---GUI.Spellpoints.front:echo("ZP")
-
-GUI.Mana = Geyser.Gauge:new({
-  name = "GUI.Mana",
-  x = "2%", y = "80%",
-  width="96%", height="20%",
-},GUI.Box7)
-GUI.Mana.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
-GUI.GaugeFrontCSS:set("background-color","green")
-GUI.Mana.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
-GUI.Mana:setValue(9999,9999)
---GUI.Mana.front:echo("Mana")
-
----------------------------------------------------------------------------
-
--- Dummy-Daten für die Timer-Liste. Die Startzeit ist später einfach os.time()
-listOfTimers = {
-  {["name"] = "Arkanschild", ["starttime"] = (os.time() - 550), ["duration"] = 600},
-  {["name"] = "Kampfbeschwörung", ["starttime"] = (os.time() - 580), ["duration"] = 600},
-  {["name"] = "Erdaura", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
-  {["name"] = "Schild", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
-  {["name"] = "Magiertrance", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
-  {["name"] = "Magieaufladung", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
-  {["name"] = "Steinhaut", ["starttime"] = false, ["duration"] = false},
-  {["name"] = "Windhaut", ["starttime"] = false, ["duration"] = false},
-  {["name"] = "Manarausch", ["starttime"] = false, ["duration"] = false},
-}
-
-sortedListOfTimers = {}
-for k, v in pairs(listOfTimers) do
-	if v["starttime"] == false then
-		table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = 600, ["duration"] = 600})
-	else
-		-- remaining < 0 abfangen!
-		table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = v["duration"] - ((os.time() - v["starttime"])), ["duration"] = 600})
-	end
-	--table.insert(sortedListOfTimers, {})
-end
-
-sortMyTimers = function(a, b) return a["remaining"] > b["remaining"] end
-table.sort(sortedListOfTimers, sortMyTimers)
-
-for k, v in pairs(sortedListOfTimers) do
---  print(k, v["name"])
-  GUI["Timer"..k] = Geyser.Gauge:new({
-    name = "GUI.Timer"..k,
-    x = "4%", y = (100-(k*10)-5).."%",
-    width="90%", height="9%",
-	orientation = "goofy",
-  },GUI.Box5)
-  if v["remaining"] < 30 then
-	--echo("kleiner als 30")
-	GUI.GaugeBackCSS:set("background-color","red")
-  elseif v["remaining"] < 60 then
-	--echo("kleiner als 60")
-	GUI.GaugeBackCSS:set("background-color","yellow")
-  end
-  GUI["Timer"..k].back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
-  GUI.GaugeFrontCSS:set("background-color","purple")
-  GUI["Timer"..k].front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
-  --GUI["Timer"..k]:echo("<center>GUI.Timer"..k)
-  --echo("Restlaufzeit: " .. tostring(v["remaining"]) .. "sec. von " .. tostring(v["duration"]) .. "sec " .. v["name"] .. "\n")
-  GUI["Timer"..k]:setValue(v["remaining"], v["duration"] , "<b>" .. v["name"] .. "</b>")
-end
 
 
 --------------------------------------------
---- Tabs-Element
+--- Tabs-Element rechts unten
 -------------------------------------------
 
 -- Generelle Variablen für das Tab-Element
@@ -720,33 +467,15 @@ function menu.click(tab)
   menu[menu.current]:show()
 end
 
--- Adding content to your windows
--- Add content to menu.<tab name>center
--- So if we wanted to display our gold in a window we could:
---menu.Labercenter:echo("bla")
---menu.Schwafelcenter:echo("bläh")
---menu.Redecenter:echo("blubb")
--- If we wanted to add a map to a window we could:
---myMap = Geyser.Mapper:new({
---  name = "myMap",
---  x = 0, y = 0,
---  width = "100%",
---  height = "100%",
---},menu.Tab2center)
-
 -------------------------------------------------------------
 --- Top-Menü
+-- Menü-Label dürfen nicht in einem Container sein, deshalb sind die 
+-- Top-Level-Einträge direkt auf der Oberfläche positioniert.
 -------------------------------------------------------------
 
 
  tConfig = {}
- 
--- tConfig.iMainBorderLeft = 10
--- tConfig.iMainBorderTop = 128
--- tConfig.iMainBorderRight = 0 
--- tConfig.iMainBorderBottom = 64
--- tConfig.iMainWidth, tConfig.iMainHeight = getMainWindowSize()
-	
+
  tConfig.MainColorText = "#ffffff"
  tConfig.MainLabelBackground = "#303030"
  tConfig.MainColorBackground = "#000000"
@@ -908,31 +637,6 @@ end
 	},TopMenuBar)
 	TopMenuLocations:setStyleSheet([[background-color:  ]]..tConfig.MainLabelBackground..[[;]])
 	TopMenuLocations:echo([[<p style="font-size:16px"><b><font color="white">YourMenuHere]])
---	for i = 1,#tRoom.tLocations do
---		TopMenuLocation = {}
---		local loc,hash = rex.match( tRoom.tLocations[i], [[(.*)/([A-z0-9]+)]] )
---		TopMenuLocation[i] = TopMenuLocations:addChild({
---			name = "TopMenuLocation"..i,
---			height = 30,
---			width = 100, 
---			flyOut=true,
---			layoutDir="BV", 
---			message=loc
---		})
---		TopMenuLocation[i]:setStyleSheet(LabelCSS:getCSS())
---		setLabelClickCallback( "TopMenuLocation"..i, "ClickTopMenuLocation",hash)
---	end--for
-
-
-
---GUI.Top = Geyser.Label:new({
---  name = "GUI.Top",
---  x = "15%", y = "0%",
---  width = "50%",
---  height = "5%",
-----  nestable = true,
---})
---GUI.Top:setStyleSheet(GUI.BackgroundCSS:getCSS())
 end
 
 -- Menü-Label dürfen nicht in einem Container sein, deshalb sind die Top-Level-Einträge direkt auf der Oberfläche positioniert.
@@ -961,101 +665,118 @@ end
 	--TopMenuOptions[i]:setStyleSheet(LabelCSS:getCSS())
 	--setLabelClickCallback( "TopMenuOptions"..i, "ClickTopMenuCallback","tDir[i]","bla bla")
 
-	echo("Verdammte Axt!!!\n")
+----------------------------------------
+-- Mapper (Karte) links oben
+----------------------------------------
 
---	TopMenuPrefs= Geyser.Label:new({ 
---		name = "TopMenuPrefs", 
---		x = 850, 
---		y = 38, 
---		width = 200,
---		height = 300
---	})
---	TopMenuPrefs:setStyleSheet(LabelCSS:getCSS())
---
---	TopMenuPrefs1 = Geyser.Label:new({ name = "TopMenuPrefs1", x = 6, y = 6 ,width = "98%" , height = 30},TopMenuPrefs)
---	TopMenuPrefs1:setStyleSheet([[
---		background-color: ]]..tConfig.MainLabelBackground..[[;
---		margin: 5px;
---		qproperty-wordWrap: true;
---	]])
---	setLabelClickCallback( "TopMenuPrefs1", "ClickTopMenuPref","bAutoMove","Automatisches Klettern / Schwimmen angeschaltet","Automatisches Klettern / Schwimmen ausgeschaltet" )
---
---	TopMenuPrefs2 = Geyser.Label:new({ 
---		name = "TopMenuPrefs2", 
---		x = 6, 
---		y = 30,
---		width = "98%",
---		height = 30
---	},TopMenuPrefs)
---	TopMenuPrefs2:setStyleSheet([[
---		background-color: ]]..tConfig.MainLabelBackground..[[;
---		margin: 5px;
---		qproperty-wordWrap: true;
---	]])
---	setLabelClickCallback( "TopMenuPrefs2", "ClickTopMenuPref","bAutoSchwimmen","Permanentes Schwimmen angeschaltet","Permanentes Schwimmen ausgeschaltet" )
---
---	TopMenuPrefs3 = Geyser.Label:new({ 
---		name = "TopMenuPrefs3", 
---		x = 6, 
---		y = 54,
---		width = "98%", 
---		height = 30
---	},TopMenuPrefs)
---	TopMenuPrefs3:setStyleSheet([[
---		background-color: ]]..tConfig.MainLabelBackground..[[; 
---		margin: 5px;
---		qproperty-wordWrap: true;
---	]])
---	setLabelClickCallback( "TopMenuPrefs3", "ClickTopMenuPref","bAutoOpfer","Automatisches Opfersetzen angeschaltet","Automatisches Opfersetzen ausgeschaltet" )
---
---	TopMenuPrefs4 = Geyser.Label:new({ 
---		name = "TopMenuPrefs4", 
---		x = 6, 
---		y = 78,
---		width = "98%", 
---		height = 30
---	},TopMenuPrefs)
---	TopMenuPrefs4:setStyleSheet([[
---		background-color: ]]..tConfig.MainLabelBackground..[[;
---		margin: 5px;
---		qproperty-wordWrap: true;
---	]])
---	setLabelClickCallback( "TopMenuPrefs4", "ClickTopMenuPref","bAutoSchild","Automatisches Schild erneuern angeschaltet","Automatisches Schild erneuern ausgeschaltet" )
---
---	TopMenuPrefs5 = Geyser.Label:new({ 
---		name = "TopMenuPrefs5", 
---		x = 6, 
---		y = 102,
---		width = "98%", 
---		height = 30
---	},TopMenuPrefs)
---	TopMenuPrefs5:setStyleSheet([[
---		background-color: ]]..tConfig.MainLabelBackground..[[; 
---		margin: 5px;
---		qproperty-wordWrap: true;
---	]])
---	setLabelClickCallback( "TopMenuPrefs5", "ClickTopMenuPref","bSprachausgabe","Sprachausgabe eingeschaltet","Sprachausgabe ausgeschaltet" )
---
---	TopMenuPrefs6 = Geyser.Label:new({ 
---		name = "TopMenuPrefs6", 
---		x = 6, 
---		y = 125,
---		width = "98%", 
---		height = 30
---	},TopMenuPrefs)
---	TopMenuPrefs6:setStyleSheet([[
---		background-color: ]]..tConfig.MainLabelBackground..[[; 
---		margin: 5px;
---		qproperty-wordWrap: true;
---	]])
---	setLabelClickCallback( "TopMenuPrefs6", "ClickTopMenuPref","bZweitieCheck","Zweiticheck eingeschaltet","Zweitiecheck ausgeschaltet" )
---
---	hideWindow("TopMenuPrefs")
---	hideWindow("TopMenuPrefs1")
---	hideWindow("TopMenuPrefs2")
---	hideWindow("TopMenuPrefs3")
---	hideWindow("TopMenuPrefs4")
---	hideWindow("TopMenuPrefs5")
---	hideWindow("TopMenuPrefs6")
--- end
+GUI.Mapper = Geyser.Mapper:new({ 
+	name = "Mapper",
+	x = "5%", y = "5%", 
+	width = "90%", 
+	height = "90%"
+}, GUI.Box4)
 
+---------------------------------------------------------------------------
+-- Gauges für die Timer
+---------------------------------------------------------------------------
+
+-- Dummy-Daten für die Timer-Liste. Die Startzeit ist später einfach os.time()
+listOfTimers = {
+  {["name"] = "Arkanschild", ["starttime"] = (os.time() - 550), ["duration"] = 600},
+  {["name"] = "Kampfbeschwörung", ["starttime"] = (os.time() - 580), ["duration"] = 600},
+  {["name"] = "Erdaura", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
+  {["name"] = "Schild", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
+  {["name"] = "Magiertrance", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
+  {["name"] = "Magieaufladung", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
+  {["name"] = "Steinhaut", ["starttime"] = false, ["duration"] = false},
+  {["name"] = "Windhaut", ["starttime"] = false, ["duration"] = false},
+  {["name"] = "Manarausch", ["starttime"] = false, ["duration"] = false},
+}
+
+sortedListOfTimers = {}
+for k, v in pairs(listOfTimers) do
+	if v["starttime"] == false then
+		table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = 600, ["duration"] = 600})
+	else
+		-- remaining < 0 abfangen!
+		table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = v["duration"] - ((os.time() - v["starttime"])), ["duration"] = 600})
+	end
+	--table.insert(sortedListOfTimers, {})
+end
+
+sortMyTimers = function(a, b) return a["remaining"] > b["remaining"] end
+table.sort(sortedListOfTimers, sortMyTimers)
+
+for k, v in pairs(sortedListOfTimers) do
+--  print(k, v["name"])
+  GUI["Timer"..k] = Geyser.Gauge:new({
+    name = "GUI.Timer"..k,
+    x = "4%", y = (100-(k*10)-5).."%",
+    width="90%", height="9%",
+	orientation = "goofy",
+  },GUI.Box5)
+  if v["remaining"] < 30 then
+	--echo("kleiner als 30")
+	GUI.GaugeBackCSS:set("background-color","red")
+  elseif v["remaining"] < 60 then
+	--echo("kleiner als 60")
+	GUI.GaugeBackCSS:set("background-color","yellow")
+  end
+  GUI["Timer"..k].back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
+  GUI.GaugeFrontCSS:set("background-color","purple")
+  GUI["Timer"..k].front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
+  --GUI["Timer"..k]:echo("<center>GUI.Timer"..k)
+  --echo("Restlaufzeit: " .. tostring(v["remaining"]) .. "sec. von " .. tostring(v["duration"]) .. "sec " .. v["name"] .. "\n")
+  GUI["Timer"..k]:setValue(v["remaining"], v["duration"] , "<b>" .. v["name"] .. "</b>")
+end
+
+
+-----------------------------------
+-- Gauges für TP, AP, ZP und Mana
+-----------------------------------
+
+GUI.Health = Geyser.Gauge:new({
+  name = "GUI.Health",
+  x = "2%", y = "0%",
+  width="30%", height="80%",
+  orientation="vertical",
+},GUI.Box7)
+GUI.Health.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
+GUI.GaugeFrontCSS:set("background-color","red")
+GUI.Health.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
+GUI.Health.text:setStyleSheet(GUI.GaugeTextCSS:getCSS())
+GUI.Health:setValue(100,100)
+
+GUI.Endurance = Geyser.Gauge:new({
+  name = "GUI.Endurance",
+  x = "34%", y = "0%",
+  width="30%", height="80%",
+  orientation="vertical",
+},GUI.Box7)
+GUI.Endurance.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
+GUI.GaugeFrontCSS:set("background-color","yellow")
+GUI.Endurance.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
+GUI.Endurance.text:setStyleSheet(GUI.GaugeTextCSS:getCSS())
+GUI.Endurance:setValue(100,100)
+
+GUI.Spellpoints = Geyser.Gauge:new({
+  name = "GUI.Spellpoints",
+  x = "66%", y = "0%",
+  width="30%", height="80%",
+  orientation="vertical",
+},GUI.Box7)
+GUI.Spellpoints.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
+GUI.GaugeFrontCSS:set("background-color","blue")
+GUI.Spellpoints.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
+GUI.Spellpoints.text:setStyleSheet(GUI.GaugeTextCSS:getCSS())
+GUI.Spellpoints:setValue(100,100)
+
+GUI.Mana = Geyser.Gauge:new({
+  name = "GUI.Mana",
+  x = "2%", y = "80%",
+  width="96%", height="20%",
+},GUI.Box7)
+GUI.Mana.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
+GUI.GaugeFrontCSS:set("background-color","green")
+GUI.Mana.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
+GUI.Mana:setValue(9999,9999)
