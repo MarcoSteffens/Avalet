@@ -60,6 +60,7 @@ function CSSMan:settable(tbl)
   self.stylesheet = tbl
 end
 
+
 ----------------------------------------
 -- GUI
 ----------------------------------------
@@ -67,22 +68,44 @@ end
 GUI = GUI or {}
 
 ----------------------------------------
--- Set Borders
-----------------------------------------
-
-local w,h = getMainWindowSize()
-setBorderLeft(w*0.16)
-setBorderTop(h*0.05)
-setBorderBottom(h*0.0)
-setBorderRight(w*0.35)
-
-----------------------------------------
--- Create Background
+-- CSS
 ----------------------------------------
 
 GUI.BackgroundCSS = CSSMan.new([[
   background-color: rgb(20,0,20);
 ]])
+
+
+GUI.BoxCSS = CSSMan.new([[
+  background-color: rgba(0,0,0,100);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  border-color: white;
+  font: TypeWriter;
+  margin: 10px;
+]])
+
+
+----------------------------------------
+-- Set Borders
+----------------------------------------
+
+local w,h = getMainWindowSize()
+setBorderLeft(w*0.16)
+setBorderTop(h*0.07)
+setBorderBottom(h*0.0)
+setBorderRight(w*0.35)
+
+----------------------------------------
+-- Create Background
+-- Hier werden die Teilbereiche des GUI belegt, die durch die "Borders" von Hauptfenster
+-- abgetrennt sind. Und zwar ganz grob, also lediglich "links", "rechts", "oben" und evlt.
+-- irgendwann auch "unten". Eine weitere Unterteilung der groben Bereiche findet dann
+-- später durch "Boxes" statt. 
+-- Und eine Ausnahme davon ist das Top-Element, aber das ist dort auch dokumentiert.
+----------------------------------------
+
 
 GUI.Left = Geyser.Label:new({
   name = "GUI.Left",
@@ -100,14 +123,33 @@ GUI.Right = Geyser.Label:new({
 })
 GUI.Right:setStyleSheet(GUI.BackgroundCSS:getCSS())
 
+-- Im GUI.Top-Bereich wird das _Menü_ angezeigt. Dieses Menü besteht aus Label-Elementen,
+-- und diese Elemente dürfen NICHT in einem Container sein. Also nicht, wenn sie als
+-- Menü (mit Untermenü) verwendet werden. Während also in allen anderen Bereichen des
+-- GUI diese "Background-Label" hier als Container angelegt sind, die die anderen
+-- Elemente dieser Bereiche enthalten, ist dieses Top-Element hier eigentlich unnötig. 
+-- Derzeit brauche ich es aber als Design-Element, da ich die einzelnen Teile des GUI
+-- mit einer weißen Umrandung versehen habe. Daher existiert dieses Element trotzdem,
+-- und daher ist ihm ein anderer Stylesheet zugeordnet als den anderen "Backgrounds".
+-- Nämlich das Stylesheet mit der Umrandung. Und die Menü-Label-Elemente werden dann
+-- einfach obendrauf (statt innen drin) plaziert.
 GUI.Top = Geyser.Label:new({
   name = "GUI.Top",
   x = "15%", y = "0%",
   width = "50%",
-  height = "5%",
+  height = "7%",
+--  nestable = true,
 })
-GUI.Top:setStyleSheet(GUI.BackgroundCSS:getCSS())
+--GUI.Top:setStyleSheet(GUI.BackgroundCSS:getCSS())
+GUI.Top:setStyleSheet(GUI.BoxCSS:getCSS())
 
+-- Das Bottom-Element ist etwa so plaziert wie das Top-Element. Nur eben unten. ich könnte
+-- mir vorstellen, da vielleicht klickbare Elemente anzuzeigen, also vielleicht einen klick-
+-- baren Kompass, mit dem man dann auch laufen kann. Oder vielleicht kann man da auch Infos
+-- anzeigen, die im aktuellen Kontext des Spielers sehr wichtig sind. Sowas wie ob er grade
+-- in einem Kampf ist oder blockiert wird durch einen Zauber oder so. Man könnte dort auch
+-- Kurzwahl"tasten" anzeigen, also "Alias" auf Tasten (oder vielleicht auch überhaupt Alias).
+-- Deshalb lass ich das Element mal hier drin und kommentiere es nur aus.
 --GUI.Bottom = Geyser.Label:new({
 --  name = "GUI.Bottom",
 --  x = "25%", y = "90%",
@@ -119,18 +161,18 @@ GUI.Top:setStyleSheet(GUI.BackgroundCSS:getCSS())
 
 ----------------------------------------
 -- Boxes
+-- Die Boxen definieren die entgültige Unterteilung der Oberfläche. Es gibt also eine Boxen
+-- für die Elemente, die TP, ZP, AP und Mana anzeigen. (Links unten.) Eine weitere für die 
+-- Timer links in der Mitte. Eine weitere für das Karten-Widget links oben. Eine für die
+-- Charakterinformationen rechts oben. Und eine für das Tab-Element rechts unten.
+-- Im Bereich oben in der Mitte gibt es keine Box. Der Grund ist oben bei den Backgrounds 
+-- dokumentiert.
+-- Die Boxen haben hauptsächlich den Zweck, einen (derzeit weißen) Rahmen um die Bereiche 
+-- anzeigen zu können. Ansonsten sind sie Container für weitere Elemente, die die dort
+-- sichtbaren Informationen anzeigen.
 ----------------------------------------
 
-GUI.BoxCSS = CSSMan.new([[
-  background-color: rgba(0,0,0,100);
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 10px;
-  border-color: white;
-  font: TypeWriter;
-  margin: 10px;
-]])
-
+-- Box1 ist das Element rechts oben, in dem die Charakterinformationen ausgegeben werden.
 GUI.Box1 = Geyser.Label:new({
   name = "GUI.Box1",
   x = 0, y = 0,
@@ -642,11 +684,17 @@ for k,v in pairs(menu.tabs) do
 		margin: 5px;
 	  ]])
 	  
+	--------
+	-- Inhalte der Tabs
+	-- Alle Tabs enthalten eine Mini-Console.
+	-- Bei den Kanal-Tabs wird dort die Ausgabe der entsprechenden Kanäle gesammelt angezeigt.
+	-- Bei anderen Tabs gibt es andere Inhalte.
+	-- Jede Minikonsole ist ansprechbar über ... ???
 	menu[v.."console"] = Geyser.MiniConsole:new({
 	  name=v,
-	  x="3%", y="3%",
-	  width = "94%",
-	  height = "94%",
+	  x="2%", y="2%",
+	  width = "96%",
+	  height = "96%",
 	  --autoWrap = true,
 	  color = "black",
 	  scrollBar = false,
@@ -686,36 +734,6 @@ end
 --  height = "100%",
 --},menu.Tab2center)
 
---------
--- Inhalte der Tabs
--- Alle Tabs enthalten eine Mini-Console.
--- Bei den Kanal-Tabs wird dort die Ausgabe der entsprechenden Kanäle gesammelt angezeigt.
--- Bei anderen Tabs gibt es andere Inhalte.
--- Jede Minikonsole ist ansprechbar über ... ???
-
---textInfobox ="\nIn Avalon bist Du bekannt als\n\n   Handelsvertreter Ryley Rofhessa, der angesehene Mann\n\nDu bist Arkanmagier der Magiergilde.\nDu uebst die Berufe Reisender, Schneider und Bote aus.\nDu bist etwa 16 Tage 19 Stunden und 36 Minuten alt.\nDu gehoerst zu keinem Portfolio.\n\nDu hast Stufe 2 in Level 46 erreicht.\nDafuer hast Du bisher 502762 Erfahrungspunkte gesammelt.\n\nGesinnung:\nHunger:\nDurst:\nAlkohol:\n\n"
-function dummy()
-for k,v in pairs(menu.tabs) do
-
-	echo("menu."..v.."console\n")
-
-	menu[v.."console"] = Geyser.MiniConsole:new({
-	  name=v,
-	  x="3%", y="3%",
-	  width = "94%",
-	  height = "94%",
-	  --autoWrap = true,
-	  color = "black",
-	  scrollBar = false,
-	  fontSize = 11,
-	}, menu[v.."center"])
-	--GUI.Spielstand:setColor("black") -- give it a nice black background
-	--GUI.Spielstand:setFont("Bitstream Vera Sans Mono")
-	--clearWindow("menu." .. v .. "console")
-	menu[v.."console"]:echo(v.."-Kanal")
-
-end
-end
 -------------------------------------------------------------
 --- Top-Menü
 -------------------------------------------------------------
@@ -746,7 +764,7 @@ LabelCSS = CSSMan.new([[
 	border-radius: 7;
 	padding: 3px;
 ]])
-
+function dummy()
 HeaderMenu = {}
 HeaderMenuItem = {
   parent = nil,
@@ -796,10 +814,10 @@ end
 -- InitTopMenuBar = function()
 	TopMenuBar = Geyser.Label:new({
 		name = "TopMenuBar", 
-		x = 0, 
-		y = 0 ,
-		width = "100%", 
-		height = "100%",
+		x = "2%", 
+		y = "2%" ,
+		width = "96%", 
+		height = "96%",
 	},GUI.Header)
 	TopMenuBar:setStyleSheet(LabelCSS:getCSS())
 
@@ -905,16 +923,46 @@ end
 --		setLabelClickCallback( "TopMenuLocation"..i, "ClickTopMenuLocation",hash)
 --	end--for
 
+
+
+--GUI.Top = Geyser.Label:new({
+--  name = "GUI.Top",
+--  x = "15%", y = "0%",
+--  width = "50%",
+--  height = "5%",
+----  nestable = true,
+--})
+--GUI.Top:setStyleSheet(GUI.BackgroundCSS:getCSS())
+end
+
+-- Menü-Label dürfen nicht in einem Container sein, deshalb sind die Top-Level-Einträge direkt auf der Oberfläche positioniert.
+
 	TopMenuOptions= Geyser.Label:new({ 
 		name = "TopMenuOptions", 
-		x = "94%", 
-		y = 2 , 
+		x = "62%", 
+		y = "1.5%" , 
 		width = 35,
 		height = 35,
-	},TopMenuBar)
+		nestable = true,
+	})
 	TopMenuOptions:setStyleSheet([[background-color:  ]]..tConfig.MainLabelBackground..[[;]])
 	TopMenuOptions:echo([[<p style="font-size:22px"><b><font color="white">&#9881;]])
-	setLabelClickCallback( "TopMenuOptions", "ClickTopMenuPreferences")
+	--setLabelClickCallback( "TopMenuOptions", "ClickTopMenuPreferences")
+
+	i = 1
+	TopMenuOptions[i] = TopMenuOptions:addChild({
+		name = "TopMenuOptions"..i,
+		height = 30,
+		width = 100, 
+		flyOut=true,
+		layoutDir="BV", 
+		message="comming soon"
+	})
+	--TopMenuOptions[i]:setStyleSheet(LabelCSS:getCSS())
+	--setLabelClickCallback( "TopMenuOptions"..i, "ClickTopMenuCallback","tDir[i]","bla bla")
+
+	echo("Verdammte Axt!!!\n")
+
 --	TopMenuPrefs= Geyser.Label:new({ 
 --		name = "TopMenuPrefs", 
 --		x = 850, 
