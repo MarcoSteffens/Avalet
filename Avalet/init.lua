@@ -30,16 +30,16 @@ mudletHomeDir = getMudletHomeDir()
 --echo("Path MudletHomeDir: " .. path .. "\n" )
 
 
-function readFileFromFS(path)
+function readFileFromFS(path, mode)
 	data = {}
-	file = io.open (path, "r")
+	file = io.open (path, mode)
 	data = yajl.to_value(file:read())
 	file:close()
 	return data
 end
 
-function writeDataToFS(path, data)
-	file = io.open (path, "w")
+function writeDataToFS(path, data, mode)
+	file = io.open (path, mode)
 	file:write(yajl.to_string(data))
 	file:flush()
 	file:close()
@@ -52,7 +52,7 @@ avaletCharacterFile = "AvaletCharacter.json"
 characterFilePath = getMudletHomeDir() .. "/" .. avaletCharacterFile
 if io.exists(characterFilePath) then
 	echo("Charakter-Datei ist vorhanden, versuche Datei zu laden...\n")
-	player = readFileFromFS(characterFilePath)
+	player = readFileFromFS(characterFilePath, "r")
 	echo("...done\n")
 else
   echo("Charakter-Datei nicht gefunden.\n")
@@ -63,10 +63,25 @@ else
 	--echo("PlayerTPMAX: " .. player.stats.tp_max .. "\n")
 end
 
-echo("PlayerTP: " .. player.stats.tp .. "\n")
-echo("PlayerTPMAX: " .. player.stats.tp_max .. "\n")
+-- Dateien, die vom Modul geschrieben bzw. gelesen werden:
+--chat = {}
+--avaletChatFile = "AvaletChat.json"
+--chatFilePath = getMudletHomeDir() .. "/" .. avaletChatFile
+--if io.exists(chatFilePath) then
+--	echo("Chat-Datei ist vorhanden, versuche Datei zu laden...\n")
+--	chat = readFileFromFS(chatFilePath)
+--	echo("...done\n")
+--else
+--  echo("Chat-Datei nicht gefunden.\n")
+--	echo("Erzeuge Chat-Objekt\n")
+--	chat = {}
+--	echo("...done\n")
+--end
+
+
 
 require "Avalet.scripts.gui"
+require "Avalet.scripts.gui_view"
 
 
 --yajl.to_string(data)
@@ -184,7 +199,7 @@ registerAnonymousEventHandler("sysConnectionEvent", "onSysConnectionEvent")
 function onSysExitEvent()
 	cecho("<red>onSysExitEvent\n")
 	echo("Schreibe Character in Datei...\n")
-	writeDataToFS(characterFilePath, player)
+	writeDataToFS(characterFilePath, player, "w")
 	echo("...done\n")
 end
 registerAnonymousEventHandler("sysExitEvent", "onSysExitEvent")

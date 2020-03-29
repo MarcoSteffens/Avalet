@@ -206,34 +206,7 @@ registerAnonymousEventHandler("AvalonGetoetet", "onATCPEvent")
 registerAnonymousEventHandler("AvalonGruppeGetoetet", "onATCPEvent")
 registerAnonymousEventHandler("AvalonAllyGetoetet", "onATCPEvent")
 
-function onRefreshCharacterVollername(event, args)
-	GUI.Spielstand:echo(args)
-	--GUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "<b>" .. args[1] .. "/" .. args[2] .. "</b>")
-end
-registerAnonymousEventHandler("RefreshCharacterVollername", "onRefreshCharacterVollername")
 
---raiseEvent("RefreshCharacterVollername", ???)
-
-
-function onRefreshHealthBar(event, args)
-	GUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "<b>" .. args[1] .. "/" .. args[2] .. "</b>")
-end
-registerAnonymousEventHandler("RefreshHealthBar", "onRefreshHealthBar")
-
-function onRefreshEnduranceBar(event, args)
-	GUI.Endurance:setValue(tonumber(args[1]), tonumber(args[2]), "<b>" .. args[1] .. "/" .. args[2] .. "</b>")
-end
-registerAnonymousEventHandler("RefreshEnduranceBar", "onRefreshEnduranceBar")
-
-function onRefreshSpellpointsBar(event, args)
-	GUI.Spellpoints:setValue(tonumber(args[1]), tonumber(args[2]), "<b>" .. args[1] .. "/" .. args[2] .. "</b>")
-end
-registerAnonymousEventHandler("RefreshSpellpointsBar", "onRefreshSpellpointsBar")
-
-function onRefreshManaBar(event, args)
-	GUI.Mana:setValue(tonumber(args[1]), tonumber(args[2]), "<b>" .. args[1] .. "/" .. args[2] .. "</b>")
-end
-registerAnonymousEventHandler("RefreshManaBar", "onRefreshManaBar")
 
 --------------------------------------------------------------------
 -- onKill wird durch einen kill ausgelöst

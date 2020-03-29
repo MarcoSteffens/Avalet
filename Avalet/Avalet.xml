@@ -2,8 +2,19 @@
 <!DOCTYPE MudletPackage>
 <MudletPackage version="1.001">
 	<ScriptPackage>
+		<Script isActive="yes" isFolder="no">
+			<name>Avalet</name>
+			<packageName></packageName>
+			<script>-- BEGINN Avalet-Kram
+-- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
+require "Avalet"                 -- lädt die init.lua
+-- ENDE Avalet-Kram
+			</script>
+			<eventHandlerList />
+		</Script>	
+<!--
 		<ScriptGroup isActive="yes" isFolder="yes">
-			<name>AvalonGUI</name>
+			<name>AvaletGUI</name>
 			<packageName></packageName>
 			<script>-- Avalet-Kram
 -- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
@@ -11,7 +22,7 @@
 			</script>
 			<eventHandlerList />
 			<Script isActive="yes" isFolder="no">
-				<name>AvalonGUI</name>
+				<name>AvaletGUI</name>
 				<packageName></packageName>
 				<script>-- Avalet-Kram
 -- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
@@ -22,21 +33,8 @@
 				<eventHandlerList />
 			</Script>
 		</ScriptGroup>
-		<Script isActive="yes" isFolder="no">
-			<name>Avalet</name>
-			<packageName></packageName>
-			<script>-- Avalet-Kram
--- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
--- local scriptTest = require("Avalet.Avalet")
-require "Avalet"                 -- lädt die init.lua
--- require "Avalet.scripts.gui"     -- lädt die angegebene lua-datei
--- require "Avalet.scripts.atcp"     -- lädt die angegebene lua-datei
--- ENDE Avalet-Kram
-			</script>
-			<eventHandlerList />
-		</Script>
 		<ScriptGroup isActive="yes" isFolder="yes">
-			<name>AvalonATCP</name>
+			<name>AvaletATCP</name>
 			<packageName></packageName>
 			<script>-- Avalet-Kram
 -- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
@@ -44,7 +42,7 @@ require "Avalet"                 -- lädt die init.lua
 			</script>
 			<eventHandlerList />
 			<Script isActive="yes" isFolder="no">
-				<name>AvalonATCP</name>
+				<name>AvaletATCP</name>
 				<packageName></packageName>
 				<script>-- Avalet-Kram
 -- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
@@ -54,6 +52,7 @@ require "Avalet"                 -- lädt die init.lua
 				<eventHandlerList />
 			</Script>
 		</ScriptGroup>
+-->
 	</ScriptPackage>
 	<KeyPackage>
 		<KeyGroup isActive="yes" isFolder="yes">
