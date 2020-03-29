@@ -11,50 +11,48 @@ GUIModel = GUIModel or {}
 -- Charakter-Informationen rechts oben
 -----------------------------------------------------
 
-textInfobox = "\n"
+GUIModel.Infobox = "\n"
 if string.len(player.vollername) ~= 0 then
-	textInfobox = textInfobox .. "In Avalon bist Du bekannt als\n\n  " .. player.vollername .. "\n\n"
+	GUIModel.Infobox = GUIModel.Infobox .. "In Avalon bist Du bekannt als\n\n  " .. player.vollername .. "\n\n"
 	if string.len(player.gilde) ~= 0 then
 		if player.gilde == "keine" then
-			textInfobox = textInfobox .. "Du bist noch in keiner Gilde.\n"
+			GUIModel.Infobox = GUIModel.Infobox .. "Du bist noch in keiner Gilde.\n"
 		else
-			textInfobox = textInfobox .. "Du bist " .. player.gilde .. ".\n"
+			GUIModel.Infobox = GUIModel.Infobox .. "Du bist " .. player.gilde .. ".\n"
 		end
 	end
 	if string.len(player.zuenfte) ~= 0 then
-		textInfobox = textInfobox .. "Deine Berufe sind: " .. player.zuenfte .. ".\n"
+		GUIModel.Infobox = GUIModel.Infobox .. "Deine Berufe sind: " .. player.zuenfte .. ".\n"
 	end
 	if string.len(player.alter) ~= 0 then
-		textInfobox = textInfobox .. "Dein Alter: " .. player.alter .. "\n"
+		GUIModel.Infobox = GUIModel.Infobox .. "Dein Alter: " .. player.alter .. "\n"
 	end
 	if string.len(player.portfolio) ~= 0 then
-		textInfobox = textInfobox .. "Portfolio: " .. player.portfolio .. "\n\n"
+		GUIModel.Infobox = GUIModel.Infobox .. "Portfolio: " .. player.portfolio .. "\n\n"
 	end
 	if string.len(player.level) ~= 0 then
-		textInfobox = textInfobox .. "Dein Level: " .. player.level .. "\n"
+		GUIModel.Infobox = GUIModel.Infobox .. "Dein Level: " .. player.level .. "\n"
 	end
 	if string.len(player.ep) ~= 0 then
-		textInfobox = textInfobox .. "Dafür hast du bisher " .. player.ep .. " Erfahrungspunkte gesammelt.\n\n"
+		GUIModel.Infobox = GUIModel.Infobox .. "Dafür hast du bisher " .. player.ep .. " Erfahrungspunkte gesammelt.\n\n"
 	end
 	if string.len(player.gesinnung) ~= 0 then
-		textInfobox = textInfobox .. "Gesinnung: " .. player.gesinnung .. "\n"
+		GUIModel.Infobox = GUIModel.Infobox .. "Gesinnung: " .. player.gesinnung .. "\n"
 	end
 	if string.len(player.hunger) ~= 0 then
-		textInfobox = textInfobox .. "Hunger: " .. player.hunger .. "\n"
+		GUIModel.Infobox = GUIModel.Infobox .. "Hunger: " .. player.hunger .. "\n"
 	end
 	if string.len(player.durst) ~= 0 then
-		textInfobox = textInfobox .. "Durst: " .. player.durst .. "\n"
+		GUIModel.Infobox = GUIModel.Infobox .. "Durst: " .. player.durst .. "\n"
 	end
 end
-
-
 
 --------------------------------------------
 --- Tabs-Element rechts unten
 -------------------------------------------
 
 -- Generelle Variablen für das Tab-Element
-menu = menu or {
+GUIModel.menu = GUIModel.menu or {
   tabs = {"Schwafel","Laber","Volk","Gilde", "Gruppe", "Sag", "Rede"},
   color1 = "rgb(0,0,70)",
   color2 = "rgb(0,0,50)",
@@ -64,15 +62,14 @@ menu = menu or {
   height = "40%",
 }
 -- Speichert das aktuell ausgewählte Element:
-menu.current = menu.current or menu.tabs[1]
+GUIModel.menu.current = GUIModel.menu.current or GUIModel.menu.tabs[1]
 
-for k,v in pairs(menu.tabs) do
+for k,v in pairs(GUIModel.menu.tabs) do
 	-- Erzeugt einen Text-Variable für jeden Eintrag in der Menu-Liste
-	menu["chat"..v] = v  
+	GUIModel.menu["chat"..v] = v  
 end
 
 -- HIer muss der INhalt der Dateien vorhanden sein, in dene die Chats stehen sollen.
-
 
 -------------------------------------------------------------
 --- Top-Menü
@@ -89,9 +86,8 @@ HeaderMenuItem = {
 	orderNr = nil,
 }
 
-
 -- Ein Menü ohne Sub-Einträge:
---table.insert(HeaderMenu, {name = randomString(math.random(8,12)), parent = nil})
+-- table.insert(HeaderMenu, {name = randomString(math.random(8,12)), parent = nil})
 table.insert(HeaderMenu, {name = "Einstellungen", parent = nil})
 table.insert(HeaderMenu, {name = "Menu1", parent=nil})
 table.insert(HeaderMenu, {name = "SubMenu1.1", parent="Menu1"})
@@ -130,7 +126,6 @@ end
 ----------------------------------------
 -- Mapper (Karte) links oben
 ----------------------------------------
-
 
 
 ---------------------------------------------------------------------------

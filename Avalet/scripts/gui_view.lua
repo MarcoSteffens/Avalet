@@ -16,7 +16,6 @@
 -- Autor ansonsten: Marco Steffens
 --------------------------------------------------------------------------------
 
-
 ----------------------------------------
 -- CSSMan von Vadi
 ----------------------------------------
@@ -25,19 +24,19 @@ CSSMan = {}
 CSSMan.__index = CSSMan
 
 function CSSMan.new(stylesheet)
-  local obj  = { stylesheet = {} }
-  setmetatable(obj,CSSMan)
-  local trim = string.trim
+	local obj  = { stylesheet = {} }
+	setmetatable(obj,CSSMan)
+	local trim = string.trim
 
-  assert(type(stylesheet) == "string", "CSSMan.new: no stylesheet provided. A possible error is that you might have used CSSMan.new, not CSSMan:new")
+	assert(type(stylesheet) == "string", "CSSMan.new: no stylesheet provided. A possible error is that you might have used CSSMan.new, not CSSMan:new")
 
-  for line in stylesheet:gmatch("[^\r\n]+") do
-    local attribute, value = line:match("^(.-):(.-);$")
-    if attribute and value then
-      attribute, value = trim(attribute), trim(value)
-      obj.stylesheet[attribute] = value
-    end
-  end
+	for line in stylesheet:gmatch("[^\r\n]+") do
+		local attribute, value = line:match("^(.-):(.-);$")
+		if attribute and value then
+			attribute, value = trim(attribute), trim(value)
+			obj.stylesheet[attribute] = value
+		end
+	end
 
   return obj
 end
@@ -197,7 +196,6 @@ GUI.Top:setStyleSheet(GUI.BoxCSS:getCSS())
 --})
 --GUI.Bottom:setStyleSheet(GUI.BackgroundCSS:getCSS())
 
-
 ----------------------------------------
 -- Boxes
 -- Die Boxen definieren die entgültige Unterteilung der Oberfläche. Es gibt also eine Boxen
@@ -283,15 +281,14 @@ GUI.Spielstand = Geyser.MiniConsole:new({
 GUI.Spielstand:setColor("black") -- give it a nice black background
 GUI.Spielstand:setFont("Bitstream Vera Sans Mono")
 clearWindow("Spielstand")
-GUI.Spielstand:echo(textInfobox)
-
+GUI.Spielstand:echo(GUIModel.Infobox)
 
 --------------------------------------------
 --- Tabs-Element rechts unten
 -------------------------------------------
 
 -- Container, der alles andere enthält. Container sind unsichtbar, deshalb kein Stylesheet
-menu.container = Geyser.Container:new({
+GUI.MenuContainer = Geyser.Container:new({
   name = "menu.back",
   x = "3%", y = "3%",
   width = "94%",
@@ -299,95 +296,93 @@ menu.container = Geyser.Container:new({
 }, GUI.Box2)
 
 -- die Kopfzeile des Tab-Elements, also da wo die Tabs sind
-menu.header = Geyser.HBox:new({
+GUI.MenuHeader = Geyser.HBox:new({
   name = "menu.header",
   x = 0, y = 0,
   width = "100%",
   height = "10%",
-},menu.container)
+}, GUI.MenuContainer)
 
 -- Der Körper des Tab-Elements, also da wo der Inhalt steht.
 -- Der Container für jeden TAb-Inhalt
-menu.footer = Geyser.Label:new({
+GUI.MenuFooter = Geyser.Label:new({
   name = "menu.footer",
   x = 0, y = "10%",
   width = "100%",
   height = "90%",
-}, menu.container)
+}, GUI.MenuContainer)
 
 --  background-color:black;
---  background-color: ]]..menu.color1..[[;
 --  background-color: rgb(20,0,20);
-menu.footer:setStyleSheet([[
-  background-color: ]]..menu.color1..[[;
+GUI.MenuFooter:setStyleSheet([[
+  background-color: rgb(0,0,70);
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 ]])
 
 -- Each window actually has two labels. One for the light blue background, and another for the dark blue center. This will create that dark blue center. 
-menu.center = Geyser.Label:new({
-  name = "menu.center",
+GUI.MenuCenter = Geyser.Label:new({
+  name = "MenuCenter",
   x = 0, y = 0,
   width = "100%",
   height = "100%",
-}, menu.footer)
+}, GUI.MenuFooter)
 --  background-color: rgb(20,0,20);
 --  background-color: rgb(255,255,255);
-menu.center:setStyleSheet([[
-  background-color: ]]..menu.color2..[[;
+GUI.MenuCenter:setStyleSheet([[
+  background-color: rgb(0,0,50);
   border-radius: 10px;
   margin: 5px;
 ]])
 
 -- Hier werden die Tabs und die Seiten dazu erzeugt.
-for k,v in pairs(menu.tabs) do
+GUI.menu = {}
+for k, v in pairs(GUIModel.menu.tabs) do
 
 	-- Erzeugt einen Tab für jeden Eintrag in der Menu-Liste
-	menu[v.."tab"] = Geyser.Label:new({
+	GUI.menu[v.."tab"] = Geyser.Label:new({
 		name = "menu."..v.."tab",
-	  },menu.header)
+	  }, GUI.MenuHeader)
 	-- Stylesheet für jeden Tab
 	--background-color: ]]..menu.color1..[[;
 	--background-color: rgb(20,0,20);
-	menu[v.."tab"]:setStyleSheet([[
-		background-color: ]]..menu.color1..[[;
+	GUI.menu[v.."tab"]:setStyleSheet([[
+		background-color: rgb(0,0,70);
 		border-top-left-radius: 10px;
 		border-top-right-radius: 10px;
 		margin-right: 1px;
 		margin-left: 1px;
 	  ]])
 	-- Beschriftung für jeden Tab
-	menu[v.."tab"]:echo("<center>"..v)
+	GUI.menu[v.."tab"]:echo("<center>"..v)
 
-	-- We need our tabs to do stuff when clicked, so we'll assign it a callback function, menu.click, which we'll create later on. Our tab name is the argument. 
-	menu[v.."tab"]:setClickCallback("menu.click",v)
+	-- We need our tabs to do stuff when clicked, so we'll assign it a callback function, GUI.menu.click, which we'll create later on. Our tab name is the argument. 
+	GUI.menu[v.."tab"]:setClickCallback("GUI.menu.click", v)
 
 	-- Now we create the windows that appear when each tab is clicked. Each window has two labels, one atop the other. The first, which we'll create here, has rounded edges on its bottom. 
-	menu[v] = Geyser.Label:new({
+	GUI.menu[v] = Geyser.Label:new({
 		name = "menu."..v,
 		x = 0, y = 0,
 		width = "100%",
 		height = "100%",
-	  },menu.footer)
-	  menu[v]:setStyleSheet([[
-		background-color: ]]..menu.color1..[[;
+	  }, GUI.MenuFooter)
+	  GUI.menu[v]:setStyleSheet([[
+		background-color: rgb(0,0,70);
 		border-bottom-left-radius: 10px;
 		border-bottom-right-radius: 10px;
 	  ]])
 	-- The second label serves as the window's center and has rounded edges on all sides. And a margin of 5px from it's parent, the label we just created. When adding stuff to your windows, this is the label you'll want to use. menu.<tabname>center
-	menu[v.."center"] = Geyser.Label:new({
+	GUI.menu[v.."center"] = Geyser.Label:new({
 		name = "menu."..v.."center",
 		x = 0, y = 0,
 		width = "100%",
 		height = "100%",
-	  },menu[v])
---	echo("menu."..tostring(v).."center\n")
-
-	  menu[v.."center"]:setStyleSheet([[
-		background-color: ]]..menu.color2..[[;
+	  }, GUI.menu[v])
+	GUI.menu[v.."center"]:setStyleSheet([[
+		background-color: rgb(0,0,50);
 		border-radius: 10px;
 		margin: 5px;
-	  ]])
+	]])
 	  
 	--------
 	-- Inhalte der Tabs
@@ -395,33 +390,34 @@ for k,v in pairs(menu.tabs) do
 	-- Bei den Kanal-Tabs wird dort die Ausgabe der entsprechenden Kanäle gesammelt angezeigt.
 	-- Bei anderen Tabs gibt es andere Inhalte.
 	-- Jede Minikonsole ist ansprechbar über ... ???
-	menu[v.."console"] = Geyser.MiniConsole:new({
-	  name=v,
-	  x="2%", y="2%",
-	  width = "96%",
-	  height = "96%",
-	  --autoWrap = true,
-	  color = "black",
-	  scrollBar = false,
-	  fontSize = 11,
-	}, menu[v.."center"])
+	GUI.menu[v.."console"] = Geyser.MiniConsole:new({
+		name=v,
+		x="2%", y="2%",
+		width = "96%",
+		height = "96%",
+		--autoWrap = true,
+		color = "black",
+		scrollBar = false,
+		fontSize = 11,
+	}, GUI.menu[v.."center"])
 	--GUI.Spielstand:setColor("black") -- give it a nice black background
 	--GUI.Spielstand:setFont("Bitstream Vera Sans Mono")
 	--clearWindow("menu." .. v .. "console")
-	menu[v.."console"]:echo(menu["chat"..v])
+	GUI.menu[v.."console"]:echo(GUIModel.menu["chat"..v])
 	  
 
 	-- Finally, we hide all the windows and end the for loop.
-	 menu[v]:hide()
+	GUI.menu[v]:hide()
 end
-menu[menu.current]:show()
+
+GUI.menu[GUIModel.menu.current]:show()
 
 
 -- The last step is to create our callback function for when a tab is clicked. This will hide that tab that is stored in menu.current, set menu.current to the clicked tab, and then show the menu.current tab. 
-function menu.click(tab)
-  menu[menu.current]:hide()
-  menu.current = tab
-  menu[menu.current]:show()
+function GUI.menu.click(tab)
+  GUI.menu[GUIModel.menu.current]:hide()
+  GUIModel.menu.current = tab
+  GUI.menu[GUIModel.menu.current]:show()
 end
 
 -------------------------------------------------------------
@@ -430,14 +426,13 @@ end
 -- Top-Level-Einträge direkt auf der Oberfläche positioniert.
 -------------------------------------------------------------
 
+tConfig = {}
 
- tConfig = {}
-
- tConfig.MainColorText = "#ffffff"
- tConfig.MainLabelBackground = "#303030"
- tConfig.MainColorBackground = "#000000"
- tConfig.MainColorBorder = "#999999"
- tConfig.MainColorHover = "#505050"
+tConfig.MainColorText = "#ffffff"
+tConfig.MainLabelBackground = "#303030"
+tConfig.MainColorBackground = "#000000"
+tConfig.MainColorBorder = "#999999"
+tConfig.MainColorHover = "#505050"
 
 
 ---------------------------- Standard CSS fuer die Menü-Label etc -----------------------------------
@@ -550,7 +545,6 @@ function dummy()
 		TopMenuLocations:echo([[<p style="font-size:16px"><b><font color="white">YourMenuHere]])
 end
 
-
 -- Menü "Options"
 -- wird hier extra hinzugefügt.
 -- Menü-Label dürfen nicht in einem Container sein, deshalb sind die Top-Level-Einträge direkt auf der Oberfläche positioniert.
@@ -611,7 +605,6 @@ for k, v in pairs(sortedListOfTimers) do
 	GUI["Timer"..k].front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
 	GUI["Timer"..k]:setValue(v["remaining"], v["duration"] , "<b>" .. v["name"] .. "</b>")
 end
-
 
 -----------------------------------
 -- Gauges für TP, AP, ZP und Mana
