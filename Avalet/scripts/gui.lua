@@ -77,18 +77,50 @@ end
 -- Top-Level-Einträge direkt auf der Oberfläche positioniert.
 -------------------------------------------------------------
 GUIModel.TopMenuEntries = {}
+GUIModel.SubMenuEntries = {}
 
 InsertTopMenu = function(Name,Pos,ChildMsg,labelName,luafun,args)
 	table.insert(GUIModel.TopMenuEntries,Pos,{Name,ChildMsg,labelName,luafun,args})
 end
 
 --bla = function()
-	-- zweiter Parameter Position auf dem Menue, ohne wirds hinten eingebaut, deshalb hab ich auch ein
-	-- indexed table genommen, damit man die reihenfolge richtig hat, sonst ist der table ja unsortiert
-	InsertTopMenu("Top1",1,"Child","label","luafun",{"a1","a2","a3"})
-	InsertTopMenu("Top2",2,"Child2","label2","luafun2",{"b1","b2","b3"})
-	--Setzen wir mal ein neues 1. Menue, die anderen werden eins hoch geshiftet.
-	InsertTopMenu("Top1n",1,"Child3","label3","luafun3")
+-- zweiter Parameter Position auf dem Menue, ohne wirds hinten eingebaut, deshalb hab ich auch ein
+-- indexed table genommen, damit man die reihenfolge richtig hat, sonst ist der table ja unsortiert
+--InsertTopMenu("Top1",1,"Child","label","luafun",{"a1","a2","a3"})
+--InsertTopMenu("Top2",2,"Child2","label2","luafun2",{"b1","b2","b3"})
+----Setzen wir mal ein neues 1. Menue, die anderen werden eins hoch geshiftet.
+--InsertTopMenu("Top1n",1,"Child3","label3","luafun3")
+
+
+
+function addTopMenuEntry(label, position, childs)
+	--TODO: validierung der Parameter (insbesondere der childs)
+	table.insert(GUIModel.TopMenuEntries,position,{label,childs})
+end
+
+--addTopMenuEntry("titel", position)
+--addSubMenuEntry("parent", postition, "titel", "label", "luafun", args = {})
+--addSubMenuEntry("Top1",1,"Child","label","luafun",{"a1","a2","a3"})
+
+addTopMenuEntry("Top1", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3","luafun",{"a31", "a32", "a33"}}})
+addTopMenuEntry("Top2", 2, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3", "luafun",{"a31", "a32", "a33"}}})
+addTopMenuEntry("Top1a", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3", "luafun",{"a31", "a32", "a33"}}})
+
+--addTopMenuEntry(
+--	"Top1", 
+--	1, 
+--	{
+--		{"childName1", 1, "childBeschriftung1", "luafun", {"a1","a2","a3"}}, 
+--		{"childName2", 2, "childBeschriftung2", "luafun", {"a1","a2","a3"}}, 
+--		{"childName1a", 1, "childBeschriftung1a", "luafun", {"a1","a2","a3"}}
+--	}
+--)
+
+--if v[5] then
+--	for i=1,#v[5] do
+--		echo ("arg["..i.."] = "..v[5][i].."\n")
+--	end
+--end
 
 
 ----------------------------------------

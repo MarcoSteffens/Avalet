@@ -452,11 +452,11 @@ LabelCSS = CSSMan.new([[
 	d = 0
 	for k, v in ipairs(GUIModel.TopMenuEntries) do
 
-		echo("TopMenuName = " .. v[1] .. "\n")
-		echo("Position auf der Menubar:"..k.."\n")
-		echo("ChildMenuMessage = " .. v[2] .. "\n")
-		echo("labelName = " .. v[3].. "\n")
-		echo("luaFunctionName = " .. v[4] .. "\n")
+		--echo("TopMenuName = " .. v[1] .. "\n")
+		--echo("Position auf der Menubar:"..k.."\n")
+		--echo("ChildMenuMessage = " .. v[2] .. "\n")
+		--echo("labelName = " .. v[3].. "\n")
+		--echo("luaFunctionName = " .. v[4] .. "\n")
 
 		GUI["TopMenu"..v[1]] = Geyser.Label:new({ 
 			name = "TopMenu"..v[1], 
@@ -470,19 +470,29 @@ LabelCSS = CSSMan.new([[
 		GUI["TopMenu"..v[1]]:echo([[<p style="font-size:22px"><b><font color="white">]]..v[1])
 		--setLabelClickCallback( "TopMenuOptions", "ClickTopMenuPreferences")
 		--setLabelClickCallback(labelName, luaFunctionName, [any arguments])
-
-		GUI["TopMenu"..v[1]..v[2]] = GUI["TopMenu"..v[1]]:addChild({
-			name = "TopMenu"..v[1]..v[2],
-			height = 50,
-			width = 100, 
-			flyOut=true,
-			layoutDir="BV", 
-			message=v[3]
-		})
-		--TopMenuOptions[i]:setStyleSheet(LabelCSS:getCSS())
-		--setLabelClickCallback( "TopMenuOptions"..i, "ClickTopMenuCallback","tDir[i]","bla bla")
-		--setLabelClickCallback(labelName, luaFunctionName, [any arguments])
-
+echo("VErdammte Axt!\n")
+		subMenuEntries = {}
+		for k2, v2 in ipairs(v[2]) do
+			-- erstmal sortierte table der sub-entries bauen
+			echo("Key: " .. k2 .."\n")
+			echo("Submenu: " .. v2[1] .."\n")
+			table.insert(subMenuEntries, v2[2], {v2[1], v2[3], v2[4], v2[5]}) -- tabelle, position, {name, message, luafunct, args}
+		end
+echo("VErdammte Axt!\n")		
+		for k3, v3 in ipairs(subMenuEntries) do
+echo("VErdammte Axt!\n")		
+			GUI["TopMenu"..v[1]..v3[1]] = GUI["TopMenu"..v[1]]:addChild({
+				name = "TopMenu"..v[1]..v3[1],
+				height = 50,
+				width = 100, 
+				flyOut=true,
+				layoutDir="BV", 
+				message=v3[2]
+			})
+			--TopMenuOptions[i]:setStyleSheet(LabelCSS:getCSS())
+			--setLabelClickCallback( "TopMenuOptions"..i, "ClickTopMenuCallback","tDir[i]","bla bla")
+			--setLabelClickCallback(labelName, luaFunctionName, [any arguments])
+		end
 
 		--if v[5] then
 		--	for i=1,#v[5] do
