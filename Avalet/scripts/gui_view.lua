@@ -413,7 +413,9 @@ end
 GUI.menu[GUIModel.menu.current]:show()
 
 
--- The last step is to create our callback function for when a tab is clicked. This will hide that tab that is stored in menu.current, set menu.current to the clicked tab, and then show the menu.current tab. 
+-- The last step is to create our callback function for when a tab is clicked.
+-- This will hide that tab that is stored in menu.current, set menu.current to
+-- the clicked tab, and then show the menu.current tab. 
 function GUI.menu.click(tab)
   GUI.menu[GUIModel.menu.current]:hide()
   GUIModel.menu.current = tab
@@ -446,110 +448,55 @@ LabelCSS = CSSMan.new([[
 	padding: 3px;
 ]])
 
-function dummy()
-		TopMenuBar = Geyser.Label:new({
-			name = "TopMenuBar", 
-			x = "2%", 
-			y = "2%" ,
-			width = "96%", 
-			height = "96%",
-		}, GUI.Header)
-		TopMenuBar:setStyleSheet(LabelCSS:getCSS())
 
-		local tDir = "attrdir(getMudletHomeDir()..[[/../../modules/Spiele/]])"
+	d = 0
+	for k, v in ipairs(GUIModel.TopMenuEntries) do
 
-		TopMenuSpiele = Geyser.Label:new({ 
-			name = "TopMenuSpiele", 
-			x = 10, 
-			y = 4, 
-			width = "10%",
-			height = "80%",
-			nestable = true
-		}, TopMenuBar)
+		echo("TopMenuName = " .. v[1] .. "\n")
+		echo("Position auf der Menubar:"..k.."\n")
+		echo("ChildMenuMessage = " .. v[2] .. "\n")
+		echo("labelName = " .. v[3].. "\n")
+		echo("luaFunctionName = " .. v[4] .. "\n")
 
-		TopMenuSpiele:setStyleSheet([[background-color:  ]]..tConfig.MainLabelBackground..[[;]])
-		TopMenuSpiele:echo([[<p style="font-size:16px"><b><font color="white">Spiele]])
-		--	TopMenuSpiel = {}
-		--	for i = 1,#tDir do
-		--		TopMenuSpiel[i] = TopMenuSpiele:addChild({
-		--			name = "TopMenuSpiel"..i,
-		--			height = 30,
-		--			width = 100, 
-		--			flyOut=true,
-		--			layoutDir="BV", 
-		--			message=tDir[i]
-		--		})
-		--		TopMenuSpiel[i]:setStyleSheet(LabelCSS:getCSS())
-		--		setLabelClickCallback( "TopMenuSpiel"..i, "ClickTopMenuCallback",tDir[i],"Spiele")
-		--	end --for
+		GUI["TopMenu"..v[1]] = Geyser.Label:new({ 
+			name = "TopMenu"..v[1], 
+			x = tostring(17+d*10).."%", 
+			y = "1.5%" , 
+			width = 200,
+			height = 35,
+			nestable = true,
+		})
+		GUI["TopMenu"..v[1]]:setStyleSheet([[background-color:  ]]..tConfig.MainLabelBackground..[[;]])
+		GUI["TopMenu"..v[1]]:echo([[<p style="font-size:22px"><b><font color="white">]]..v[1])
+		--setLabelClickCallback( "TopMenuOptions", "ClickTopMenuPreferences")
+		--setLabelClickCallback(labelName, luaFunctionName, [any arguments])
 
-		tDir = "attrdir(getMudletHomeDir()..[[/../../modules/Raetsel/]])"
-		TopMenuRaetsel= Geyser.Label:new({ 
-			name = "TopMenuRaetsel", 
-			x = 110, 
-			y = 4, 
-			width = "10%",
-			height = "80%",
-			nestable = true
-		}, TopMenuBar)
-		TopMenuRaetsel:setStyleSheet([[background-color:  ]]..tConfig.MainLabelBackground..[[;]])
-		TopMenuRaetsel:echo([[<p style="font-size:16px"><b><font color="white">Notizen]])
-		--	TopMenuQuest = {}
-		--	for i = 1,#tDir do
-		--		TopMenuQuest[i] = TopMenuRaetsel:addChild({
-		--			name = "TopMenuQuest"..i,
-		--			height = 30,
-		--			width = 100, 
-		--			flyOut=true,
-		--			layoutDir="BV", 
-		--			message=tDir[i]
-		--		})
-		--		TopMenuQuest[i]:setStyleSheet(LabelCSS:getCSS())
-		--		setLabelClickCallback( "TopMenuQuest"..i, "ClickTopMenuCallback",tDir[i],"Raetsel")
-		--	end -- for
+		GUI["TopMenu"..v[1]..v[2]] = GUI["TopMenu"..v[1]]:addChild({
+			name = "TopMenu"..v[1]..v[2],
+			height = 50,
+			width = 100, 
+			flyOut=true,
+			layoutDir="BV", 
+			message=v[3]
+		})
+		--TopMenuOptions[i]:setStyleSheet(LabelCSS:getCSS())
+		--setLabelClickCallback( "TopMenuOptions"..i, "ClickTopMenuCallback","tDir[i]","bla bla")
+		--setLabelClickCallback(labelName, luaFunctionName, [any arguments])
 
-		TopMenuGebiete= Geyser.Label:new({ 
-			name = "TopMenuGebiete", 
-			x = 210, 
-			y = 4, 
-			width = "12%",
-			height = "80%",
-			nestable = true
-		}, TopMenuBar)
-		TopMenuGebiete:setStyleSheet([[background-color:  ]]..tConfig.MainLabelBackground..[[;]])
-		TopMenuGebiete:echo([[<p style="font-size:16px"><b><font color="white">Wege/Orte]])
-		--	TopMenuGebiet = {}
-		--	tDir = "attrdir(getMudletHomeDir()..[[/../../modules/Metzelgebiete/]])"
-		--	for i = 1,#tDir do
-		--		TopMenuGebiet[i] = TopMenuGebiete:addChild({
-		--			name = "TopMenuGebiet"..i,
-		--			height = 30,
-		--			width = 70, 
-		--			flyOut=true,
-		--			layoutDir="BV", 
-		--			message=tDir[i]
-		--		})
-		--		TopMenuGebiet[i]:setStyleSheet(LabelCSS:getCSS())
-		--		setLabelClickCallback( "TopMenuGebiet"..i, "ClickTopMenuCallback",tDir[i],"Metzelgebiete")
-		--	end -- for
 
-		TopMenuLocations= Geyser.Label:new({ 
-			name = "TopMenuLocations", 
-			x = 340, 
-			y = 4, 
-			width = "14%",
-			height = "80%",
-			nestable = true
-		}, TopMenuBar)
-		TopMenuLocations:setStyleSheet([[background-color:  ]]..tConfig.MainLabelBackground..[[;]])
-		TopMenuLocations:echo([[<p style="font-size:16px"><b><font color="white">YourMenuHere]])
-end
+		--if v[5] then
+		--	for i=1,#v[5] do
+		--		echo ("arg["..i.."] = "..v[5][i].."\n")
+		--	end
+		--end
+		d = d+1
+	end
+--end
 
 -- Menü "Options"
 -- wird hier extra hinzugefügt.
 -- Menü-Label dürfen nicht in einem Container sein, deshalb sind die Top-Level-Einträge direkt auf der Oberfläche positioniert.
-
-TopMenuOptions= Geyser.Label:new({ 
+GUI.TopMenuOptions= Geyser.Label:new({ 
 	name = "TopMenuOptions", 
 	x = "62%", 
 	y = "1.5%" , 
@@ -557,12 +504,13 @@ TopMenuOptions= Geyser.Label:new({
 	height = 35,
 	nestable = true,
 })
-TopMenuOptions:setStyleSheet([[background-color:  ]]..tConfig.MainLabelBackground..[[;]])
-TopMenuOptions:echo([[<p style="font-size:22px"><b><font color="white">&#9881;]])
+GUI.TopMenuOptions:setStyleSheet([[background-color:  ]]..tConfig.MainLabelBackground..[[;]])
+GUI.TopMenuOptions:echo([[<p style="font-size:22px"><b><font color="white">&#9881;]])
 --setLabelClickCallback( "TopMenuOptions", "ClickTopMenuPreferences")
+--setLabelClickCallback(labelName, luaFunctionName, [any arguments])
 
 i = 1
-TopMenuOptions[i] = TopMenuOptions:addChild({
+GUI.TopMenuOptions[i] = GUI.TopMenuOptions:addChild({
 	name = "TopMenuOptions"..i,
 	height = 50,
 	width = 100, 
@@ -572,6 +520,7 @@ TopMenuOptions[i] = TopMenuOptions:addChild({
 })
 --TopMenuOptions[i]:setStyleSheet(LabelCSS:getCSS())
 --setLabelClickCallback( "TopMenuOptions"..i, "ClickTopMenuCallback","tDir[i]","bla bla")
+--setLabelClickCallback(labelName, luaFunctionName, [any arguments])
 
 ----------------------------------------
 -- Mapper (Karte) links oben

@@ -76,52 +76,20 @@ end
 -- Menü-Label dürfen nicht in einem Container sein, deshalb sind die 
 -- Top-Level-Einträge direkt auf der Oberfläche positioniert.
 -------------------------------------------------------------
+GUIModel.TopMenuEntries = {}
 
-
-HeaderMenu = {}
-HeaderMenuItem = {
-	parent = nil,
-	name = "",
-	item = nil,
-	orderNr = nil,
-}
-
--- Ein Menü ohne Sub-Einträge:
--- table.insert(HeaderMenu, {name = randomString(math.random(8,12)), parent = nil})
-table.insert(HeaderMenu, {name = "Einstellungen", parent = nil})
-table.insert(HeaderMenu, {name = "Menu1", parent=nil})
-table.insert(HeaderMenu, {name = "SubMenu1.1", parent="Menu1"})
-table.insert(HeaderMenu, {name = "SubMenu1.2", parent="Menu1"})
-table.insert(HeaderMenu, {name = "SubMenu1.3", parent="Menu1"})
-table.insert(HeaderMenu, {name = "Menu2", parent=nil})
-table.insert(HeaderMenu, {name = "SubMenu2.1", parent="Menu2"})
-table.insert(HeaderMenu, {name = "SubMenu2.2", parent="Menu2"})
-table.insert(HeaderMenu, {name = "SubMenu2.3", parent="Menu2"})
-table.insert(HeaderMenu, {name = "Menu3", parent=nil})
-table.insert(HeaderMenu, {name = "SubMenu3.1", parent="Menu3"})
-table.insert(HeaderMenu, {name = "SubMenu3.2", parent="Menu3"})
-table.insert(HeaderMenu, {name = "SubMenu3.3", parent="Menu3"})
-table.insert(HeaderMenu, {name = "Menu4", parent=nil})
-table.insert(HeaderMenu, {name = "SubMenu4.1", parent="Menu4"})
-table.insert(HeaderMenu, {name = "SubMenu4.2", parent="Menu4"})
-table.insert(HeaderMenu, {name = "SubMenu4.3", parent="Menu4"})
-
-
--- Menü-Eintrags-Tabelle sortieren und in ein Menü verwandeln:
-
--- menuList = {
---   {bName = "Trumer Pils", bCountry = "Austria", bType = "Pilsner"},
---   {bName = "Samichlaus", bCountry = "Austria", bType = "Lager"},
---  	{bName = "Foster's Oil Can", bCountry = "Australia", bType = "Lager"},
---  	{bName = "Newcastle Ale", bCountry = "UK", bType = "Ale"},
--- }
-
-local sort_func = function( a,b ) return a.name < b.name end
-table.sort( HeaderMenu, sort_func )
-
-for i, record in ipairs( HeaderMenu ) do
---echo(i .. " -" .. record.name .. "\n")
+InsertTopMenu = function(Name,Pos,ChildMsg,labelName,luafun,args)
+	table.insert(GUIModel.TopMenuEntries,Pos,{Name,ChildMsg,labelName,luafun,args})
 end
+
+--bla = function()
+	-- zweiter Parameter Position auf dem Menue, ohne wirds hinten eingebaut, deshalb hab ich auch ein
+	-- indexed table genommen, damit man die reihenfolge richtig hat, sonst ist der table ja unsortiert
+	InsertTopMenu("Top1",1,"Child","label","luafun",{"a1","a2","a3"})
+	InsertTopMenu("Top2",2,"Child2","label2","luafun2",{"b1","b2","b3"})
+	--Setzen wir mal ein neues 1. Menue, die anderen werden eins hoch geshiftet.
+	InsertTopMenu("Top1n",1,"Child3","label3","luafun3")
+
 
 ----------------------------------------
 -- Mapper (Karte) links oben
