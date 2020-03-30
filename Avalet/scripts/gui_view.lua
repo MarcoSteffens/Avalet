@@ -79,48 +79,54 @@ GUI = GUI or {}
 -- CSS Backgrounds
 
 GUI.BackgroundCSS = CSSMan.new([[
-  background-color: rgb(20,0,20);
+	background-color: rgb(20,0,20);
 ]])
 
 -- CSS Boxes
 
 GUI.BoxCSS = CSSMan.new([[
-  background-color: rgba(0,0,0,100);
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 10px;
-  border-color: white;
-  font: TypeWriter;
-  margin: 10px;
+	background-color: rgba(0,0,0,100);
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 10px;
+	border-color: white;
+	font: TypeWriter;
+	margin: 10px;
 ]])
 
 -- CSS Gauges
 
 GUI.GaugeBackCSS = CSSMan.new([[
-  background-color: rgba(0,0,0,0);
-  border-style: solid;
-  border-color: white;
-  border-width: 1px;
-  border-radius: 5px;
-  padding: 5px;
-  width: 30%;
-  height: 80%;
+	background-color: rgba(0,0,0,0);
+	border-style: solid;
+	border-color: white;
+	border-width: 1px;
+	border-radius: 5px;
+	padding: 5px;
+	width: 30%;
+	height: 80%;
 ]])
 
 GUI.GaugeFrontCSS = CSSMan.new([[
-  background-color: rgba(0,0,0,0);
-  border-style: solid;
-  border-color: white;
-  border-width: 1px;
-  border-radius: 5px;
-  padding: 5px;
-  width: 30%;
-  height: 80%;
+	background-color: rgba(0,0,0,0);
+	border-style: solid;
+	border-color: white;
+	border-width: 1px;
+	border-radius: 5px;
+	padding: 5px;
+	width: 30%;
+	height: 80%;
 ]])
 
 --	background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #78bd33, stop: 0.1 #6ebd20, stop: 0.49 #4c9900, stop: 0.5 #387000, stop: 1 #4c9900);
 GUI.GaugeTextCSS = CSSMan.new([[
 	padding: 25px;
+	font-weight: bold;
+]])
+
+--	background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #78bd33, stop: 0.1 #6ebd20, stop: 0.49 #4c9900, stop: 0.5 #387000, stop: 1 #4c9900);
+GUI.GaugeTimerTextCSS = CSSMan.new([[
+	font-weight: bold;
 ]])
 
 ----------------------------------------
@@ -273,7 +279,7 @@ GUI.Spielstand = Geyser.MiniConsole:new({
   x="3%", y="3%",
   width = "94%",
   height = "94%",
-  --autoWrap = true,
+  autoWrap = true,
   color = "black",
   scrollBar = false,
   fontSize = 11,
@@ -449,59 +455,47 @@ LabelCSS = CSSMan.new([[
 ]])
 
 
-	d = 0
-	for k, v in ipairs(GUIModel.TopMenuEntries) do
+d = 0
+for k, v in ipairs(GUIModel.TopMenuEntries) do
 
-		--echo("TopMenuName = " .. v[1] .. "\n")
-		--echo("Position auf der Menubar:"..k.."\n")
-		--echo("ChildMenuMessage = " .. v[2] .. "\n")
-		--echo("labelName = " .. v[3].. "\n")
-		--echo("luaFunctionName = " .. v[4] .. "\n")
-
-		GUI["TopMenu"..v[1]] = Geyser.Label:new({ 
-			name = "TopMenu"..v[1], 
-			x = tostring(17+d*10).."%", 
-			y = "1.5%" , 
-			width = 200,
-			height = 35,
-			nestable = true,
-		})
-		GUI["TopMenu"..v[1]]:setStyleSheet([[background-color:  ]]..tConfig.MainLabelBackground..[[;]])
-		GUI["TopMenu"..v[1]]:echo([[<p style="font-size:22px"><b><font color="white">]]..v[1])
-		--setLabelClickCallback( "TopMenuOptions", "ClickTopMenuPreferences")
-		--setLabelClickCallback(labelName, luaFunctionName, [any arguments])
-echo("VErdammte Axt!\n")
-		subMenuEntries = {}
-		for k2, v2 in ipairs(v[2]) do
-			-- erstmal sortierte table der sub-entries bauen
-			echo("Key: " .. k2 .."\n")
-			echo("Submenu: " .. v2[1] .."\n")
-			table.insert(subMenuEntries, v2[2], {v2[1], v2[3], v2[4], v2[5]}) -- tabelle, position, {name, message, luafunct, args}
-		end
-echo("VErdammte Axt!\n")		
-		for k3, v3 in ipairs(subMenuEntries) do
-echo("VErdammte Axt!\n")		
-			GUI["TopMenu"..v[1]..v3[1]] = GUI["TopMenu"..v[1]]:addChild({
-				name = "TopMenu"..v[1]..v3[1],
-				height = 50,
-				width = 100, 
-				flyOut=true,
-				layoutDir="BV", 
-				message=v3[2]
-			})
-			--TopMenuOptions[i]:setStyleSheet(LabelCSS:getCSS())
-			--setLabelClickCallback( "TopMenuOptions"..i, "ClickTopMenuCallback","tDir[i]","bla bla")
-			--setLabelClickCallback(labelName, luaFunctionName, [any arguments])
-		end
-
-		--if v[5] then
-		--	for i=1,#v[5] do
-		--		echo ("arg["..i.."] = "..v[5][i].."\n")
-		--	end
-		--end
-		d = d+1
+	GUI["TopMenu"..v[1]] = Geyser.Label:new({ 
+		name = "TopMenu"..v[1], 
+		x = tostring(17+d*10).."%", 
+		y = "1.5%" , 
+		width = 200,
+		height = 35,
+		nestable = true,
+	})
+	GUI["TopMenu"..v[1]]:setStyleSheet([[background-color:  ]]..tConfig.MainLabelBackground..[[;]])
+	GUI["TopMenu"..v[1]]:echo([[<p style="font-size:22px"><b><font color="white">]]..v[1])
+	--setLabelClickCallback( "TopMenuOptions", "ClickTopMenuPreferences")
+	--setLabelClickCallback(labelName, luaFunctionName, [any arguments])
+	local subMenuEntries = {}
+	for k2, v2 in ipairs(v[2]) do
+		-- erstmal sortierte table der sub-entries bauen
+		table.insert(subMenuEntries, v2[2], {v2[1], v2[3], v2[4], v2[5]}) -- tabelle, position, {name, message, luafunct, args}
 	end
---end
+	for k3, v3 in ipairs(subMenuEntries) do
+		GUI["TopMenu"..v[1]..v3[1]] = GUI["TopMenu"..v[1]]:addChild({
+			name = "TopMenu"..v[1]..v3[1],
+			height = 50,
+			width = 100, 
+			flyOut=true,
+			layoutDir="BV", 
+			message=v3[2]
+		})
+		--TopMenuOptions[i]:setStyleSheet(LabelCSS:getCSS())
+		--setLabelClickCallback( "TopMenuOptions"..i, "ClickTopMenuCallback","tDir[i]","bla bla")
+		--setLabelClickCallback(labelName, luaFunctionName, [any arguments])
+	end
+
+	--if v[5] then
+	--	for i=1,#v[5] do
+	--		echo ("arg["..i.."] = "..v[5][i].."\n")
+	--	end
+	--end
+	d = d+1
+end
 
 -- Menü "Options"
 -- wird hier extra hinzugefügt.
@@ -546,7 +540,7 @@ GUI.Mapper = Geyser.Mapper:new({
 ---------------------------------------------------------------------------
 -- Gauges für die Timer
 ---------------------------------------------------------------------------
-
+colorvariablehier="white"
 for k, v in pairs(sortedListOfTimers) do
 	GUI["Timer"..k] = Geyser.Gauge:new({
 		name = "GUI.Timer"..k,
@@ -555,14 +549,28 @@ for k, v in pairs(sortedListOfTimers) do
 		orientation = "goofy",
 	}, GUI.Box5)
 	if v["remaining"] < 30 then
-		GUI.GaugeBackCSS:set("background-color","red")
+		colorvariablehier="red"
+		--GUI.GaugeBackCSS:set("font-color","red")
 	elseif v["remaining"] < 60 then
-		GUI.GaugeBackCSS:set("background-color","yellow")
+		colorvariablehier="yellow"
+		--GUI.GaugeFrontCSS:set("font-color","yellow")
+	else
+		colorvariablehier="white"
 	end
+	GUI.GaugeBackCSS:set("color","red")
+	GUI.GaugeFrontCSS:set("color","red")
+	GUI.GaugeTimerTextCSS:set("color","red")
 	GUI["Timer"..k].back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
 	GUI.GaugeFrontCSS:set("background-color","purple")
 	GUI["Timer"..k].front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
-	GUI["Timer"..k]:setValue(v["remaining"], v["duration"] , "<b>" .. v["name"] .. "</b>")
+	--GUI["Timer"..k].text:setStyleSheet(GUI.GaugeTimerTextCSS:getCSS())
+	--GUI["Timer"..k]:setValue(v["remaining"], v["duration"], "<font color=&quot;green&quot;><b>" .. v["name"] .. "</b></font>")
+	--GUI["Timer"..k]:setValue(v["remaining"], v["duration"], "&lt;p style=&quot;font-weight:bold;color:#C9C9C9;letter-spacing:1pt;word-spacing:2pt;font-size:12px;text-align:center;&quot;&gt;" .. v["name"] .. "&lt;/p&gt;")
+	--<p style="font-size:16px">
+	--GUI["Timer"..k]:setValue(v["remaining"], v["duration"] , "" .. v["name"] .. "")
+	GUI["Timer"..k]:setValue(v["remaining"], v["duration"], [[<b><font color="]]..colorvariablehier..[[">]] .. v["name"] .. [[</b></font>]])	
+	--GUI["Timer"..k]:setValue(v["remaining"], v["duration"], v["name"])
+	--GUI["Timer"..k]:setColor("black", nil, nil, "bla bla")
 end
 
 -----------------------------------
@@ -570,50 +578,50 @@ end
 -----------------------------------
 
 GUI.Health = Geyser.Gauge:new({
-  name = "GUI.Health",
-  x = "2%", y = "0%",
-  width="30%", height="80%",
-  orientation="vertical",
-},GUI.Box7)
+	name = "GUI.Health",
+	x = "2%", y = "0%",
+	width="30%", height="80%",
+	orientation="vertical",
+}, GUI.Box7)
 GUI.Health.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
 GUI.GaugeFrontCSS:set("background-color","red")
 GUI.Health.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
 GUI.Health.text:setStyleSheet(GUI.GaugeTextCSS:getCSS())
-GUI.Health:setValue(100,100)
+GUI.Health:setValue(100,100,"TP")
 
 GUI.Endurance = Geyser.Gauge:new({
-  name = "GUI.Endurance",
-  x = "34%", y = "0%",
-  width="30%", height="80%",
-  orientation="vertical",
-},GUI.Box7)
+	name = "GUI.Endurance",
+	x = "34%", y = "0%",
+	width="30%", height="80%",
+	orientation="vertical",
+}, GUI.Box7)
 GUI.Endurance.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
 GUI.GaugeFrontCSS:set("background-color","yellow")
 GUI.Endurance.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
 GUI.Endurance.text:setStyleSheet(GUI.GaugeTextCSS:getCSS())
-GUI.Endurance:setValue(100,100)
+GUI.Endurance:setValue(100,100,"AP")
 
 GUI.Spellpoints = Geyser.Gauge:new({
-  name = "GUI.Spellpoints",
-  x = "66%", y = "0%",
-  width="30%", height="80%",
-  orientation="vertical",
-},GUI.Box7)
+	name = "GUI.Spellpoints",
+	x = "66%", y = "0%",
+	width="30%", height="80%",
+	orientation="vertical",
+}, GUI.Box7)
 GUI.Spellpoints.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
 GUI.GaugeFrontCSS:set("background-color","blue")
 GUI.Spellpoints.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
 GUI.Spellpoints.text:setStyleSheet(GUI.GaugeTextCSS:getCSS())
-GUI.Spellpoints:setValue(100,100)
+GUI.Spellpoints:setValue(100,100, "ZP")
 
 GUI.Mana = Geyser.Gauge:new({
-  name = "GUI.Mana",
-  x = "2%", y = "80%",
-  width="96%", height="20%",
-},GUI.Box7)
+	name = "GUI.Mana",
+	x = "2%", y = "80%",
+	width="96%", height="20%",
+}, GUI.Box7)
 GUI.Mana.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
 GUI.GaugeFrontCSS:set("background-color","green")
 GUI.Mana.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
-GUI.Mana:setValue(9999,9999)
+GUI.Mana:setValue(9999,9999, "Mana")
 
 -----------------------------------------------------------------------------
 

@@ -77,21 +77,6 @@ end
 -- Top-Level-Einträge direkt auf der Oberfläche positioniert.
 -------------------------------------------------------------
 GUIModel.TopMenuEntries = {}
-GUIModel.SubMenuEntries = {}
-
-InsertTopMenu = function(Name,Pos,ChildMsg,labelName,luafun,args)
-	table.insert(GUIModel.TopMenuEntries,Pos,{Name,ChildMsg,labelName,luafun,args})
-end
-
---bla = function()
--- zweiter Parameter Position auf dem Menue, ohne wirds hinten eingebaut, deshalb hab ich auch ein
--- indexed table genommen, damit man die reihenfolge richtig hat, sonst ist der table ja unsortiert
---InsertTopMenu("Top1",1,"Child","label","luafun",{"a1","a2","a3"})
---InsertTopMenu("Top2",2,"Child2","label2","luafun2",{"b1","b2","b3"})
-----Setzen wir mal ein neues 1. Menue, die anderen werden eins hoch geshiftet.
---InsertTopMenu("Top1n",1,"Child3","label3","luafun3")
-
-
 
 function addTopMenuEntry(label, position, childs)
 	--TODO: validierung der Parameter (insbesondere der childs)
@@ -116,13 +101,6 @@ addTopMenuEntry("Top1a", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}
 --	}
 --)
 
---if v[5] then
---	for i=1,#v[5] do
---		echo ("arg["..i.."] = "..v[5][i].."\n")
---	end
---end
-
-
 ----------------------------------------
 -- Mapper (Karte) links oben
 ----------------------------------------
@@ -134,16 +112,25 @@ addTopMenuEntry("Top1a", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}
 
 -- Dummy-Daten für die Timer-Liste. Die Startzeit ist später einfach os.time()
 listOfTimers = {
-  {["name"] = "Arkanschild", ["starttime"] = (os.time() - 550), ["duration"] = 600},
-  {["name"] = "Kampfbeschwörung", ["starttime"] = (os.time() - 580), ["duration"] = 600},
-  {["name"] = "Erdaura", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
-  {["name"] = "Schild", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
-  {["name"] = "Magiertrance", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
-  {["name"] = "Magieaufladung", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
-  {["name"] = "Steinhaut", ["starttime"] = false, ["duration"] = false},
-  {["name"] = "Windhaut", ["starttime"] = false, ["duration"] = false},
-  {["name"] = "Manarausch", ["starttime"] = false, ["duration"] = false},
+	{["name"] = "Arkanschild", ["starttime"] = (os.time() - 550), ["duration"] = 600},
+	{["name"] = "Kampfbeschwörung", ["starttime"] = (os.time() - 580), ["duration"] = 600},
+	{["name"] = "Erdaura", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
+	{["name"] = "Schild", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
+	{["name"] = "Magiertrance", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
+	{["name"] = "Magieaufladung", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
+	{["name"] = "Steinhaut", ["starttime"] = false, ["duration"] = false},
+	{["name"] = "Windhaut", ["starttime"] = false, ["duration"] = false},
+	{["name"] = "Manarausch", ["starttime"] = false, ["duration"] = false},
 }
+
+function registerTimer(name, starttime, duration)
+	table.insert(listOfTimers, {["name"] = name, ["starttime"] = starttime, ["duration"] = duration})
+end
+
+function removeTimer(name)
+	--table.
+end
+
 
 sortedListOfTimers = {}
 for k, v in pairs(listOfTimers) do

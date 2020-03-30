@@ -84,6 +84,30 @@ require "Avalet.scripts.gui"
 require "Avalet.scripts.gui_view"
 
 
+-------------------------------------------------------------------------------------
+--
+-- Timer
+--
+-------------------------------------------------------------------------------------
+-- create a timer in the "first timer group" group
+--permTimer("my timer", "first timer group", 4.5, [[send ("my timer that's in my first timer group fired!")]])
+-- create a timer that's not in any group; just at the top
+--permTimer("my timer", "", 4.5, [[send ("my timer that's in my first timer group fired!")]])
+
+-- enable timer - they start off disabled until you're ready
+--enableTimer("my timer")
+
+-------------------------------------------------------------------------------------
+--
+-- Trigger
+--
+-------------------------------------------------------------------------------------
+
+-- Create a regex trigger that will match on the prompt to record your status
+--permRegexTrigger("Prompt", "", {"^(\d+)h, (\d+)m"}, [[health = tonumber(matches[2]); mana = tonumber(matches[3])]])
+
+
+
 --yajl.to_string(data)
 --Encodes a Lua table into JSON data and returns it as a string. This function is very efficient - if you need to encode into JSON, use this.
 --
