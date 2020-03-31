@@ -82,15 +82,25 @@ Die Datei Avalet.zip ist identisch mit der .mpackage-Datei, die kannst du also a
 
 Wenn du Lust hast, in dieses Projekt auch ein bisschen Zeit zu investieren, freue ich mich natürlich. Ich würde mich zum Beispiel über Bug-Hinweise und Feature-Vorschläge freuen! Du kannst auch die Werkzeuge verwenden, die Github so bereit stellt. Also einen Patch einreichen beispielsweise oder *Issues* melden oder so. Wenn Du mehr machen möchtest, kannst Du später auch *Collaborator* werden, aber im Moment gibt es dafür noch nicht die nötige Struktur.
 
-Besonders freuen würde ich mich aber über Mitarbeit in zwei Bereichen. Und zwar einmal im Bereich "Benutzbarkeit mit Screenreader" und besonders auch im Bereich Design. Darin bin ich nämlich absoluter Anfänger. Wenn du dich da einbringen willst, sprich mich bitte an und lass uns einen Weg finden.
+**Besonders freuen würde ich mich aber über Mitarbeit in zwei Bereichen. Und zwar einmal im Bereich "Benutzbarkeit mit Screenreader" und besonders auch im Bereich "Design".** Darin bin ich nämlich absoluter Anfänger. Wenn du dich da einbringen willst, sprich mich bitte an und lass uns einen Weg finden.
 
-Beachte aber bitte, dass Avalet unter einer sehr freien Lizenz steht. Das würde Deinen Beitrag dann einschließen.
+Avalon ist im Moment als "Avalon-GUI für jedermensch" gedacht. Die Funktionalität soll entsprechend sein. Also: sinnvolle Unterstützung auch (und grade) für Anfänger. Aber kein *scripting* für Fortgeschrittene bitte. Wofür ihr das Plugin-System nutzt müsst ihr selber wissen.
 
-Du kannst mich auch in Avalon kontaktieren, da heiße ich grade Rofhessa.
+**Beachte bitte, dass Avalet unter einer sehr freien Lizenz steht. Das würde Deinen Beitrag dann einschließen.**
+
+Du kannst mich auch in Avalon kontaktieren, da heiße ich Rofhessa.
+
+## Installation für Entwickler
+
+Wenn du Code beisteuern möchtest, dann wäre im Moment das einfachste, wenn Du einfach bei dir im Mudlet entwickelst, den Code etc. in eine .xml-Datei exportierst und mir schickst. Und ich bau das dann ein. Bequemer für mich ist natürlich, wenn du dieses Projekt downloadest, die Ergänzungen direkt machst und es mir als *pull request* schickst. Da ich darauf verzichtet habe, im Mudlet-Editor selbst zu entwickeln, ist dieser Weg aber etwas komplizierter, als er sein müsste. Und zwar geht das so:
+
+Du lädst das ganze Projekt in dein Arbeitsverzeichnis runter, und lädst die Avalet.zip-Datei als Modul in ein sauberes Mudlet-Profil. Das speicherst du dann. Wenn Du jetzt den Script-Editor von Mudlet öffnest, wirst du darin zwar das Modul sehen, aber nur sehr wenig Code. Denn Mudlet zeigt dir nur die "Avalet.xml". Du kannst jetzt aber mit einem externen Editor die Dateien im Projekt bearbeiten. Wenn du das gemacht hast, musst du den Inhalt des Avalet-Ordners in eine ZIP-Datei packen. Das machst du am besten so, dass die von dir als Modul geladene Datei Avalet.zip dabei überschrieben wird. Dann kannst du Mudlet einfach neu starten, das gespeicherte Profil laden und hast die Änderungen vor dir. (Das Modul wird bei jedem Neustart neu aus dem .zip- bzw. .mpackage-Archiv geladen.) Beim Erstellen der Zip-Datei hilft dir auch die Batch-Datei im Projekt - jedenfalls wenn du ein Windows-System hast.
+
+Ich hoffe, dass ich noch Wege finde, das ein bisschen leichter zu machen. Aber jetzt läuft es erstmal so.
 
 ## Shownotes
 
-Avalet würde wirklich überhaupt nicht existieren ohne jemanden, der nicht genannt werden darf. (Naja, will. Bisher.) Nennen wir ihn also Voldemort. Was auch immer hieraus noch wird, Voldi - Du bis Schuld!
+Es gäbe Avalet nicht ohne Twrx! Und wenn ich hier immer nur "ich" schreibe, dann liegt das daran, dass er so schlau ist, mich die ganze Tipperei erledigen zu lassen. Aber er hat alle meine doofen Fragen beantwortet, Code-Beispiele geliefert, Ideen eingebracht und meinen zusammengestümperten Spagetti-Code mit eleganten Lösungen für all meine Probleme aufgewertet. Also egal, wie ihr Mudlet findet - beschwert euch bei Twrx. ;)
 
 ```
             __________________________________________________________
