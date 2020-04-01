@@ -6,7 +6,7 @@
 require "Avalet.scripts.character"
 --require "Avalet.scripts.gui"
 require "Avalet.scripts.atcp"
-
+require "Avalet.scripts.timer"
 
 --if io.exists("/home/vadi/Desktop/file.tx") then
 --  echo("This file exists!")

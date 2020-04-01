@@ -118,33 +118,73 @@ listOfTimers = {
 	{["name"] = "Schild", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
 	{["name"] = "Magiertrance", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
 	{["name"] = "Magieaufladung", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
-	{["name"] = "Steinhaut", ["starttime"] = false, ["duration"] = false},
-	{["name"] = "Windhaut", ["starttime"] = false, ["duration"] = false},
-	{["name"] = "Manarausch", ["starttime"] = false, ["duration"] = false},
+	{["name"] = "Steinhaut", ["starttime"] = "false", ["duration"] = "false"},
+	{["name"] = "Windhaut", ["starttime"] = "false", ["duration"] = "false"},
+	{["name"] = "Manarausch", ["starttime"] = "false", ["duration"] = "false"},
 }
 
-function registerTimer(name, starttime, duration)
-	table.insert(listOfTimers, {["name"] = name, ["starttime"] = starttime, ["duration"] = duration})
+listOfTimers = {}
+
+
+function sortListOfTimers()
+	echo("\nfunc sortListOfTimers()\n")
+	sortedListOfTimers = {}
+	for k, v in pairs(listOfTimers) do
+		
+		echo("ANME: " .. v["name"] .. "\n")
+	
+		if v["duration"] == "false" then
+			echo("add permanent timer\n")
+			table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = 600, ["duration"] = 600})
+		else
+			echo("add temporary timer ... gleich kommt ein ture\n")
+			-- remaining < 0 abfangen!
+			echo("v_duration: " .. v["duration"] .. "\n")
+			echo("os.time: " .. os.time() .. "\n")
+			echo("starttime: " .. v["starttime"] .. "\n")
+			remaining = (v["duration"] - ((os.time() - v["starttime"])))
+			if remaining <= 0 then remaining = 0 end
+			echo("remaining: " .. tostring(remaining) .. "\n")
+			table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = remaining, ["duration"] = v["duration"]})
+			-- table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = v["duration"] - ((os.time() - v["starttime"])), ["duration"] = 600})
+		end
+		--table.insert(sortedListOfTimers, {})
+	end
+
+	sortMyTimers = function(a, b) return a["remaining"] > b["remaining"] end
+	table.sort(sortedListOfTimers, sortMyTimers)
+	echo("Anzahl Elemente in sortedListOfTimers(): "..#sortedListOfTimers.."\n")
+end
+
+sortListOfTimers()
+
+function findTimerByName(name)
+	echo("findTimerByName\n")
+    for k, v in pairs(listOfTimers) do
+        if v["name"] == name then return k end
+    end
+    return nil
+end
+
+function registerTimer(name, duration)
+	echo("\nregisterTimer\n")
+	if duration == false then
+		duration = "false"
+	end
+	table.insert(listOfTimers, {["name"] = name, ["starttime"] = os.time(), ["duration"] = duration})
+	echo("starttime: " .. os.time() .. "\n")
+	sortListOfTimers()
+	raiseEvent("RecreateTimerView")
 end
 
 function removeTimer(name)
-	--table.
+	echo("removeTimer\n")
+	key = findTimerByName(name)
+	table.remove(listOfTimers, key)
+	sortListOfTimers()
+	raiseEvent("RecreateTimerView")
 end
-
-
-sortedListOfTimers = {}
-for k, v in pairs(listOfTimers) do
-	if v["starttime"] == false then
-		table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = 600, ["duration"] = 600})
-	else
-		-- remaining < 0 abfangen!
-		table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = v["duration"] - ((os.time() - v["starttime"])), ["duration"] = 600})
-	end
-	--table.insert(sortedListOfTimers, {})
-end
-
-sortMyTimers = function(a, b) return a["remaining"] > b["remaining"] end
-table.sort(sortedListOfTimers, sortMyTimers)
+--removeTimer("Magiertrance")
 
 -----------------------------------
 -- Gauges für TP, AP, ZP und Mana
@@ -161,7 +201,57 @@ function onRefreshCharacterVollername(event, args)
 	--GUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "<b>" .. args[1] .. "/" .. args[2] .. "</b>")
 end
 registerAnonymousEventHandler("RefreshCharacterVollername", "onRefreshCharacterVollername")
-
 --raiseEvent("RefreshCharacterVollername", ???)
+
+function onRefreshTimerView(event, args)
+	echo("onRefreshTimerView DAS SOLLTE NICHT PASSIEREN\n")
+
+	if #listOfTimers ~= nil then
+		echo("listOfTimers ist nicht nil\n")
+		if #listOfTimers > 0 then
+		echo("listOfTimers ist > 0\n")
+			--timersStopWatch = timersStopWatch or createStopWatch()
+				enableTimer("avaletTimersTimer")
+--			if timersTimer then
+--				echo("timer existiert")
+--			else
+--				echo("timer wird installiert\n")
+--				tempTimer(1, echo("timer hier"))
+--				timersTimer = tempTimer(0.5, refreshTimer())
+--			end
+			--timersTimer = timersTimer or tempTimer(0.5, refreshTimer())
+		else
+			echo("timer disabled\n")
+			disableTimer("avaletTimersTimer")
+			--if timersTimer then killTimer(timersTimer) end
+		end
+	else
+		echo("#listOfTimers == nil\n")
+		disableTimer("avaletTimersTimer")
+		--if timersTimer then killTimer(timersTimer) end
+	end
+	--if timersTimer then killTimer(timersTimer) end
+end
+registerAnonymousEventHandler("RefreshTimerView", "onRefreshTimerView")
+
+function onRecreateTimerView(event, args)
+	echo("onRecreateTimerView\n")
+
+	if #listOfTimers ~= nil then
+		echo("listOfTimers ist nicht nil\n")
+		if #listOfTimers > 0 then
+			echo("listOfTimers ist > 0\n")
+			enableTimer("avaletTimersTimer")
+		else
+			echo("timer disabled\n")
+			disableTimer("avaletTimersTimer")
+		end
+	else
+		echo("#listOfTimers == nild\n")
+		disableTimer("avaletTimersTimer")
+	end
+	recreateTimer()
+end
+registerAnonymousEventHandler("RecreateTimerView", "onRecreateTimerView")
 
 

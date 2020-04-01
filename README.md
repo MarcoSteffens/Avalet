@@ -60,11 +60,17 @@ Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das A
 
 ## Installation
 
-Das eigentliche Modul besteht aus der Datei Avalet.mpackage. Die speicherst du bei dir irgendwo ab. Und importierst sie dann dann mit dem **Modul-Manager** von Mudlet in ein Profil. Vorzugsweise tust du das in ein neues, also sauberes Profil, dann gibt es keine Wechselwirkungen.
+Das eigentliche Modul besteht aus der Datei Avalet.mpackage. Die speicherst du bei dir irgendwo ab.
 
-Wichtig ist noch, dass Du in den `Preferences` auf dem Reiter `General` und in der Rubrik `Game protocols` den Haken bei `Enable GMCP` entfernst. GMCP darf nicht aktiviert sein! Ava*lon* sendet per ATCP stattdessen, und mit eingeschaltetem GMCP funktioniert Ava*let* nicht.
+Dann legst du dir am besten ein sauberes (also neues) Profil in Mudlet an. Und *entfernst* als erstes in den `Preferences` auf dem Reiter `General` und in der Rubrik `Game protocols` den Haken bei `Enable GMCP`. Ava*lon* sendet per ATCP stattdessen, und mit eingeschaltetem GMCP funktioniert Ava*let* nicht.
 
-Die Datei Avalet.zip ist identisch mit der .mpackage-Datei, die kannst du also auch nehmen. Aber .mpackage ist der Standard.
+Anschließend importierst du dann mit dem **Modul-Manager** das vorhin gespeicherte Modul (Avalet.mpackage) in dein Profil. 
+
+Danach sollte alles funktionieren.
+
+Für eine **Aktualisierung** einfach die neuere Version downloaden und die alte damit überschreiben. Anschließend Mudlet neu starten.
+
+(Die Datei Avalet.zip ist - abgesehen vom Namen - identisch mit der .mpackage-Datei, die kannst du also auch nehmen. Aber .mpackage ist der Standard.)
 
 ```
             __________________________________________________________
@@ -94,13 +100,13 @@ Du kannst mich auch in Avalon kontaktieren, da heiße ich Rofhessa.
 
 Wenn du Code beisteuern möchtest, dann wäre im Moment das einfachste, wenn Du einfach bei dir im Mudlet entwickelst, den Code etc. in eine .xml-Datei exportierst und mir schickst. Und ich bau das dann ein. Bequemer für mich ist natürlich, wenn du dieses Projekt downloadest, die Ergänzungen direkt machst und es mir als *pull request* schickst. Da ich darauf verzichtet habe, im Mudlet-Editor selbst zu entwickeln, ist dieser Weg aber etwas komplizierter, als er sein müsste. Und zwar geht das so:
 
-Du lädst das ganze Projekt in dein Arbeitsverzeichnis runter, und lädst die Avalet.zip-Datei als Modul in ein sauberes Mudlet-Profil. Das speicherst du dann. Wenn Du jetzt den Script-Editor von Mudlet öffnest, wirst du darin zwar das Modul sehen, aber nur sehr wenig Code. Denn Mudlet zeigt dir nur die "Avalet.xml". Du kannst jetzt aber mit einem externen Editor die Dateien im Projekt bearbeiten. Wenn du das gemacht hast, musst du den Inhalt des Avalet-Ordners in eine ZIP-Datei packen. Das machst du am besten so, dass die von dir als Modul geladene Datei Avalet.zip dabei überschrieben wird. Dann kannst du Mudlet einfach neu starten, das gespeicherte Profil laden und hast die Änderungen vor dir. (Das Modul wird bei jedem Neustart neu aus dem .zip- bzw. .mpackage-Archiv geladen.) Beim Erstellen der Zip-Datei hilft dir auch die Batch-Datei im Projekt - jedenfalls wenn du ein Windows-System hast.
+Du lädst das ganze Projekt in dein Arbeitsverzeichnis runter, und lädst die Avalet.zip-Datei als Modul in ein sauberes Mudlet-Profil. Das speicherst du dann. Wenn Du jetzt den Script-Editor von Mudlet öffnest, wirst du darin zwar das Modul sehen, aber nur sehr wenig Code. Denn Mudlet zeigt dir nur die "Avalet.xml" und die Trigger etc., die Avalet per Lua-Code erzeugt. Du kannst jetzt aber mit einem externen Editor die Dateien im Projekt bearbeiten. Wenn du das gemacht hast, packst du den Inhalt des Avale-Ordners in eine ZIP-Datei. Das machst du am besten so, dass die von dir als Modul geladene Datei Avalet.zip dabei überschrieben wird. Dann kannst du Mudlet einfach neu starten, das gespeicherte Profil laden und hast die Änderungen vor dir. (Das Modul wird bei jedem Neustart neu aus dem .zip- bzw. .mpackage-Archiv geladen.) Beim Erstellen der Zip-Datei hilft dir auch die Batch-Datei im Projekt - jedenfalls wenn du ein Windows-System hast.
 
 Ich hoffe, dass ich noch Wege finde, das ein bisschen leichter zu machen. Aber jetzt läuft es erstmal so.
 
 ## Shownotes
 
-Es gäbe Avalet nicht ohne Twrx! Und wenn ich hier immer nur "ich" schreibe, dann liegt das daran, dass er so schlau ist, mich die ganze Tipperei erledigen zu lassen. Aber er hat alle meine doofen Fragen beantwortet, Code-Beispiele geliefert, Ideen eingebracht und meinen zusammengestümperten Spagetti-Code mit eleganten Lösungen für all meine Probleme aufgewertet. Also egal, wie ihr Mudlet findet - beschwert euch bei Twrx. ;)
+Es gäbe Avalet nicht ohne Twrx! Und wenn ich hier immer nur "ich" schreibe, dann liegt das daran, dass er so schlau ist, mich die ganze Tipperei erledigen zu lassen. Aber er hat alle meine doofen Fragen beantwortet, Code-Beispiele geliefert, Ideen eingebracht und meinen zusammengestümperten Spagetti-Code mit eleganten Lösungen für all meine Probleme aufgewertet. Also egal, wie ihr Avalet findet - beschwert euch bei Twrx. ;)
 
 ```
             __________________________________________________________

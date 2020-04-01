@@ -120,13 +120,14 @@ GUI.GaugeFrontCSS = CSSMan.new([[
 
 --	background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #78bd33, stop: 0.1 #6ebd20, stop: 0.49 #4c9900, stop: 0.5 #387000, stop: 1 #4c9900);
 GUI.GaugeTextCSS = CSSMan.new([[
-	padding: 25px;
+	padding: 5px;
 	font-weight: bold;
 ]])
 
 --	background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #78bd33, stop: 0.1 #6ebd20, stop: 0.49 #4c9900, stop: 0.5 #387000, stop: 1 #4c9900);
 GUI.GaugeTimerTextCSS = CSSMan.new([[
 	font-weight: bold;
+	padding: 50px;
 ]])
 
 ----------------------------------------
@@ -248,14 +249,21 @@ GUI.Box4:setStyleSheet(GUI.BoxCSS:getCSS())
 
 -- Box5 enthält die Fortschrittsbalken, mit denen die Timer angezeigt werden. Links in 
 -- der Mitte. Box5 ist kein Label-Element, sondern ein Container, und die sind unsichtbar(?)
--- Deshalb geht das hier mit dem weißen Rahmen nicht. Lösung wäre, hier noch ein Label
--- zu nehmen, dort dann den Container drin, und in dem dann die Gauges. Das ist ein TODO.
-GUI.Box5 = Geyser.Container:new({
-	name = "GUI.Box5",
+-- Deshalb geht das hier mit dem weißen Rahmen nicht. Lösung ist, hier noch ein Label
+-- zu nehmen, dort dann den Container drin, und in dem dann die Gauges.
+GUI.Box5a = Geyser.Label:new({
+	name = "GUI.Box5a",
 	x = "0%", y = "50%",
 	width = "100%",
 	height = "35%",
 }, GUI.Left)
+GUI.Box5a:setStyleSheet(GUI.BoxCSS:getCSS())
+GUI.Box5 = Geyser.Container:new({
+	name = "GUI.Box5",
+	x = "2%", y = "0%",
+	width = "98%",
+	height = "100%",
+}, GUI.Box5a)
 --GUI.Box5:setStyleSheet(GUI.BoxCSS:getCSS())
 
 
@@ -540,38 +548,90 @@ GUI.Mapper = Geyser.Mapper:new({
 ---------------------------------------------------------------------------
 -- Gauges für die Timer
 ---------------------------------------------------------------------------
-colorvariablehier="white"
-for k, v in pairs(sortedListOfTimers) do
+
+--for k, v in pairs(sortedListOfTimers) do
+for k = 1, 9, 1 do
 	GUI["Timer"..k] = Geyser.Gauge:new({
 		name = "GUI.Timer"..k,
 		x = "4%", y = (100-(k*10)-5).."%",
 		width="90%", height="9%",
 		orientation = "goofy",
 	}, GUI.Box5)
-	if v["remaining"] < 30 then
-		colorvariablehier="red"
-		--GUI.GaugeBackCSS:set("font-color","red")
-	elseif v["remaining"] < 60 then
-		colorvariablehier="yellow"
-		--GUI.GaugeFrontCSS:set("font-color","yellow")
-	else
-		colorvariablehier="white"
-	end
-	GUI.GaugeBackCSS:set("color","red")
-	GUI.GaugeFrontCSS:set("color","red")
-	GUI.GaugeTimerTextCSS:set("color","red")
 	GUI["Timer"..k].back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
 	GUI.GaugeFrontCSS:set("background-color","purple")
 	GUI["Timer"..k].front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
-	--GUI["Timer"..k].text:setStyleSheet(GUI.GaugeTimerTextCSS:getCSS())
-	--GUI["Timer"..k]:setValue(v["remaining"], v["duration"], "<font color=&quot;green&quot;><b>" .. v["name"] .. "</b></font>")
-	--GUI["Timer"..k]:setValue(v["remaining"], v["duration"], "&lt;p style=&quot;font-weight:bold;color:#C9C9C9;letter-spacing:1pt;word-spacing:2pt;font-size:12px;text-align:center;&quot;&gt;" .. v["name"] .. "&lt;/p&gt;")
-	--<p style="font-size:16px">
-	--GUI["Timer"..k]:setValue(v["remaining"], v["duration"] , "" .. v["name"] .. "")
-	GUI["Timer"..k]:setValue(v["remaining"], v["duration"], [[<b><font color="]]..colorvariablehier..[[">]] .. v["name"] .. [[</b></font>]])	
-	--GUI["Timer"..k]:setValue(v["remaining"], v["duration"], v["name"])
-	--GUI["Timer"..k]:setColor("black", nil, nil, "bla bla")
+	GUI["Timer"..k]:setValue(600, 600, "")
 end
+
+
+
+
+function recreateTimer()
+	echo("func recreateTimer\n")
+	sortListOfTimers()
+
+	for k = 1, 9, 1 do
+		--GUI["Timer"..k] = nil
+		--function hideGauge(gaugeName)
+		hideWindow("GUI.Timer"..k.."_front")
+		hideWindow("GUI.Timer"..k.."_back")	
+		GUI["Timer"..k]:setText ("")
+	end
+
+	timerSchriftfarbe="white"
+
+	for k, v in pairs(sortedListOfTimers) do
+		--GUI["Timer"..k] = Geyser.Gauge:new({
+		--	name = "GUI.Timer"..k,
+		--	x = "4%", y = (100-(k*10)-5).."%",
+		--	width="90%", height="9%",
+		--	orientation = "goofy",
+		--}, GUI.Box5)
+		showWindow("GUI.Timer"..k.."_front")
+		showWindow("GUI.Timer"..k.."_back")		
+		if v["remaining"] < 1 then
+			v["remaining"] = 1
+			timerSchriftfarbe="fuchsia"
+		elseif v["remaining"] < 30 then
+			timerSchriftfarbe="red"
+		elseif v["remaining"] < 60 then
+			timerSchriftfarbe="yellow"
+		else
+			timerSchriftfarbe="white"
+		end
+		--GUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), v["name"])
+		GUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), [[<b><font color="]]..timerSchriftfarbe..[[">&nbsp;]] .. v["name"] .. [[</b></font>]])
+		echo("\nRECREATE remaining: " .. v["remaining"] .. ", duration: " .. v["duration"] .. ", name: " .. v["name"] .. "\n\n")
+	end
+end
+
+recreateTimer()
+
+function refreshTimer()
+	echo("func refreshTimer\n")
+	sortListOfTimers()
+
+	timerSchriftfarbe="white"
+	for k, v in pairs(sortedListOfTimers) do
+		showWindow("GUI.Timer"..k.."_front")
+		showWindow("GUI.Timer"..k.."_back")		
+		if v["remaining"] < 1 then
+			v["remaining"] = 1
+			timerSchriftfarbe="fuchsia"
+		elseif v["remaining"] < 30 then
+			timerSchriftfarbe="red"
+		elseif v["remaining"] < 60 then
+			timerSchriftfarbe="yellow"
+		else
+			timerSchriftfarbe="white"
+		end
+		--GUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), v["name"])
+		GUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), [[<b><font color="]]..timerSchriftfarbe..[[">&nbsp;]] .. v["name"] .. [[</b></font>]])	
+		echo("REFRESH remaining: " .. tostring(v["remaining"]) .. ", duration: " .. tostring(v["duration"]) .. ", name: " .. tostring(v["name"]) .. "\n")		
+	end
+end
+
+
 
 -----------------------------------
 -- Gauges für TP, AP, ZP und Mana
@@ -584,10 +644,12 @@ GUI.Health = Geyser.Gauge:new({
 	orientation="vertical",
 }, GUI.Box7)
 GUI.Health.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
-GUI.GaugeFrontCSS:set("background-color","red")
+GUI.GaugeFrontCSS:set("background-color","darkred")
 GUI.Health.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
 GUI.Health.text:setStyleSheet(GUI.GaugeTextCSS:getCSS())
-GUI.Health:setValue(100,100,"TP")
+--GUI.Health:setValue(100,100,"TP")
+--GUI.Health:setValue(100,100,[[<b><center>999/999</center></br><center>TP</center></b>]])
+GUI.Health:setValue(100,100,[[<b><center>TP</center></b>]])
 
 GUI.Endurance = Geyser.Gauge:new({
 	name = "GUI.Endurance",
@@ -596,10 +658,13 @@ GUI.Endurance = Geyser.Gauge:new({
 	orientation="vertical",
 }, GUI.Box7)
 GUI.Endurance.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
-GUI.GaugeFrontCSS:set("background-color","yellow")
+GUI.GaugeFrontCSS:set("background-color","goldenrod")
 GUI.Endurance.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
 GUI.Endurance.text:setStyleSheet(GUI.GaugeTextCSS:getCSS())
-GUI.Endurance:setValue(100,100,"AP")
+--GUI.Endurance:setValue(100,100,"AP")
+--GUI.Endurance:setValue(100,100,[[<b><center>999/999</center></br><center>AP</center></b>]])
+GUI.Endurance:setValue(100,100,[[<b><center>AP</center></b>]])
+
 
 GUI.Spellpoints = Geyser.Gauge:new({
 	name = "GUI.Spellpoints",
@@ -611,7 +676,9 @@ GUI.Spellpoints.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
 GUI.GaugeFrontCSS:set("background-color","blue")
 GUI.Spellpoints.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
 GUI.Spellpoints.text:setStyleSheet(GUI.GaugeTextCSS:getCSS())
-GUI.Spellpoints:setValue(100,100, "ZP")
+--GUI.Spellpoints:setValue(100,100, "ZP")
+--GUI.Spellpoints:setValue(100,100, [[<b><center>999/999</center></br><center>ZP</center></b>]])
+GUI.Spellpoints:setValue(100,100, [[<b><center>ZP</center></b>]])
 
 GUI.Mana = Geyser.Gauge:new({
 	name = "GUI.Mana",
@@ -621,26 +688,30 @@ GUI.Mana = Geyser.Gauge:new({
 GUI.Mana.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
 GUI.GaugeFrontCSS:set("background-color","green")
 GUI.Mana.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
-GUI.Mana:setValue(9999,9999, "Mana")
+--GUI.Mana:setValue(9999,9999, "Mana")
+--GUI.Mana:setValue(9999,9999, [[<b><center>9999/9999 Mana</center></b>]])
+GUI.Mana:setValue(9999,9999, [[<b><center>Mana</center></b>]])
 
 -----------------------------------------------------------------------------
 
 function onRefreshHealthBar(event, args)
-	GUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "<b>" .. args[1] .. "/" .. args[2] .. "</b>")
+	GUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>TP</center></b>")
+	-- GUI.Health:setValue(100,100,[[<b><center>999/999</center></br><center>TP</center></b>]])
+	-- [[<b><font color="]]..timerSchriftfarbe..[[">&nbsp;]] .. v["name"] .. [[</b></font>]]
 end
 registerAnonymousEventHandler("RefreshHealthBar", "onRefreshHealthBar")
 
 function onRefreshEnduranceBar(event, args)
-	GUI.Endurance:setValue(tonumber(args[1]), tonumber(args[2]), "<b>" .. args[1] .. "/" .. args[2] .. "</b>")
+	GUI.Endurance:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>AP</center></b>")
 end
 registerAnonymousEventHandler("RefreshEnduranceBar", "onRefreshEnduranceBar")
 
 function onRefreshSpellpointsBar(event, args)
-	GUI.Spellpoints:setValue(tonumber(args[1]), tonumber(args[2]), "<b>" .. args[1] .. "/" .. args[2] .. "</b>")
+	GUI.Spellpoints:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>ZP</center></b>")
 end
 registerAnonymousEventHandler("RefreshSpellpointsBar", "onRefreshSpellpointsBar")
 
 function onRefreshManaBar(event, args)
-	GUI.Mana:setValue(tonumber(args[1]), tonumber(args[2]), "<b>" .. args[1] .. "/" .. args[2] .. "</b>")
+	GUI.Mana:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. " Mana</center></b>")
 end
 registerAnonymousEventHandler("RefreshManaBar", "onRefreshManaBar")
