@@ -1,6 +1,6 @@
 # Avalet
 
-> **ACHTUNG: Dieses Projekt ist noch *pre-pre-alpha*! Es gibt hier also vielleicht schon was zu sehen, aber nichts davon funktioniert. Auch wenn der Text was anderes behauptet. Wenn das Modul was gescheites macht, steht das hier auch. (Bzw. das hier steht hier dann nicht mehr.)**
+> **ACHTUNG: Dieses Projekt ist noch *pre-alpha*! Es gibt hier also vielleicht schon was zu sehen, aber nichts davon funktioniert. Auch wenn der Text was anderes behauptet. Wenn das Modul was gescheites macht, steht das hier auch. (Bzw. das hier steht hier dann nicht mehr.)**
 
 > **NOCHMAL ACHTUNG: Wer Texte für Timer zuliefern möchte kann das auch in einem Dropbox-Paper machen. Nämlich hier: [Schildzauber, Auren und andere Timer in Avalon](https://paper.dropbox.com/doc/Schilde-Auren-und-andere-Timer-in-Avalon--AwzQroKtD73zHn6jNa2GIFiWAQ-1yKShCfqPZ6b21iU5vWO4). Dort ist auch nochmal beschrieben, was genau ich brauche.**
 > **Aber ich nehme das auch per Mudmail (Rofhessa), Mail (rofhessa@gmx-topmail.de), PasteBin, Brieftaube oder wie auch immer entgegen. Hauptsache, die originale Formatierung bleibt erhalten.**
@@ -8,8 +8,8 @@
 Avalet ist ein Mudlet-Module für das [MUD Avalon](https://avalon.mud.de/). Für ein bisschen (mehr) Farbe und ein bisschen Klicki-Bunti.
 
 Avalet bietet in erster Linie:
-- Einen nicht zu übersehenden Überblick über TP, ZP, AP und Mana!*(coming soon)*
-- Eine Anzeige von Schildzaubern, Auren und anderen Timern! *(coming soon)*
+- Einen nicht zu übersehenden Überblick über TP, ZP, AP und Mana!
+- Eine Anzeige von Schildzaubern, Auren und anderen Timern! Mit einem *fancy!* Fortschrittsbalken! ;)
 - Eine Karte (und einen Mapper)! *(coming soon)*
 - Viel mehr *bling-bling* als Plain-Avalon!
 - Noch vieles mehr! *(coming soon)*

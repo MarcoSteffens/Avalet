@@ -563,73 +563,7 @@ for k = 1, 9, 1 do
 	GUI["Timer"..k]:setValue(600, 600, "")
 end
 
-
-
-
-function recreateTimer()
-	echo("func recreateTimer\n")
-	sortListOfTimers()
-
-	for k = 1, 9, 1 do
-		--GUI["Timer"..k] = nil
-		--function hideGauge(gaugeName)
-		hideWindow("GUI.Timer"..k.."_front")
-		hideWindow("GUI.Timer"..k.."_back")	
-		GUI["Timer"..k]:setText ("")
-	end
-
-	timerSchriftfarbe="white"
-
-	for k, v in pairs(sortedListOfTimers) do
-		--GUI["Timer"..k] = Geyser.Gauge:new({
-		--	name = "GUI.Timer"..k,
-		--	x = "4%", y = (100-(k*10)-5).."%",
-		--	width="90%", height="9%",
-		--	orientation = "goofy",
-		--}, GUI.Box5)
-		showWindow("GUI.Timer"..k.."_front")
-		showWindow("GUI.Timer"..k.."_back")		
-		if v["remaining"] < 1 then
-			v["remaining"] = 1
-			timerSchriftfarbe="fuchsia"
-		elseif v["remaining"] < 30 then
-			timerSchriftfarbe="red"
-		elseif v["remaining"] < 60 then
-			timerSchriftfarbe="yellow"
-		else
-			timerSchriftfarbe="white"
-		end
-		--GUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), v["name"])
-		GUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), [[<b><font color="]]..timerSchriftfarbe..[[">&nbsp;]] .. v["name"] .. [[</b></font>]])
-		echo("\nRECREATE remaining: " .. v["remaining"] .. ", duration: " .. v["duration"] .. ", name: " .. v["name"] .. "\n\n")
-	end
-end
-
 recreateTimer()
-
-function refreshTimer()
-	echo("func refreshTimer\n")
-	sortListOfTimers()
-
-	timerSchriftfarbe="white"
-	for k, v in pairs(sortedListOfTimers) do
-		showWindow("GUI.Timer"..k.."_front")
-		showWindow("GUI.Timer"..k.."_back")		
-		if v["remaining"] < 1 then
-			v["remaining"] = 1
-			timerSchriftfarbe="fuchsia"
-		elseif v["remaining"] < 30 then
-			timerSchriftfarbe="red"
-		elseif v["remaining"] < 60 then
-			timerSchriftfarbe="yellow"
-		else
-			timerSchriftfarbe="white"
-		end
-		--GUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), v["name"])
-		GUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), [[<b><font color="]]..timerSchriftfarbe..[[">&nbsp;]] .. v["name"] .. [[</b></font>]])	
-		echo("REFRESH remaining: " .. tostring(v["remaining"]) .. ", duration: " .. tostring(v["duration"]) .. ", name: " .. tostring(v["name"]) .. "\n")		
-	end
-end
 
 
 
@@ -640,7 +574,7 @@ end
 GUI.Health = Geyser.Gauge:new({
 	name = "GUI.Health",
 	x = "2%", y = "0%",
-	width="30%", height="80%",
+	width="30%", height="75%",
 	orientation="vertical",
 }, GUI.Box7)
 GUI.Health.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
@@ -653,8 +587,8 @@ GUI.Health:setValue(100,100,[[<b><center>TP</center></b>]])
 
 GUI.Endurance = Geyser.Gauge:new({
 	name = "GUI.Endurance",
-	x = "34%", y = "0%",
-	width="30%", height="80%",
+	x = "35%", y = "0%",
+	width="30%", height="75%",
 	orientation="vertical",
 }, GUI.Box7)
 GUI.Endurance.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
@@ -668,8 +602,8 @@ GUI.Endurance:setValue(100,100,[[<b><center>AP</center></b>]])
 
 GUI.Spellpoints = Geyser.Gauge:new({
 	name = "GUI.Spellpoints",
-	x = "66%", y = "0%",
-	width="30%", height="80%",
+	x = "68%", y = "0%",
+	width="30%", height="75%",
 	orientation="vertical",
 }, GUI.Box7)
 GUI.Spellpoints.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
@@ -682,7 +616,7 @@ GUI.Spellpoints:setValue(100,100, [[<b><center>ZP</center></b>]])
 
 GUI.Mana = Geyser.Gauge:new({
 	name = "GUI.Mana",
-	x = "2%", y = "80%",
+	x = "2%", y = "78%",
 	width="96%", height="20%",
 }, GUI.Box7)
 GUI.Mana.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
