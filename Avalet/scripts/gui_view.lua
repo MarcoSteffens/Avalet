@@ -16,6 +16,14 @@
 -- Autor ansonsten: Marco Steffens
 --------------------------------------------------------------------------------
 
+tConfig = {}
+
+tConfig.MainColorText = "#ffffff"
+tConfig.MainLabelBackground = "#303030"
+tConfig.MainColorBackground = "#000000"
+tConfig.MainColorBorder = "#999999"
+tConfig.MainColorHover = "#505050"
+
 ----------------------------------------
 -- CSSMan von Vadi
 ----------------------------------------
@@ -94,7 +102,68 @@ GUI.BoxCSS = CSSMan.new([[
 	margin: 10px;
 ]])
 
--- CSS Gauges
+-- CSS Tab-Element ---------------------------------------------
+
+GUI.MenuFooterCSS = CSSMan.new([[
+  background-color: rgb(0,0,70);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+]])
+
+-- Each window actually has two labels. One for the light blue background, and another for the dark blue center. This will create that dark blue center. 
+GUI.MenuCenterCSS = CSSMan.new([[
+  background-color: rgb(0,0,50);
+  border-radius: 10px;
+  margin: 5px;
+]])
+
+-- Hier werden die Tabs und die Seiten dazu erzeugt.
+-- Erzeugt einen Tab für jeden Eintrag in der Menu-Liste
+-- Stylesheet für jeden Tab
+--background-color: ]]..menu.color1..[[;
+--background-color: rgb(20,0,20);
+GUI.MenuTabCSS = CSSMan.new([[
+	background-color: rgb(0,0,70);
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	margin-right: 1px;
+	margin-left: 1px;
+]])
+
+-- Now we create the windows that appear when each tab is clicked. Each window has two labels, one atop the other. The first, which we'll create here, has rounded edges on its bottom. 
+GUI.MenuAtopCSS = CSSMan.new([[
+	background-color: rgb(0,0,70);
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+]])
+
+-- The second label serves as the window's center and has rounded edges on all sides. And a margin of 5px from it's parent, the label we just created. When adding stuff to your windows, this is the label you'll want to use. menu.<tabname>center
+GUI.MenuCenterCSS = CSSMan.new([[
+	background-color: rgb(0,0,50);
+	border-radius: 10px;
+	margin: 5px;
+]])
+
+
+
+-- CSS Top Menu ------------------------------------------------
+
+--	border-width: 1px;
+--	border-color: white;
+--	margin: 2px; 
+--	border-style: solid;
+--	border-radius: 7;
+--	padding: 3px;
+-- 	qproperty-alignment: 'AlignTop';
+GUI.MenuLabelCSS = CSSMan.new([[
+	background-color: rgba(0,0,0,100);
+	font-weight: bold;
+	font-size: 16pt;
+	color: white;
+]])
+--GUI.TopMenuOptions:echo([[<p style="font-size:22px"><b><font color="white">&#9881;]])
+
+-- CSS Gauges --------------------------------------------------
 
 GUI.GaugeBackCSS = CSSMan.new([[
 	background-color: rgba(0,0,0,0);
@@ -325,16 +394,17 @@ GUI.MenuFooter = Geyser.Label:new({
   width = "100%",
   height = "90%",
 }, GUI.MenuContainer)
-
 --  background-color:black;
 --  background-color: rgb(20,0,20);
-GUI.MenuFooter:setStyleSheet([[
-  background-color: rgb(0,0,70);
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-]])
+GUI.MenuFooter:setStyleSheet(GUI.MenuFooterCSS:getCSS())
+--GUI.MenuFooter:setStyleSheet([[
+--  background-color: rgb(0,0,70);
+--  border-bottom-left-radius: 10px;
+--  border-bottom-right-radius: 10px;
+--]])
 
--- Each window actually has two labels. One for the light blue background, and another for the dark blue center. This will create that dark blue center. 
+-- Each window actually has two labels. One for the light blue background,
+-- and another for the dark blue center. This will create that dark blue center. 
 GUI.MenuCenter = Geyser.Label:new({
   name = "MenuCenter",
   x = 0, y = 0,
@@ -343,11 +413,12 @@ GUI.MenuCenter = Geyser.Label:new({
 }, GUI.MenuFooter)
 --  background-color: rgb(20,0,20);
 --  background-color: rgb(255,255,255);
-GUI.MenuCenter:setStyleSheet([[
-  background-color: rgb(0,0,50);
-  border-radius: 10px;
-  margin: 5px;
-]])
+GUI.MenuCenter:setStyleSheet(GUI.MenuCenterCSS:getCSS())
+--GUI.MenuCenter:setStyleSheet([[
+--  background-color: rgb(0,0,50);
+--  border-radius: 10px;
+--  margin: 5px;
+--]])
 
 -- Hier werden die Tabs und die Seiten dazu erzeugt.
 GUI.menu = {}
@@ -357,17 +428,7 @@ for k, v in pairs(GUIModel.menu.tabs) do
 	GUI.menu[v.."tab"] = Geyser.Label:new({
 		name = "menu."..v.."tab",
 	  }, GUI.MenuHeader)
-	-- Stylesheet für jeden Tab
-	--background-color: ]]..menu.color1..[[;
-	--background-color: rgb(20,0,20);
-	GUI.menu[v.."tab"]:setStyleSheet([[
-		background-color: rgb(0,0,70);
-		border-top-left-radius: 10px;
-		border-top-right-radius: 10px;
-		margin-right: 1px;
-		margin-left: 1px;
-	  ]])
-	-- Beschriftung für jeden Tab
+	GUI.menu[v.."tab"]:setStyleSheet(GUI.MenuTabCSS:getCSS())
 	GUI.menu[v.."tab"]:echo("<center>"..v)
 
 	-- We need our tabs to do stuff when clicked, so we'll assign it a callback function, GUI.menu.click, which we'll create later on. Our tab name is the argument. 
@@ -380,11 +441,12 @@ for k, v in pairs(GUIModel.menu.tabs) do
 		width = "100%",
 		height = "100%",
 	  }, GUI.MenuFooter)
-	  GUI.menu[v]:setStyleSheet([[
-		background-color: rgb(0,0,70);
-		border-bottom-left-radius: 10px;
-		border-bottom-right-radius: 10px;
-	  ]])
+	GUI.menu[v]:setStyleSheet(GUI.MenuAtopCSS:getCSS())
+--	  GUI.menu[v]:setStyleSheet([[
+--		background-color: rgb(0,0,70);
+--		border-bottom-left-radius: 10px;
+--		border-bottom-right-radius: 10px;
+--	  ]])
 	-- The second label serves as the window's center and has rounded edges on all sides. And a margin of 5px from it's parent, the label we just created. When adding stuff to your windows, this is the label you'll want to use. menu.<tabname>center
 	GUI.menu[v.."center"] = Geyser.Label:new({
 		name = "menu."..v.."center",
@@ -392,11 +454,12 @@ for k, v in pairs(GUIModel.menu.tabs) do
 		width = "100%",
 		height = "100%",
 	  }, GUI.menu[v])
-	GUI.menu[v.."center"]:setStyleSheet([[
-		background-color: rgb(0,0,50);
-		border-radius: 10px;
-		margin: 5px;
-	]])
+	GUI.menu[v.."center"]:setStyleSheet(GUI.MenuCenterCSS:getCSS())
+--	GUI.menu[v.."center"]:setStyleSheet([[
+--		background-color: rgb(0,0,50);
+--		border-radius: 10px;
+--		margin: 5px;
+--	]])
 	  
 	--------
 	-- Inhalte der Tabs
@@ -442,26 +505,8 @@ end
 -- Top-Level-Einträge direkt auf der Oberfläche positioniert.
 -------------------------------------------------------------
 
-tConfig = {}
-
-tConfig.MainColorText = "#ffffff"
-tConfig.MainLabelBackground = "#303030"
-tConfig.MainColorBackground = "#000000"
-tConfig.MainColorBorder = "#999999"
-tConfig.MainColorHover = "#505050"
-
-
----------------------------- Standard CSS fuer die Menü-Label etc -----------------------------------
-LabelCSS = CSSMan.new([[
-	background-color:]]..tConfig.MainLabelBackground..[[;
-	border-width: 1px;
-	border-color: ]]..tConfig.MainColorBorder..[[;
-	margin: 2px; 
-	border-style: solid;
-	border-radius: 7;
-	padding: 3px;
-]])
-
+--GUI.MenuLabelCSS
+--TopMenuOptions[i]:setStyleSheet(GUI.MenuLabelCSS:getCSS())
 
 d = 0
 for k, v in ipairs(GUIModel.TopMenuEntries) do
@@ -474,8 +519,10 @@ for k, v in ipairs(GUIModel.TopMenuEntries) do
 		height = 35,
 		nestable = true,
 	})
-	GUI["TopMenu"..v[1]]:setStyleSheet([[background-color:  ]]..tConfig.MainLabelBackground..[[;]])
-	GUI["TopMenu"..v[1]]:echo([[<p style="font-size:22px"><b><font color="white">]]..v[1])
+	GUI["TopMenu"..v[1]]:setStyleSheet(GUI.MenuLabelCSS:getCSS())
+	GUI["TopMenu"..v[1]]:setFontSize(12)
+	GUI["TopMenu"..v[1]]:echo(v[1])
+	--GUI["TopMenu"..v[1]]:echo([[<p style="font-size:22px"><b><font color="white">]]..v[1])
 	--setLabelClickCallback( "TopMenuOptions", "ClickTopMenuPreferences")
 	--setLabelClickCallback(labelName, luaFunctionName, [any arguments])
 	local subMenuEntries = {}
@@ -492,6 +539,7 @@ for k, v in ipairs(GUIModel.TopMenuEntries) do
 			layoutDir="BV", 
 			message=v3[2]
 		})
+		GUI["TopMenu"..v[1]..v3[1]]:setStyleSheet(GUI.MenuLabelCSS:getCSS())
 		--TopMenuOptions[i]:setStyleSheet(LabelCSS:getCSS())
 		--setLabelClickCallback( "TopMenuOptions"..i, "ClickTopMenuCallback","tDir[i]","bla bla")
 		--setLabelClickCallback(labelName, luaFunctionName, [any arguments])
@@ -505,7 +553,9 @@ for k, v in ipairs(GUIModel.TopMenuEntries) do
 	d = d+1
 end
 
+-------------------------
 -- Menü "Options"
+-------------------------
 -- wird hier extra hinzugefügt.
 -- Menü-Label dürfen nicht in einem Container sein, deshalb sind die Top-Level-Einträge direkt auf der Oberfläche positioniert.
 GUI.TopMenuOptions= Geyser.Label:new({ 
@@ -513,11 +563,13 @@ GUI.TopMenuOptions= Geyser.Label:new({
 	x = "62%", 
 	y = "1.5%" , 
 	width = 35,
-	height = 35,
+	height = 30,
 	nestable = true,
 })
-GUI.TopMenuOptions:setStyleSheet([[background-color:  ]]..tConfig.MainLabelBackground..[[;]])
-GUI.TopMenuOptions:echo([[<p style="font-size:22px"><b><font color="white">&#9881;]])
+GUI.TopMenuOptions:setStyleSheet(GUI.MenuLabelCSS:getCSS())
+GUI.TopMenuOptions:setFontSize(12)
+GUI.TopMenuOptions:echo([[&#9881;]])
+--GUI.TopMenuOptions:echo([[<p style="font-size:22px"><b><font color="white">&#9881;]])
 --setLabelClickCallback( "TopMenuOptions", "ClickTopMenuPreferences")
 --setLabelClickCallback(labelName, luaFunctionName, [any arguments])
 
@@ -530,7 +582,7 @@ GUI.TopMenuOptions[i] = GUI.TopMenuOptions:addChild({
 	layoutDir="BV", 
 	message="comming soon"
 })
---TopMenuOptions[i]:setStyleSheet(LabelCSS:getCSS())
+GUI.TopMenuOptions[i]:setStyleSheet(GUI.MenuLabelCSS:getCSS())
 --setLabelClickCallback( "TopMenuOptions"..i, "ClickTopMenuCallback","tDir[i]","bla bla")
 --setLabelClickCallback(labelName, luaFunctionName, [any arguments])
 
@@ -628,24 +680,4 @@ GUI.Mana:setValue(9999,9999, [[<b><center>Mana</center></b>]])
 
 -----------------------------------------------------------------------------
 
-function onRefreshHealthBar(event, args)
-	GUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>TP</center></b>")
-	-- GUI.Health:setValue(100,100,[[<b><center>999/999</center></br><center>TP</center></b>]])
-	-- [[<b><font color="]]..timerSchriftfarbe..[[">&nbsp;]] .. v["name"] .. [[</b></font>]]
-end
-registerAnonymousEventHandler("RefreshHealthBar", "onRefreshHealthBar")
 
-function onRefreshEnduranceBar(event, args)
-	GUI.Endurance:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>AP</center></b>")
-end
-registerAnonymousEventHandler("RefreshEnduranceBar", "onRefreshEnduranceBar")
-
-function onRefreshSpellpointsBar(event, args)
-	GUI.Spellpoints:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>ZP</center></b>")
-end
-registerAnonymousEventHandler("RefreshSpellpointsBar", "onRefreshSpellpointsBar")
-
-function onRefreshManaBar(event, args)
-	GUI.Mana:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. " Mana</center></b>")
-end
-registerAnonymousEventHandler("RefreshManaBar", "onRefreshManaBar")

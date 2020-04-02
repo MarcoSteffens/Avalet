@@ -48,83 +48,15 @@ end
 ----------------------------------------
 
 function onATCPEvent(event, arg)
-	--echo("AvalonDunkel.event = " .. event .. "\n")
-	--echo("AvalonDunkel.arg = " .. arg .. "\n")
-	--echo("\n" .. table_to_string(atcp) .. "\n\n\n")
-	
---	local i,v
---	for i,v in pairs(atcp) do
---		tPlayer[string.format ("%s",string.lower(string.sub(i,7)))] = string.trim(v)
---		echo("onATCP",os.date("[%H:%M] ")..i.."  = "..v.."\n")
---	end
---	atcp={}
 
-	if event == "AvalonName" then 
-		echo ("AvalonName = " .. arg .. "\n")
-		player.name = arg
-	elseif event == "AvalonGilde" then 
-		echo("AvalonGilde = " .. arg .. "\n")
-		player.gilde = arg
-	elseif event == "AvalonVollName" then
-		echo("AvalonVollName = " .. arg .. "\n")
-		player.vollername = arg
-		--raiseEvent("RefreshCharacterVollername", arg)
-	elseif event == "AvalonHoehe" then echo("AvalonHoehe = " .. arg .. "\n")
+	if event == "AvalonHoehe" then echo("AvalonHoehe = " .. arg .. "\n")
 	elseif event == "AuthRequest" then echo("AuthRequest = " .. arg .. "\n")
-	elseif event == "AvalonDurst" then 
-		echo("AvalonDurst = " .. arg .. "\n")
-		player.durst = arg
 	elseif event == "AvalonDunkel" then echo("AvalonDunkel = " .. arg .. "\n")
-	elseif event == "AvalonZuenfte" then 
-		echo("AvalonZuenfte = " .. arg .. "\n")
-		player.zuenfte = arg
-	elseif event == "AvalonPortfolio" then 
-		echo("AvalonPortfolio = " .. arg .. "\n")
-		player.portfolio = arg
 	elseif event == "AvalonFlucht" then echo("AvalonFlucht = " .. arg .. "\n")
 	elseif event == "AvalonSchutz" then echo("AvalonSchutz = " .. arg .. "\n")
-	elseif event == "AvalonTP" then 
-		player.stats.tp = tonumber(arg)
-		raiseEvent("RefreshHealthBar", {player.stats.tp, player.stats.tp_max})
-	elseif event == "AvalonMAXTP" then
-		player.stats.tp_max = tonumber(arg)
-		raiseEvent("RefreshHealthBar", {player.stats.tp, player.stats.tp_max})
-	elseif event == "AvalonAP" then 
-		player.stats.ap = tonumber(arg)
-		raiseEvent("RefreshEnduranceBar", {player.stats.ap, player.stats.ap_max})
-	elseif event == "AvalonMAXAP" then 
-		player.stats.ap_max = tonumber(arg)
-		raiseEvent("RefreshEnduranceBar", {player.stats.ap, player.stats.ap_max})
-	elseif event == "AvalonSP" then 
-		player.stats.zp = tonumber(arg)
-		raiseEvent("RefreshSpellpointsBar", {player.stats.zp, player.stats.zp_max})
-	elseif event == "AvalonMAXSP" then 
-		player.stats.zp_max = tonumber(arg)
-		raiseEvent("RefreshSpellpointsBar", {player.stats.zp, player.stats.zp_max})
-	elseif event == "AvalonMP" then 
-		player.stats.mp = tonumber(arg)
-		raiseEvent("RefreshManaBar", {player.stats.mp, player.stats.mp_max})
-	elseif event == "AvalonMAXMP" then 
-		player.stats.mp_max = tonumber(arg)
-		raiseEvent("RefreshManaBar", {player.stats.mp, player.stats.mp_max})
-	elseif event == "AvalonHunger" then 
-		echo("AvalonHunger = " .. arg .. "\n")
-		player.hunger = arg
 	elseif event == "AvalonRoomID" then echo("AvalonRoomID = " .. arg .. "\n")
-	elseif event == "AvalonAlter" then 
-		echo("AvalonAlter = " .. arg .. "\n")
-		player.alter = arg
-	elseif event == "AvalonGesinnung" then 
-		echo("AvalonGesinnung = " .. arg .. "\n")
-		player.gesinnung = arg
 	elseif event == "AvalonGruppe" then echo("AvalonGruppe = " .. arg .. "\n")
 	elseif event == "RoomBrief" then echo("RoomBrief = " .. arg .. "\n")
-	elseif event == "AvalonEP" then 
-		echo("AvalonEP = " .. arg .. "\n")
-		player.ep = arg
-	elseif event == "AvalonLevel" then 
-		echo("AvalonLevel = " .. arg .. "\n")
-		player.level = arg
 	elseif event == "AvalonArea" then echo("AvalonArea = " .. arg .. "\n")
 	elseif event == "AvalonInv" then echo("AvalonInv = " .. arg .. "\n")
 	elseif event == "AvalonSite" then echo("AvalonSite = " .. arg .. "\n")
@@ -154,33 +86,230 @@ function onATCPEvent(event, arg)
 	end
 end
 
-registerAnonymousEventHandler("AvalonName", "onATCPEvent")
-registerAnonymousEventHandler("AvalonGilde", "onATCPEvent")
-registerAnonymousEventHandler("AvalonVollName", "onATCPEvent")
-registerAnonymousEventHandler("AvalonMAXTP", "onATCPEvent")
+----------------------------------------------------------------------------------------
+--  Charakter-Daten/Spielstand
+----------------------------------------------------------------------------------------
+
+-- event == "AvalonName"
+function onATCPEventAvalonName(event, arg)
+	if player.name ~= arg then
+		player.name = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonName", "onATCPEventAvalonName")
+
+
+
+-- event == "AvalonVollName"
+function onATCPEventAvalonVollName(event, arg)
+	if player.vollername ~= arg then
+		player.vollername = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonVollName", "onATCPEventAvalonVollName")
+
+
+
+-- event == "AvalonPortfolio"
+function onATCPEventAvalonPortfolio(event, arg)
+	if player.portfolio ~= arg then 
+		player.portfolio = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonPortfolio", "onATCPEventAvalonPortfolio")
+
+
+
+-- event == "AvalonGilde"
+function onATCPEventAvalonGilde(event, arg)
+	if player.gilde ~= arg then
+		player.gilde = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonGilde", "onATCPEventAvalonGilde")
+
+
+-- event == "AvalonZuenfte"
+function onATCPEventAvalonZuenfte(event, arg)
+	if player.zuenfte ~= arg then 
+		player.zuenfte = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonZuenfte", "onATCPEventAvalonZuenfte")
+
+
+
+-- event == "AvalonAlter"
+function onATCPEventAvalonAlter(event, arg)
+	if player.alter ~= arg then 
+		player.alter = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonAlter", "onATCPEventAvalonAlter")
+
+
+
+-- event == "AvalonLevel"
+function onATCPEventAvalonLevel(event, arg)
+	if player.level ~= arg then
+		player.level = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonLevel", "onATCPEventAvalonLevel")
+
+
+
+-- event == "AvalonEP"
+function onATCPEventAvalonEP(event, arg)
+	if player.ep ~= arg then
+		player.ep = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonEP", "onATCPEventAvalonEP")
+
+
+
+-- event == "AvalonGesinnung"
+function onATCPEventAvalonGesinnung(event, arg)
+	if player.gesinnung ~= arg then 
+		player.gesinnung = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonGesinnung", "onATCPEventAvalonGesinnung")
+
+
+
+-- event == "AvalonHunger"
+function onATCPEventAvalonHunger(event, arg)
+	if player.hunger ~= arg then 
+		player.hunger = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonHunger", "onATCPEventAvalonHunger")
+
+
+
+-- event == "AvalonDurst"
+function onATCPEventAvalonDurst(event, arg)
+	if player.durst ~= arg then
+		player.durst = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonDurst", "onATCPEventAvalonDurst")
+
+
+
+----------------------------------------------------------------------------------------
+--  TP, TPMAX, AP, APMAX, ZP, ZPMAX, MP, MPMAX
+----------------------------------------------------------------------------------------
+
+-- event == "AvalonTP"
+function onATCPEventAvalonTP(event, arg)
+	if player.stats.tp ~= tonumber(arg) then 
+		player.stats.tp = tonumber(arg)
+		raiseEvent("RefreshHealthBar", {player.stats.tp, player.stats.tp_max})
+	end
+end
+registerAnonymousEventHandler("AvalonTP", "onATCPEventAvalonTP")
+
+
+
+-- event == "AvalonMAXTP"
+function onATCPEventAvalonMAXT(event, arg)
+	if player.stats.tp_max ~= tonumber(arg) then
+		player.stats.tp_max = tonumber(arg)
+		raiseEvent("RefreshHealthBar", {player.stats.tp, player.stats.tp_max})
+	end
+end
+registerAnonymousEventHandler("AvalonMAXTP", "onATCPEventAvalonMAXT")
+
+
+
+-- event == "AvalonAP"
+function onATCPEventAvalonAP(event, arg)
+	if player.stats.ap ~= tonumber(arg) then 
+		player.stats.ap = tonumber(arg)
+		raiseEvent("RefreshEnduranceBar", {player.stats.ap, player.stats.ap_max})
+	end
+end
+registerAnonymousEventHandler("AvalonAP", "onATCPEventAvalonAP")
+
+
+
+-- event == "AvalonMAXAP"
+function onATCPEventAvalonMAXAP(event, arg)
+	if player.stats.ap_max ~= tonumber(arg) then 
+		player.stats.ap_max = tonumber(arg)
+		raiseEvent("RefreshEnduranceBar", {player.stats.ap, player.stats.ap_max})
+	end
+end
+registerAnonymousEventHandler("AvalonMAXAP", "onATCPEventAvalonMAXAP")
+
+
+
+-- event == "AvalonSP"
+function onATCPEventAvalonSP(event, arg)
+	if player.stats.zp ~= tonumber(arg) then 
+		player.stats.zp = tonumber(arg)
+		raiseEvent("RefreshSpellpointsBar", {player.stats.zp, player.stats.zp_max})
+	end
+end
+registerAnonymousEventHandler("AvalonSP", "onATCPEventAvalonSP")
+
+
+
+-- event == "AvalonMAXSP"
+function onATCPEventAvalonMAXSP(event, arg)
+	if player.stats.zp_max ~= tonumber(arg) then 
+		player.stats.zp_max = tonumber(arg)
+		raiseEvent("RefreshSpellpointsBar", {player.stats.zp, player.stats.zp_max})
+	end
+end
+registerAnonymousEventHandler("AvalonMAXSP", "onATCPEventAvalonMAXSP")
+
+
+
+-- event == "AvalonMP"
+function onATCPEventAvalonMP(event, arg)
+	if player.stats.mp ~= tonumber(arg) then
+		player.stats.mp = tonumber(arg)
+		raiseEvent("RefreshManaBar", {player.stats.mp, player.stats.mp_max})
+	end
+end
+registerAnonymousEventHandler("AvalonMP", "onATCPEventAvalonMP")
+
+
+
+-- event == "AvalonMAXMP"
+function onATCPEventAvalonMAXMP(event, arg)
+	if player.stats.mp_max ~= tonumber(arg) then
+		player.stats.mp_max = tonumber(arg)
+		raiseEvent("RefreshManaBar", {player.stats.mp, player.stats.mp_max})
+	end
+end
+registerAnonymousEventHandler("AvalonMAXMP", "onATCPEventAvalonMAXMP")
+
+-----------------------
+
 registerAnonymousEventHandler("AvalonHoehe", "onATCPEvent")
 registerAnonymousEventHandler("AuthRequest", "onATCPEvent")
-registerAnonymousEventHandler("AvalonDurst", "onATCPEvent")
-registerAnonymousEventHandler("AvalonMP", "onATCPEvent")
 registerAnonymousEventHandler("AvalonDunkel", "onATCPEvent")
-registerAnonymousEventHandler("AvalonZuenfte", "onATCPEvent")
-registerAnonymousEventHandler("AvalonMAXMP", "onATCPEvent")
-registerAnonymousEventHandler("AvalonPortfolio", "onATCPEvent")
-registerAnonymousEventHandler("AvalonAP", "onATCPEvent")
 registerAnonymousEventHandler("AvalonFlucht", "onATCPEvent")
 registerAnonymousEventHandler("AvalonSchutz", "onATCPEvent")
-registerAnonymousEventHandler("AvalonTP", "onATCPEvent")
-registerAnonymousEventHandler("AvalonHunger", "onATCPEvent")
-registerAnonymousEventHandler("AvalonMAXSP", "onATCPEvent")
 registerAnonymousEventHandler("AvalonRoomID", "onATCPEvent")
-registerAnonymousEventHandler("AvalonAlter", "onATCPEvent")
-registerAnonymousEventHandler("AvalonSP", "onATCPEvent")
-registerAnonymousEventHandler("AvalonGesinnung", "onATCPEvent")
 registerAnonymousEventHandler("AvalonGruppe", "onATCPEvent")
 registerAnonymousEventHandler("RoomBrief", "onATCPEvent")
-registerAnonymousEventHandler("AvalonEP", "onATCPEvent")
-registerAnonymousEventHandler("AvalonMAXAP", "onATCPEvent")
-registerAnonymousEventHandler("AvalonLevel", "onATCPEvent")
 registerAnonymousEventHandler("AvalonArea", "onATCPEvent")
 registerAnonymousEventHandler("AvalonInv", "onATCPEvent")
 registerAnonymousEventHandler("AvalonSite", "onATCPEvent")
@@ -209,7 +338,7 @@ registerAnonymousEventHandler("AvalonAllyGetoetet", "onATCPEvent")
 
 
 --------------------------------------------------------------------
--- onKill wird durch einen kill ausgelöst
+-- onKill wird durch einen kill ausgelöst -- ab hier nicht funktionsfähig
 --------------------------------------------------------------------
 
 function onKillEvent(event,name,file)

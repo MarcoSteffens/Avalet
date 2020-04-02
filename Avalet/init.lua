@@ -46,7 +46,21 @@ function writeDataToFS(path, data, mode)
 	return true
 end
 
+-----------------------------------------------------------
 -- Dateien, die vom Modul geschrieben bzw. gelesen werden:
+-----------------------------------------------------------
+-- Die Charakter-Daten werden in eine Datei persistiert und von da auch
+-- geladen. Der Grund ist, dass nach einem disconnect und einem anschliessenden
+-- reconnect die Daten nicht unbedingt sofort per ATCP gesendet werden. (Nach 
+-- normalen Login aber schon(?)) Weshalb die Character-Informationen auf der
+-- Oberfläche nicht oder nicht vollständig vorhanden wären. Und genau so wenig
+-- die Anzeige für TP, ZP etc. Oder übrig gebliebene Timer. Also es wäre dann
+-- nix da.
+-- Das Problem ist, dass nicht alle Spieler für jeden Char ein eigenes Profil haben,
+-- sondern dass sie oft mehrere Chars mit einem Profil spielen. Hier muss irgendwie
+-- entschieden werden, welches die richtigen Character-Daten sind. (Und es müssen
+-- auch verschiedene Versionen dieser Daten rausgeschrieben werden. Vermutlich 
+-- unterschieden durch den Character-Namen im Dump-File-Namen.)
 player = {}
 avaletCharacterFile = "AvaletCharacter.json"
 characterFilePath = getMudletHomeDir() .. "/" .. avaletCharacterFile
@@ -181,8 +195,6 @@ require "Avalet.scripts.gui_view"
 --player = Character()
 --gui = Gui()
 -- gui = {}
-
-
 
 
 -- Script: onKeyPad

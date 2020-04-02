@@ -11,41 +11,58 @@ GUIModel = GUIModel or {}
 -- Charakter-Informationen rechts oben
 -----------------------------------------------------
 
+function firstToUpper(str)
+    return (str:gsub("^%l", string.upper))
+end
+
+
 GUIModel.Infobox = "\n"
-if string.len(player.vollername) ~= 0 then
-	GUIModel.Infobox = GUIModel.Infobox .. "In Avalon bist Du bekannt als\n\n  " .. player.vollername .. "\n\n"
-	if string.len(player.gilde) ~= 0 then
-		if player.gilde == "keine" then
-			GUIModel.Infobox = GUIModel.Infobox .. "Du bist noch in keiner Gilde.\n"
+function updateInfoBox()
+	GUIModel.Infobox = "\n"
+	clearWindow("Spielstand")
+	if string.len(player.vollername) ~= 0 then
+		GUIModel.Infobox = GUIModel.Infobox .. "In Avalon bist Du bekannt als\n\n" .. player.vollername .. "\n\n"
+		if string.len(player.gilde) ~= 0 then
+			if player.gilde == "keine" then
+				GUIModel.Infobox = GUIModel.Infobox .. "Du bist noch in keiner Gilde.\n"
+			else
+				GUIModel.Infobox = GUIModel.Infobox .. "Du bist " .. player.gilde .. ".\n"
+			end
+		end
+		if string.len(player.zuenfte) == 0 then
+			GUIModel.Infobox = GUIModel.Infobox .. "Du übst noch keine Berufe aus.\n"
 		else
-			GUIModel.Infobox = GUIModel.Infobox .. "Du bist " .. player.gilde .. ".\n"
+			GUIModel.Infobox = GUIModel.Infobox .. "Deine Berufe sind: " .. player.zuenfte .. ".\n"
+		end
+		if string.len(player.alter) ~= 0 then
+			GUIModel.Infobox = GUIModel.Infobox .. "Dein Alter: " .. player.alter .. "\n"
+		end
+		if string.len(player.portfolio) ~= 0 then
+			if player.portfolio == player.name then
+				GUIModel.Infobox = GUIModel.Infobox .. "Du bist Erstie.\n\n"
+			else
+				GUIModel.Infobox = GUIModel.Infobox .. "Du bist Zweitie im Portfolio von " .. firstToUpper(player.portfolio) .. ".\n\n"
+			end
+		end
+		if string.len(player.level) ~= 0 then
+			GUIModel.Infobox = GUIModel.Infobox .. "Dein Level: " .. player.level .. "\n"
+		end
+		if string.len(player.ep) ~= 0 then
+			GUIModel.Infobox = GUIModel.Infobox .. "Dafür hast du bisher " .. player.ep .. " Erfahrungspunkte gesammelt.\n\n"
+		end
+		if string.len(player.gesinnung) ~= 0 then
+			GUIModel.Infobox = GUIModel.Infobox .. "Du bist " .. player.gesinnung .. " drauf.\n"
+		end
+		if string.len(player.hunger) ~= 0 then
+			GUIModel.Infobox = GUIModel.Infobox .. "Hunger: " .. player.hunger .. "\n"
+		end
+		if string.len(player.durst) ~= 0 then
+			GUIModel.Infobox = GUIModel.Infobox .. "Durst: " .. player.durst .. "\n"
 		end
 	end
-	if string.len(player.zuenfte) ~= 0 then
-		GUIModel.Infobox = GUIModel.Infobox .. "Deine Berufe sind: " .. player.zuenfte .. ".\n"
-	end
-	if string.len(player.alter) ~= 0 then
-		GUIModel.Infobox = GUIModel.Infobox .. "Dein Alter: " .. player.alter .. "\n"
-	end
-	if string.len(player.portfolio) ~= 0 then
-		GUIModel.Infobox = GUIModel.Infobox .. "Portfolio: " .. player.portfolio .. "\n\n"
-	end
-	if string.len(player.level) ~= 0 then
-		GUIModel.Infobox = GUIModel.Infobox .. "Dein Level: " .. player.level .. "\n"
-	end
-	if string.len(player.ep) ~= 0 then
-		GUIModel.Infobox = GUIModel.Infobox .. "Dafür hast du bisher " .. player.ep .. " Erfahrungspunkte gesammelt.\n\n"
-	end
-	if string.len(player.gesinnung) ~= 0 then
-		GUIModel.Infobox = GUIModel.Infobox .. "Gesinnung: " .. player.gesinnung .. "\n"
-	end
-	if string.len(player.hunger) ~= 0 then
-		GUIModel.Infobox = GUIModel.Infobox .. "Hunger: " .. player.hunger .. "\n"
-	end
-	if string.len(player.durst) ~= 0 then
-		GUIModel.Infobox = GUIModel.Infobox .. "Durst: " .. player.durst .. "\n"
-	end
+
 end
+updateInfoBox()
 
 --------------------------------------------
 --- Tabs-Element rechts unten
@@ -56,8 +73,8 @@ GUIModel.menu = GUIModel.menu or {
   tabs = {"Schwafel","Laber","Volk","Gilde", "Gruppe", "Sag", "Rede"},
   color1 = "rgb(0,0,70)",
   color2 = "rgb(0,0,50)",
---  color1 = "red",
---  color2 = "white",
+  --color1 = "red",
+  --color2 = "white",
   width = "10%",
   height = "40%",
 }
@@ -86,11 +103,11 @@ end
 --addTopMenuEntry("titel", position)
 --addSubMenuEntry("parent", postition, "titel", "label", "luafun", args = {})
 --addSubMenuEntry("Top1",1,"Child","label","luafun",{"a1","a2","a3"})
-
+--function blubb()
 addTopMenuEntry("Top1", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3","luafun",{"a31", "a32", "a33"}}})
 addTopMenuEntry("Top2", 2, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3", "luafun",{"a31", "a32", "a33"}}})
 addTopMenuEntry("Top1a", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3", "luafun",{"a31", "a32", "a33"}}})
-
+--end
 --addTopMenuEntry(
 --	"Top1", 
 --	1, 
@@ -261,11 +278,13 @@ end
 -- Refresh Event Handler
 -----------------------------
 
-function onRefreshCharacterVollername(event, args)
-	GUI.Spielstand:echo(args)
+function onRefreshInfobox(event, args)
+	updateInfoBox()
+	--GUI.Spielstand:echo(args)
+	GUI.Spielstand:echo(GUIModel.Infobox)
 	--GUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "<b>" .. args[1] .. "/" .. args[2] .. "</b>")
 end
-registerAnonymousEventHandler("RefreshCharacterVollername", "onRefreshCharacterVollername")
+registerAnonymousEventHandler("RefreshInfobox", "onRefreshInfobox")
 --raiseEvent("RefreshCharacterVollername", ???)
 
 function onRefreshTimerView(event, args)
@@ -307,4 +326,24 @@ function onRecreateTimerView(event, args)
 end
 registerAnonymousEventHandler("RecreateTimerView", "onRecreateTimerView")
 
+function onRefreshHealthBar(event, args)
+	GUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>TP</center></b>")
+	-- GUI.Health:setValue(100,100,[[<b><center>999/999</center></br><center>TP</center></b>]])
+	-- [[<b><font color="]]..timerSchriftfarbe..[[">&nbsp;]] .. v["name"] .. [[</b></font>]]
+end
+registerAnonymousEventHandler("RefreshHealthBar", "onRefreshHealthBar")
 
+function onRefreshEnduranceBar(event, args)
+	GUI.Endurance:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>AP</center></b>")
+end
+registerAnonymousEventHandler("RefreshEnduranceBar", "onRefreshEnduranceBar")
+
+function onRefreshSpellpointsBar(event, args)
+	GUI.Spellpoints:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>ZP</center></b>")
+end
+registerAnonymousEventHandler("RefreshSpellpointsBar", "onRefreshSpellpointsBar")
+
+function onRefreshManaBar(event, args)
+	GUI.Mana:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. " Mana</center></b>")
+end
+registerAnonymousEventHandler("RefreshManaBar", "onRefreshManaBar")

@@ -19,6 +19,101 @@
 			<regexCodePropertyList />
 		</TriggerGroup>
 	</TriggerPackage>
+	<AliasPackage>
+		<AliasGroup isActive="yes" isFolder="yes">
+			<name>Bewegung</name>
+			<script></script>
+			<command></command>
+			<packageName></packageName>
+			<regex></regex>
+			<Alias isActive="yes" isFolder="no">
+				<name>Norden</name>
+				<script>raiseEvent("keyPadEvent",8)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(n|norden)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Nordosten</name>
+				<script>raiseEvent("keyPadEvent",9)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(no|nordosten)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Osten</name>
+				<script>raiseEvent("keyPadEvent",6)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(o|osten)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Suedosten</name>
+				<script>raiseEvent("keyPadEvent",3)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(so|suedosten|os)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Sueden</name>
+				<script>raiseEvent("keyPadEvent",2)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(s|sueden)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Suedwesten</name>
+				<script>raiseEvent("keyPadEvent",1)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(sw|suedwesten)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Westen</name>
+				<script>raiseEvent("keyPadEvent",4)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(w|westen)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Nordwesten</name>
+				<script>raiseEvent("keyPadEvent",7)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(nw|nordwesten)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Hoch</name>
+				<script>raiseEvent("keyPadEvent",10)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(h|hoch)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Runter</name>
+				<script>raiseEvent("keyPadEvent",11)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(r|runter)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Rein</name>
+				<script>raiseEvent("keyPadEvent",12)
+-- send(matches[1])</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(rein)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Raus</name>
+				<script>raiseEvent("keyPadEvent",13)
+-- send(matches[1])</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(raus)$</regex>
+			</Alias>
+		</AliasGroup>
+	</AliasPackage>
 	<TimerPackage>
 		<TimerGroup isActive="yes" isFolder="yes" isTempTimer="no" isOffsetTimer="no">
 			<name>Avalet</name>
@@ -35,59 +130,6 @@
 			</Timer>
 		</TimerGroup>
 	</TimerPackage>
-	<ScriptPackage>
-		<Script isActive="yes" isFolder="no">
-			<name>Avalet</name>
-			<packageName></packageName>
-			<script>-- BEGINN Avalet-Kram
--- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
-require "Avalet"                 -- lädt die init.lua
--- ENDE Avalet-Kram
-			</script>
-			<eventHandlerList />
-		</Script>	
-<!--
-		<ScriptGroup isActive="yes" isFolder="yes">
-			<name>AvaletGUI</name>
-			<packageName></packageName>
-			<script>-- Avalet-Kram
--- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
--- ENDE Avalet-Kram
-			</script>
-			<eventHandlerList />
-			<Script isActive="yes" isFolder="no">
-				<name>AvaletGUI</name>
-				<packageName></packageName>
-				<script>-- Avalet-Kram
--- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
---require "Avalet.scripts.gui"           -- lädt die angegebene lua-datei
---require "Avalet.scripts.character"     -- lädt die angegebene lua-datei
--- ENDE Avalet-Kram
-				</script>
-				<eventHandlerList />
-			</Script>
-		</ScriptGroup>
-		<ScriptGroup isActive="yes" isFolder="yes">
-			<name>AvaletATCP</name>
-			<packageName></packageName>
-			<script>-- Avalet-Kram
--- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
--- ENDE Avalet-Kram
-			</script>
-			<eventHandlerList />
-			<Script isActive="yes" isFolder="no">
-				<name>AvaletATCP</name>
-				<packageName></packageName>
-				<script>-- Avalet-Kram
--- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
--- require "Avalet.scripts.atcp"     -- lädt die angegebene lua-datei
--- ENDE Avalet-Kram
-				</script>
-				<eventHandlerList />
-			</Script>
-		</ScriptGroup>
--->
-	</ScriptPackage>
 	<KeyPackage>
 		<KeyGroup isActive="yes" isFolder="yes">
 			<name>Keypadfunktionen</name>
@@ -204,99 +246,57 @@ raiseEvent("keyPadEvent",5)
 			</Key>
 		</KeyGroup>
 	</KeyPackage>	
-	<AliasPackage>
-		<AliasGroup isActive="yes" isFolder="yes">
-			<name>Bewegung</name>
-			<script></script>
-			<command></command>
+	<ScriptPackage>
+		<ScriptGroup isActive="yes" isFolder="no">
+			<name>Avalet</name>
 			<packageName></packageName>
-			<regex></regex>
-			<Alias isActive="yes" isFolder="no">
-				<name>Norden</name>
-				<script>raiseEvent("keyPadEvent",8)</script>
-				<command></command>
+			<script>-- BEGINN Avalet-Kram
+-- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
+require "Avalet"                 -- lädt die init.lua
+-- ENDE Avalet-Kram
+			</script>
+			<eventHandlerList />
+		</ScriptGroup>	
+<!--
+		<ScriptGroup isActive="yes" isFolder="yes">
+			<name>AvaletGUI</name>
+			<packageName></packageName>
+			<script>-- Avalet-Kram
+-- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
+-- ENDE Avalet-Kram
+			</script>
+			<eventHandlerList />
+			<Script isActive="yes" isFolder="no">
+				<name>AvaletGUI</name>
 				<packageName></packageName>
-				<regex>^(n|norden)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Nordosten</name>
-				<script>raiseEvent("keyPadEvent",9)</script>
-				<command></command>
+				<script>-- Avalet-Kram
+-- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
+--require "Avalet.scripts.gui"           -- lädt die angegebene lua-datei
+--require "Avalet.scripts.character"     -- lädt die angegebene lua-datei
+-- ENDE Avalet-Kram
+				</script>
+				<eventHandlerList />
+			</Script>
+		</ScriptGroup>
+		<ScriptGroup isActive="yes" isFolder="yes">
+			<name>AvaletATCP</name>
+			<packageName></packageName>
+			<script>-- Avalet-Kram
+-- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
+-- ENDE Avalet-Kram
+			</script>
+			<eventHandlerList />
+			<Script isActive="yes" isFolder="no">
+				<name>AvaletATCP</name>
 				<packageName></packageName>
-				<regex>^(no|nordosten)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Osten</name>
-				<script>raiseEvent("keyPadEvent",6)</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(o|osten)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Suedosten</name>
-				<script>raiseEvent("keyPadEvent",3)</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(so|suedosten|os)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Sueden</name>
-				<script>raiseEvent("keyPadEvent",2)</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(s|sueden)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Suedwesten</name>
-				<script>raiseEvent("keyPadEvent",1)</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(sw|suedwesten)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Westen</name>
-				<script>raiseEvent("keyPadEvent",4)</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(w|westen)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Nordwesten</name>
-				<script>raiseEvent("keyPadEvent",7)</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(nw|nordwesten)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Hoch</name>
-				<script>raiseEvent("keyPadEvent",10)</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(h|hoch)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Runter</name>
-				<script>raiseEvent("keyPadEvent",11)</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(r|runter)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Rein</name>
-				<script>raiseEvent("keyPadEvent",12)
--- send(matches[1])</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(rein)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Raus</name>
-				<script>raiseEvent("keyPadEvent",13)
--- send(matches[1])</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(raus)$</regex>
-			</Alias>
-		</AliasGroup>
-	</AliasPackage>
+				<script>-- Avalet-Kram
+-- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
+-- require "Avalet.scripts.atcp"     -- lädt die angegebene lua-datei
+-- ENDE Avalet-Kram
+				</script>
+				<eventHandlerList />
+			</Script>
+		</ScriptGroup>
+-->
+	</ScriptPackage>
 </MudletPackage>
