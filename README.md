@@ -6,12 +6,12 @@ Avalet ist ein Mudlet-Module für das [MUD Avalon](https://avalon.mud.de/). Für
 
 Avalet bietet in erster Linie:
 - Einen nicht zu übersehenden Überblick über TP, ZP, AP und Mana! *(coming soon)*
-- Eine Anzeige von Schildzaubern, Auren und anderen Timern! Mit *fancy* Fortschrittsbalken! ;) *(coming soon)*
+- Eine Anzeige von Schildzaubern, Auren und anderen Timern! Mit *fancy* *Rück*schrittsbalken! ;) *(coming soon)*
 - Eine Karte (und einen Mapper)! *(coming soon)*
 - Viel mehr *bling-bling* als Plain-Avalon!
 - Noch vieles mehr! *(coming soon)*
 - Und noch mehr! *(coming soon)*
-- Enthält Script von TWRX!!!11EinsElf!
+- Enthält Script von Twrx!!!
 
 ```
             __________________________________________________________
