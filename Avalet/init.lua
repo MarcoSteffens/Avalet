@@ -3,31 +3,26 @@
 --
 -- 
 ---------------------------------------------------------------------------
-require "Avalet.scripts.character"
---require "Avalet.scripts.gui"
-require "Avalet.scripts.atcp"
-require "Avalet.scripts.timer"
 
---if io.exists("/home/vadi/Desktop/file.tx") then
---  echo("This file exists!")
---else
---  echo("This file doesn't exist.")
---end
 
-echo("Avalet init ...\n")
+-- DEBUG
+debug_mode = false
 
---on Install:
---setModulePriority("Avalet", 1)
+if debug_mode then
+	--echo("debug ist an\n")
+else
+	--echo("debug ist aus\n")
+end
 
--- Speicherort des Moduls
--- C:/Users/<usrdir>/Documents/Avalet/Avalet.mpackage
-modulePath = getModulePath("Avalet")
---echo("Path zu Avalet-Modul: " .. path .. "\n" )
 
--- Speicherort des geladenen Profils
--- C:/Users/<usrdir>/.config/mudlet/profiles/Ava - Groundsel1
-mudletHomeDir = getMudletHomeDir()
---echo("Path MudletHomeDir: " .. path .. "\n" )
+-- Folgende Ausgabe erscheint in der Error-Console des Script-Editors von Mudlet:
+--debugc(" Trigger successful!")
+
+-- ENDE DEBUG
+
+function firstToUpper(str)
+    return (str:gsub("^%l", string.upper))
+end
 
 
 function readFileFromFS(path, mode)
@@ -46,6 +41,35 @@ function writeDataToFS(path, data, mode)
 	return true
 end
 
+require "Avalet.scripts.character"
+--require "Avalet.scripts.gui" -- jetzt weiter unten
+require "Avalet.scripts.atcp"
+require "Avalet.scripts.timer"
+
+--if io.exists("/home/vadi/Desktop/file.tx") then
+--  echo("This file exists!")
+--else
+--  echo("This file doesn't exist.")
+--end
+
+echo("Avalet init ...\n")
+
+player = {}
+player = Character()
+
+--on Install:
+--setModulePriority("Avalet", 1)
+
+-- Speicherort des Moduls
+-- C:/Users/<usrdir>/Documents/Avalet/Avalet.mpackage
+modulePath = getModulePath("Avalet")
+--echo("Path zu Avalet-Modul: " .. path .. "\n" )
+
+-- Speicherort des geladenen Profils
+-- C:/Users/<usrdir>/.config/mudlet/profiles/Ava - Groundsel1
+mudletHomeDir = getMudletHomeDir()
+--echo("Path MudletHomeDir: " .. path .. "\n" )
+
 -----------------------------------------------------------
 -- Dateien, die vom Modul geschrieben bzw. gelesen werden:
 -----------------------------------------------------------
@@ -60,43 +84,84 @@ end
 -- sondern dass sie oft mehrere Chars mit einem Profil spielen. Hier muss irgendwie
 -- entschieden werden, welches die richtigen Character-Daten sind. (Und es müssen
 -- auch verschiedene Versionen dieser Daten rausgeschrieben werden. Vermutlich 
--- unterschieden durch den Character-Namen im Dump-File-Namen.)
-player = {}
-avaletCharacterFile = "AvaletCharacter.json"
-characterFilePath = getMudletHomeDir() .. "/" .. avaletCharacterFile
-if io.exists(characterFilePath) then
-	echo("Charakter-Datei ist vorhanden, versuche Datei zu laden...\n")
-	player = readFileFromFS(characterFilePath, "r")
-	echo("...done\n")
-else
-  echo("Charakter-Datei nicht gefunden.\n")
-	echo("Erzeuge Character-Objekt\n")
-	player = Character()
-	echo("...done\n")
-	echo("Geladen: " .. player.vollername .. "\n")
-	--echo("PlayerTPMAX: " .. player.stats.tp_max .. "\n")
+-- unterschieden durch den Character-Namen im Dump-File-Namen. Aber der steht
+-- erst zur Verfügung, wenn ATCP das erste Mal den Character-Namen geschickt hat.)
+-- Lösung: Hier wird das Player-Objekt leer initialisiert, die Anzeige auf der
+-- Oberfläche wird entsprechend gestaltet. ("Warten auf Daten...", "Du bist offline"
+-- oder so) Wenn das Mud den CharNamen sendet, wird die dazugehörige Char-Datei ge-
+-- laden und von da an verwendet.
+--avaletCharacterFile = ""
+avaletCharacterFilePrefix = "AvaletCharacter"
+avaletCharacterFileExtension = ".json"
+function loadCharacterFileFromDisk(charName)
+	--cecho("<magenta>Unerwünschter Aufruf?\n")
+	characterFilePath = getMudletHomeDir() .. "/" .. avaletCharacterFilePrefix .. firstToUpper(charName) .. avaletCharacterFileExtension
+	--echo(characterFilePath .. "\n")
+	if io.exists(characterFilePath) then
+		--echo("Charakter-Datei ist vorhanden, versuche Datei zu laden:\n" .. characterFilePath .. "\n")
+		player = readFileFromFS(characterFilePath, "r")
+		--echo("...done\n")
+	else
+	    --echo("Charakter-Datei nicht gefunden.\n")
+		--echo("Erzeuge Character-Objekt\n")
+		player = Character()
+		--echo("...done\n")
+		writeDataToFS(characterFilePath, player, "w")
+	end
 end
 
--- Dateien, die vom Modul geschrieben bzw. gelesen werden:
---chat = {}
---avaletChatFile = "AvaletChat.json"
---chatFilePath = getMudletHomeDir() .. "/" .. avaletChatFile
---if io.exists(chatFilePath) then
---	echo("Chat-Datei ist vorhanden, versuche Datei zu laden...\n")
---	chat = readFileFromFS(chatFilePath)
---	echo("...done\n")
---else
---  echo("Chat-Datei nicht gefunden.\n")
---	echo("Erzeuge Chat-Objekt\n")
---	chat = {}
---	echo("...done\n")
---end
+
+
+chatLaber = ""
+chatSchwafel = ""
+chatRede = ""
+chatSag = ""
+function loadFileFromDisk(filePath)
+	if io.exists(filePath) then
+		--echo("Datei ist vorhanden.\n")
+	end
+	--echo("Datei ist vorhanden oder wird erzeugt:\n" .. filePath .. "\n")
+	--return [[readFileFromFS(filePath, "a")]]
+	--return "verdammte Axt!"
+	--echo("...done\n")
+	--if io.exists(filePath) then
+	--	echo("FEHLER: Datei immer noch nicht vorhanden.\n")
+	--end
+	return "bla"
+end
+
+-----------------------------------------------------------
+-- Dateien, in die Chatverläufe gespeichert werden (und die
+-- dann in den Tabs angezeigt werden):
+-----------------------------------------------------------
+chatLaberFileName = "AvaletComLaber.txt"
+chatLaberFile = getMudletHomeDir() .. "/" .. chatLaberFileName
+--chatLaber = loadFileFromDisk(chatLaberFile)
+--writeDataToFS(chatLaberFile, chatLaber, "w")
+
+chatSchwafelFileName = "AvaletComSchwafel.txt"
+chatSchwafelFile = getMudletHomeDir() .. "/" .. chatSchwafelFileName
+--chatSchwafel = loadFileFromDisk(chatSchwafelFile)
+
+chatRedeFileName = "AvaletComRede.txt"
+chatRedeFile = getMudletHomeDir() .. "/" .. chatRedeFileName
+--chatRede = loadFileFromDisk(chatRedeFile)
+
+chatSagFileName = "AvaletComSag.txt"
+chatSagFile = getMudletHomeDir() .. "/" .. chatSagFileName
+--chatSag = loadFileFromDisk(chatSagFile)
+
+-- volk
+-- gilde
+-- zunft?
+-- gruppe
+
+
 
 
 
 require "Avalet.scripts.gui"
 require "Avalet.scripts.gui_view"
-
 
 -------------------------------------------------------------------------------------
 --
@@ -217,31 +282,45 @@ registerAnonymousEventHandler("keyPadEvent", "onKeyPadEvent")
 
 
 function onSysConnectionEvent()
-	cecho("<red>sysConnectionEventHandler() running at this point.\n")
-	echo("onConnect...\n")
-	sendATCP("ava_set_mapper",1)
-	sendATCP("ava_set_channel",1)
-	sendATCP("ava_set_comm",1)
-	sendATCP("ava_set_rcomm",1)
-	sendATCP("ava_set_soul",1)
-	sendATCP("ava_set_rsoul",1)
-	--sendATCP("ava_set_soundpack",1)
-	sendATCP("ava_req_update",1)
-	sendATCP("ava_req_graphics_status",1)
+	--cecho("<red>sysConnectionEventHandler() running at this point.\n")
+	--echo("onConnect...\n")
+	-- Die ganzen "sendATCP" funktionieren hier noch nicht
 
+--	Nach einem Reconnect braucht Avalet den Charakternamen. Dieser
+--	Trigger reagiert auf 
+--		Du bist bereits am Spielen!   (nee, hierauf nicht, das ist plan b)
+--		Verwende alten Koerper...
+--	und löst dann einen Event aus, der eine Anfrage nach aktuellen
+--  ATCP-Daten an den Server schickt. 
+	if exists("OnReconnect", "trigger") == 0 then
+		luaCode = [[raiseEvent("afterReconnectEvent")]]
+		permRegexTrigger("OnReconnect", "Avalet", {"^Verwende alten Koerper\.\.\.$"}, luaCode)
+	end
 end
 registerAnonymousEventHandler("sysConnectionEvent", "onSysConnectionEvent")
 
 function onSysExitEvent()
-	cecho("<red>onSysExitEvent\n")
-	echo("Schreibe Character in Datei...\n")
+	--cecho("<red>onSysExitEvent\n")
+	--echo("Schreibe Character in Datei...\n")
 	writeDataToFS(characterFilePath, player, "w")
-	echo("...done\n")
+	--echo("...done\n")
 end
 registerAnonymousEventHandler("sysExitEvent", "onSysExitEvent")
 
+function onSysDisconnectionEvent()
+	--cecho("<red>onSysDisconnectionEvent()\n")
+	--echo("Schreibe Character in Datei...\n")
+	writeDataToFS(characterFilePath, player, "w")
+end
+registerAnonymousEventHandler("sysDisconnectionEvent", "onSysDisconnectionEvent")
+
+function afterReconnectEvent()
+	--cecho("<red>afterReconnectEvent()\n")
+	sendATCP("ava_req_update")
+end
+registerAnonymousEventHandler("afterReconnectEvent", "afterReconnectEvent")
+
 -- Weitere interessante Events:
--- sysDisconnectionEvent
 -- sysInstall
 --Raised right after a module or package is being installed by any means. This can be used to display post-installation information or setup things.
 --Event handlers receive the name of the installed package or module as additional argument. 
@@ -250,24 +329,31 @@ registerAnonymousEventHandler("sysExitEvent", "onSysExitEvent")
 --Event handlers receive the name of the removed package or module as additional argument. 
 
 
-----Script: fsysProtocolEnabled
---function onSysProtocolEnabled(event,arg)
---	if arg =="ATCP" then
---		echo("ATCP Support aktiviert.\n")
---		sendATCP("ava_set_mapper",1)
---		sendATCP("ava_set_channel",1)
---		sendATCP("ava_set_comm",1)
---		sendATCP("ava_set_rcomm",1)
---		sendATCP("ava_set_soul",1)
---		sendATCP("ava_set_rsoul",1)
---		--sendATCP("ava_set_soundpack",1)
---		sendATCP("ava_req_update",1)
---		sendATCP("ava_req_graphics_status",1)
---	else
---		echo("Support fuer "..arg.." aktiv ?!?\n")
---	end
---end
---registerAnonymousEventHandler("sysProtocolEnabled", "onSysProtocolEnabled")
+-- Func: fsysProtocolEnabled
+-- Ich hab versucht, hier auch auf "GMCP" zu prüfen und eine
+-- Warnung auszugeben. Aber offenbar wird GMCP nicht wie die
+-- anderen Protokolle aktiviert, ich hatte jedenfalls keinen
+-- Auslöser des "elseif", trotz aktiviertem GMCP.
+function onSysProtocolEnabled(event,arg)
+	--cecho("<red>onSysProtocolEnabled() running at this point.\n")
+	if arg =="ATCP" then
+		--echo("ATCP Support aktiviert.\n")
+		sendATCP("ava_set_mapper",1)
+		sendATCP("ava_set_channel",1)
+		sendATCP("ava_set_comm",1)
+		sendATCP("ava_set_rcomm",1)
+		sendATCP("ava_set_soul",1)
+		sendATCP("ava_set_rsoul",1)
+		--sendATCP("ava_set_soundpack",1)
+		sendATCP("ava_req_update",1)
+		sendATCP("ava_req_graphics_status",1)
+	elseif arg=="GMCP" then
+		cecho("<red>GMCP ist offenbar aktiviert. So wird Avalet nicht funktionieren.\nBitte GMXP in den Einstellungen deaktivieren und neu starten.")
+	else
+		--echo("Support fuer "..arg.." ist aktiv.\n")
+	end
+end
+registerAnonymousEventHandler("sysProtocolEnabled", "onSysProtocolEnabled")
 
 -- Script: onConnect
 --onConnect = function ()

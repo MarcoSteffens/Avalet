@@ -11,15 +11,12 @@ GUIModel = GUIModel or {}
 -- Charakter-Informationen rechts oben
 -----------------------------------------------------
 
-function firstToUpper(str)
-    return (str:gsub("^%l", string.upper))
-end
-
-
 GUIModel.Infobox = "\n"
 function updateInfoBox()
 	GUIModel.Infobox = "\n"
-	clearWindow("Spielstand")
+	if GUI ~= nil then 
+		clearWindow("Spielstand") 
+	end
 	if string.len(player.vollername) ~= 0 then
 		GUIModel.Infobox = GUIModel.Infobox .. "In Avalon bist Du bekannt als\n\n" .. player.vollername .. "\n\n"
 		if string.len(player.gilde) ~= 0 then
@@ -59,8 +56,10 @@ function updateInfoBox()
 		if string.len(player.durst) ~= 0 then
 			GUIModel.Infobox = GUIModel.Infobox .. "Durst: " .. player.durst .. "\n"
 		end
+	else
+		debugc("\nKeine Player-Daten vorhanden!\n")
+		GUIModel.Infobox = "\nKeine Player-Daten vorhanden!\n"
 	end
-
 end
 updateInfoBox()
 
@@ -70,11 +69,7 @@ updateInfoBox()
 
 -- Generelle Variablen für das Tab-Element
 GUIModel.menu = GUIModel.menu or {
-  tabs = {"Schwafel","Laber","Volk","Gilde", "Gruppe", "Sag", "Rede"},
-  color1 = "rgb(0,0,70)",
-  color2 = "rgb(0,0,50)",
-  --color1 = "red",
-  --color2 = "white",
+  tabs = {"Rede", "Sag", "Laber", "Schwafel","Andere"},
   width = "10%",
   height = "40%",
 }
@@ -103,11 +98,12 @@ end
 --addTopMenuEntry("titel", position)
 --addSubMenuEntry("parent", postition, "titel", "label", "luafun", args = {})
 --addSubMenuEntry("Top1",1,"Child","label","luafun",{"a1","a2","a3"})
---function blubb()
-addTopMenuEntry("Top1", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3","luafun",{"a31", "a32", "a33"}}})
-addTopMenuEntry("Top2", 2, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3", "luafun",{"a31", "a32", "a33"}}})
-addTopMenuEntry("Top1a", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3", "luafun",{"a31", "a32", "a33"}}})
---end
+
+-- Dummy-Menü:
+--addTopMenuEntry("Top1", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3","luafun",{"a31", "a32", "a33"}}})
+--addTopMenuEntry("Top2", 2, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3", "luafun",{"a31", "a32", "a33"}}})
+--addTopMenuEntry("Top1a", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3", "luafun",{"a31", "a32", "a33"}}})
+
 --addTopMenuEntry(
 --	"Top1", 
 --	1, 
@@ -128,17 +124,17 @@ addTopMenuEntry("Top1a", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}
 ---------------------------------------------------------------------------
 
 -- Dummy-Daten für die Timer-Liste. Die Startzeit ist später einfach os.time()
-listOfTimers = {
-	{["name"] = "Arkanschild", ["starttime"] = (os.time() - 550), ["duration"] = 600},
-	{["name"] = "Kampfbeschwörung", ["starttime"] = (os.time() - 580), ["duration"] = 600},
-	{["name"] = "Erdaura", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
-	{["name"] = "Schild", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
-	{["name"] = "Magiertrance", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
-	{["name"] = "Magieaufladung", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
-	{["name"] = "Steinhaut", ["starttime"] = "false", ["duration"] = "false"},
-	{["name"] = "Windhaut", ["starttime"] = "false", ["duration"] = "false"},
-	{["name"] = "Manarausch", ["starttime"] = "false", ["duration"] = "false"},
-}
+--listOfTimers = {
+--	{["name"] = "Arkanschild", ["starttime"] = (os.time() - 550), ["duration"] = 600},
+--	{["name"] = "Kampfbeschwörung", ["starttime"] = (os.time() - 580), ["duration"] = 600},
+--	{["name"] = "Erdaura", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
+--	{["name"] = "Schild", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
+--	{["name"] = "Magiertrance", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
+--	{["name"] = "Magieaufladung", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
+--	{["name"] = "Steinhaut", ["starttime"] = "false", ["duration"] = "false"},
+--	{["name"] = "Windhaut", ["starttime"] = "false", ["duration"] = "false"},
+--	{["name"] = "Manarausch", ["starttime"] = "false", ["duration"] = "false"},
+--}
 
 listOfTimers = {}
 
@@ -279,6 +275,7 @@ end
 -----------------------------
 
 function onRefreshInfobox(event, args)
+	writeDataToFS(characterFilePath, player, "w")
 	updateInfoBox()
 	--GUI.Spielstand:echo(args)
 	GUI.Spielstand:echo(GUIModel.Infobox)

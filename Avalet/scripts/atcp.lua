@@ -49,40 +49,42 @@ end
 
 function onATCPEvent(event, arg)
 
-	if event == "AvalonHoehe" then echo("AvalonHoehe = " .. arg .. "\n")
-	elseif event == "AuthRequest" then echo("AuthRequest = " .. arg .. "\n")
-	elseif event == "AvalonDunkel" then echo("AvalonDunkel = " .. arg .. "\n")
-	elseif event == "AvalonFlucht" then echo("AvalonFlucht = " .. arg .. "\n")
-	elseif event == "AvalonSchutz" then echo("AvalonSchutz = " .. arg .. "\n")
-	elseif event == "AvalonRoomID" then echo("AvalonRoomID = " .. arg .. "\n")
-	elseif event == "AvalonGruppe" then echo("AvalonGruppe = " .. arg .. "\n")
-	elseif event == "RoomBrief" then echo("RoomBrief = " .. arg .. "\n")
-	elseif event == "AvalonArea" then echo("AvalonArea = " .. arg .. "\n")
-	elseif event == "AvalonInv" then echo("AvalonInv = " .. arg .. "\n")
-	elseif event == "AvalonSite" then echo("AvalonSite = " .. arg .. "\n")
-	elseif event == "AvalonExits" then echo("AvalonExits = " .. arg .. "\n")
-	elseif event == "AvalonZaubern" then echo("AvalonZaubern = " .. arg .. "\n")
-	elseif event == "AvalonChannel" then echo("AvalonChannel = " .. arg .. "\n")
-	elseif event == "AvalonComm" then echo("AvalonComm = " .. arg .. "\n")
-	elseif event == "AvalonRComm" then echo("AvalonRComm = " .. arg .. "\n")
-	elseif event == "AvalonGrafikVermeiden" then echo("AvalonGrafikVermeiden = " .. arg .. "\n")
-	elseif event == "AvalonAvalonIcon16" then echo("AvalonAvalonIcon16 = " .. arg .. "\n")
-	elseif event == "AvalonAvalonWeg" then echo("AvalonAvalonWeg = " .. arg .. "\n")
-	elseif event == "AvalonInventarRein" then echo("AvalonInventarRein = " .. arg .. "\n")
-	elseif event == "AvalonInventarRaus" then echo("AvalonInventarRaus = " .. arg .. "\n")
-	elseif event == "AvalonBehaelterRein" then echo("AvalonBehaelterRein = " .. arg .. "\n")
-	elseif event == "AvalonBehaelterRaus" then echo("AvalonBehaelterRaus = " .. arg .. "\n")
-	elseif event == "AvalonGefuehrt" then echo("AvalonGefuehrt = " .. arg .. "\n")
-	elseif event == "AvalonGesenkt" then echo("AvalonGesenkt = " .. arg .. "\n")
-	elseif event == "AvalonAngezogen" then echo("AvalonAngezogen = " .. arg .. "\n")
-	elseif event == "AvalonAusgezogen" then echo("AvalonAusgezogen = " .. arg .. "\n")
-	elseif event == "AvalonKampf" then echo("AvalonKampf = " .. arg .. "\n")
-	elseif event == "AvalonAngegriffen" then echo("AvalonAngegriffen = " .. arg .. "\n")
-	elseif event == "AvalonGetoetet" then echo("AvalonGetoetet = " .. arg .. "\n")
-	elseif event == "AvalonGruppeGetoetet" then echo("AvalonGruppeGetoetet = " .. arg .. "\n")
-	elseif event == "AvalonAllyGetoetet" then echo("AvalonAllyGetoetet = " .. arg .. "\n")
+	if event == "AvalonHoehe" then debugc("AvalonHoehe = " .. arg .. "\n")
+	elseif event == "AuthRequest" then debugc("AuthRequest = " .. arg .. "\n")
+	elseif event == "AvalonDunkel" then debugc("AvalonDunkel = " .. arg .. "\n")
+	elseif event == "AvalonFlucht" then debugc("AvalonFlucht = " .. arg .. "\n")
+	elseif event == "AvalonSchutz" then debugc("AvalonSchutz = " .. arg .. "\n")
+	elseif event == "AvalonRoomID" then debugc("AvalonRoomID = " .. arg .. "\n")
+	elseif event == "AvalonGruppe" then debugc("AvalonGruppe = " .. arg .. "\n")
+	elseif event == "RoomBrief" then debugc("RoomBrief = " .. arg .. "\n")
+	elseif event == "AvalonArea" then debugc("AvalonArea = " .. arg .. "\n")
+	elseif event == "AvalonInv" then debugc("AvalonInv = " .. arg .. "\n")
+	elseif event == "AvalonSite" then debugc("AvalonSite = " .. arg .. "\n")
+	elseif event == "AvalonExits" then debugc("AvalonExits = " .. arg .. "\n")
+	elseif event == "AvalonZaubern" then debugc("AvalonZaubern = " .. arg .. "\n")
+	elseif event == "AvalonChannel" then debugc("AvalonChannel = " .. arg .. "\n")
+	elseif event == "AvalonComm" then debugc("AvalonComm = " .. arg .. "\n")
+	elseif event == "AvalonRComm" then debugc("AvalonRComm = " .. arg .. "\n")
+	elseif event == "AvalonSoul" then debugc("AvalonSoul = " .. arg .. "\n")
+	elseif event == "AvalonRSoul" then debugc("AvalonRSoul = " .. arg .. "\n")
+	elseif event == "AvalonGrafikVermeiden" then debugc("AvalonGrafikVermeiden = " .. arg .. "\n")
+	elseif event == "AvalonAvalonIcon16" then debugc("AvalonAvalonIcon16 = " .. arg .. "\n")
+	elseif event == "AvalonAvalonWeg" then debugc("AvalonAvalonWeg = " .. arg .. "\n")
+	elseif event == "AvalonInventarRein" then debugc("AvalonInventarRein = " .. arg .. "\n")
+	elseif event == "AvalonInventarRaus" then debugc("AvalonInventarRaus = " .. arg .. "\n")
+	elseif event == "AvalonBehaelterRein" then debugc("AvalonBehaelterRein = " .. arg .. "\n")
+	elseif event == "AvalonBehaelterRaus" then debugc("AvalonBehaelterRaus = " .. arg .. "\n")
+	elseif event == "AvalonGefuehrt" then debugc("AvalonGefuehrt = " .. arg .. "\n")
+	elseif event == "AvalonGesenkt" then debugc("AvalonGesenkt = " .. arg .. "\n")
+	elseif event == "AvalonAngezogen" then debugc("AvalonAngezogen = " .. arg .. "\n")
+	elseif event == "AvalonAusgezogen" then debugc("AvalonAusgezogen = " .. arg .. "\n")
+	elseif event == "AvalonKampf" then debugc("AvalonKampf = " .. arg .. "\n")
+	elseif event == "AvalonAngegriffen" then debugc("AvalonAngegriffen = " .. arg .. "\n")
+	elseif event == "AvalonGetoetet" then debugc("AvalonGetoetet = " .. arg .. "\n")
+	elseif event == "AvalonGruppeGetoetet" then debugc("AvalonGruppeGetoetet = " .. arg .. "\n")
+	elseif event == "AvalonAllyGetoetet" then debugc("AvalonAllyGetoetet = " .. arg .. "\n")
 	else
-		echo("Fehler in der Funktion onATCPEvent: " .. event .. " - " .. arg .. "\n")
+		debugc("Fehler in der Funktion onATCPEvent: " .. event .. " - " .. arg .. "\n")
 	end
 end
 
@@ -92,7 +94,11 @@ end
 
 -- event == "AvalonName"
 function onATCPEventAvalonName(event, arg)
+	--cecho("<magenta>AvalonName per ATCP empfangen!\n")
 	if player.name ~= arg then
+		if string.len(player.name) == 0 then
+			loadCharacterFileFromDisk(arg)
+		end
 		player.name = arg
 		raiseEvent("RefreshInfobox", arg)
 	end
@@ -201,6 +207,7 @@ registerAnonymousEventHandler("AvalonHunger", "onATCPEventAvalonHunger")
 
 -- event == "AvalonDurst"
 function onATCPEventAvalonDurst(event, arg)
+	debugc("AvalonDurst: " .. arg .. "\n")
 	if player.durst ~= arg then
 		player.durst = arg
 		raiseEvent("RefreshInfobox", arg)
@@ -302,25 +309,17 @@ registerAnonymousEventHandler("AvalonMAXMP", "onATCPEventAvalonMAXMP")
 
 -----------------------
 
-registerAnonymousEventHandler("AvalonHoehe", "onATCPEvent")
-registerAnonymousEventHandler("AuthRequest", "onATCPEvent")
-registerAnonymousEventHandler("AvalonDunkel", "onATCPEvent")
-registerAnonymousEventHandler("AvalonFlucht", "onATCPEvent")
-registerAnonymousEventHandler("AvalonSchutz", "onATCPEvent")
-registerAnonymousEventHandler("AvalonRoomID", "onATCPEvent")
-registerAnonymousEventHandler("AvalonGruppe", "onATCPEvent")
-registerAnonymousEventHandler("RoomBrief", "onATCPEvent")
-registerAnonymousEventHandler("AvalonArea", "onATCPEvent")
-registerAnonymousEventHandler("AvalonInv", "onATCPEvent")
-registerAnonymousEventHandler("AvalonSite", "onATCPEvent")
-registerAnonymousEventHandler("AvalonExits", "onATCPEvent")
-registerAnonymousEventHandler("AvalonZaubern", "onATCPEvent")
 registerAnonymousEventHandler("AvalonChannel", "onATCPEvent")
 registerAnonymousEventHandler("AvalonComm", "onATCPEvent")
 registerAnonymousEventHandler("AvalonRComm", "onATCPEvent")
-registerAnonymousEventHandler("AvalonGrafikVermeiden", "onATCPEvent")
-registerAnonymousEventHandler("AvalonAvalonIcon16", "onATCPEvent")
-registerAnonymousEventHandler("AvalonAvalonWeg", "onATCPEvent")
+registerAnonymousEventHandler("AvalonSoul", "onATCPEvent")
+registerAnonymousEventHandler("AvalonRSoul", "onATCPEvent")
+
+registerAnonymousEventHandler("AvalonHoehe", "onATCPEvent")
+registerAnonymousEventHandler("AvalonFlucht", "onATCPEvent")
+registerAnonymousEventHandler("AvalonSchutz", "onATCPEvent")
+registerAnonymousEventHandler("AvalonGruppe", "onATCPEvent")
+registerAnonymousEventHandler("AvalonZaubern", "onATCPEvent")
 registerAnonymousEventHandler("AvalonInventarRein", "onATCPEvent")
 registerAnonymousEventHandler("AvalonInventarRaus", "onATCPEvent")
 registerAnonymousEventHandler("AvalonBehaelterRein", "onATCPEvent")
@@ -336,6 +335,22 @@ registerAnonymousEventHandler("AvalonGruppeGetoetet", "onATCPEvent")
 registerAnonymousEventHandler("AvalonAllyGetoetet", "onATCPEvent")
 
 
+registerAnonymousEventHandler("AuthRequest", "onATCPEvent")
+registerAnonymousEventHandler("AvalonDunkel", "onATCPEvent")
+registerAnonymousEventHandler("AvalonRoomID", "onATCPEvent")
+registerAnonymousEventHandler("RoomBrief", "onATCPEvent")
+registerAnonymousEventHandler("AvalonArea", "onATCPEvent")
+registerAnonymousEventHandler("AvalonInv", "onATCPEvent")
+registerAnonymousEventHandler("AvalonSite", "onATCPEvent")
+registerAnonymousEventHandler("AvalonExits", "onATCPEvent")
+registerAnonymousEventHandler("AvalonAvalonWeg", "onATCPEvent")
+
+registerAnonymousEventHandler("AvalonGrafikVermeiden", "onATCPEvent")
+registerAnonymousEventHandler("AvalonAvalonIcon16", "onATCPEvent")
+
+
+-- Meldungen über channel:
+-- Avalon.Channel [kanalname] [Nachricht]
 
 --------------------------------------------------------------------
 -- onKill wird durch einen kill ausgelöst -- ab hier nicht funktionsfähig

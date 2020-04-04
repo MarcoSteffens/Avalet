@@ -6,23 +6,25 @@
 -- Die Daten für die Oberfläche kommen aus der Datei gui.lua, wo sozusagen
 -- Model und Control zusammengefasst sind.
 -- 
--- Dieses Script basierte ursprünglich mal auf einem Template von Akaya aus dem 
--- mudlet.org-Forum, das ich hier gefunden habe:
+-- Dieses Script, also das Layout, basierte ursprünglich mal auf einem Template
+-- vom User Akaya aus dem mudlet.org-Forum, das ich hier gefunden habe:
 -- https://forums.mudlet.org/viewtopic.php?t=4098
 -- Teile davon sind vermutlich noch enthalten.
--- Es enthält außerdem (immer noch) Arbeiten von Vadi aus dem gleichen Forum:
+-- Es enthält außerdem "CSSMan" von Vadi aus dem gleichen Forum:
 -- https://forums.mudlet.org/viewtopic.php?f=6&t=3502&p=17268&hilit=CSSMan#p17264
 --
 -- Autor ansonsten: Marco Steffens
 --------------------------------------------------------------------------------
 
-tConfig = {}
+-- TODO: hier die Werte rausziehen, die zentral einstellbar sein sollen
 
-tConfig.MainColorText = "#ffffff"
-tConfig.MainLabelBackground = "#303030"
-tConfig.MainColorBackground = "#000000"
-tConfig.MainColorBorder = "#999999"
-tConfig.MainColorHover = "#505050"
+local tConfig = {}
+
+tConfig.GaugeFrontColorTimer = "purple"
+tConfig.GaugeFrontColorTP = "darkred"
+tConfig.GaugeFrontColorAP = "goldenrod"
+tConfig.GaugeFrontColorZP = "blue"
+tConfig.GaugeFrontColorMana = "green"
 
 ----------------------------------------
 -- CSSMan von Vadi
@@ -105,16 +107,16 @@ GUI.BoxCSS = CSSMan.new([[
 -- CSS Tab-Element ---------------------------------------------
 
 GUI.MenuFooterCSS = CSSMan.new([[
-  background-color: rgb(0,0,70);
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+	background-color: rgb(20,0,20);
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
 ]])
 
 -- Each window actually has two labels. One for the light blue background, and another for the dark blue center. This will create that dark blue center. 
 GUI.MenuCenterCSS = CSSMan.new([[
-  background-color: rgb(0,0,50);
-  border-radius: 10px;
-  margin: 5px;
+	background-color: rgba(0,0,0,100);
+	border-radius: 10px;
+	margin: 5px;
 ]])
 
 -- Hier werden die Tabs und die Seiten dazu erzeugt.
@@ -123,7 +125,7 @@ GUI.MenuCenterCSS = CSSMan.new([[
 --background-color: ]]..menu.color1..[[;
 --background-color: rgb(20,0,20);
 GUI.MenuTabCSS = CSSMan.new([[
-	background-color: rgb(0,0,70);
+	background-color: rgb(20,0,20);
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
 	margin-right: 1px;
@@ -132,14 +134,14 @@ GUI.MenuTabCSS = CSSMan.new([[
 
 -- Now we create the windows that appear when each tab is clicked. Each window has two labels, one atop the other. The first, which we'll create here, has rounded edges on its bottom. 
 GUI.MenuAtopCSS = CSSMan.new([[
-	background-color: rgb(0,0,70);
+	background-color: rgb(20,0,20);
 	border-bottom-left-radius: 10px;
 	border-bottom-right-radius: 10px;
 ]])
 
 -- The second label serves as the window's center and has rounded edges on all sides. And a margin of 5px from it's parent, the label we just created. When adding stuff to your windows, this is the label you'll want to use. menu.<tabname>center
 GUI.MenuCenterCSS = CSSMan.new([[
-	background-color: rgb(0,0,50);
+	background-color: rgba(0,0,0,100);
 	border-radius: 10px;
 	margin: 5px;
 ]])
@@ -222,18 +224,18 @@ setBorderRight(w*0.35)
 ----------------------------------------
 
 GUI.Left = Geyser.Label:new({
-  name = "GUI.Left",
-  x = "0%", y = "0%",
-  width = "15%",
-  height = "100%",
+	name = "GUI.Left",
+	x = "0%", y = "0%",
+	width = "15%",
+	height = "100%",
 })
 GUI.Left:setStyleSheet(GUI.BackgroundCSS:getCSS())
 
 GUI.Right = Geyser.Label:new({
-  name = "GUI.Right",
-  x = "-35%", y = "0%",
-  width = "35%",
-  height = "100%",
+	name = "GUI.Right",
+	x = "-35%", y = "0%",
+	width = "35%",
+	height = "100%",
 })
 GUI.Right:setStyleSheet(GUI.BackgroundCSS:getCSS())
 
@@ -248,10 +250,10 @@ GUI.Right:setStyleSheet(GUI.BackgroundCSS:getCSS())
 -- Nämlich das Stylesheet mit der Umrandung. Und die Menü-Label-Elemente werden dann
 -- einfach obendrauf (statt innen drin) plaziert.
 GUI.Top = Geyser.Label:new({
-  name = "GUI.Top",
-  x = "15%", y = "0%",
-  width = "50%",
-  height = "7%",
+	name = "GUI.Top",
+	x = "15%", y = "0%",
+	width = "50%",
+	height = "7%",
 --  nestable = true,
 })
 --GUI.Top:setStyleSheet(GUI.BackgroundCSS:getCSS())
@@ -599,9 +601,16 @@ GUI.Mapper = Geyser.Mapper:new({
 
 ---------------------------------------------------------------------------
 -- Gauges für die Timer
+-- Hier werden (derzeit) 9 Gauge-Elemente für die Timer erzeugt und positioniert.
+-- in der Funktion "recreateTimer" werden die Timer dann alle unsichtbar und
+-- nur die benötigten werden wieder sichtbar und mit Werten beschrieben.
+-- Eigentlich war geplant, die Timer dynamischer zu gestalten, so dass es auch
+-- mehr als neun werden könnten. (Der Rest sollte dann etwas zusammen rücken.)
+-- Aber es scheint nicht möglich zu sein, einmal erzeugte Gauge-Elemente wieder
+-- zu löschen. (Auf nil setzen wirkt jedenfalls nicht.) Deshalb die statische
+-- Lösung und das unsichtbar machen.
 ---------------------------------------------------------------------------
 
---for k, v in pairs(sortedListOfTimers) do
 for k = 1, 9, 1 do
 	GUI["Timer"..k] = Geyser.Gauge:new({
 		name = "GUI.Timer"..k,
@@ -610,7 +619,7 @@ for k = 1, 9, 1 do
 		orientation = "goofy",
 	}, GUI.Box5)
 	GUI["Timer"..k].back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
-	GUI.GaugeFrontCSS:set("background-color","purple")
+	GUI.GaugeFrontCSS:set("background-color", tConfig.GaugeFrontColorTimer)
 	GUI["Timer"..k].front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
 	GUI["Timer"..k]:setValue(600, 600, "")
 end
@@ -630,11 +639,9 @@ GUI.Health = Geyser.Gauge:new({
 	orientation="vertical",
 }, GUI.Box7)
 GUI.Health.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
-GUI.GaugeFrontCSS:set("background-color","darkred")
+GUI.GaugeFrontCSS:set("background-color", tConfig.GaugeFrontColorTP)
 GUI.Health.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
 GUI.Health.text:setStyleSheet(GUI.GaugeTextCSS:getCSS())
---GUI.Health:setValue(100,100,"TP")
---GUI.Health:setValue(100,100,[[<b><center>999/999</center></br><center>TP</center></b>]])
 GUI.Health:setValue(100,100,[[<b><center>TP</center></b>]])
 
 GUI.Endurance = Geyser.Gauge:new({
@@ -644,11 +651,9 @@ GUI.Endurance = Geyser.Gauge:new({
 	orientation="vertical",
 }, GUI.Box7)
 GUI.Endurance.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
-GUI.GaugeFrontCSS:set("background-color","goldenrod")
+GUI.GaugeFrontCSS:set("background-color", tConfig.GaugeFrontColorAP)
 GUI.Endurance.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
 GUI.Endurance.text:setStyleSheet(GUI.GaugeTextCSS:getCSS())
---GUI.Endurance:setValue(100,100,"AP")
---GUI.Endurance:setValue(100,100,[[<b><center>999/999</center></br><center>AP</center></b>]])
 GUI.Endurance:setValue(100,100,[[<b><center>AP</center></b>]])
 
 
@@ -659,11 +664,9 @@ GUI.Spellpoints = Geyser.Gauge:new({
 	orientation="vertical",
 }, GUI.Box7)
 GUI.Spellpoints.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
-GUI.GaugeFrontCSS:set("background-color","blue")
+GUI.GaugeFrontCSS:set("background-color", tConfig.GaugeFrontColorZP)
 GUI.Spellpoints.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
 GUI.Spellpoints.text:setStyleSheet(GUI.GaugeTextCSS:getCSS())
---GUI.Spellpoints:setValue(100,100, "ZP")
---GUI.Spellpoints:setValue(100,100, [[<b><center>999/999</center></br><center>ZP</center></b>]])
 GUI.Spellpoints:setValue(100,100, [[<b><center>ZP</center></b>]])
 
 GUI.Mana = Geyser.Gauge:new({
@@ -672,10 +675,8 @@ GUI.Mana = Geyser.Gauge:new({
 	width="96%", height="20%",
 }, GUI.Box7)
 GUI.Mana.back:setStyleSheet(GUI.GaugeBackCSS:getCSS())
-GUI.GaugeFrontCSS:set("background-color","green")
+GUI.GaugeFrontCSS:set("background-color", tConfig.GaugeFrontColorMana)
 GUI.Mana.front:setStyleSheet(GUI.GaugeFrontCSS:getCSS())
---GUI.Mana:setValue(9999,9999, "Mana")
---GUI.Mana:setValue(9999,9999, [[<b><center>9999/9999 Mana</center></b>]])
 GUI.Mana:setValue(9999,9999, [[<b><center>Mana</center></b>]])
 
 -----------------------------------------------------------------------------

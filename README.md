@@ -9,11 +9,12 @@ Avalet ist ein Mudlet-Module für das [MUD Avalon](https://avalon.mud.de/). Für
 
 Avalet bietet in erster Linie:
 - Einen nicht zu übersehenden Überblick über TP, ZP, AP und Mana!
-- Eine Anzeige von Schildzaubern, Auren und anderen Timern! Mit einem *fancy!* Fortschrittsbalken! ;)
+- Eine Anzeige von Schildzaubern, Auren und anderen Timern! Mit *fancy* Fortschrittsbalken! ;)
 - Eine Karte (und einen Mapper)! *(coming soon)*
 - Viel mehr *bling-bling* als Plain-Avalon!
 - Noch vieles mehr! *(coming soon)*
 - Und noch mehr! *(coming soon)*
+- <blink>Enthält Script von TWRX!!!EinsElf!</blink>
 
 ```
             __________________________________________________________
@@ -86,13 +87,15 @@ Für eine **Aktualisierung** einfach die neuere Version downloaden und die alte 
 ```
 ## Mitmachen?
 
-Wenn du Lust hast, in dieses Projekt auch ein bisschen Zeit zu investieren, freue ich mich natürlich. Ich würde mich zum Beispiel über Bug-Hinweise und Feature-Vorschläge freuen! Du kannst auch die Werkzeuge verwenden, die Github so bereit stellt. Also einen Patch einreichen beispielsweise oder *Issues* melden oder so. Wenn Du mehr machen möchtest, kannst Du später auch *Collaborator* werden, aber im Moment gibt es dafür noch nicht die nötige Struktur.
+Zunächst mal freue ich mich immer über Rückmeldungen. Das hilft mir zu erkennen, was bei den Benutzern von Avalet gut ankommt und was nicht. Und das ist auf jeden Fall auch wichtig. Wenn du mir also Hinweise auf Bugs, Feature-Wünsche oder anderes per "rede" in Avalon, per Mail oder sonstwie schicken magst, ist das klasse! Du kannst auch hier auf der Seite einen "*Issue*" melden, wenn du magst.
 
-**Besonders freuen würde ich mich aber über Mitarbeit in zwei Bereichen. Und zwar einmal im Bereich "Benutzbarkeit mit Screenreader" und besonders auch im Bereich "Design".** Darin bin ich nämlich absoluter Anfänger. Wenn du dich da einbringen willst, sprich mich bitte an und lass uns einen Weg finden.
+Wenn du Lust (und die Möglichkeit) hast, dich direkt an diesem Projekt zu beteiligen, freue ich mich natürlich auch. Vielleicht mit einem *pull request*? Wenn Du mehr machen möchtest, kannst Du später vielleicht auch *Collaborator* werden, aber im Moment gibt es dafür noch nicht die nötige Struktur.
 
-Avalon ist im Moment als "Avalon-GUI für jedermensch" gedacht. Die Funktionalität soll entsprechend sein. Also: sinnvolle Unterstützung auch (und grade) für Anfänger. Aber kein *scripting* für Fortgeschrittene bitte. Wofür ihr das Plugin-System nutzt müsst ihr selber wissen.
+**Besonders freuen würde ich mich aber über Unterstützung in den Bereichen "Benutzbarkeit mit Screenreader" und besonders auch beim "Design".** Darin bin ich nämlich absoluter Anfänger. Wenn du dich da einbringen willst, sprich mich bitte an und lass uns einen Weg finden.
 
 **Beachte bitte, dass Avalet unter einer sehr freien Lizenz steht. Das würde Deinen Beitrag dann einschließen.**
+
+Avalon ist im Moment als "Avalon-GUI für jedermensch" gedacht. Die Funktionalität soll entsprechend sein. Also: sinnvolle Unterstützung auch (und grade) für Anfänger. Aber kein *scripting* für Fortgeschrittene bitte. Wofür du das Plugin-System nutzt, musst du selber wissen.
 
 Du kannst mich auch in Avalon kontaktieren, da heiße ich Rofhessa.
 
