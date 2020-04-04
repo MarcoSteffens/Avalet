@@ -62,7 +62,7 @@ Das eigentliche Modul besteht aus der Datei Avalet.mpackage. Die speicherst du b
 
 Dann legst du dir am besten ein sauberes (also neues) Profil in Mudlet an. Und *entfernst* als erstes in den `Preferences` auf dem Reiter `General` und in der Rubrik `Game protocols` den Haken bei `Enable GMCP`. Ava*lon* sendet per ATCP stattdessen, und mit eingeschaltetem GMCP funktioniert Ava*let* nicht.
 
-Anschließend importierst du dann mit dem **Modul-Manager** das vorhin gespeicherte Modul (Avalet.mpackage) in dein Profil. 
+Anschließend importierst du dann mit dem **Modul-Manager** das vorhin gespeicherte Modul (`Avalet.mpackage`) in dein Profil. 
 
 Danach sollte alles funktionieren.
 
@@ -84,7 +84,7 @@ Für eine **Aktualisierung** einfach die neuere Version downloaden und die alte 
 ```
 ## Mitmachen?
 
-Ich freue mich über jede Form von Rückmeldung per "rede" oder Mudmail (Rofhessa), Mail (rofhessa@gmx-topmail.de), Brieftaube oder wie auch immer. Wenn du Lob loswerden willst, (konstruktive) Kritik, Hinweise, Ideen, Bugmeldungen, Featurewünsche oder wenn du einfach nur mal "Hallo" sagen willst, bin ich ein dankbarer Empfänger. Du kannst auch hier auf der Seite einen "*Issue*" melden, wenn du magst.
+Ich freue mich über jede Form von Rückmeldung per "rede" oder Mudmail (Rofhessa), Mail (rofhessa@gmx-topmail.de), Brieftaube oder wie auch immer. Wenn du Lob loswerden willst, (konstruktive) Kritik, Hinweise, Ideen, Bugmeldungen, Featurewünsche oder wenn du einfach nur mal "Hallo" sagen willst, bin ich dein Mensch. Du kannst auch hier auf der Seite einen "*Issue*" melden, wenn du magst.
 
 Wenn du Lust hast, dich direkt an diesem Projekt zu beteiligen, freue ich mich natürlich auch. Vielleicht mit einem *pull request*? Wenn Du mehr machen möchtest, kannst Du später sicher auch *Collaborator* werden, aber im Moment gibt es dafür noch nicht die nötige Struktur.
 
