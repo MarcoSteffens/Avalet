@@ -49,14 +49,14 @@ function updateInfoBox()
 		end
 		if string.len(player.alter) ~= 0 then
 			str = player.alter
-			tage = string.gsub(str, ".*(%d+ Tage).*", "%1", 1)
-			stunden = string.gsub(str, ".*(%d+ Stunden).*", "%1", 1)
-			minuten = string.gsub(str, ".*(%d+ Minuten).*", "%1", 1)
-			sekunden = string.gsub(str, ".*(%d+ Sekunden).*", "%1", 1)
+			tage = string.gsub(str, "^(%d+%sTage).*", "%1", 1)
+			stunden = string.gsub(str, ".*%s(%d+%sStunden).*", "%1", 1)
+			minuten = string.gsub(str, ".*%s(%d+%sMinuten).*", "%1", 1)
+			sekunden = string.gsub(str, ".*%s(%d+%sSekunden).*", "%1", 1)
 
 			str = tage .. " " .. stunden .. " und " .. minuten
 
-			GUIModel.Infobox = GUIModel.Infobox .. "Du bist etwa " .. str .. " alt\n"
+			GUIModel.Infobox = GUIModel.Infobox .. "Du bist etwa " .. str .. " alt.\n"
 			--GUIModel.Infobox = GUIModel.Infobox .. "Du bist " .. player.alter .. " alt\n"
 		end
 		if string.len(player.portfolio) ~= 0 then
