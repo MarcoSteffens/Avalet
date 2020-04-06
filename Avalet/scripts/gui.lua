@@ -38,7 +38,7 @@ function updateInfoBox()
 			if player.portfolio == player.name then
 				GUIModel.Infobox = GUIModel.Infobox .. "Du bist Erstie.\n\n"
 			else
-				GUIModel.Infobox = GUIModel.Infobox .. "Du bist Zweitie im Portfolio von " .. firstToUpper(player.portfolio) .. ".\n\n"
+				GUIModel.Infobox = GUIModel.Infobox .. "Du bist Zweitie im Portfolio von " .. string.title(player.portfolio) .. ".\n\n"
 			end
 		end
 		if string.len(player.level) ~= 0 then
@@ -58,7 +58,7 @@ function updateInfoBox()
 		end
 	else
 		debugc("\nKeine Player-Daten vorhanden!\n")
-		GUIModel.Infobox = "\nKeine Player-Daten vorhanden!\n"
+		GUIModel.Infobox = "\nWarte auf Daten...\n"
 	end
 end
 updateInfoBox()
@@ -69,7 +69,7 @@ updateInfoBox()
 
 -- Generelle Variablen für das Tab-Element
 GUIModel.menu = GUIModel.menu or {
-  tabs = {"Rede", "Sag", "Laber", "Schwafel","Andere"},
+  tabs = {"Reden", "Sagen", "Laber", "Schwafel","Andere"},
   width = "10%",
   height = "40%",
 }
@@ -79,9 +79,37 @@ GUIModel.menu.current = GUIModel.menu.current or GUIModel.menu.tabs[1]
 for k,v in pairs(GUIModel.menu.tabs) do
 	-- Erzeugt einen Text-Variable für jeden Eintrag in der Menu-Liste
 	GUIModel.menu["chat"..v] = v  
+	Logger:Log(v, "")
 end
 
--- HIer muss der INhalt der Dateien vorhanden sein, in dene die Chats stehen sollen.
+-- Hier muss der Inhalt der Dateien vorhanden sein, in dene die Chats stehen sollen.
+
+--for k, v in pairs(GUIModel.menu.tabs) do
+	-- Inhalte der Tabs
+	-- Alle Tabs enthalten eine Mini-Console.
+	-- Bei den Kanal-Tabs wird dort die Ausgabe der entsprechenden Kanäle gesammelt angezeigt.
+	-- Bei anderen Tabs gibt es andere Inhalte.
+	-- Jede Minikonsole ist ansprechbar über ... ???
+--	GUI.menu[v.."console"] = Geyser.MiniConsole:new({
+--		name=v,
+--		x="2%", y="2%",
+--		width = "96%",
+--		height = "96%",
+--		--autoWrap = true,
+--		color = "black",
+--		scrollBar = false,
+--		fontSize = 11,
+--	}, GUI.menu[v.."center"])
+--	--GUI.Spielstand:setColor("black") -- give it a nice black background
+--	--GUI.Spielstand:setFont("Bitstream Vera Sans Mono")
+--	--clearWindow("menu." .. v .. "console")
+--	GUI.menu[v.."console"]:echo(GUIModel.menu["chat"..v])
+--
+--	-- Finally, we hide all the windows and end the for loop.
+--	GUI.menu[v]:hide()
+--end
+
+
 
 -------------------------------------------------------------
 --- Top-Menü
@@ -270,19 +298,43 @@ end
 
 -- Daten hier halten oder direkt aus dem character-objekt?
 
-----------------------------
+--------------------------------------------------------------------------------
 -- Refresh Event Handler
------------------------------
+--------------------------------------------------------------------------------
+
+function onRefreshTabElement(event, channel)
+
+	--tabs = {"Reden", "Sagen", "Laber", "Schwafel","Andere"},
+	content = ""
+	if GUIModel.menu.current == channel then
+		debugc("Der TAB " .. channel .. " wird aktualisiert.")
+		
+		content = Logger:ReadLog(channel)
+	
+	end
+	debugc("<magenta>clearWindow: ".. channel .. "\n")
+	clearWindow(channel)
+	GUI.menu[GUIModel.menu.current.."console"]:echo(content)
+	--GUI.menu[v.."console"]:echo(GUIModel.menu["chat"..v])
+end
+registerAnonymousEventHandler("RefreshTabElement", "onRefreshTabElement")
+--raiseEvent("RefreshTabElement", "aktiverTabName")
 
 function onRefreshInfobox(event, args)
-	writeDataToFS(characterFilePath, player, "w")
-	updateInfoBox()
-	--GUI.Spielstand:echo(args)
-	GUI.Spielstand:echo(GUIModel.Infobox)
+-- Diese Funktion kann aufgerufen werden, obwohl noch
+-- kein Player-Objekt besteht. (Also obwohl der Player-Name noch nicht
+-- per ATCP eingetroffen ist. Workaround: auf player.name testen.)
+	if player.name ~= "" then
+		writeDataToFS(characterFilePath, player, "w")
+		updateInfoBox()
+		--GUI.Spielstand:echo(args)
+		GUI.Spielstand:echo(GUIModel.Infobox)
 	--GUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "<b>" .. args[1] .. "/" .. args[2] .. "</b>")
+	end
 end
 registerAnonymousEventHandler("RefreshInfobox", "onRefreshInfobox")
 --raiseEvent("RefreshCharacterVollername", ???)
+
 
 function onRefreshTimerView(event, args)
 	--echo("onRefreshTimerView DAS SOLLTE NICHT PASSIEREN\n")
@@ -302,6 +354,7 @@ function onRefreshTimerView(event, args)
 	end
 end
 registerAnonymousEventHandler("RefreshTimerView", "onRefreshTimerView")
+
 
 function onRecreateTimerView(event, args)
 	--echo("onRecreateTimerView\n")
@@ -323,6 +376,7 @@ function onRecreateTimerView(event, args)
 end
 registerAnonymousEventHandler("RecreateTimerView", "onRecreateTimerView")
 
+
 function onRefreshHealthBar(event, args)
 	GUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>TP</center></b>")
 	-- GUI.Health:setValue(100,100,[[<b><center>999/999</center></br><center>TP</center></b>]])
@@ -330,15 +384,18 @@ function onRefreshHealthBar(event, args)
 end
 registerAnonymousEventHandler("RefreshHealthBar", "onRefreshHealthBar")
 
+
 function onRefreshEnduranceBar(event, args)
 	GUI.Endurance:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>AP</center></b>")
 end
 registerAnonymousEventHandler("RefreshEnduranceBar", "onRefreshEnduranceBar")
 
+
 function onRefreshSpellpointsBar(event, args)
 	GUI.Spellpoints:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>ZP</center></b>")
 end
 registerAnonymousEventHandler("RefreshSpellpointsBar", "onRefreshSpellpointsBar")
+
 
 function onRefreshManaBar(event, args)
 	GUI.Mana:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. " Mana</center></b>")

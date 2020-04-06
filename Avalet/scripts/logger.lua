@@ -48,7 +48,7 @@ function Logger:Log(file, val, options)
 
 	local line = ""
    if table.contains(options, "timestamp") then
-		local time_format = "'['dd'/'MM'/'yyyy' - 'hh':'mm':'ss'.'zzz]: "
+		local time_format = "'['dd'.'MM'.'yyyy' - 'hh':'mm':'ss'.'zzz]: "
 		line = line .. getTime(true, time_format)
 	end
 
@@ -136,6 +136,33 @@ function Logger:SearchLog(file, pattern)
 	f:close()
 
 	Logger:echo("Term matched " .. counter .. " times in " .. lines .. " lines.")
+end
+
+-- Hinzugefügt von Marco Steffens
+function Logger:ReadLog(file)
+	self:_closeLog(file) -- close the log if its open, so we can access it
+	debugc("File: "..self:getLogDirectory() .. file .. ".txt\n")
+	local filename = self:getLogDirectory() .. file .. ".txt"
+	if not io.exists(filename) then
+		self:echo("File '" .. file .. "' does not exist!")
+		return "bla"
+	else
+		local f = io.open(filename, "r")
+		content = ""
+		for line in f:lines() do
+			if line ~= "" then
+				-- "'['dd'.'MM'.'yyyy' - 'hh':'mm':'ss'.'zzz]: "
+				-- "[05.04.2020 - 16:45:00.283]: "
+				--x = string.gsub("hello world", "%w+", "%0 %0", 1)
+				-- ^\[\d{2}\.\d{2}\.\d{4} - (\d{2}:\d{2}:\d{2}).\d{3}\]: (.*)$
+				-- "^%[%d{2}%.%d{2}%.%d{4} %- (%d{2}:%d{2}:%d{2})%.%d{3}%]: (.*)$", "[%0]: %1", 1)
+				-- %^ITALIC%^schelmisch%^NO_ITALIC%^
+				line = string.gsub(line, "^%[%d+%.%d+%.%d+ %- (%d+:%d+:%d+)%.%d+%]: (.*)$", "%1: %2", 1)
+				content = content .. "\n" .. line
+			end
+		end
+		return content
+	end
 end
 
 function Logger:LogSection(file, options)

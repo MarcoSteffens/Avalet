@@ -4,6 +4,8 @@
 -- 
 ---------------------------------------------------------------------------
 
+require "Avalet.scripts.logger"
+
 
 -- DEBUG
 debug_mode = false
@@ -20,9 +22,9 @@ end
 
 -- ENDE DEBUG
 
-function firstToUpper(str)
-    return (str:gsub("^%l", string.upper))
-end
+--function firstToUpper(str)
+--    return (str:gsub("^%l", string.upper))
+--end
 
 
 function readFileFromFS(path, mode)
@@ -94,8 +96,8 @@ mudletHomeDir = getMudletHomeDir()
 avaletCharacterFilePrefix = "AvaletCharacter"
 avaletCharacterFileExtension = ".json"
 function loadCharacterFileFromDisk(charName)
-	--cecho("<magenta>Unerwünschter Aufruf?\n")
-	characterFilePath = getMudletHomeDir() .. "/" .. avaletCharacterFilePrefix .. firstToUpper(charName) .. avaletCharacterFileExtension
+	--debugc("<magenta>Unerwünschter Aufruf?\n")
+	characterFilePath = getMudletHomeDir() .. "/" .. avaletCharacterFilePrefix .. string.title(charName) .. avaletCharacterFileExtension
 	--echo(characterFilePath .. "\n")
 	if io.exists(characterFilePath) then
 		--echo("Charakter-Datei ist vorhanden, versuche Datei zu laden:\n" .. characterFilePath .. "\n")
@@ -268,6 +270,7 @@ require "Avalet.scripts.gui_view"
 -- und fuer das automatische Schwimmen/ Klettern
 onKeyPadEvent = function ( eventName,key,tDirections )
 	tDirections = {"sw","s","so","w","sc","o","nw","n","no","h","r","rein","raus"}
+	player.lastMove = tDirections[key]
 	--tPlayer.sLastMoveDirection=tDirections[key]
 	send(tDirections[key],false)
 --	if bAutoSchwimmen == true then
@@ -282,7 +285,7 @@ registerAnonymousEventHandler("keyPadEvent", "onKeyPadEvent")
 
 
 function onSysConnectionEvent()
-	--cecho("<red>sysConnectionEventHandler() running at this point.\n")
+	debugc("<red>sysConnectionEventHandler() running at this point.\n")
 	--echo("onConnect...\n")
 	-- Die ganzen "sendATCP" funktionieren hier noch nicht
 
@@ -300,7 +303,7 @@ end
 registerAnonymousEventHandler("sysConnectionEvent", "onSysConnectionEvent")
 
 function onSysExitEvent()
-	--cecho("<red>onSysExitEvent\n")
+	debugc("<red>onSysExitEvent\n")
 	--echo("Schreibe Character in Datei...\n")
 	writeDataToFS(characterFilePath, player, "w")
 	--echo("...done\n")
@@ -308,14 +311,14 @@ end
 registerAnonymousEventHandler("sysExitEvent", "onSysExitEvent")
 
 function onSysDisconnectionEvent()
-	--cecho("<red>onSysDisconnectionEvent()\n")
+	debugc("<red>onSysDisconnectionEvent()\n")
 	--echo("Schreibe Character in Datei...\n")
 	writeDataToFS(characterFilePath, player, "w")
 end
 registerAnonymousEventHandler("sysDisconnectionEvent", "onSysDisconnectionEvent")
 
 function afterReconnectEvent()
-	--cecho("<red>afterReconnectEvent()\n")
+	debugc("<red>afterReconnectEvent()\n")
 	sendATCP("ava_req_update")
 end
 registerAnonymousEventHandler("afterReconnectEvent", "afterReconnectEvent")
@@ -335,7 +338,7 @@ registerAnonymousEventHandler("afterReconnectEvent", "afterReconnectEvent")
 -- anderen Protokolle aktiviert, ich hatte jedenfalls keinen
 -- Auslöser des "elseif", trotz aktiviertem GMCP.
 function onSysProtocolEnabled(event,arg)
-	--cecho("<red>onSysProtocolEnabled() running at this point.\n")
+	debugc("<red>onSysProtocolEnabled() running at this point.\n")
 	if arg =="ATCP" then
 		--echo("ATCP Support aktiviert.\n")
 		sendATCP("ava_set_mapper",1)
@@ -348,7 +351,7 @@ function onSysProtocolEnabled(event,arg)
 		sendATCP("ava_req_update",1)
 		sendATCP("ava_req_graphics_status",1)
 	elseif arg=="GMCP" then
-		cecho("<red>GMCP ist offenbar aktiviert. So wird Avalet nicht funktionieren.\nBitte GMXP in den Einstellungen deaktivieren und neu starten.")
+		debugc("<red>GMCP ist offenbar aktiviert. So wird Avalet nicht funktionieren.\nBitte GMXP in den Einstellungen deaktivieren und neu starten.")
 	else
 		--echo("Support fuer "..arg.." ist aktiv.\n")
 	end

@@ -1,12 +1,12 @@
 # Avalet
 
-> **ACHTUNG: Dieses Projekt ist noch *pre-alpha*! Es gibt hier also vielleicht schon was zu sehen, aber nichts davon funktioniert. Auch wenn der Text was anderes behauptet. Wenn das Modul was gescheites macht, steht das hier auch. (Bzw. das hier steht hier dann nicht mehr.)**
+> **So langsam hat sich dieses Projekt einen *alpha*-Status verdient. Abgesehen vom Mapper ist die Grundfunktionalität da, aber noch nicht überall vollständig implementiert. Es wird auch überall noch größere und kleinere Probleme geben, die ich dann in den nächsten Tagen bearbeiten werde. Anschließend gibts ein offizielles Beta-Release. Wer schonmal probieren mag - ich freue mich immer über konstruktives Feedback.**
 
 Avalet ist ein Mudlet-Module für das [MUD Avalon](https://avalon.mud.de/). Für ein bisschen (mehr) Farbe und ein bisschen Klicki-Bunti.
 
 Avalet bietet in erster Linie:
-- Einen nicht zu übersehenden Überblick über TP, ZP, AP und Mana! *(coming soon)*
-- Eine Anzeige von Schildzaubern, Auren und anderen Timern! Mit *fancy* *Rück*schrittsbalken! ;) *(coming soon)*
+- Einen nicht zu übersehenden Überblick über TP, ZP, AP und Mana!
+- Eine Anzeige von Schildzaubern, Auren und anderen Timern! Mit *fancy* *Rückschritts*balken! ;)
 - Eine Karte (und einen Mapper)! *(coming soon)*
 - Viel mehr *bling-bling* als Plain-Avalon!
 - Noch vieles mehr! *(coming soon)*
@@ -28,9 +28,9 @@ Avalet bietet in erster Linie:
 
 ## Letzter Screenshot
 
-So sieht Avalet grade aus.
+So sieht Avalet grade aus:
 
-![letzter Screenshot](latest_screenshot.png)
+![aktueller Screenshot](latest_screenshot.png)
 
 ## Was Avalet sein soll
 
@@ -93,6 +93,18 @@ Wenn du Lust hast, dich direkt an diesem Projekt zu beteiligen, freue ich mich n
 **Beachte bitte, dass Avalet unter einer sehr freien Lizenz steht. Das würde Deinen Beitrag dann einschließen.**
 
 Avalon ist im Moment als "Avalon-GUI für jedermensch" gedacht. Die Funktionalität soll entsprechend sein. Also: sinnvolle Unterstützung auch (und grade) für Anfänger. Aber kein *scripting* für Fortgeschrittene bitte. Wofür du das Plugin-System nutzt, musst du selber wissen.
+
+```
+            __________________________________________________________
+           /                                                        / \
+           |                                                        | |
+           \________________________________________________________\_/
+            |                                                       |
+            |  "They all float down here. You'll float, too."       |_
+            |                     Pennywise über Bugs in Avalet     | |
+            \_______________________________________________________\_/
+
+```
 
 ## Installation für Entwickler
 

@@ -396,14 +396,7 @@ GUI.MenuFooter = Geyser.Label:new({
   width = "100%",
   height = "90%",
 }, GUI.MenuContainer)
---  background-color:black;
---  background-color: rgb(20,0,20);
 GUI.MenuFooter:setStyleSheet(GUI.MenuFooterCSS:getCSS())
---GUI.MenuFooter:setStyleSheet([[
---  background-color: rgb(0,0,70);
---  border-bottom-left-radius: 10px;
---  border-bottom-right-radius: 10px;
---]])
 
 -- Each window actually has two labels. One for the light blue background,
 -- and another for the dark blue center. This will create that dark blue center. 
@@ -413,14 +406,7 @@ GUI.MenuCenter = Geyser.Label:new({
   width = "100%",
   height = "100%",
 }, GUI.MenuFooter)
---  background-color: rgb(20,0,20);
---  background-color: rgb(255,255,255);
 GUI.MenuCenter:setStyleSheet(GUI.MenuCenterCSS:getCSS())
---GUI.MenuCenter:setStyleSheet([[
---  background-color: rgb(0,0,50);
---  border-radius: 10px;
---  margin: 5px;
---]])
 
 -- Hier werden die Tabs und die Seiten dazu erzeugt.
 GUI.menu = {}
@@ -444,11 +430,6 @@ for k, v in pairs(GUIModel.menu.tabs) do
 		height = "100%",
 	  }, GUI.MenuFooter)
 	GUI.menu[v]:setStyleSheet(GUI.MenuAtopCSS:getCSS())
---	  GUI.menu[v]:setStyleSheet([[
---		background-color: rgb(0,0,70);
---		border-bottom-left-radius: 10px;
---		border-bottom-right-radius: 10px;
---	  ]])
 	-- The second label serves as the window's center and has rounded edges on all sides. And a margin of 5px from it's parent, the label we just created. When adding stuff to your windows, this is the label you'll want to use. menu.<tabname>center
 	GUI.menu[v.."center"] = Geyser.Label:new({
 		name = "menu."..v.."center",
@@ -457,11 +438,6 @@ for k, v in pairs(GUIModel.menu.tabs) do
 		height = "100%",
 	  }, GUI.menu[v])
 	GUI.menu[v.."center"]:setStyleSheet(GUI.MenuCenterCSS:getCSS())
---	GUI.menu[v.."center"]:setStyleSheet([[
---		background-color: rgb(0,0,50);
---		border-radius: 10px;
---		margin: 5px;
---	]])
 	  
 	--------
 	-- Inhalte der Tabs
@@ -470,15 +446,16 @@ for k, v in pairs(GUIModel.menu.tabs) do
 	-- Bei anderen Tabs gibt es andere Inhalte.
 	-- Jede Minikonsole ist ansprechbar über ... ???
 	GUI.menu[v.."console"] = Geyser.MiniConsole:new({
-		name=v,
+		name=string.title(v),
 		x="2%", y="2%",
 		width = "96%",
 		height = "96%",
-		--autoWrap = true,
+		autoWrap = true,
 		color = "black",
 		scrollBar = false,
 		fontSize = 11,
 	}, GUI.menu[v.."center"])
+	debugc("<magenta>Consolen-Name: "..string.title(v).."\n")
 	--GUI.Spielstand:setColor("black") -- give it a nice black background
 	--GUI.Spielstand:setFont("Bitstream Vera Sans Mono")
 	--clearWindow("menu." .. v .. "console")
@@ -488,17 +465,24 @@ for k, v in pairs(GUIModel.menu.tabs) do
 	-- Finally, we hide all the windows and end the for loop.
 	GUI.menu[v]:hide()
 end
-
+raiseEvent("RefreshTabElement", GUIModel.menu.current)
 GUI.menu[GUIModel.menu.current]:show()
+
 
 
 -- The last step is to create our callback function for when a tab is clicked.
 -- This will hide that tab that is stored in menu.current, set menu.current to
 -- the clicked tab, and then show the menu.current tab. 
 function GUI.menu.click(tab)
-  GUI.menu[GUIModel.menu.current]:hide()
-  GUIModel.menu.current = tab
-  GUI.menu[GUIModel.menu.current]:show()
+	-- Das hier funktioniert nur, wenn die Tab-Beschriftung dem Channel
+	-- entspricht, also dem Namen der Datei, in die die Inhalte des
+	-- Tabs vorher geschrieben wurden. Minus dem .txt
+	GUI.menu[GUIModel.menu.current]:hide()
+	GUIModel.menu.current = tab
+	--refreshTabElement(tab)
+--	echo("TAB: " .. tab .. "\n")
+	raiseEvent("RefreshTabElement", tab)
+	GUI.menu[GUIModel.menu.current]:show()
 end
 
 -------------------------------------------------------------

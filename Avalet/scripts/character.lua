@@ -139,6 +139,8 @@ setmetatable(Character, {
 --	elseif event == "AvalonMAXSP" then echo("AvalonMAXSP = " .. arg .. "\n")
 --	elseif event == "AvalonMP" then echo("AvalonMP = " .. arg .. "\n")
 --	elseif event == "AvalonMAXMP" then echo("AvalonMAXMP = " .. arg .. "\n")
+
+	self.lastMove = ""
 --
 --    self.stats.staerke = 0
 --    self.stats.intelligenz = 0
