@@ -1,6 +1,6 @@
 # Avalet
 
-> **Mittlerweile hat sich dieses Projekt einen *alpha*-Status verdient, also bitte sehr: ~~Version 0.7-alpha~~. (Tja, die ist schon überholt. Einfach die neueste nehmen: [download](https://github.com/MarcoSteffens/Avalet/blob/master/Avalet.mpackage)) Abgesehen vom Mapper ist die Grundfunktionalität da, wenn es auch sicherlich hier und da noch etwas haken wird. Irgendwann demnächst gibts ein offizielles Beta-Release. Wer jetzt schonmal probieren mag - ich freue mich immer über konstruktives Feedback.**
+> **Mittlerweile hat sich dieses Projekt einen *alpha*-Status verdient, also bitte sehr: ~~Version 0.7-alpha~~. (Tja, die ist schon überholt. Einfach die .mpackage oben in der Auflistung nehmen.) Abgesehen vom Mapper ist die Grundfunktionalität da, wenn es auch sicherlich hier und da noch etwas haken wird. Irgendwann demnächst gibts ein offizielles Beta-Release. Wer jetzt schonmal probieren mag - ich freue mich immer über konstruktives Feedback.**
 
 Avalet ist ein Mudlet-Module für das [MUD Avalon](https://avalon.mud.de/). Für ein bisschen (mehr) Farbe und ein bisschen Klicki-Bunti.
 
