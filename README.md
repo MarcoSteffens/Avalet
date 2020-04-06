@@ -114,7 +114,7 @@ Du lädst das ganze Projekt in dein Arbeitsverzeichnis runter, und lädst die Av
 
 Ich hoffe, dass ich noch Wege finde, das ein bisschen leichter zu machen. Aber jetzt läuft es erstmal so.
 
-In absehbarer Zeit wird es auch ein **Debug-Modul** geben, das dann hier mit im Projekt rumliegt. Das benutze ich, um etwas bequemer entwickeln zu können. Es zeigt aber auch, wie Sub-Module in Avalet eingebunden werden können. **Die verwendete API ist noch pre-alpha und wird sich mit Sicherheit total ändern.** Hauptsächlich weil ich das ganze nur zusammengeschmiert hab. Wenn das Debug-Modul mindestens *beta* ist, werde ich es nochmal gesondert ankündigen.
+In absehbarer Zeit wird es auch ein **Debug-Modul** geben, das dann hier mit im Projekt rumliegt. Das benutze ich, um etwas bequemer entwickeln zu können. Es zeigt aber auch, wie Sub-Module in Avalet eingebunden werden können. **Die Schnittstellen sind noch pre-alpha und wird sich mit Sicherheit total ändern.** Wenn das Debug-Modul mindestens *beta* ist, werde ich es nochmal gesondert ankündigen.
 
 ## Shownotes
 
