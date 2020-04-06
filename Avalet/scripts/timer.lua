@@ -25,7 +25,7 @@ table.insert(timerStrings, {["name"]="Licht II", ["start"]="Du erzeugst Dir eine
 table.insert(timerStrings, {["name"]="Licht III", ["start"]="Ein grosser Lichtbogen breitet sich ueber Deinem Kopf aus\\.",["stop"]="Dein Lichtbogen verschwindet\\.", ["duration"]="1200"})
 table.insert(timerStrings, {["name"]="Arkanschild", ["start"]="Du wirst von einem Arkanschild umgeben\\.",["stop"]="Dein Arkanschild loest sich auf\\.", ["duration"]="600"})
 table.insert(timerStrings, {["name"]="Manarausch", ["start"]="Dichte Manawolken bilden nun einen gewaltigen Schutz um Dich herum\\.",["stop"]="Dein Manarausch laesst wieder nach\\.", ["duration"]="600"})
-table.insert(timerStrings, {["name"]="Magiertrance", ["start"]="Du sinkst in tiefe Trance\\.",["stop"]="Du erwachst aus Deiner Trance\\.", ["duration"]="600"})
+table.insert(timerStrings, {["name"]="Magiertrance", ["start"]="^Die Welt um Dich herum verliert an Bedeutung. Nur noch Deine Zauber sind$",["stop"]="Du erwachst aus Deiner Trance\\.", ["duration"]="600"})
 table.insert(timerStrings, {["name"]="Windhaut", ["start"]="Du bist nun vollkommen in eine Windhaut eingehuellt\\.",["stop"]="Deine Windhaut loest sich auf\\.", ["duration"]="600"})
 table.insert(timerStrings, {["name"]="Daemonenhaut", ["start"]="Du bist nun vollkommen in eine Daemonenhaut eingehuellt\\.",["stop"]="Deine Daemonenhaut loest sich auf\\.", ["duration"]="600"})
 table.insert(timerStrings, {["name"]="Lebensaura", ["start"]="Du oeffnest die Augen, aber der Schutz der Bluetenblaetter umgibt Dich",["stop"]="Deine Lebensaura loest sich auf\\.", ["duration"]="600"})

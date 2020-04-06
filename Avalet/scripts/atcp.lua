@@ -200,6 +200,7 @@ registerAnonymousEventHandler("AvalonGesinnung", "onATCPEventAvalonGesinnung")
 -- event == "AvalonHunger"
 function onATCPEventAvalonHunger(event, arg)
 	debugc("<magenta>AvalonHunger per ATCP empfangen!\n")
+	arg = string.trim(arg)
 	if player.hunger ~= arg then 
 		player.hunger = arg
 		raiseEvent("RefreshInfobox", arg)
@@ -212,6 +213,7 @@ registerAnonymousEventHandler("AvalonHunger", "onATCPEventAvalonHunger")
 -- event == "AvalonDurst"
 function onATCPEventAvalonDurst(event, arg)
 	debugc("<magenta>AvalonDurst per ATCP empfangen!\n")
+	arg = string.trim(arg)
 	if player.durst ~= arg then
 		player.durst = arg
 		raiseEvent("RefreshInfobox", arg)

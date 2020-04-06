@@ -29,32 +29,57 @@ function updateInfoBox()
 		if string.len(player.zuenfte) == 0 then
 			GUIModel.Infobox = GUIModel.Infobox .. "Du übst noch keine Berufe aus.\n"
 		else
-			GUIModel.Infobox = GUIModel.Infobox .. "Deine Berufe sind: " .. player.zuenfte .. ".\n"
+			local zuenfte = {}
+			for i in string.gmatch(player.zuenfte, "%w+") do
+				table.insert(zuenfte, i)
+			end			
+			str = ""
+			for k,v in pairs(zuenfte) do
+				if k == #zuenfte then
+					str = str .. " und "
+				end
+				str = str .. v
+				if k < #zuenfte - 1 then
+					str = str .. ", "
+				end
+			end
+			
+			GUIModel.Infobox = GUIModel.Infobox .. "Du gehörst den Zuenften " .. str .. " an.\n"
+			--GUIModel.Infobox = GUIModel.Infobox .. "Deine Berufe sind: " .. player.zuenfte .. ".\n"
 		end
 		if string.len(player.alter) ~= 0 then
-			GUIModel.Infobox = GUIModel.Infobox .. "Dein Alter: " .. player.alter .. "\n"
+			str = player.alter
+			tage = string.gsub(str, ".*(%d+ Tage).*", "%1", 1)
+			stunden = string.gsub(str, ".*(%d+ Stunden).*", "%1", 1)
+			minuten = string.gsub(str, ".*(%d+ Minuten).*", "%1", 1)
+			sekunden = string.gsub(str, ".*(%d+ Sekunden).*", "%1", 1)
+
+			str = tage .. " " .. stunden .. " und " .. minuten
+
+			GUIModel.Infobox = GUIModel.Infobox .. "Du bist etwa " .. str .. " alt\n"
+			--GUIModel.Infobox = GUIModel.Infobox .. "Du bist " .. player.alter .. " alt\n"
 		end
 		if string.len(player.portfolio) ~= 0 then
 			if player.portfolio == player.name then
-				GUIModel.Infobox = GUIModel.Infobox .. "Du bist Erstie.\n\n"
+				GUIModel.Infobox = GUIModel.Infobox .. "Du bist Erstie in Deinem Portfolio.\n\n"
 			else
 				GUIModel.Infobox = GUIModel.Infobox .. "Du bist Zweitie im Portfolio von " .. string.title(player.portfolio) .. ".\n\n"
 			end
 		end
 		if string.len(player.level) ~= 0 then
-			GUIModel.Infobox = GUIModel.Infobox .. "Dein Level: " .. player.level .. "\n"
+			GUIModel.Infobox = GUIModel.Infobox .. "Du bist Level " .. player.level .. "\n"
 		end
 		if string.len(player.ep) ~= 0 then
 			GUIModel.Infobox = GUIModel.Infobox .. "Dafür hast du bisher " .. player.ep .. " Erfahrungspunkte gesammelt.\n\n"
 		end
 		if string.len(player.gesinnung) ~= 0 then
-			GUIModel.Infobox = GUIModel.Infobox .. "Du bist " .. player.gesinnung .. " drauf.\n"
+			GUIModel.Infobox = GUIModel.Infobox .. "Deine Gesinnung ist " .. player.gesinnung .. ".\n"
 		end
 		if string.len(player.hunger) ~= 0 then
-			GUIModel.Infobox = GUIModel.Infobox .. "Hunger: " .. player.hunger .. "\n"
+			GUIModel.Infobox = GUIModel.Infobox .. "Hunger: " .. player.hunger .. ".\n"
 		end
 		if string.len(player.durst) ~= 0 then
-			GUIModel.Infobox = GUIModel.Infobox .. "Durst: " .. player.durst .. "\n"
+			GUIModel.Infobox = GUIModel.Infobox .. "Durst: " .. player.durst .. ".\n"
 		end
 	else
 		debugc("\nKeine Player-Daten vorhanden!\n")

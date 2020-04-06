@@ -361,7 +361,7 @@ GUI.Spielstand = Geyser.MiniConsole:new({
   autoWrap = true,
   color = "black",
   scrollBar = false,
-  fontSize = 11,
+  fontSize = 10,
 }, GUI.Box1)
 GUI.Spielstand:setColor("black") -- give it a nice black background
 GUI.Spielstand:setFont("Bitstream Vera Sans Mono")
@@ -453,9 +453,11 @@ for k, v in pairs(GUIModel.menu.tabs) do
 		autoWrap = true,
 		color = "black",
 		scrollBar = false,
-		fontSize = 11,
+		fontSize = 10,
 	}, GUI.menu[v.."center"])
 	debugc("<magenta>Consolen-Name: "..string.title(v).."\n")
+	setWindowWrap(string.title(v), 60)
+	GUI.Spielstand:setColor("black") -- give it a nice black background
 	--GUI.Spielstand:setColor("black") -- give it a nice black background
 	--GUI.Spielstand:setFont("Bitstream Vera Sans Mono")
 	--clearWindow("menu." .. v .. "console")

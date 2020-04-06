@@ -11,4 +11,14 @@ feedTriggers("\nDeine heilige Aura loest sich auf.\n")
 
 
 
-^(Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-z]+)beginnt\, schwach zu leuchten\.)
+"^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-z]+) beginnt\, schwach zu leuchten\."
+lua feedTriggers("\nDas Ankh auf Deinem magischen Quitscheentchen beginnt, schwach zu leuchten.\n")
+
+"Dein* verliert * magische Kraft."
+lua feedTriggers("\nDein magisches Quitscheentchen verliert seine magische Kraft.\n")
+
+table.insert(timerStrings, {["name"]="Segen", ["start"]="^(Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-z]+)beginnt\, schwach zu leuchten\.)", ["stop"]="Dein* verliert * magische Kraft.", ["duration"]="600"})
+
+lua sendATCP("ava_req_update")
+
+lua atcp
