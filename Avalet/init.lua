@@ -305,7 +305,9 @@ registerAnonymousEventHandler("sysConnectionEvent", "onSysConnectionEvent")
 function onSysExitEvent()
 	debugc("<red>onSysExitEvent\n")
 	--echo("Schreibe Character in Datei...\n")
-	writeDataToFS(characterFilePath, player, "w")
+	if player.name ~= "" then
+		writeDataToFS(characterFilePath, player, "w")
+	end
 	--echo("...done\n")
 end
 registerAnonymousEventHandler("sysExitEvent", "onSysExitEvent")

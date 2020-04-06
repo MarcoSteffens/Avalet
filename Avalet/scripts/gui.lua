@@ -179,7 +179,7 @@ function sortListOfTimers()
 			table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = 600, ["duration"] = 600})
 		else
 			-- echo("add temporary timer ... gleich kommt ein ture\n")
-			remaining = (v["duration"] - ((os.time() - v["starttime"])))
+			remaining = (tonumber(v["duration"]) - ((os.time() - v["starttime"])))
 			if remaining <= -30 then 
 -- TODO: 		hier einr emoveTimer könnte Probleme machen, weil removeTimer wieder sortListOfTimers aufruft - aber
 --       		im MOment scheint es zu funktionieren.
@@ -214,8 +214,13 @@ function findTimerByName(name)
     return nil
 end
 
-function registerTimer(name, duration)
+function registerTimer(name, duration , param)
 	--echo("\nregisterTimer\n")
+	param = param or nil
+	if param ~= nil then
+		--cecho("<magenta>\nParam ist nicht nil\n")
+		name = name .. " " .. param
+	end
 	if duration == false then
 		duration = "false"
 	end
@@ -225,10 +230,17 @@ function registerTimer(name, duration)
 	raiseEvent("RecreateTimerView")
 end
 
-function removeTimer(name)
+function removeTimer(name, param)
 	--echo("removeTimer\n")
+	param = param or nil
+	if param ~= nil then
+		--cecho("<magenta>\nRemove: Param ist nicht nil sondern: "..param.."\n")
+		name = name .. " " .. param
+	end
 	key = findTimerByName(name)
-	table.remove(listOfTimers, key)
+	if key ~= nil then
+		table.remove(listOfTimers, key)
+	end
 	sortListOfTimers()
 	raiseEvent("RecreateTimerView")
 end

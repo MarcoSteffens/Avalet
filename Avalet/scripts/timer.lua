@@ -20,7 +20,9 @@ table.insert(timerStrings, {["name"]="Kernschild", ["start"]="Das Glitzern legt 
 table.insert(timerStrings, {["name"]="Knochenschild", ["start"]="Du erhebst Dich wieder, der wirbelnde Schild aus Knochen umgibt Dich",["stop"]="Deine schuetzende Knochenwolke loest sich auf\\.", ["duration"]="600"})
 table.insert(timerStrings, {["name"]="Steinhaut", ["start"]="Du bist nun vollkommen in eine Steinhaut eingehuellt, .*",["stop"]=".*Du befreist Dich von Deiner Steinhaut.*|.*Deine Steinhaut loest sich auf.*|Das hat Deiner Steinhaut den letzten Rest gegeben, sie loest sich auf\\.", ["duration"]="600"})
 table.insert(timerStrings, {["name"]="Schild", ["start"]="Du wirst von einem magischen Schild umgeben\\.",["stop"]="Dein magischer Schild loest sich auf\\.", ["duration"]="600"})
-table.insert(timerStrings, {["name"]="Licht", ["start"]="Ein grosser Lichtbogen breitet sich ueber Deinem Kopf aus\\.|Du erzeugst Dir eine kleine Feuerkugel\\.|Du erzeugst Dir eine kleine Leuchtflamme\\.",["stop"]="Dein Lichtbogen verschwindet\\.|Deine Feuerkugel erlischt\\.|Deine Leuchtflamme erlischt\\.", ["duration"]="600"})
+table.insert(timerStrings, {["name"]="Licht I", ["start"]="Du erzeugst Dir eine kleine Feuerkugel\\.",["stop"]="Deine Feuerkugel erlischt\\.", ["duration"]="240"})
+table.insert(timerStrings, {["name"]="Licht II", ["start"]="Du erzeugst Dir eine kleine Leuchtflamme\\.",["stop"]="Deine Leuchtflamme erlischt\\.", ["duration"]="600"})
+table.insert(timerStrings, {["name"]="Licht III", ["start"]="Ein grosser Lichtbogen breitet sich ueber Deinem Kopf aus\\.",["stop"]="Dein Lichtbogen verschwindet\\.", ["duration"]="1200"})
 table.insert(timerStrings, {["name"]="Arkanschild", ["start"]="Du wirst von einem Arkanschild umgeben\\.",["stop"]="Dein Arkanschild loest sich auf\\.", ["duration"]="600"})
 table.insert(timerStrings, {["name"]="Manarausch", ["start"]="Dichte Manawolken bilden nun einen gewaltigen Schutz um Dich herum\\.",["stop"]="Dein Manarausch laesst wieder nach\\.", ["duration"]="600"})
 table.insert(timerStrings, {["name"]="Magiertrance", ["start"]="Du sinkst in tiefe Trance\\.",["stop"]="Du erwachst aus Deiner Trance\\.", ["duration"]="600"})
@@ -40,6 +42,7 @@ table.insert(timerStrings, {["name"]="Kampfsegen", ["start"]="Du bist motiviert 
 table.insert(timerStrings, {["name"]="Trotz", ["start"]="Du hast nun verbesserte Verteidigungsfertigkeiten\\.", ["stop"]="Deine verbesserten Verteidigungsfertigkeiten schwinden\\."})
 table.insert(timerStrings, {["name"]="Vergeltung", ["start"]="Du oeffnest Deine Augen und buendelst Deine Wut\\.", ["stop"]="Die Wut in Dir scheint besiegt\\."})
 table.insert(timerStrings, {["name"]="Blutrausch", ["start"]="Du laesst einen fuerchterlichen Urschrei von Dir. Es scheint so, als .*", ["stop"]="Die roetlichen Manawolken loesen sich auf\\."})
+table.insert(timerStrings, {["name"]="Segen", ["start"]="^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-z]+) beginnt\, schwach zu leuchten\.", ["stop"]="(Dein|Deine)([a-z ,]*)([A-z]+) verliert .* magische Kraft.", ["duration"]="600"})
 --^(Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-z]+)beginnt\, schwach zu leuchten\.)
 
 --echo("Group is active: ".. isActive("AvaletTriggerFuerTimer", "trigger").."\n")
@@ -50,12 +53,20 @@ for k, v in pairs(timerStrings) do
 			v["duration"] = "false"
 		end
 		--luaCode = "registerTimer("..v["name"]..", "..os.time()..", "..v["duration"]..")"
-		luaCode = [[registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[[")]]
+		param = ""
+		if v["name"] == "Segen" then
+			param = ", matches[4]"
+		end
+		luaCode = [[registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[)]]
 		--permRegexTrigger(v["name"].."Start", "AvaletTriggerFuerTimer", {v["start"]}, [[echo("]]..v["name"]..[[Start")]])
 		permRegexTrigger(v["name"].."Start", "AvaletTriggerFuerTimer", {v["start"]}, luaCode)
 	end
 	if exists(v["name"].."Stop", "trigger") == 0 then
-		luaCode = [[removeTimer("]]..v["name"]..[[")]]
+		param = ""
+		if v["name"] == "Segen" then
+			param = ", matches[4]"
+		end
+		luaCode = [[removeTimer("]]..v["name"]..[["]]..param..[[)]]
 		--permRegexTrigger(v["name"].."Stop", "AvaletTriggerFuerTimer", {v["stop"]}, [[echo("]]..v["name"]..[[Stop")]])
 		permRegexTrigger(v["name"].."Stop", "AvaletTriggerFuerTimer", {v["stop"]}, luaCode)
 	end
