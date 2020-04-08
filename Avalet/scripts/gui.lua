@@ -23,11 +23,17 @@ function updateInfoBox()
 			if player.gilde == "keine" then
 				GUIModel.Infobox = GUIModel.Infobox .. "Du bist noch in keiner Gilde.\n"
 			else
-				GUIModel.Infobox = GUIModel.Infobox .. "Du bist " .. player.gilde .. ".\n"
+				if player.gilde == "Druiden" then
+					GUIModel.Infobox = GUIModel.Infobox .. "Du bist bei den " .. player.gilde .. ".\n"
+				elseif player.gilde == "Magier" then
+					GUIModel.Infobox = GUIModel.Infobox .. "Du bist in der " .. player.gilde .. "gilde.\n"
+				else
+					GUIModel.Infobox = GUIModel.Infobox .. "Du bist " .. player.gilde .. ".\n"
+				end
 			end
 		end
 		if string.len(player.zuenfte) == 0 then
-			GUIModel.Infobox = GUIModel.Infobox .. "Du übst noch keine Berufe aus.\n"
+			GUIModel.Infobox = GUIModel.Infobox .. "Du uebst noch keine Berufe aus.\n"
 		else
 			local zuenfte = {}
 			for i in string.gmatch(player.zuenfte, "%w+") do
@@ -44,7 +50,7 @@ function updateInfoBox()
 				end
 			end
 			
-			GUIModel.Infobox = GUIModel.Infobox .. "Du gehörst den Zuenften " .. str .. " an.\n"
+			GUIModel.Infobox = GUIModel.Infobox .. "Du gehoerst den Zuenften " .. str .. " an.\n"
 			--GUIModel.Infobox = GUIModel.Infobox .. "Deine Berufe sind: " .. player.zuenfte .. ".\n"
 		end
 		if string.len(player.alter) ~= 0 then
@@ -415,6 +421,13 @@ registerAnonymousEventHandler("RecreateTimerView", "onRecreateTimerView")
 
 
 function onRefreshHealthBar(event, args)
+	-- Das Gauge-Element wird bei einem Wert von 0 vollständig
+	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei 
+	-- einem negativen Wert geschehen würde. Deshalb wird hier
+	-- jeder Wert unter 1 auf 1 gesetzt vor der anzeige.
+	if tonumber(args[1]) < 1 then
+		args[1] = 1
+	end
 	GUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>TP</center></b>")
 	-- GUI.Health:setValue(100,100,[[<b><center>999/999</center></br><center>TP</center></b>]])
 	-- [[<b><font color="]]..timerSchriftfarbe..[[">&nbsp;]] .. v["name"] .. [[</b></font>]]
@@ -423,18 +436,39 @@ registerAnonymousEventHandler("RefreshHealthBar", "onRefreshHealthBar")
 
 
 function onRefreshEnduranceBar(event, args)
-	GUI.Endurance:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>AP</center></b>")
+	-- Das Gauge-Element wird bei einem Wert von 0 vollständig
+	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei 
+	-- einem negativen Wert geschehen würde. Deshalb wird hier
+	-- jeder Wert unter 1 auf 1 gesetzt vor der anzeige.
+	if tonumber(args[1]) < 1 then
+		args[1] = 1
+	end
+	GUI.Endurance:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. tostring(args[1]) .. "/" .. tostring(args[2]) .. "</center></br><center>AP</center></b>")
 end
 registerAnonymousEventHandler("RefreshEnduranceBar", "onRefreshEnduranceBar")
 
 
 function onRefreshSpellpointsBar(event, args)
+	-- Das Gauge-Element wird bei einem Wert von 0 vollständig
+	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei 
+	-- einem negativen Wert geschehen würde. Deshalb wird hier
+	-- jeder Wert unter 1 auf 1 gesetzt vor der anzeige.
+	if tonumber(args[1]) < 1 then
+		args[1] = 1
+	end
 	GUI.Spellpoints:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>ZP</center></b>")
 end
 registerAnonymousEventHandler("RefreshSpellpointsBar", "onRefreshSpellpointsBar")
 
 
 function onRefreshManaBar(event, args)
+	-- Das Gauge-Element wird bei einem Wert von 0 vollständig
+	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei 
+	-- einem negativen Wert geschehen würde. Deshalb wird hier
+	-- jeder Wert unter 1 auf 1 gesetzt vor der anzeige.
+	if tonumber(args[1]) < 1 then
+		args[1] = 1
+	end
 	GUI.Mana:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. " Mana</center></b>")
 end
 registerAnonymousEventHandler("RefreshManaBar", "onRefreshManaBar")

@@ -53,7 +53,7 @@ function onATCPEvent(event, arg)
 	elseif event == "AuthRequest" then debugc("AuthRequest = " .. arg .. "\n")
 	elseif event == "AvalonDunkel" then debugc("AvalonDunkel = " .. arg .. "\n")
 	elseif event == "AvalonFlucht" then debugc("AvalonFlucht = " .. arg .. "\n")
-	elseif event == "AvalonSchutz" then debugc("AvalonSchutz = " .. arg .. "\n")
+	elseif event == "AvalonSchutz" then debugc("<green>AvalonSchutz = " .. arg .. "\n")
 	elseif event == "AvalonRoomID" then debugc("AvalonRoomID = " .. arg .. "\n")
 	elseif event == "AvalonGruppe" then debugc("AvalonGruppe = " .. arg .. "\n")
 	elseif event == "RoomBrief" then debugc("RoomBrief = " .. arg .. "\n")
@@ -61,10 +61,11 @@ function onATCPEvent(event, arg)
 	elseif event == "AvalonInv" then debugc("AvalonInv = " .. arg .. "\n")
 	elseif event == "AvalonSite" then debugc("AvalonSite = " .. arg .. "\n")
 	elseif event == "AvalonExits" then debugc("AvalonExits = " .. arg .. "\n")
-	elseif event == "AvalonZaubern" then debugc("AvalonZaubern = " .. arg .. "\n")
+	elseif event == "AvalonZaubern" then debugc("<green>AvalonZaubern = " .. arg .. "\n")
 	elseif event == "AvalonGrafikVermeiden" then debugc("AvalonGrafikVermeiden = " .. arg .. "\n")
 	elseif event == "AvalonAvalonIcon16" then debugc("AvalonAvalonIcon16 = " .. arg .. "\n")
 	elseif event == "AvalonAvalonWeg" then debugc("AvalonAvalonWeg = " .. arg .. "\n")
+--
 	elseif event == "AvalonInventarRein" then debugc("AvalonInventarRein = " .. arg .. "\n")
 	elseif event == "AvalonInventarRaus" then debugc("AvalonInventarRaus = " .. arg .. "\n")
 	elseif event == "AvalonBehaelterRein" then debugc("AvalonBehaelterRein = " .. arg .. "\n")
@@ -73,8 +74,9 @@ function onATCPEvent(event, arg)
 	elseif event == "AvalonGesenkt" then debugc("AvalonGesenkt = " .. arg .. "\n")
 	elseif event == "AvalonAngezogen" then debugc("AvalonAngezogen = " .. arg .. "\n")
 	elseif event == "AvalonAusgezogen" then debugc("AvalonAusgezogen = " .. arg .. "\n")
-	elseif event == "AvalonKampf" then debugc("AvalonKampf = " .. arg .. "\n")
-	elseif event == "AvalonAngegriffen" then debugc("AvalonAngegriffen = " .. arg .. "\n")
+--
+	elseif event == "AvalonKampf" then debugc("<green>AvalonKampf = " .. arg .. "\n")
+	elseif event == "AvalonAngegriffen" then debugc("<green>AvalonAngegriffen = " .. arg .. "\n")
 	elseif event == "AvalonGetoetet" then debugc("AvalonGetoetet = " .. arg .. "\n")
 	elseif event == "AvalonGruppeGetoetet" then debugc("AvalonGruppeGetoetet = " .. arg .. "\n")
 	elseif event == "AvalonAllyGetoetet" then debugc("AvalonAllyGetoetet = " .. arg .. "\n")
@@ -198,6 +200,7 @@ registerAnonymousEventHandler("AvalonGesinnung", "onATCPEventAvalonGesinnung")
 
 
 -- event == "AvalonHunger"
+-- Die Texte für Hunger und für Durst haben am Ende ein Leerzeichen zu viel.
 function onATCPEventAvalonHunger(event, arg)
 	debugc("<magenta>AvalonHunger per ATCP empfangen!\n")
 	arg = string.trim(arg)
@@ -211,6 +214,7 @@ registerAnonymousEventHandler("AvalonHunger", "onATCPEventAvalonHunger")
 
 
 -- event == "AvalonDurst"
+-- Die Texte für Hunger und für Durst haben am Ende ein Leerzeichen zu viel.
 function onATCPEventAvalonDurst(event, arg)
 	debugc("<magenta>AvalonDurst per ATCP empfangen!\n")
 	arg = string.trim(arg)
@@ -319,6 +323,8 @@ registerAnonymousEventHandler("AvalonMAXMP", "onATCPEventAvalonMAXMP")
 --  Kommunikation
 ----------------------------------------------------------------------------------------
 
+-- In der per ATCP empfangenen Kommunikation gibt es Formatierungsanweisungen,
+-- die hier rausgefiltert werden.
 function clearMessage(str)
 	message = str
 	message = string.gsub(message, "%%%^ITALIC%%%^", "")

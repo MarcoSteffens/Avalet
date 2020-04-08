@@ -16,7 +16,8 @@
 -- Autor ansonsten: Marco Steffens
 --------------------------------------------------------------------------------
 
--- TODO: hier die Werte rausziehen, die zentral einstellbar sein sollen
+-- TODO: hier die Werte rausziehen, die zentral einstellbar (zum Beispiel auch durch
+-- den Spieler irgendwann mal...) sein sollen
 
 local tConfig = {}
 
@@ -25,6 +26,9 @@ tConfig.GaugeFrontColorTP = "darkred"
 tConfig.GaugeFrontColorAP = "goldenrod"
 tConfig.GaugeFrontColorZP = "blue"
 tConfig.GaugeFrontColorMana = "green"
+tConfig.MiniConsoleCenterFontSize = 9
+tConfig.MiniConsoleTabsFontSize = 9
+
 
 ----------------------------------------
 -- CSSMan von Vadi
@@ -352,7 +356,6 @@ GUI.Box7 = Geyser.Container:new({
 -----------------------------------------------------
 -- Charakter-Informationen rechts oben
 -----------------------------------------------------
-
 GUI.Spielstand = Geyser.MiniConsole:new({
   name="Spielstand",
   x="3%", y="3%",
@@ -361,7 +364,7 @@ GUI.Spielstand = Geyser.MiniConsole:new({
   autoWrap = true,
   color = "black",
   scrollBar = false,
-  fontSize = 10,
+  fontSize = tConfig.MiniConsoleCenterFontSize,
 }, GUI.Box1)
 GUI.Spielstand:setColor("black") -- give it a nice black background
 GUI.Spielstand:setFont("Bitstream Vera Sans Mono")
@@ -453,7 +456,7 @@ for k, v in pairs(GUIModel.menu.tabs) do
 		autoWrap = true,
 		color = "black",
 		scrollBar = false,
-		fontSize = 10,
+		fontSize = tConfig.MiniConsoleCenterFontSize,
 	}, GUI.menu[v.."center"])
 	debugc("<magenta>Consolen-Name: "..string.title(v).."\n")
 	setWindowWrap(string.title(v), 60)

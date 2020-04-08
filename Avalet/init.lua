@@ -61,6 +61,7 @@ player = Character()
 
 --on Install:
 --setModulePriority("Avalet", 1)
+--SubModule: priority > 2, vorher prüfen ob avalet installiert ist
 
 -- Speicherort des Moduls
 -- C:/Users/<usrdir>/Documents/Avalet/Avalet.mpackage
@@ -157,9 +158,6 @@ chatSagFile = getMudletHomeDir() .. "/" .. chatSagFileName
 -- gilde
 -- zunft?
 -- gruppe
-
-
-
 
 
 require "Avalet.scripts.gui"
