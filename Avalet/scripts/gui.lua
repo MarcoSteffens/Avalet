@@ -55,10 +55,10 @@ function updateInfoBox()
 		end
 		if string.len(player.alter) ~= 0 then
 			str = player.alter
-			tage = string.gsub(str, "^(%d+%sTage).*", "%1", 1)
-			stunden = string.gsub(str, ".*%s(%d+%sStunden).*", "%1", 1)
-			minuten = string.gsub(str, ".*%s(%d+%sMinuten).*", "%1", 1)
-			sekunden = string.gsub(str, ".*%s(%d+%sSekunden).*", "%1", 1)
+			tage = string.gsub(str, "^(%d+%sTage?)%s.*", "%1", 1)
+			stunden = string.gsub(str, ".*%s(%d+%sStunden?)%s.*", "%1", 1)
+			minuten = string.gsub(str, ".*%s(%d+%sMinuten?)%s.*", "%1", 1)
+			sekunden = string.gsub(str, ".*%s(%d+%sSekunden?)%s.*", "%1", 1)
 
 			str = tage .. " " .. stunden .. " und " .. minuten
 
@@ -100,7 +100,7 @@ updateInfoBox()
 
 -- Generelle Variablen für das Tab-Element
 GUIModel.menu = GUIModel.menu or {
-  tabs = {"Reden", "Sagen", "Laber", "Schwafel","Andere"},
+  tabs = {"Reden", "Sagen", "Gruppe", "Volk", "Gilde", "Laber", "Schwafel"},
   width = "10%",
   height = "40%",
 }
@@ -181,19 +181,6 @@ end
 ---------------------------------------------------------------------------
 -- Gauges für die Timer
 ---------------------------------------------------------------------------
-
--- Dummy-Daten für die Timer-Liste. Die Startzeit ist später einfach os.time()
---listOfTimers = {
---	{["name"] = "Arkanschild", ["starttime"] = (os.time() - 550), ["duration"] = 600},
---	{["name"] = "Kampfbeschwörung", ["starttime"] = (os.time() - 580), ["duration"] = 600},
---	{["name"] = "Erdaura", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
---	{["name"] = "Schild", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
---	{["name"] = "Magiertrance", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
---	{["name"] = "Magieaufladung", ["starttime"] = (os.time() - math.random(600)), ["duration"] = 600},
---	{["name"] = "Steinhaut", ["starttime"] = "false", ["duration"] = "false"},
---	{["name"] = "Windhaut", ["starttime"] = "false", ["duration"] = "false"},
---	{["name"] = "Manarausch", ["starttime"] = "false", ["duration"] = "false"},
---}
 
 listOfTimers = {}
 
@@ -421,14 +408,16 @@ registerAnonymousEventHandler("RecreateTimerView", "onRecreateTimerView")
 
 
 function onRefreshHealthBar(event, args)
-	-- Das Gauge-Element wird bei einem Wert von 0 vollständig
-	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei 
-	-- einem negativen Wert geschehen würde. Deshalb wird hier
-	-- jeder Wert unter 1 auf 1 gesetzt vor der anzeige.
-	if tonumber(args[1]) < 1 then
-		args[1] = 1
+	-- Das Gauge-Element wird bei einem "current value" von 0 vollständig
+	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei einem negativen
+	-- Wert geschehen würde. Deshalb wird hier jeder Wert unter 1 auf 1
+	-- gesetzt. In dem Text auf dem Gauge muss aber natürlich der wirkliche
+	-- Wert stehen, deshalb die unterschiedliche Behandlung hier.
+	currentValue = args[1]
+	if currentValue < 1 then
+		currentValue = 1
 	end
-	GUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>TP</center></b>")
+	GUI.Health:setValue(tonumber(currentValue), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>TP</center></b>")
 	-- GUI.Health:setValue(100,100,[[<b><center>999/999</center></br><center>TP</center></b>]])
 	-- [[<b><font color="]]..timerSchriftfarbe..[[">&nbsp;]] .. v["name"] .. [[</b></font>]]
 end
@@ -436,39 +425,45 @@ registerAnonymousEventHandler("RefreshHealthBar", "onRefreshHealthBar")
 
 
 function onRefreshEnduranceBar(event, args)
-	-- Das Gauge-Element wird bei einem Wert von 0 vollständig
-	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei 
-	-- einem negativen Wert geschehen würde. Deshalb wird hier
-	-- jeder Wert unter 1 auf 1 gesetzt vor der anzeige.
-	if tonumber(args[1]) < 1 then
-		args[1] = 1
+	-- Das Gauge-Element wird bei einem "current value" von 0 vollständig
+	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei einem negativen
+	-- Wert geschehen würde. Deshalb wird hier jeder Wert unter 1 auf 1
+	-- gesetzt. In dem Text auf dem Gauge muss aber natürlich der wirkliche
+	-- Wert stehen, deshalb die unterschiedliche Behandlung hier.
+	currentValue = args[1]
+	if currentValue < 1 then
+		currentValue = 1
 	end
-	GUI.Endurance:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. tostring(args[1]) .. "/" .. tostring(args[2]) .. "</center></br><center>AP</center></b>")
+	GUI.Endurance:setValue(tonumber(currentValue), tonumber(args[2]), "<b><center>" .. tostring(args[1]) .. "/" .. tostring(args[2]) .. "</center></br><center>AP</center></b>")
 end
 registerAnonymousEventHandler("RefreshEnduranceBar", "onRefreshEnduranceBar")
 
 
 function onRefreshSpellpointsBar(event, args)
-	-- Das Gauge-Element wird bei einem Wert von 0 vollständig
-	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei 
-	-- einem negativen Wert geschehen würde. Deshalb wird hier
-	-- jeder Wert unter 1 auf 1 gesetzt vor der anzeige.
-	if tonumber(args[1]) < 1 then
-		args[1] = 1
+	-- Das Gauge-Element wird bei einem "current value" von 0 vollständig
+	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei einem negativen
+	-- Wert geschehen würde. Deshalb wird hier jeder Wert unter 1 auf 1
+	-- gesetzt. In dem Text auf dem Gauge muss aber natürlich der wirkliche
+	-- Wert stehen, deshalb die unterschiedliche Behandlung hier.
+	currentValue = args[1]
+	if currentValue < 1 then
+		currentValue = 1
 	end
-	GUI.Spellpoints:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>ZP</center></b>")
+	GUI.Spellpoints:setValue(tonumber(currentValue), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. "</center></br><center>ZP</center></b>")
 end
 registerAnonymousEventHandler("RefreshSpellpointsBar", "onRefreshSpellpointsBar")
 
 
 function onRefreshManaBar(event, args)
-	-- Das Gauge-Element wird bei einem Wert von 0 vollständig
-	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei 
-	-- einem negativen Wert geschehen würde. Deshalb wird hier
-	-- jeder Wert unter 1 auf 1 gesetzt vor der anzeige.
-	if tonumber(args[1]) < 1 then
-		args[1] = 1
+	-- Das Gauge-Element wird bei einem "current value" von 0 vollständig
+	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei einem negativen
+	-- Wert geschehen würde. Deshalb wird hier jeder Wert unter 1 auf 1
+	-- gesetzt. In dem Text auf dem Gauge muss aber natürlich der wirkliche
+	-- Wert stehen, deshalb die unterschiedliche Behandlung hier.
+	currentValue = args[1]
+	if currentValue < 1 then
+		currentValue = 1
 	end
-	GUI.Mana:setValue(tonumber(args[1]), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. " Mana</center></b>")
+	GUI.Mana:setValue(tonumber(currentValue), tonumber(args[2]), "<b><center>" .. args[1] .. "/" .. args[2] .. " Mana</center></b>")
 end
 registerAnonymousEventHandler("RefreshManaBar", "onRefreshManaBar")

@@ -296,6 +296,8 @@ function onSysConnectionEvent()
 	if exists("OnReconnect", "trigger") == 0 then
 		luaCode = [[raiseEvent("afterReconnectEvent")]]
 		permRegexTrigger("OnReconnect", "Avalet", {"^Verwende alten Koerper\.\.\.$"}, luaCode)
+		
+		--1 fehlgeschlagene Logins vorher.
 	end
 end
 registerAnonymousEventHandler("sysConnectionEvent", "onSysConnectionEvent")

@@ -368,6 +368,7 @@ GUI.Spielstand = Geyser.MiniConsole:new({
 }, GUI.Box1)
 GUI.Spielstand:setColor("black") -- give it a nice black background
 GUI.Spielstand:setFont("Bitstream Vera Sans Mono")
+setWindowWrap("Spielstand", 60)
 clearWindow("Spielstand")
 GUI.Spielstand:echo(GUIModel.Infobox)
 
@@ -419,6 +420,7 @@ for k, v in pairs(GUIModel.menu.tabs) do
 	GUI.menu[v.."tab"] = Geyser.Label:new({
 		name = "menu."..v.."tab",
 	  }, GUI.MenuHeader)
+	GUI.menu[v.."tab"]:setFontSize(11)	  
 	GUI.menu[v.."tab"]:setStyleSheet(GUI.MenuTabCSS:getCSS())
 	GUI.menu[v.."tab"]:echo("<center>"..v)
 

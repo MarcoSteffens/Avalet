@@ -48,42 +48,40 @@ end
 ----------------------------------------
 
 function onATCPEvent(event, arg)
-
-	if event == "AvalonHoehe" then debugc("AvalonHoehe = " .. arg .. "\n")
-	elseif event == "AuthRequest" then debugc("AuthRequest = " .. arg .. "\n")
-	elseif event == "AvalonDunkel" then debugc("AvalonDunkel = " .. arg .. "\n")
-	elseif event == "AvalonFlucht" then debugc("AvalonFlucht = " .. arg .. "\n")
-	elseif event == "AvalonSchutz" then debugc("<green>AvalonSchutz = " .. arg .. "\n")
-	elseif event == "AvalonRoomID" then debugc("AvalonRoomID = " .. arg .. "\n")
-	elseif event == "AvalonGruppe" then debugc("AvalonGruppe = " .. arg .. "\n")
-	elseif event == "RoomBrief" then debugc("RoomBrief = " .. arg .. "\n")
-	elseif event == "AvalonArea" then debugc("AvalonArea = " .. arg .. "\n")
-	elseif event == "AvalonInv" then debugc("AvalonInv = " .. arg .. "\n")
-	elseif event == "AvalonSite" then debugc("AvalonSite = " .. arg .. "\n")
-	elseif event == "AvalonExits" then debugc("AvalonExits = " .. arg .. "\n")
-	elseif event == "AvalonZaubern" then debugc("<green>AvalonZaubern = " .. arg .. "\n")
-	elseif event == "AvalonGrafikVermeiden" then debugc("AvalonGrafikVermeiden = " .. arg .. "\n")
-	elseif event == "AvalonAvalonIcon16" then debugc("AvalonAvalonIcon16 = " .. arg .. "\n")
-	elseif event == "AvalonAvalonWeg" then debugc("AvalonAvalonWeg = " .. arg .. "\n")
---
-	elseif event == "AvalonInventarRein" then debugc("AvalonInventarRein = " .. arg .. "\n")
-	elseif event == "AvalonInventarRaus" then debugc("AvalonInventarRaus = " .. arg .. "\n")
-	elseif event == "AvalonBehaelterRein" then debugc("AvalonBehaelterRein = " .. arg .. "\n")
-	elseif event == "AvalonBehaelterRaus" then debugc("AvalonBehaelterRaus = " .. arg .. "\n")
-	elseif event == "AvalonGefuehrt" then debugc("AvalonGefuehrt = " .. arg .. "\n")
-	elseif event == "AvalonGesenkt" then debugc("AvalonGesenkt = " .. arg .. "\n")
-	elseif event == "AvalonAngezogen" then debugc("AvalonAngezogen = " .. arg .. "\n")
-	elseif event == "AvalonAusgezogen" then debugc("AvalonAusgezogen = " .. arg .. "\n")
---
-	elseif event == "AvalonKampf" then debugc("<green>AvalonKampf = " .. arg .. "\n")
-	elseif event == "AvalonAngegriffen" then debugc("<green>AvalonAngegriffen = " .. arg .. "\n")
-	elseif event == "AvalonGetoetet" then debugc("AvalonGetoetet = " .. arg .. "\n")
-	elseif event == "AvalonGruppeGetoetet" then debugc("AvalonGruppeGetoetet = " .. arg .. "\n")
-	elseif event == "AvalonAllyGetoetet" then debugc("AvalonAllyGetoetet = " .. arg .. "\n")
-	else
-		debugc("Fehler in der Funktion onATCPEvent: " .. event .. " - " .. arg .. "\n")
-	end
+	cecho("<magenta>Wer dies lesen kann, hat einen Fehler gefunden! (atcp.lua, funct. onATCPEvent\n")
 end
+
+
+
+----------------------------------------------------------------------------------------
+-- Misc
+----------------------------------------------------------------------------------------
+
+-- event == "AvalonGrafikVermeiden"
+function onATCPEventAvalonGrafikVermeiden(event, arg)
+	debugc("AvalonGrafikVermeiden = " .. tostring(arg) .. "\n")
+
+--	channel = "ATCP"
+--	message = "AvalonGrafikVermeiden = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonGrafikVermeiden", "onATCPEventAvalonGrafikVermeiden")
+
+
+
+-- event == "AuthRequest"
+function onATCPEventAuthRequest(event, arg)
+	debugc("AuthRequest = " .. tostring(arg) .. "\n")
+
+--	channel = "ATCP"
+--	message = "AuthRequest = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AuthRequest", "onATCPEventAuthRequest")
+
+
 
 ----------------------------------------------------------------------------------------
 --  Charakter-Daten/Spielstand
@@ -227,6 +225,190 @@ registerAnonymousEventHandler("AvalonDurst", "onATCPEventAvalonDurst")
 
 
 
+-- event == "AvalonDurst"
+-- Die Texte für Hunger und für Durst haben am Ende ein Leerzeichen zu viel.
+function onATCPEventAvalonDurst(event, arg)
+	debugc("<magenta>AvalonDurst per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.durst ~= arg then
+		player.durst = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonDurst", "onATCPEventAvalonDurst")
+
+
+
+-- event == "AvalonHoehe"
+function onATCPEventAvalonHoehe(event, arg)
+	debugc("<magenta>AvalonHoehe per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.hoehe ~= arg then
+		player.hoehe = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonHoehe = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonHoehe", "onATCPEventAvalonHoehe")
+
+
+
+-- event == "AvalonFlucht"
+function onATCPEventAvalonFlucht(event, arg)
+	debugc("<magenta>AvalonFlucht per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.flucht ~= arg then
+		player.flucht = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonFlucht = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonFlucht", "onATCPEventAvalonFlucht")
+
+
+
+-- event == "AvalonSchutz"
+function onATCPEventAvalonSchutz(event, arg)
+	debugc("<magenta>AvalonSchutz per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.schutz ~= arg then
+		player.schutz = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonSchutz = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonSchutz", "onATCPEventAvalonSchutz")
+
+
+
+-- event == "AvalonGruppe"
+function onATCPEventAvalonGruppe(event, arg)
+	debugc("<magenta>AvalonGruppe per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.gruppenname ~= arg then
+		player.gruppenname = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonGruppe = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonGruppe", "onATCPEventAvalonGruppe")
+
+
+
+-- event == "AvalonZaubern"
+function onATCPEventAvalonZaubern(event, arg)
+	debugc("<magenta>AvalonZaubern per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.zaubern ~= arg then
+		player.zaubern = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonZaubern = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonZaubern", "onATCPEventAvalonZaubern")
+
+
+
+-- event == "AvalonKampf"
+function onATCPEventAvalonKampf(event, arg)
+	debugc("<magenta>AvalonKampf per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.kampf ~= arg then
+		player.kampf = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonKampf = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonKampf", "onATCPEventAvalonKampf")
+
+
+
+-- event == "AvalonAngegriffen"
+function onATCPEventAvalonAngegriffen(event, arg)
+	debugc("<magenta>AvalonAngegriffen per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.angegriffen ~= arg then
+		player.angegriffen = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonAngegriffen = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonAngegriffen", "onATCPEventAvalonAngegriffen")
+
+
+
+-- event == "AvalonGetoetet"
+function onATCPEventAvalonGetoetet(event, arg)
+	debugc("<magenta>AvalonGetoetet per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.getoetet ~= arg then
+		player.getoetet = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonGetoetet = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonGetoetet", "onATCPEventAvalonGetoetet")
+
+
+
+-- event == "AvalonGruppeGetoetet"
+function onATCPEventAvalonGruppeGetoetet(event, arg)
+	debugc("<magenta>AvalonGruppeGetoetet per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.gruppeGetoetet ~= arg then
+		player.gruppeGetoetet = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonGruppeGetoetet = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonGruppeGetoetet", "onATCPEventAvalonGruppeGetoetet")
+
+
+
+-- event == "AvalonAllyGetoetet"
+function onATCPEventAvalonAllyGetoetet(event, arg)
+	debugc("<magenta>AvalonAllyGetoetet per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.allyGetoetet ~= arg then
+		player.allyGetoetet = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonAllyGetoetet = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonAllyGetoetet", "onATCPEventAvalonAllyGetoetet")
+
+
+
 ----------------------------------------------------------------------------------------
 --  TP, TPMAX, AP, APMAX, ZP, ZPMAX, MP, MPMAX
 ----------------------------------------------------------------------------------------
@@ -321,6 +503,9 @@ registerAnonymousEventHandler("AvalonMAXMP", "onATCPEventAvalonMAXMP")
 
 ----------------------------------------------------------------------------------------
 --  Kommunikation
+--
+-- Meldungen über channel:
+-- Avalon.Channel [kanalname] [Nachricht]
 ----------------------------------------------------------------------------------------
 
 -- In der per ATCP empfangenen Kommunikation gibt es Formatierungsanweisungen,
@@ -343,6 +528,32 @@ function onATCPEventAvalonChannel(event, arg)
 	channel = string.title(string.match(arg, "(%w+)"))
 	message = arg:gsub("^.-%s", "", 1)
 	message = clearMessage(message)
+
+	-- Die Channelnamen hängen davon ab, in welcher Gilde, Zunft, in welchem Volk etc. der Char ist.
+	-- Keine Ahnung wie die alle heißen... 
+	-- Aber ich plünder mal das Script von Twrx und hoffe ansonsten, dass sich Spieler melden,
+	-- wenn ihr Kanal nicht abgedeckt ist. Diese Spieler haben dann in ihrem Profil-Verzeichnis, dort
+	-- im Ordner "log", eine Datei mit dem Kanalnamen + ".txt". Diesen Namen - ohne ".txt" - hier 
+	-- sinnig einbauen.
+
+	if channel == "Hyraskrieger" then channel = "Gilde" end
+	if channel == "Golemkultisten" then channel = "Gilde" end
+	if channel == "Daemonenkrieger" then channel = "Gilde" end
+	if channel == "Runenschmied" then channel = "Gilde" end
+	if channel == "Barden" then channel = "Gilde" end
+	if channel == "Kleriker" then channel = "Gilde" end
+	if channel == "Druiden" then channel = "Gilde" end
+	if channel == "Nekromanten" then channel = "Gilde" end
+	if channel == "Magier" then channel = "Gilde" end
+
+	if channel == "Mensch" then channel = "Volk" end
+	if channel == "Hobbit" then channel = "Volk" end
+	if channel == "Elf" then channel = "Volk" end
+	if channel == "Dunkelelf" then channel = "Volk" end
+	if channel == "Zwerg" then channel = "Volk" end
+	if channel == "Chaoszentaur" then channel = "Volk" end
+	if channel == "Amphib" then channel = "Volk" end
+	
 	Logger:Log(channel, message, {"timestamp"})
 	raiseEvent("RefreshTabElement", channel)
 end
@@ -413,44 +624,304 @@ function onATCPEventAvalonRSoul(event, arg)
 end
 registerAnonymousEventHandler("AvalonRSoul", "onATCPEventAvalonRSoul")
 
------------------------
-
-registerAnonymousEventHandler("AvalonHoehe", "onATCPEvent")
-registerAnonymousEventHandler("AvalonFlucht", "onATCPEvent")
-registerAnonymousEventHandler("AvalonSchutz", "onATCPEvent")
-registerAnonymousEventHandler("AvalonGruppe", "onATCPEvent")
-registerAnonymousEventHandler("AvalonZaubern", "onATCPEvent")
-registerAnonymousEventHandler("AvalonInventarRein", "onATCPEvent")
-registerAnonymousEventHandler("AvalonInventarRaus", "onATCPEvent")
-registerAnonymousEventHandler("AvalonBehaelterRein", "onATCPEvent")
-registerAnonymousEventHandler("AvalonBehaelterRaus", "onATCPEvent")
-registerAnonymousEventHandler("AvalonGefuehrt", "onATCPEvent")
-registerAnonymousEventHandler("AvalonGesenkt", "onATCPEvent")
-registerAnonymousEventHandler("AvalonAngezogen", "onATCPEvent")
-registerAnonymousEventHandler("AvalonAusgezogen", "onATCPEvent")
-registerAnonymousEventHandler("AvalonKampf", "onATCPEvent")
-registerAnonymousEventHandler("AvalonAngegriffen", "onATCPEvent")
-registerAnonymousEventHandler("AvalonGetoetet", "onATCPEvent")
-registerAnonymousEventHandler("AvalonGruppeGetoetet", "onATCPEvent")
-registerAnonymousEventHandler("AvalonAllyGetoetet", "onATCPEvent")
 
 
-registerAnonymousEventHandler("AuthRequest", "onATCPEvent")
-registerAnonymousEventHandler("AvalonDunkel", "onATCPEvent")
-registerAnonymousEventHandler("AvalonRoomID", "onATCPEvent")
-registerAnonymousEventHandler("RoomBrief", "onATCPEvent")
-registerAnonymousEventHandler("AvalonArea", "onATCPEvent")
-registerAnonymousEventHandler("AvalonInv", "onATCPEvent")
-registerAnonymousEventHandler("AvalonSite", "onATCPEvent")
-registerAnonymousEventHandler("AvalonExits", "onATCPEvent")
-registerAnonymousEventHandler("AvalonAvalonWeg", "onATCPEvent")
+----------------------------------------------------------------------------------------
+--  ??? Item-Handling
+----------------------------------------------------------------------------------------
 
-registerAnonymousEventHandler("AvalonGrafikVermeiden", "onATCPEvent")
-registerAnonymousEventHandler("AvalonAvalonIcon16", "onATCPEvent")
+-- event == "AvalonInventarRein"
+function onATCPEventAvalonInventarRein(event, arg)
+	debugc("AvalonInventarRein = " .. arg .. "\n")
+	
+	if player.inventarRein ~= arg then
+		player.inventarRein = arg
+--		raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonInventarRein = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonInventarRein", "onATCPEventAvalonInventarRein")
 
 
--- Meldungen über channel:
--- Avalon.Channel [kanalname] [Nachricht]
+
+-- event == "AvalonInventarRaus"
+function onATCPEventAvalonInventarRaus(event, arg)
+	debugc("AvalonInventarRaus = " .. arg .. "\n")
+	
+	if player.inventarRaus ~= arg then
+		player.inventarRaus = arg
+--		raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonInventarRaus = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonInventarRaus", "onATCPEventAvalonInventarRaus")
+
+
+
+-- event == "AvalonBehaelterRein"
+function onATCPEventAvalonBehaelterRein(event, arg)
+	debugc("AvalonBehaelterRein = " .. arg .. "\n")
+	
+	if player.behaelterRein ~= arg then
+		player.behaelterRein = arg
+--		raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonBehaelterRein = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonBehaelterRein", "onATCPEventAvalonBehaelterRein")
+
+
+
+-- event == "AvalonBehaelterRaus"
+function onATCPEventAvalonBehaelterRaus(event, arg)
+	debugc("AvalonBehaelterRaus = " .. arg .. "\n")
+	
+	if player.behaelterRaus ~= arg then
+		player.behaelterRaus = arg
+--		raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonBehaelterRaus = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonBehaelterRaus", "onATCPEventAvalonBehaelterRaus")
+
+
+
+-- event == "AvalonGefuehrt"
+function onATCPEventAvalonGefuehrt(event, arg)
+	debugc("AvalonAvalonGefuehrt = " .. arg .. "\n")
+	
+	if player.gefuehrt ~= arg then
+		player.gefuehrt = arg
+--		raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonGefuehrt = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonGefuehrt", "onATCPEventAvalonGefuehrt")
+
+
+
+-- event == "AvalonGesenkt"
+function onATCPEventAvalonGesenkt(event, arg)
+	debugc("AvalonGesenkt = " .. arg .. "\n")
+	
+	if player.gesenkt ~= arg then
+		player.gesenkt = arg
+--		raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonGesenkt = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonGesenkt", "onATCPEventAvalonGesenkt")
+
+
+
+-- event == "AvalonAngezogen"
+function onATCPEventAvalonAngezogen(event, arg)
+	debugc("AvalonAvalonAngezogen = " .. arg .. "\n")
+	
+	if player.angezogen ~= arg then
+		player.angezogen = arg
+--		raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonAngezogen = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonAngezogen", "onATCPEventAvalonAngezogen")
+
+
+
+-- event == "AvalonAusgezogen"
+function onATCPEventAvalonAusgezogen(event, arg)
+	debugc("AvalonGesenkt = " .. arg .. "\n")
+	
+	if player.ausgezogen ~= arg then
+		player.ausgezogen = arg
+--		raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonAusgezogen = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonAusgezogen", "onATCPEventAvalonAusgezogen")
+
+
+
+--------------------------------------------------------------------
+-- Map/Mapper
+--------------------------------------------------------------------
+
+-- event == "AvalonDunkel"
+function onATCPEventAvalonDunkel(event, arg)
+	debugc("AvalonDunkel = " .. tostring(arg) .. "\n")
+
+--	-- mapper.dunkel gibt es nicht, bei bedarf anlegen	
+--	if tmapper.dunkel ~= arg then
+--		tmapper.dunkel = arg
+--	end
+--	channel = "ATCP"
+--	message = "AvalonDunkel = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonDunkel", "onATCPEventAvalonDunkel")
+
+
+
+-- event == "AvalonRoomID"
+function onATCPEventAvalonRoomID(event, arg)
+	debugc("AvalonRoomID = " .. tostring(arg) .. "\n")
+
+--	-- tMapper.roomID gibt es nicht, bei bedarf anlegen	
+--	if tMapper.roomID ~= arg then
+--		tMapper.roomID = arg
+--	end
+--	channel = "ATCP"
+--	message = "AvalonRoomID = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonRoomID", "onATCPEventAvalonRoomID")
+
+
+
+-- event == "AvalonRoomBrief"
+function onATCPEventAvalonRoomBrief(event, arg)
+	debugc("AvalonRoomBrief = " .. tostring(arg) .. "\n")
+
+--	-- tMapper.roomBrief gibt es nicht, bei bedarf anlegen	
+--	if tMapper.roomBrief ~= arg then
+--		tMapper.roomBrief = arg
+--	end
+--	channel = "ATCP"
+--	message = "AvalonRoomBrief = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonRoomBrief", "onATCPEventAvalonRoomBrief")
+
+
+
+-- event == "AvalonArea"
+function onATCPEventAvalonArea(event, arg)
+	debugc("AvalonArea = " .. tostring(arg) .. "\n")
+
+--	-- tMapper.area gibt es nicht, bei bedarf anlegen	
+--	if tMapper.area ~= arg then
+--		tMapper.area = arg
+--	end
+--	channel = "ATCP"
+--	message = "AvalonArea = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonArea", "onATCPEventAvalonArea")
+
+
+
+-- event == "AvalonInv"
+function onATCPEventAvalonInv(event, arg)
+	debugc("AvalonInv = " .. tostring(arg) .. "\n")
+
+--	-- tMapper.inv gibt es nicht, bei bedarf anlegen	
+--	if tMapper.inv ~= arg then
+--		tMapper.inv = arg
+--	end
+--	channel = "ATCP"
+--	message = "AvalonInv = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonInv", "onATCPEventAvalonInv")
+
+
+
+-- event == "AvalonSite"
+function onATCPEventAvalonSite(event, arg)
+	debugc("AvalonSite = " .. tostring(arg) .. "\n")
+
+--	-- tMapper.site gibt es nicht, bei bedarf anlegen	
+--	if tMapper.site ~= arg then
+--		tMapper.site = arg
+--	end
+--	channel = "ATCP"
+--	message = "AvalonSite = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonSite", "onATCPEventAvalonSite")
+
+
+
+-- event == "AvalonExits"
+function onATCPEventAvalonExits(event, arg)
+	debugc("AvalonExits = " .. tostring(arg) .. "\n")
+
+--	-- tMapper.exits gibt es nicht, bei bedarf anlegen	
+--	if tMapper.exits ~= arg then
+--		tMapper.exits = arg
+--	end
+--	channel = "ATCP"
+--	message = "AvalonExits = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonExits", "onATCPEventAvalonExits")
+
+
+
+-- event == "AvalonAvalonWeg"
+function onATCPEventAvalonAvalonWeg(event, arg)
+	debugc("AvalonAvalonWeg = " .. tostring(arg) .. "\n")
+
+--	-- tMapper.avalonWeg gibt es nicht, bei bedarf anlegen	
+--	if tMapper.avalonWeg ~= arg then
+--		tMapper.avalonWeg = arg
+--	end
+--	channel = "ATCP"
+--	message = "AvalonAvalonWeg = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonAvalonWeg", "onATCPEventAvalonAvalonWeg")
+
+
+
+-- event == "AvalonAvalonIcon16"
+function onATCPEventAvalonAvalonIcon16(event, arg)
+	debugc("AvalonAvalonWeg = " .. tostring(arg) .. "\n")
+
+--	-- tMapper.avalonIcon16 gibt es nicht, bei bedarf anlegen	
+--	if tMapper.avalonIcon16 ~= arg then
+--		tMapper.avalonIcon16 = arg
+--	end
+--	channel = "ATCP"
+--	message = "AvalonAvalonIcon16 = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonAvalonIcon16", "onATCPEventAvalonAvalonIcon16")
+
+
 
 --------------------------------------------------------------------
 -- onKill wird durch einen kill ausgelöst -- ab hier nicht funktionsfähig
@@ -470,36 +941,6 @@ function AvalonAllyGetoetet(event,arg)
 end
 --registerAnonymousEventHandler("AvalonAllyGetoetet", "AvalonAllyGetoetet")
 
--- Script: AvalonAlter
-function AvalonAlter(event,arg)
-	onATCP (event,arg)
-end
---registerAnonymousEventHandler("AvalonAlter", "AvalonAlter")
-
--- Script: AvalonAngegriffen
-function AvalonAngegriffen(event,arg)
-	onATCP (event,arg)
-end
---registerAnonymousEventHandler("AvalonAngegriffen", "AvalonAngegriffen")
-
--- Script: AvalonAngezogen
-function AvalonAngezogen(event,arg)
-	onATCP (event,arg)
-end
---registerAnonymousEventHandler("AvalonAngezogen", "AvalonAngezogen")
-
--- Script: AvalonAusgaenge
-function AvalonAusgaenge(event,arg)
-	onATCP (event,arg)
-end
---registerAnonymousEventHandler("AvalonAusgaenge", "AvalonAusgaenge")
-
--- Script: AvalonAusgezogen
-function AvalonAusgezogen(event,arg)
-	onATCP (event,arg)
-end
---registerAnonymousEventHandler("AvalonAusgezogen", "AvalonAusgezogen")
-
 -- Script: AvalonAP
 function AvalonAP(event,arg)
 	tPlayer.diffap = tonumber(arg) - tonumber(tPlayer.ap)
@@ -507,11 +948,6 @@ function AvalonAP(event,arg)
 end
 --registerAnonymousEventHandler("AvalonAP", "AvalonAP")
 
--- Script: AvalonArea
-function AvalonArea(event,arg)
-	onATCP (event,arg)
-end
---registerAnonymousEventHandler("AvalonArea", "AvalonArea")
 
 -- Script: AvalonBehaelterRaus
 function AvalonBehaelterRaus(event,arg)

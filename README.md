@@ -14,6 +14,9 @@ Avalet bietet in erster Linie:
 - Und noch mehr! *(coming soon)*
 - Enthält Script von Twrx!!!
 
+Bekannte größere Einschränkungen derzeit:
+- Die Oberfläche skaliert nicht richtig, wenn man die Fenstergröße ändert. Umfangreicheres Problem - bis auf weiteres ist Avalet leider eine Vollbild-Anwendung.
+
 ```
             __________________________________________________________
            /                                                        / \

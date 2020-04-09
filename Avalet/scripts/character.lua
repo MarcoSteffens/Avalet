@@ -97,49 +97,48 @@ setmetatable(Character, {
   end,
   new=function()
     local self=setmetatable({}, getmetatable(Character))
-	self.name = ""
-	self.vollername = ""
-	self.alter = ""
-	self.gilde = ""
-	self.zuenfte = ""
-	self.ep = ""
-	self.level = ""
-	self.gesinnung = ""
-	self.portfolio = ""
-	self.hunger = ""
-	self.durst = ""
---
---    	if event == "AvalonName" then echo ("AvalonName = " .. arg .. "\n")
---	elseif event == "AvalonVollName" then echo("AvalonVollName = " .. arg .. "\n")
---	elseif event == "AvalonAlter" then echo("AvalonAlter = " .. arg .. "\n")
---	elseif event == "AvalonGilde" then echo("AvalonGilde = " .. arg .. "\n")
---	elseif event == "AvalonZuenfte" then echo("AvalonZuenfte = " .. arg .. "\n")
---	elseif event == "AvalonEP" then echo("AvalonEP = " .. arg .. "\n")
---	elseif event == "AvalonLevel" then echo("AvalonLevel = " .. arg .. "\n")
---	elseif event == "AvalonGesinnung" then echo("AvalonGesinnung = " .. arg .. "\n")
---	elseif event == "AvalonPortfolio" then echo("AvalonPortfolio = " .. arg .. "\n")
---	elseif event == "AvalonDurst" then echo("AvalonDurst = " .. arg .. "\n")
---	elseif event == "AvalonHunger" then echo("AvalonHunger = " .. arg .. "\n")
---
+	self.name = ""			-- ATCP: AvalonName
+	self.vollername = ""	-- ATCP: AvalonVollName
+	self.alter = ""			-- ATCP: AvalonAlter
+	self.gilde = ""			-- ATCP: AvalonGilde
+	self.zuenfte = ""		-- ATCP: AvalonZuenfte
+	self.ep = ""			-- ATCP: AvalonEP
+	self.level = ""			-- ATCP: AvalonLevel
+	self.gesinnung = ""		-- ATCP: AvalonGesinnung
+	self.portfolio = ""		-- ATCP: AvalonPortfolio
+	self.hunger = ""		-- ATCP: AvalonHunger
+	self.durst = ""			-- ATCP: AvalonDurst
+	--
+	self.hoehe = ""			-- ATCP: AvalonHoehe
+	self.flucht = ""		-- ATCP: AvalonFlucht
+	self.schutz = ""		-- ATCP: AvalonSchutz
+	self.gruppenname = ""	-- ATCP: AvalonGruppe
+	self.zaubern = 0		-- ATCP: AvalonZaubern
+	self.kampf = 0			-- ATCP: AvalonKampf
+	self.angegriffen = ""	-- ATCP: AvalonAngegriffen
+	self.getoetet = ""		-- ATCP: AvalonGetoetet
+	self.gruppeGetoetet = ""-- ATCP: AvalonGruppeGetoetet
+	self.allyGetoetet = ""	-- ATCP: AvalonAllyGetoetet
+	--
     self.stats = {}
-    self.stats.tp = 0
-    self.stats.tp_max = 0
-    self.stats.ap = 0
-    self.stats.ap_max = 0
-    self.stats.zp = 0
-    self.stats.zp_max = 0
-    self.stats.mp = 0
-    self.stats.mp_max = 0
---
---	elseif event == "AvalonTP" then echo("AvalonTP = " .. arg .. "\n")
---	elseif event == "AvalonMAXTP" then echo("AvalonMAXTP = " .. arg .. "\n")
---	elseif event == "AvalonAP" then echo("AvalonAP = " .. arg .. "\n")
---	elseif event == "AvalonMAXAP" then echo("AvalonMAXAP = " .. arg .. "\n")
---	elseif event == "AvalonSP" then echo("AvalonSP = " .. arg .. "\n")
---	elseif event == "AvalonMAXSP" then echo("AvalonMAXSP = " .. arg .. "\n")
---	elseif event == "AvalonMP" then echo("AvalonMP = " .. arg .. "\n")
---	elseif event == "AvalonMAXMP" then echo("AvalonMAXMP = " .. arg .. "\n")
-
+    self.stats.tp = 0		-- ATCP: AvalonTP
+    self.stats.tp_max = 0	-- ATCP: AvalonMAXTP
+    self.stats.ap = 0		-- ATCP: AvalonAP
+    self.stats.ap_max = 0	-- ATCP: AvalonMAXAP
+    self.stats.zp = 0		-- ATCP: AvalonSP
+    self.stats.zp_max = 0	-- ATCP: AvalonMAXSP
+    self.stats.mp = 0		-- ATCP: AvalonMP
+    self.stats.mp_max = 0	-- ATCP: AvalonMAXMP
+	--
+	self.inventarRein = ""	-- ATCP: AvalonInventarRein
+	self.inventarRaus = ""	-- ATCP: AvalonInventarRaus
+	self.behaelterRein = ""	-- ATCP: AvalonBehaelterRein
+	self.behaelterRaus = ""	-- ATCP: AvalonBehaelterRaus
+	self.gefuehrt = ""		-- ATCP: AvalonGefuehrt
+	self.gesenkt = ""		-- ATCP: AvalonGesenkt
+	self.angezogen = ""		-- ATCP: AvalonAngezogen
+	self.ausgezogen = ""	-- ATCP: AvalonAusgezogen
+	--
 	self.lastMove = ""
 --
 --    self.stats.staerke = 0
