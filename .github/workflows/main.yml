@@ -26,7 +26,7 @@ jobs:
     #- name: Run a one-line script
     #  run: echo Hello, world!
     - name: Zip Project
-      run: zip -r Avalet.zip . -x ".git/*" ".github/*"#.\Avalet\* -x "makeModule.bat" "7z.exe" ".*" "*_.lua" "*o-matic*" "AvaletDebugModule"
+      run: zip -r Avalet.zip . -x ".git/*" ".github/*" #.\Avalet\* -x "makeModule.bat" "7z.exe" ".*" "*_.lua" "*o-matic*" "AvaletDebugModule"
 
     # Runs a set of commands using the runners shell
     #- name: Run a multi-line script
