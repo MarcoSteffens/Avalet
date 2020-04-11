@@ -1,8 +1,8 @@
 # Avalet
 
-> **Mittlerweile hat sich dieses Projekt mindestens einen *alpha*-Status verdient. Abgesehen vom Mapper ist die Grundfunktionalität da, wenn es auch sicherlich hier und da noch etwas haken wird. Irgendwann demnächst gibts ein offizielles Beta-Release. Wer jetzt schonmal probieren mag - ich freue mich immer über konstruktives Feedback.**
+> **Mittlerweile hat sich dieses Projekt eigentlich schon einen *beta*-Status verdient. Aber ich würde gern noch den Mapper mit aufnehmen, und ich weiß aus zuverlässiger Quelle, dass Twrx ununterbrochen daran arbeitet! ```*hust*``` Irgendwann demnächst gibt es aber jedenfalls ein offizielles Beta-Release. Wer jetzt schonmal probieren mag - ich freue mich immer über konstruktives Feedback.**
 
-Avalet ist ein Mudlet-Module für das [MUD Avalon](https://avalon.mud.de/). Für ein bisschen (mehr) Farbe und ein bisschen Klicki-Bunti.
+Avalet ist ein Mudlet-Module für das [MUD Avalon](https://avalon.mud.de/). Für ein bisschen (mehr) Farbe und ein bisschen Klicki-Bunti. 
 
 Avalet bietet in erster Linie:
 - Laufen mit dem [Ziffernblock](https://github.com/MarcoSteffens/Avalet/wiki/Tastaturbelegung-f%C3%BCr-den-Ziffernblock)!
@@ -13,6 +13,10 @@ Avalet bietet in erster Linie:
 - Noch vieles mehr! *(coming soon)*
 - Und noch mehr! *(coming soon)*
 - Enthält Script von Twrx!!!
+
+Außerdem wird es hier demnächst ein "Submodul" für Avalet geben. Dieses Submodul klinkt sich in die Oberfläche von Avalet ein, indem es einen eigenen Menü-Eintrag in der Kopfzeile und einen eigenen Tab im Seitenbereich anlegt. Und natürlich nutzt es auch Avalet-Funktionen, also es erweitert sie oder klingt sich in die Events ein... Ich denke, wer mit Mudlet schon gescriptet hat, wird wissen, was ich meine. Das Submodul braucht noch ein bissche, bis es veröffentlichbar ist.
+
+Was es aber jetzt schon gibt, ist ein **MyAvalon**-Modul. Dieses Modul kannst Du benutzen, um eigene Trigger, Timer etc. in Mudlet zu bauen, und sie in verschiedenen Profilen, also mit verschiedenen Charakteren zu benutzen. Das Modul ist praktisch leer, aber wenn Du Dich nicht selber damit beschäftigen möchtest, dann nimmt es Dir die Arbeit ab, selber ein Modul zu erstellen. Wie Du das **MyAvalon**-Modul verwenden kannst, habe ich [hier im Wiki](https://github.com/MarcoSteffens/Avalet/wiki/Das-MyAvalon-Modul) beschrieben.
 
 Bekannte größere Einschränkungen derzeit:
 - Die Oberfläche skaliert nicht richtig, wenn man die Fenstergröße ändert. Umfangreicheres Problem - bis auf weiteres ist Avalet leider eine Vollbild-Anwendung.
