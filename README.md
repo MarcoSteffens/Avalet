@@ -14,12 +14,9 @@ Avalet bietet in erster Linie:
 - Und noch mehr! *(coming soon)*
 - Enthält Script von Twrx!!!
 
-Außerdem wird es hier demnächst ein "Submodul" für Avalet geben. Dieses Submodul klinkt sich in die Oberfläche von Avalet ein, indem es einen eigenen Menü-Eintrag in der Kopfzeile und einen eigenen Tab im Seitenbereich anlegt. Und natürlich nutzt es auch Avalet-Funktionen, also es erweitert sie oder klingt sich in die Events ein... Ich denke, wer mit Mudlet schon gescriptet hat, wird wissen, was ich meine. Das Submodul braucht noch ein bissche, bis es veröffentlichbar ist.
+Außerdem wird es hier demnächst ein "**Submodul**" für Avalet geben. Dieses Submodul klinkt sich in die Oberfläche von Avalet ein, indem es einen eigenen Menü-Eintrag in der Kopfzeile und einen eigenen Tab im Seitenbereich anlegt. Und natürlich nutzt es auch Avalet-Funktionen, also es erweitert sie oder klingt sich in die Events ein... Ich denke, wer mit Mudlet schon gescriptet hat, wird wissen, was ich meine. Das Submodul braucht noch ein bissche, bis es veröffentlichbar ist.
 
 Was es aber jetzt schon gibt, ist ein **MyAvalon**-Modul. Dieses Modul kannst Du benutzen, um eigene Trigger, Timer etc. in Mudlet zu bauen, und sie in verschiedenen Profilen, also mit verschiedenen Charakteren zu benutzen. Das Modul ist praktisch leer, aber wenn Du Dich nicht selber damit beschäftigen möchtest, dann nimmt es Dir die Arbeit ab, selber ein Modul zu erstellen. Wie Du das **MyAvalon**-Modul verwenden kannst, habe ich [hier im Wiki](https://github.com/MarcoSteffens/Avalet/wiki/Das-MyAvalon-Modul) beschrieben.
-
-Bekannte größere Einschränkungen derzeit:
-- Die Oberfläche skaliert nicht richtig, wenn man die Fenstergröße ändert. Umfangreicheres Problem - bis auf weiteres ist Avalet leider eine Vollbild-Anwendung.
 
 ```
             __________________________________________________________
@@ -63,6 +60,11 @@ Außerdem bietet Avalet die Möglichkeit, eigene Erweiterungen mit einzubinden. 
 Avalet ist kein Ersatz für das Soundpack oder für die Arbeit von Ban. Wenn du eine Sprachausgabe benutzt, dann ist dir mit diesen beiden Werkzeugen (und mit MUSHclient) derzeit sicher besser geholfen.
 
 Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das Avalon-Volk zu bringen oder um meine Script-Sammlung zu teilen. Irgendwelche Geheimnisse werden hier nicht aufgedeckt. (Aber es gibt ja die Möglichkeit, Sub-Module hinzuzufügen. Wenn du also *deine* Script-Sammlung gern mit *mir* teilen möchtest - *email me*! :) )
+
+## Bekannte größere Einschränkungen von Avalet derzeit:
+
+- Die Oberfläche skaliert nicht richtig, wenn man die Fenstergröße ändert. Umfangreicheres Problem - bis auf weiteres ist Avalet leider eine Vollbild-Anwendung.
+
 
 ## Installation
 
