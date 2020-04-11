@@ -66,10 +66,12 @@ function updateInfoBox()
 			--GUIModel.Infobox = GUIModel.Infobox .. "Du bist " .. player.alter .. " alt\n"
 		end
 		if string.len(player.portfolio) ~= 0 then
-			if player.portfolio == player.name then
-				GUIModel.Infobox = GUIModel.Infobox .. "Du bist Erstie in Deinem Portfolio.\n\n"
-			else
-				GUIModel.Infobox = GUIModel.Infobox .. "Du bist Zweitie im Portfolio von " .. string.title(player.portfolio) .. ".\n\n"
+			if (player.portfolio ~= "keines") then
+				if player.portfolio == player.name then
+					GUIModel.Infobox = GUIModel.Infobox .. "Du bist Erstie in Deinem Portfolio.\n\n"
+				else
+					GUIModel.Infobox = GUIModel.Infobox .. "Du bist Zweitie im Portfolio von " .. string.title(player.portfolio) .. ".\n\n"
+				end
 			end
 		end
 		if string.len(player.level) ~= 0 then

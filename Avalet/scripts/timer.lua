@@ -37,7 +37,7 @@ table.insert(timerStrings, {["name"]="Pflanzenblick", ["start"]="Du siehst die P
 table.insert(timerStrings, {["name"]="Friedfertigkeit", ["start"]="Du fuehlst Dich nun .* friedfertig\\.", ["stop"]="Du fuehlst Dich wieder kaempferischer, ungestuemer\\."})
 table.insert(timerStrings, {["name"]="Kampfeslust", ["start"]="Du bekommst so langsam richtig Lust auf ein kleines Kraeftemessen\\.", ["stop"]="Du fuehlst Dich wieder ruhiger, besonnener\\."})
 table.insert(timerStrings, {["name"]="Todkonvertieren", ["start"]="Du wirst von einem heiligen Schutz umgeben\\.", ["stop"]="Dein heiliger Schutz loest sich auf\\."})
-table.insert(timerStrings, {["name"]="Zorn", ["start"]="Du wirst von kuehlen Winden umgeben\\.", ["stop"]="Die kuehlen Winde, welche Dich umgeben, verschwinden\\."})
+table.insert(timerStrings, {["name"]="Zorn", ["start"]="Du wirst von kuehlen Winden umgeben\\.", ["stop"]="Die kuehlen Winde, welche Dich umgeben, verschwinden\\.", ["duration"]="600"})
 table.insert(timerStrings, {["name"]="Kampfsegen", ["start"]="Du bist motiviert und willig zu kaempfen\\.", ["stop"]="Deine Motivation und Dein Kampfeswille schwinden\\."})
 table.insert(timerStrings, {["name"]="Trotz", ["start"]="Du hast nun verbesserte Verteidigungsfertigkeiten\\.", ["stop"]="Deine verbesserten Verteidigungsfertigkeiten schwinden\\."})
 table.insert(timerStrings, {["name"]="Vergeltung", ["start"]="Du oeffnest Deine Augen und buendelst Deine Wut\\.", ["stop"]="Die Wut in Dir scheint besiegt\\."})

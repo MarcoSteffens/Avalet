@@ -254,6 +254,13 @@ raiseEvent("keyPadEvent",5)
 -- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
 require "Avalet"                 -- lädt die init.lua
 -- ENDE Avalet-Kram
+--
+-- ACHTUNG!!! Änderungen an diesem Modul (Avalet) werden nicht gespeichert!
+-- Weder Skripte noch Trigger noch Timer noch Alias noch sonst irgendwas.
+-- Änderungen können hier zu Testzwecken reingeschrieben werden, aber sie
+-- überstehen keinen Neustart von Mudlet. Eigene Skripte, Trigger etc. müssen
+-- in ein eigenes Mudlet-Modul (oder einfach lokal in ein Profil) geschrieben
+-- werden!
 			</script>
 			<eventHandlerList />
 		</ScriptGroup>	
