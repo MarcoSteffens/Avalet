@@ -8,32 +8,32 @@
 GUIModel = GUIModel or {}
 
 -----------------------------------------------------
--- Charakter-Informationen rechts oben
+-- Charakter-Informationen rechts oben (Infobox)
 -----------------------------------------------------
 
-GUIModel.Infobox = "\n"
+GUIModel.infobox = "\n"
 function updateInfoBox()
-	GUIModel.Infobox = "\n"
+	GUIModel.infobox = "\n"
 	if GUI ~= nil then 
-		clearWindow("Spielstand") 
+		clearWindow("Infobox") 
 	end
 	if string.len(player.vollername) ~= 0 then
-		GUIModel.Infobox = GUIModel.Infobox .. "In Avalon bist Du bekannt als\n\n" .. player.vollername .. "\n\n"
+		GUIModel.infobox = GUIModel.infobox .. "In Avalon bist Du bekannt als\n\n" .. player.vollername .. "\n\n"
 		if string.len(player.gilde) ~= 0 then
 			if player.gilde == "keine" then
-				GUIModel.Infobox = GUIModel.Infobox .. "Du bist noch in keiner Gilde.\n"
+				GUIModel.infobox = GUIModel.infobox .. "Du bist noch in keiner Gilde.\n"
 			else
 				if player.gilde == "Druiden" then
-					GUIModel.Infobox = GUIModel.Infobox .. "Du bist bei den " .. player.gilde .. ".\n"
+					GUIModel.infobox = GUIModel.infobox .. "Du bist bei den " .. player.gilde .. ".\n"
 				elseif player.gilde == "Magier" then
-					GUIModel.Infobox = GUIModel.Infobox .. "Du bist in der " .. player.gilde .. "gilde.\n"
+					GUIModel.infobox = GUIModel.infobox .. "Du bist in der " .. player.gilde .. "gilde.\n"
 				else
-					GUIModel.Infobox = GUIModel.Infobox .. "Du bist " .. player.gilde .. ".\n"
+					GUIModel.infobox = GUIModel.infobox .. "Du bist " .. player.gilde .. ".\n"
 				end
 			end
 		end
 		if string.len(player.zuenfte) == 0 then
-			GUIModel.Infobox = GUIModel.Infobox .. "Du uebst noch keine Berufe aus.\n"
+			GUIModel.infobox = GUIModel.infobox .. "Du uebst noch keine Berufe aus.\n"
 		else
 			local zuenfte = {}
 			for i in string.gmatch(player.zuenfte, "%w+") do
@@ -50,8 +50,8 @@ function updateInfoBox()
 				end
 			end
 			
-			GUIModel.Infobox = GUIModel.Infobox .. "Du gehoerst den Zuenften " .. str .. " an.\n"
-			--GUIModel.Infobox = GUIModel.Infobox .. "Deine Berufe sind: " .. player.zuenfte .. ".\n"
+			GUIModel.infobox = GUIModel.infobox .. "Du gehoerst den Zuenften " .. str .. " an.\n"
+			--GUIModel.infobox = GUIModel.infobox .. "Deine Berufe sind: " .. player.zuenfte .. ".\n"
 		end
 		if string.len(player.alter) ~= 0 then
 			str = player.alter
@@ -62,85 +62,122 @@ function updateInfoBox()
 
 			str = tage .. " " .. stunden .. " und " .. minuten
 
-			GUIModel.Infobox = GUIModel.Infobox .. "Du bist etwa " .. str .. " alt.\n"
-			--GUIModel.Infobox = GUIModel.Infobox .. "Du bist " .. player.alter .. " alt\n"
+			GUIModel.infobox = GUIModel.infobox .. "Du bist etwa " .. str .. " alt.\n"
+			--GUIModel.infobox = GUIModel.infobox .. "Du bist " .. player.alter .. " alt\n"
 		end
 		if string.len(player.portfolio) ~= 0 then
 			if (player.portfolio ~= "keines") then
 				if player.portfolio == player.name then
-					GUIModel.Infobox = GUIModel.Infobox .. "Du bist Erstie in Deinem Portfolio.\n\n"
+					GUIModel.infobox = GUIModel.infobox .. "Du bist Erstie in Deinem Portfolio.\n\n"
 				else
-					GUIModel.Infobox = GUIModel.Infobox .. "Du bist Zweitie im Portfolio von " .. string.title(player.portfolio) .. ".\n\n"
+					GUIModel.infobox = GUIModel.infobox .. "Du bist Zweitie im Portfolio von " .. string.title(player.portfolio) .. ".\n\n"
 				end
 			end
 		end
 		if string.len(player.level) ~= 0 then
-			GUIModel.Infobox = GUIModel.Infobox .. "Du bist Level " .. player.level .. "\n"
+			GUIModel.infobox = GUIModel.infobox .. "Du bist Level " .. player.level .. "\n"
 		end
 		if string.len(player.ep) ~= 0 then
-			GUIModel.Infobox = GUIModel.Infobox .. "Dafür hast du bisher " .. player.ep .. " Erfahrungspunkte gesammelt.\n\n"
+			GUIModel.infobox = GUIModel.infobox .. "Dafür hast du bisher " .. player.ep .. " Erfahrungspunkte gesammelt.\n\n"
 		end
 		if string.len(player.gesinnung) ~= 0 then
-			GUIModel.Infobox = GUIModel.Infobox .. "Deine Gesinnung ist " .. player.gesinnung .. ".\n"
+			GUIModel.infobox = GUIModel.infobox .. "Deine Gesinnung ist " .. player.gesinnung .. ".\n"
 		end
 		if string.len(player.hunger) ~= 0 then
-			GUIModel.Infobox = GUIModel.Infobox .. "Hunger: " .. player.hunger .. ".\n"
+			GUIModel.infobox = GUIModel.infobox .. "Hunger: " .. player.hunger .. ".\n"
 		end
 		if string.len(player.durst) ~= 0 then
-			GUIModel.Infobox = GUIModel.Infobox .. "Durst: " .. player.durst .. ".\n"
+			GUIModel.infobox = GUIModel.infobox .. "Durst: " .. player.durst .. ".\n"
 		end
 	else
 		debugc("\nKeine Player-Daten vorhanden!\n")
-		GUIModel.Infobox = "\nWarte auf Daten...\n"
+		GUIModel.infobox = "\nWarte auf Daten...\n"
 	end
 end
 updateInfoBox()
+
+
+function onRefreshInfobox(event, args)
+-- Diese Funktion kann aufgerufen werden, obwohl noch
+-- kein Player-Objekt besteht. (Also obwohl der Player-Name noch nicht
+-- per ATCP eingetroffen ist. Workaround: auf player.name testen.)
+	if player.name ~= "" then
+		writeDataToFS(characterFilePath, player, "w")
+		updateInfoBox()
+		--GUI.infobox:echo(args)
+		GUI.infobox:echo(GUIModel.infobox)
+	--GUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "<b>" .. args[1] .. "/" .. args[2] .. "</b>")
+	end
+end
+registerAnonymousEventHandler("RefreshInfobox", "onRefreshInfobox")
+--raiseEvent("RefreshCharacterVollername", ???)
+
+
 
 --------------------------------------------
 --- Tabs-Element rechts unten
 -------------------------------------------
 
 -- Generelle Variablen für das Tab-Element
-GUIModel.menu = GUIModel.menu or {
+GUIModel.tabElement = GUIModel.tabElement or {
   tabs = {"Reden", "Sagen", "Gruppe", "Volk", "Gilde", "Laber", "Schwafel"},
-  width = "10%",
-  height = "40%",
+  --tabs = {"Reden"},
+  --width = "10%",
+  --height = "40%",
 }
 -- Speichert das aktuell ausgewählte Element:
-GUIModel.menu.current = GUIModel.menu.current or GUIModel.menu.tabs[1]
+GUIModel.tabElement.currentTab = GUIModel.tabElement.currentTab or GUIModel.tabElement.tabs[1]
 
-for k,v in pairs(GUIModel.menu.tabs) do
-	-- Erzeugt einen Text-Variable für jeden Eintrag in der Menu-Liste
-	GUIModel.menu["chat"..v] = v  
+for k,v in pairs(GUIModel.tabElement.tabs) do
+	-- Schreibt für jeden Tab einen Leerstring ("\n") in eine Datei,
+	-- die nach dem Tab benannt ist. In diese Datei wird der Text 
+	-- für den Tab gespeichert. Durch das Reinschreiben hier wird
+	-- die Datei erzeugt, wenn es sie noch nicht gibt.
 	Logger:Log(v, "")
 end
 
--- Hier muss der Inhalt der Dateien vorhanden sein, in dene die Chats stehen sollen.
 
---for k, v in pairs(GUIModel.menu.tabs) do
-	-- Inhalte der Tabs
-	-- Alle Tabs enthalten eine Mini-Console.
-	-- Bei den Kanal-Tabs wird dort die Ausgabe der entsprechenden Kanäle gesammelt angezeigt.
-	-- Bei anderen Tabs gibt es andere Inhalte.
-	-- Jede Minikonsole ist ansprechbar über ... ???
---	GUI.menu[v.."console"] = Geyser.MiniConsole:new({
---		name=v,
---		x="2%", y="2%",
---		width = "96%",
---		height = "96%",
---		--autoWrap = true,
---		color = "black",
---		scrollBar = false,
---		fontSize = 11,
---	}, GUI.menu[v.."center"])
---	--GUI.Spielstand:setColor("black") -- give it a nice black background
---	--GUI.Spielstand:setFont("Bitstream Vera Sans Mono")
---	--clearWindow("menu." .. v .. "console")
---	GUI.menu[v.."console"]:echo(GUIModel.menu["chat"..v])
---
---	-- Finally, we hide all the windows and end the for loop.
---	GUI.menu[v]:hide()
---end
+
+function GUIModel.tabElement.addTab(arg)
+	if arg then
+		table.insert(GUIModel.tabElement.tabs,arg)
+		GUI.tabElement.createTabs()
+	else
+		echo("ey so gehts ja nu nicht!\n")
+	end
+end
+
+function GUIModel.tabElement.removeTab(arg)
+	if arg ~= nil then
+		for k,v in pairs(GUIModel.tabElement.tabs) do
+			if v == arg then
+				--cecho("<magenta>TEST")
+				table.remove(GUIModel.tabElement.tabs, k)
+				--GUI.tabElement.createTabs()
+				GUI.tabElement.removeTab(arg)
+			end
+		end	
+	end
+end
+
+
+
+function onRefreshTabElement(event, channel)
+
+	content = ""
+	if GUIModel.tabElement.currentTab == channel then
+		debugc("Der TAB " .. channel .. " wird aktualisiert.")
+		
+		content = Logger:ReadLog(channel)
+	
+	end
+	debugc("<magenta>clearWindow: ".. channel .. "\n")
+	clearWindow(channel)
+	GUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(content)
+	--GUI.tabElementTSabs[v.."console"]:echo(GUIModel.tabElement["chat"..v])
+end
+registerAnonymousEventHandler("RefreshTabElement", "onRefreshTabElement")
+--raiseEvent("RefreshTabElement", "aktiverTabName")
 
 
 
@@ -150,20 +187,16 @@ end
 -- Top-Level-Einträge direkt auf der Oberfläche positioniert.
 -------------------------------------------------------------
 GUIModel.TopMenuEntries = {}
-
+--cecho("<magenta>TopMenuEntries\n")
 function addTopMenuEntry(label, position, childs)
 	--TODO: validierung der Parameter (insbesondere der childs)
 	table.insert(GUIModel.TopMenuEntries,position,{label,childs})
 end
 
---addTopMenuEntry("titel", position)
---addSubMenuEntry("parent", postition, "titel", "label", "luafun", args = {})
---addSubMenuEntry("Top1",1,"Child","label","luafun",{"a1","a2","a3"})
-
 -- Dummy-Menü:
---addTopMenuEntry("Top1", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3","luafun",{"a31", "a32", "a33"}}})
---addTopMenuEntry("Top2", 2, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3", "luafun",{"a31", "a32", "a33"}}})
---addTopMenuEntry("Top1a", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3", "luafun",{"a31", "a32", "a33"}}})
+addTopMenuEntry("Top1", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3","luafun",{"a31", "a32", "a33"}}})
+addTopMenuEntry("Top2", 2, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3", "luafun",{"a31", "a32", "a33"}}})
+addTopMenuEntry("Top1a", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3", "luafun",{"a31", "a32", "a33"}}})
 
 --addTopMenuEntry(
 --	"Top1", 
@@ -333,39 +366,6 @@ end
 --------------------------------------------------------------------------------
 -- Refresh Event Handler
 --------------------------------------------------------------------------------
-
-function onRefreshTabElement(event, channel)
-
-	--tabs = {"Reden", "Sagen", "Laber", "Schwafel","Andere"},
-	content = ""
-	if GUIModel.menu.current == channel then
-		debugc("Der TAB " .. channel .. " wird aktualisiert.")
-		
-		content = Logger:ReadLog(channel)
-	
-	end
-	debugc("<magenta>clearWindow: ".. channel .. "\n")
-	clearWindow(channel)
-	GUI.menu[GUIModel.menu.current.."console"]:echo(content)
-	--GUI.menu[v.."console"]:echo(GUIModel.menu["chat"..v])
-end
-registerAnonymousEventHandler("RefreshTabElement", "onRefreshTabElement")
---raiseEvent("RefreshTabElement", "aktiverTabName")
-
-function onRefreshInfobox(event, args)
--- Diese Funktion kann aufgerufen werden, obwohl noch
--- kein Player-Objekt besteht. (Also obwohl der Player-Name noch nicht
--- per ATCP eingetroffen ist. Workaround: auf player.name testen.)
-	if player.name ~= "" then
-		writeDataToFS(characterFilePath, player, "w")
-		updateInfoBox()
-		--GUI.Spielstand:echo(args)
-		GUI.Spielstand:echo(GUIModel.Infobox)
-	--GUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "<b>" .. args[1] .. "/" .. args[2] .. "</b>")
-	end
-end
-registerAnonymousEventHandler("RefreshInfobox", "onRefreshInfobox")
---raiseEvent("RefreshCharacterVollername", ???)
 
 
 function onRefreshTimerView(event, args)
