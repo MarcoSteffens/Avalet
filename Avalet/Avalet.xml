@@ -71,8 +71,8 @@
 
 
 
-character = {}
-player = {}
+character = character or {}
+player = player or {}
 
 
 --player = initCharacter()
