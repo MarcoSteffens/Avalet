@@ -116,7 +116,7 @@ function loadCharacterFileFromDisk(charName)
 	characterFilePath = getMudletHomeDir() .. "/" .. avaletCharacterFilePrefix .. string.title(charName) .. avaletCharacterFileExtension
 	--echo(characterFilePath .. "\n")
 	if io.exists(characterFilePath) then
-		cecho("&lt;magenta&gt;fCharakter-Datei ist vorhanden, versuche Datei zu laden:\n" .. characterFilePath .. "\n")
+		--cecho("&lt;magenta&gt;fCharakter-Datei ist vorhanden, versuche Datei zu laden:\n" .. characterFilePath .. "\n")
     -- merge 2 tables
     subset = readFileFromFS(characterFilePath, "r")
     for k,v in pairs(subset) do player[k] = v end
