@@ -1,6 +1,6 @@
 # Avalet
 
-> **Mittlerweile hat sich dieses Projekt eigentlich schon einen *beta*-Status verdient. Aber ich würde gern noch den Mapper mit aufnehmen, und ich weiß aus zuverlässiger Quelle, dass Twrx ununterbrochen daran arbeitet! ```*hust*``` Irgendwann demnächst gibt es aber jedenfalls ein offizielles Beta-Release. Wer jetzt schonmal probieren mag - ich freue mich immer über konstruktives Feedback.**
+> **Mit dem Update auf Version 0.9-beta hat sich äußerlich hoffentlich wenig verändert - unter der Oberfläche aber viel. Ich hab natürlich getestet und hoffe, dass ich keine weiteren Fehler eingebaut habe. Falls es aber doch Probleme gibt, schreib mir bitte. (Beispielsweise an Rofhessa in Avalon.) Und für alle Fälle gibt es [hier](https://github.com/MarcoSteffens/Avalet/releases/download/v0.8-beta/Avalet.mpackage) die letzte Version (0.8-beta) weiterhin zum Download.**
 
 Avalet ist ein Mudlet-Module für das [MUD Avalon](https://avalon.mud.de/). Für ein bisschen (mehr) Farbe und ein bisschen Klicki-Bunti. 
 
@@ -12,11 +12,10 @@ Avalet bietet in erster Linie:
 - Viel mehr *bling-bling* als Plain-Avalon!
 - Noch vieles mehr! *(coming soon)*
 - Und noch mehr! *(coming soon)*
-- Enthält Script von Twrx!!!
 
-Außerdem wird es hier demnächst ein "**Submodul**" für Avalet geben. Dieses Submodul klinkt sich in die Oberfläche von Avalet ein, indem es einen eigenen Menü-Eintrag in der Kopfzeile und einen eigenen Tab im Seitenbereich anlegt. Und natürlich nutzt es auch Avalet-Funktionen, also es erweitert sie oder klingt sich in die Events ein... Ich denke, wer mit Mudlet schon gescriptet hat, wird wissen, was ich meine. Das Submodul braucht noch ein bissche, bis es veröffentlichbar ist.
+Eine Installationsanleitung findest du weiter unten auf dieser Seite.
 
-Was es aber jetzt schon gibt, ist ein **MyAvalon**-Modul. Dieses Modul kannst Du benutzen, um eigene Trigger, Timer etc. in Mudlet zu bauen, und sie in verschiedenen Profilen, also mit verschiedenen Charakteren zu benutzen. Das Modul ist praktisch leer, aber wenn Du Dich nicht selber damit beschäftigen möchtest, dann nimmt es Dir die Arbeit ab, selber ein Modul zu erstellen. Wie Du das **MyAvalon**-Modul verwenden kannst, habe ich [hier im Wiki](https://github.com/MarcoSteffens/Avalet/wiki/Das-MyAvalon-Modul) beschrieben.
+Außerdem gibt es hier ein **MyAvalon**-Modul. Dieses Modul kannst Du benutzen, um eigene Trigger, Timer etc. in Mudlet zu bauen, und sie in verschiedenen Profilen, also mit verschiedenen Charakteren zu benutzen. Das Modul ist praktisch leer, aber wenn Du Dich nicht selber damit beschäftigen möchtest, dann nimmt es Dir die Arbeit ab, selber ein Modul zu erstellen. Wie Du das **MyAvalon**-Modul verwenden kannst, habe ich [hier im Wiki](https://github.com/MarcoSteffens/Avalet/wiki/Das-MyAvalon-Modul) etwas ausführlicher beschrieben.
 
 ```
             __________________________________________________________
@@ -37,7 +36,7 @@ So sieht Avalet grade aus:
 
 ![aktueller Screenshot](latest_screenshot.png)
 
-## Was Avalet sein soll
+## Was Avalet ist
 
 Avalet ist für Mudlet-Benutzer gedacht, die sich nicht selbst in die Programmierung so einer Oberfläche einarbeiten, aber trotzdem ein bisschen mehr Komfort wollen.
 
@@ -55,7 +54,7 @@ Außerdem bietet Avalet die Möglichkeit, eigene Erweiterungen mit einzubinden. 
 
 ```
 
-## Was Avalet NICHT sein soll
+## Was Avalet NICHT ist
 
 Avalet ist kein Ersatz für das Soundpack oder für die Arbeit von Ban. Wenn du eine Sprachausgabe benutzt, dann ist dir mit diesen beiden Werkzeugen (und mit MUSHclient) derzeit sicher besser geholfen.
 
@@ -94,11 +93,11 @@ Für eine **Aktualisierung** einfach die neuere Version downloaden und die alte 
 ```
 ## Mitmachen?
 
-Ich freue mich über jede Form von Rückmeldung per "rede" oder Mudmail (Rofhessa), Mail (rofhessa@gmx-topmail.de), Brieftaube oder wie auch immer. Wenn du Lob loswerden willst, (konstruktive) Kritik, Hinweise, Ideen, Bugmeldungen, Featurewünsche oder wenn du einfach nur mal "Hallo" sagen willst, bin ich dein Mensch. Du kannst auch hier auf der Seite einen "*Issue*" melden, wenn du magst.
+Ich freue mich über jede Form von Rückmeldung per "rede" oder Mudmail (Rofhessa), Mail (rofhessa@gmx-topmail.de), Brieftaube oder wie auch immer. Wenn du Lob loswerden willst, (konstruktive) Kritik, Hinweise, Ideen, Bugmeldungen, Featurewünsche oder wenn du einfach nur mal "Hallo" sagen willst, bin ich dein Mensch. Du kannst auch hier auf der Seite einen "*Issue*" eintragen, wenn du magst.
 
-Wenn du Lust hast, dich direkt an diesem Projekt zu beteiligen, freue ich mich natürlich auch. Vielleicht mit einem *pull request*? Wenn Du mehr machen möchtest, kannst Du später sicher auch *Collaborator* werden, aber im Moment gibt es dafür noch nicht die nötige Struktur.
+Wenn du Lust hast, dich direkt an diesem Projekt zu beteiligen, freue ich mich natürlich auch. Wenn du dir schon selber in Mudlet etwas gebaut hast, was dir in Avalet fehlt, dann könntest du es einfach in eine Kopie des ```MyAvalon```-Moduls einbauen und mir schicken. Wenn du kannst, kannst du auch die Funktionen von Github benutzen und einen *pull request* schicken. Später kannst du vielleicht auch *Collaborator* werden, aber im Moment gibt es dafür noch nicht die nötige Struktur.
 
-**Besonders freuen würde ich mich aber über Unterstützung in den Bereichen "Benutzbarkeit mit Screenreader" und besonders auch beim "Design".** Darin bin ich nämlich absoluter Anfänger. Wenn du dich da einbringen willst, sprich mich bitte an und lass uns einen Weg finden.
+**Besonders freuen würde ich mich über Unterstützung beim Design.** Das ist etwas, was ich praktisch überhaupt nicht kann. Wenn du dich da einbringen willst, sprich mich bitte an und lass uns einen Weg finden.
 
 **Beachte bitte, dass Avalet unter einer sehr freien Lizenz steht. Das würde Deinen Beitrag dann einschließen.**
 
@@ -115,20 +114,9 @@ Avalon ist im Moment als "Avalon-GUI für jedermensch" gedacht. Die Funktionalit
             \_______________________________________________________\_/
 
 ```
-
-## Installation für Entwickler
-
-Wenn du Code beisteuern möchtest, dann wäre im Moment das einfachste, wenn Du einfach bei dir im Mudlet entwickelst, den Code etc. in eine .xml-Datei exportierst und mir schickst. Und ich bau das dann ein. Bequemer für mich ist natürlich, wenn du dieses Projekt downloadest, die Ergänzungen direkt machst und es mir als *pull request* schickst. Da ich darauf verzichtet habe, im Mudlet-Editor selbst zu entwickeln, ist dieser Weg aber etwas komplizierter, als er sein müsste. Und zwar geht das so:
-
-Du lädst das ganze Projekt in dein Arbeitsverzeichnis runter, und lädst die Avalet.zip-Datei als Modul in ein sauberes Mudlet-Profil. Das speicherst du dann. Wenn Du jetzt den Script-Editor von Mudlet öffnest, wirst du darin zwar das Modul sehen, aber nur sehr wenig Code. Denn Mudlet zeigt dir nur die "Avalet.xml" und die Trigger etc., die Avalet per Lua-Code erzeugt. Du kannst jetzt aber mit einem externen Editor die Dateien im Projekt bearbeiten. Wenn du das gemacht hast, packst du den Inhalt des Avale-Ordners in eine ZIP-Datei. Das machst du am besten so, dass die von dir als Modul geladene Datei Avalet.zip dabei überschrieben wird. Dann kannst du Mudlet einfach neu starten, das gespeicherte Profil laden und hast die Änderungen vor dir. (Das Modul wird bei jedem Neustart neu aus dem .zip- bzw. .mpackage-Archiv geladen.) Beim Erstellen der Zip-Datei hilft dir auch die Batch-Datei im Projekt - jedenfalls wenn du ein Windows-System hast.
-
-Ich hoffe, dass ich noch Wege finde, das ein bisschen leichter zu machen. Aber jetzt läuft es erstmal so.
-
-In absehbarer Zeit wird es auch ein **Debug-Modul** geben, das dann hier mit im Projekt rumliegt. Das benutze ich, um etwas bequemer entwickeln zu können. Es zeigt aber auch, wie Sub-Module in Avalet eingebunden werden können. **Die Schnittstellen sind noch pre-alpha und werden sich mit Sicherheit total ändern.** Wenn das Debug-Modul mindestens *beta* ist, werde ich es nochmal gesondert ankündigen.
-
 ## Shownotes
 
-Es gäbe Avalet nicht ohne Twrx! Und wenn ich hier immer nur "ich" schreibe, dann liegt das daran, dass er so schlau ist, mich die ganze Tipperei erledigen zu lassen. Aber er hat alle meine doofen Fragen beantwortet, Code-Beispiele geliefert, Ideen eingebracht und meinen zusammengestümperten Spagetti-Code mit eleganten Lösungen für all meine Probleme aufgewertet. Also egal, wie ihr Avalet findet - beschwert euch bei Twrx. ;)
+Es gäbe Avalet nicht ohne Twrx! Und wenn ich hier immer nur "ich" schreibe, dann liegt das daran, dass er so schlau ist, mich die ganze Tipperei erledigen zu lassen. Aber er hat alle meine doofen Fragen beantwortet, Code-Beispiele geliefert und mich überhaupt erst dazu gebracht, dass ich mich mit Mudlet beschäftigt habe. Also: wenn ihr Avalet doof findet - beschwert euch bei Twrx. ;)
 
 ```
             __________________________________________________________

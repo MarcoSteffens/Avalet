@@ -4,7 +4,7 @@
 	<TriggerPackage>
 		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 			<name>AvaletTriggerFuerTimer</name>
-			<script></script>
+			<script>-- Die Timer-Trigger werden im Moment als temporäre Trigger erzeugt und sind deshalb hier nicht sichtbar.</script>
 			<triggerType>0</triggerType>
 			<conditonLineDelta>0</conditonLineDelta>
 			<mStayOpen>0</mStayOpen>
@@ -18,102 +18,27 @@
 			<regexCodeList />
 			<regexCodePropertyList />
 		</TriggerGroup>
-	</TriggerPackage>
-	<AliasPackage>
-		<AliasGroup isActive="yes" isFolder="yes">
-			<name>Bewegung</name>
-			<script></script>
-			<command></command>
+		<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>OnReconnect</name>
+			<script>raiseEvent("afterReconnectEvent")</script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
 			<packageName></packageName>
-			<regex></regex>
-			<Alias isActive="yes" isFolder="no">
-				<name>Norden</name>
-				<script>raiseEvent("keyPadEvent",8)</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(n|norden)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Nordosten</name>
-				<script>raiseEvent("keyPadEvent",9)</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(no|nordosten)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Osten</name>
-				<script>raiseEvent("keyPadEvent",6)</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(o|osten)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Suedosten</name>
-				<script>raiseEvent("keyPadEvent",3)</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(so|suedosten|os)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Sueden</name>
-				<script>raiseEvent("keyPadEvent",2)</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(s|sueden)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Suedwesten</name>
-				<script>raiseEvent("keyPadEvent",1)</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(sw|suedwesten)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Westen</name>
-				<script>raiseEvent("keyPadEvent",4)</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(w|westen)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Nordwesten</name>
-				<script>raiseEvent("keyPadEvent",7)</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(nw|nordwesten)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Hoch</name>
-				<script>raiseEvent("keyPadEvent",10)</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(h|hoch)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Runter</name>
-				<script>raiseEvent("keyPadEvent",11)</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(r|runter)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Rein</name>
-				<script>raiseEvent("keyPadEvent",12)
--- send(matches[1])</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(rein)$</regex>
-			</Alias>
-			<Alias isActive="yes" isFolder="no">
-				<name>Raus</name>
-				<script>raiseEvent("keyPadEvent",13)
--- send(matches[1])</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(raus)$</regex>
-			</Alias>
-		</AliasGroup>
-	</AliasPackage>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList>
+				<string>^Verwende alten Koerper...$</string>
+			</regexCodeList>
+			<regexCodePropertyList>
+				<integer>1</integer>
+			</regexCodePropertyList>
+		</Trigger>
+	</TriggerPackage>
 	<TimerPackage>
 		<TimerGroup isActive="yes" isFolder="yes" isTempTimer="no" isOffsetTimer="no">
 			<name>Avalet</name>
@@ -130,6 +55,4171 @@
 			</Timer>
 		</TimerGroup>
 	</TimerPackage>
+	<AliasPackage />
+	<ActionPackage />
+	<ScriptPackage>
+		<Script isActive="yes" isFolder="no">
+			<name>Avalet init</name>
+			<packageName></packageName>
+			<script>-- init
+-- Das Modul Avalet wird im Wesentlichen über eine Funktion initialisiert, die durch den 
+-- "sysInstall"-Event aufgerufen wird. Diese Funktion findet sich unter "UI functions" --&gt; 
+-- "Build UI".
+-- Eine zweite Funktion, die dann ausgeführt wird, findet sich hier weiter unten.
+
+--cecho("&lt;magenta&gt;Avalet init ...\n")
+
+
+
+character = {}
+player = {}
+
+
+--player = initCharacter()
+
+
+-- Speicherort des Moduls
+-- C:/Users/&lt;usrdir&gt;/Documents/Avalet/Avalet.mpackage
+modulePath = getModulePath("Avalet")
+--echo("Path zu Avalet-Modul: " .. path .. "\n" )
+
+-- Speicherort des geladenen Profils
+-- C:/Users/&lt;usrdir&gt;/.config/mudlet/profiles/Ava - Groundsel1
+mudletHomeDir = getMudletHomeDir()
+--echo("Path MudletHomeDir: " .. path .. "\n" )
+
+-----------------------------------------------------------
+-- Dateien, die vom Modul geschrieben bzw. gelesen werden:
+-----------------------------------------------------------
+-- Die Charakter-Daten werden in eine Datei persistiert und von da auch
+-- geladen. Der Grund ist, dass nach einem disconnect und einem anschliessenden
+-- reconnect die Daten nicht unbedingt sofort per ATCP gesendet werden. (Nach 
+-- normalen Login aber schon(?)) Weshalb die Character-Informationen auf der
+-- Oberfläche nicht oder nicht vollständig vorhanden wären. Und genau so wenig
+-- die Anzeige für TP, ZP etc. Oder übrig gebliebene Timer. Also es wäre dann
+-- nix da.
+-- Das Problem ist, dass nicht alle Spieler für jeden Char ein eigenes Profil haben,
+-- sondern dass sie oft mehrere Chars mit einem Profil spielen. Hier muss irgendwie
+-- entschieden werden, welches die richtigen Character-Daten sind. (Und es müssen
+-- auch verschiedene Versionen dieser Daten rausgeschrieben werden. Vermutlich 
+-- unterschieden durch den Character-Namen im Dump-File-Namen. Aber der steht
+-- erst zur Verfügung, wenn ATCP das erste Mal den Character-Namen geschickt hat.)
+-- Lösung: Hier wird das Player-Objekt leer initialisiert, die Anzeige auf der
+-- Oberfläche wird entsprechend gestaltet. ("Warten auf Daten...", "Du bist offline"
+-- oder so) Wenn das Mud den CharNamen sendet, wird die dazugehörige Char-Datei ge-
+-- laden und von da an verwendet.
+--avaletCharacterFile = ""
+avaletCharacterFilePrefix = "AvaletCharacter"
+avaletCharacterFileExtension = ".json"
+function loadCharacterFileFromDisk(charName)
+	--debugc("&lt;magenta&gt;Unerwünschter Aufruf?\n")
+	characterFilePath = getMudletHomeDir() .. "/" .. avaletCharacterFilePrefix .. string.title(charName) .. avaletCharacterFileExtension
+	--echo(characterFilePath .. "\n")
+	if io.exists(characterFilePath) then
+		cecho("&lt;magenta&gt;fCharakter-Datei ist vorhanden, versuche Datei zu laden:\n" .. characterFilePath .. "\n")
+    -- merge 2 tables
+    subset = readFileFromFS(characterFilePath, "r")
+    for k,v in pairs(subset) do player[k] = v end
+		--player = readFileFromFS(characterFilePath, "r")
+		--echo("...done\n")
+	else
+	  cecho("&lt;magenta&gt;Charakter-Datei nicht gefunden für: " .. charName .. "\n")
+		--echo("Erzeuge Character-Objekt\n")
+		--player = Character()
+		--echo("...done\n")
+		writeDataToFS(characterFilePath, player, "w")
+	end
+end
+
+
+--initTimer()
+
+--GUIModel = GUIModel or {}
+--createInfoScreenModel()
+--createChatModel()
+--createTopMenuModel()
+--createTimerModel()
+--createGaugeModel()
+
+
+
+--player = Character()-- or {}
+CSSMan = CSSMan or {}
+avalonUI = avalonUI or {}
+
+avalonUI.atcp = {}
+
+--avalonUI.buildUI()
+
+--avalonUI.chat.current = avalonUI.chat.current or avalonUI.chat.tabs[1]
+--avalonUI.hits = avalonUI.hits or 0
+--avalonUI.crits = avalonUI.crits or 0
+--avalonUI.targetName = avalonUI.targetName or "Nothing"
+
+-- Die aktuellen ATCP-Daten werden in einer Tabelle namens "atcp" gespeichert.
+-- Jedenfalls wenn diese Tabelle existiert.
+-- (Aber ob das auch funktioniert, wenn sie im avalonUI-Namespace liegt?)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Function: onKeyPadEvent
+-- fuer das Laufen per Keypad, und fuer das Catchen
+-- der letzten Bewegung fuer den Mapper
+-- und fuer das automatische Schwimmen/ Klettern
+-- Dieser Event wird jedesmal ausgelöst, wenn eine Taste des Ziffernblocks verwendet wird.
+-- Das ist unter "Keybindings" bzw. "Tasten" so definiert.
+function onKeyPadEvent(eventName,key,tDirections)
+  tDirections = {"sw","s","so","w","sc","o","nw","n","no","h","r","rein","raus"}
+  player.lastMove = tDirections[key]
+  --tPlayer.sLastMoveDirection=tDirections[key]
+  send(tDirections[key],false)
+--	if bAutoSchwimmen == true then
+--		send("schwimm "..tDirections[key],false)
+--		--send("b karte")
+--	else
+--		send(tDirections[key],false)
+--		--send("b pflanzen")
+--	end
+end --function
+registerAnonymousEventHandler("keyPadEvent", "onKeyPadEvent")
+
+
+function onSysConnectionEvent()
+	debugc("&lt;red&gt;sysConnectionEventHandler() running at this point.\n")
+	--echo("onConnect...\n")
+	-- Die ganzen "sendATCP" funktionieren hier noch nicht
+end
+registerAnonymousEventHandler("sysConnectionEvent", "onSysConnectionEvent")
+
+
+
+function onSysExitEvent()
+	debugc("&lt;red&gt;onSysExitEvent\n")
+	--echo("Schreibe Character in Datei...\n")
+	if player.name ~= "" then
+		writeDataToFS(characterFilePath, player, "w")
+	end
+	--echo("...done\n")
+end
+registerAnonymousEventHandler("sysExitEvent", "onSysExitEvent")
+
+
+
+function onSysDisconnectionEvent()
+	debugc("&lt;red&gt;onSysDisconnectionEvent()\n")
+	--echo("Schreibe Character in Datei...\n")
+	writeDataToFS(characterFilePath, player, "w")
+end
+registerAnonymousEventHandler("sysDisconnectionEvent", "onSysDisconnectionEvent")
+
+
+
+-- afterReconnectEvent wird durch einen Trigger auf "Verwende alten Koerper..." ausgelöst.
+-- Das ist notwendig, da das MUD bei einem Reconnect die ATCP-Daten nicht erneut schickt.
+function afterReconnectEvent()
+  debugc("&lt;red&gt;afterReconnectEvent()\n")
+  -- "sendATCP" gibt "true" zurück, und das wird unter Umständen im Hauptfenster
+  -- ausgegeben. Außer man speichert es in einer Variable wie zum Beispiel "_".
+  _ = sendATCP("ava_req_update")
+end
+registerAnonymousEventHandler("afterReconnectEvent", "afterReconnectEvent")
+
+
+
+-- Func: fsysProtocolEnabled
+-- Ich hab versucht, hier auch auf "GMCP" zu prüfen und eine
+-- Warnung auszugeben. Aber offenbar wird GMCP nicht wie die
+-- anderen Protokolle aktiviert, ich hatte jedenfalls keinen
+-- Auslöser des "elseif", trotz aktiviertem GMCP.
+function onSysProtocolEnabled(event,arg)
+	debugc("&lt;red&gt;onSysProtocolEnabled() running at this point.\n")
+	if arg =="ATCP" then
+		--echo("ATCP Support aktiviert.\n")
+		sendATCP("ava_set_mapper",1)
+		sendATCP("ava_set_channel",1)
+		sendATCP("ava_set_comm",1)
+		sendATCP("ava_set_rcomm",1)
+		sendATCP("ava_set_soul",1)
+		sendATCP("ava_set_rsoul",1)
+		--sendATCP("ava_set_soundpack",1)
+		sendATCP("ava_req_update",1)
+		sendATCP("ava_req_graphics_status",1)
+	elseif arg=="GMCP" then
+		debugc("&lt;red&gt;GMCP ist offenbar aktiviert. So wird Avalet nicht funktionieren.\nBitte GMXP in den Einstellungen deaktivieren und neu starten.")
+	else
+		--echo("Support fuer "..arg.." ist aktiv.\n")
+	end
+end
+registerAnonymousEventHandler("sysProtocolEnabled", "onSysProtocolEnabled")
+
+
+
+--onSysInstall:
+--Avalet:    setModulePriority("Avalet", 1)
+--SubModule: priority &gt; 2, vorher prüfen ob avalet installiert ist
+function onSysInstall(_, name)
+  debugc("&lt;magenta&gt;function onSysInstall()")
+  -- Erstmal prüfen, ob es Avalet ist, was da installiert wurde:
+  if name ~= "Avalet" then return end
+  
+  setModulePriority("Avalet", 1)
+  
+--	Nach einem Reconnect braucht Avalet den Charakternamen. Dieser
+--	Trigger reagiert auf 
+--		Verwende alten Koerper...     (hierauf!)
+--	und löst dann einen Event aus, der eine Anfrage nach aktuellen
+--  ATCP-Daten an den Server schickt. 
+	if exists("OnReconnect", "trigger") == 0 then
+		luaCode = [[raiseEvent("afterReconnectEvent")]]
+		permRegexTrigger("OnReconnect", "Avalet", {"^Verwende alten Koerper\.\.\.$"}, luaCode)
+		
+		--1 fehlgeschlagene Logins vorher.
+	end
+  
+end
+registerAnonymousEventHandler("sysInstall", "onSysInstall")
+
+
+
+function onSysUninstall(_, name)
+  -- Erstmal prüfen, ob es Avalet ist, was da _de_installiert wurde:
+  if name ~= "Avalet" then return end
+
+  --cecho("&lt;magenta&gt;uninstall Avalet!")
+end
+registerAnonymousEventHandler("sysUninstall", "onSysUninstall")
+</script>
+			<eventHandlerList />
+		</Script>
+		<ScriptGroup isActive="yes" isFolder="yes">
+			<name>Framework</name>
+			<packageName></packageName>
+			<script>-------------------------------------------------
+--         Put your Lua functions here.        --
+--                                             --
+-- Note that you can also use external scripts --
+-------------------------------------------------
+</script>
+			<eventHandlerList />
+			<Script isActive="yes" isFolder="no">
+				<name>Jor'Mox's GUIframe</name>
+				<packageName></packageName>
+				<script>-- Jor'Mox's GUIframe Script
+-- 3/07/2019
+-- v1.4.2
+-- To resize frames or move tabs, right click and drag either the resize label or the tab
+-- until the desired result is achieved.
+-- To add a window to a frame for the script to manage, use the
+-- GUIframe.addWindow(window, name, container, hideText) function, where the window
+-- variable contains the Geyser object you want to add, the name variable contains
+-- the name you want it to be referred to as, which also is used as the text printed
+-- on the associated tab that is created, the container variable is a string containing
+-- one of the following: bottom, top, topleft, topright, bottomleft, bottomright,
+-- and the hideText variable is an optional boolean which, if true, prevents text being
+-- written on the tab for this window.
+-- To remove a window from GUIframe, use the GUIframe.removeWindow(name, container)
+-- function, where the name variable is the same name you gave the window when adding it,
+-- and the optional container variable is a string specifying which container to remove
+-- the window from. If no container is specified, the window is removed regardless of
+-- which container it is in.
+-- Resizing of frames can be enabled or disabled using the GUIframe.enable(side) and
+-- GUIframe.disable(side, hide) functions respectively. If the second argument to
+-- GUIframe.disable is false, then the entire set of frames on that side is hidden, and
+-- the border is adjusted as if that side had be resized to zero.
+-- To save and load settings, use the GUIframe.saveSettings() and
+-- GUIframe.loadSettings(redraw) functions. If the redraw argument is true, the border
+-- background color is changed to black to force the area of the borders to be redrawn.
+-- Additionally, the GUIframe.reinitialize() function can be used to force the script to
+-- initialize itself again, going back to default settings.
+-- To activate a tab without it being clicked, use the GUIframe.activate(name) function.
+-- And to apply a stylesheet to a tab that is different from the default stylesheet, use
+-- the GUIframe.styleTab(name, style) function, where the style variable contains a string
+-- with the CSS to be applied. Since tabs are styled only when created or when this
+-- function is used, there should be no concern with this styling being overwritten.
+GUIframe = GUIframe or {}
+local mainW, mainH = getMainWindowSize()
+local halfW, halfH = math.floor(mainW / 2), math.floor(mainH / 2)
+GUIframe.configs = GUIframe.configs or {}
+GUIframe.defaults =
+  {
+    tabHeight = 20,
+    tabStyle =
+      [[
+        background-color: green;
+        border-width: 2px;
+        border-style: outset;
+        border-color: limegreen;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        margin-right: 1px;
+        margin-left: 1px;
+        qproperty-alignment: 'AlignCenter | AlignCenter';]],
+    tabEchoStyle = '&lt;center&gt;&lt;p style="font-size:14px; color:white"&gt;',
+    leftStartWidth = 50,
+    leftStartHeight = halfH,
+    rightStartWidth = 50,
+    rightStartHeight = halfH,
+    topStartHeight = 50,
+    bottomStartHeight = 50,
+    resizeHeight = 30,
+    resizeWidth = 30,
+    resizeHoverImage = "/imgs/blue_arrows.png",
+    resizeRestImage = "/imgs/blue_arrows_20t.png",
+    borderOffset = 5,
+  }
+GUIframe.windows = GUIframe.windows or {}
+GUIframe.tabs = GUIframe.tabs or {}
+GUIframe.tabCoords = GUIframe.tabCoords or {}
+GUIframe.sides =
+  GUIframe.sides or {left = 'enabled', right = 'enabled', top = 'enabled', bottom = 'enabled'}
+local resize_style = "border-image: url(%s%s);"
+local configs = table.update(GUIframe.defaults, GUIframe.configs)
+local tabsInfo, containerInfo, resizeInfo
+local container_names =
+  {
+    'topLeftContainer',
+    'bottomLeftContainer',
+    'topRightContainer',
+    'bottomRightContainer',
+    'bottomContainer',
+    'topContainer',
+  }
+local tab_names =
+  {'topLeftTabs', 'topRightTabs', 'bottomLeftTabs', 'bottomRightTabs', 'midLeftTabs'}
+local resizeLabels = {'resizeLeft', 'resizeRight', 'resizeTop', 'resizeBottom'}
+local sides = {"top", "bottom", "left", "right"}
+local side_containers =
+  {
+    left = {"topLeftContainer", "bottomLeftContainer", "topLeftTabs", "bottomLeftTabs"},
+    right = {"topRightContainer", "bottomRightContainer", "topRightTabs", "bottomRightTabs"},
+    top = {"topContainer"},
+    bottom = {"bottomContainer"},
+  }
+
+local function get_window_coords(win, update)
+  -- gets coords for window, stores data in tabCoords table as needed
+  local x, y = win:get_x(), win:get_y()
+  local w, h = win:get_width(), win:get_height()
+  if update then
+    GUIframe.tabCoords[win.name] = {x = x, y = y, w = w, h = h}
+  end
+  return x, y, w, h
+end
+
+local function check_overlap(tab, x, y)
+  -- checks to see if given coords overlap tab or tab container
+  if type(tab) == "string" then
+    tab = GUIframe[tab] or GUIframe.tabs[tab]
+  end
+  if tab.hidden or tab.auto_hidden then
+    return false
+  end
+  local info = GUIframe.tabCoords[tab.name]
+  local x1, y1 = info.x, info.y
+  local x2, y2 = x1 + info.w, y1 + info.h
+  return (x &gt;= x1 and x &lt;= x2 and y &gt;= y1 and y &lt;= y2)
+end
+
+local function update_tab(tab, x, y, w, h)
+  -- resizes and moves tab and updates tab coords table
+  tab:move(x, y)
+  tab:resize(w, h)
+  local info = GUIframe.tabCoords[tab.name] or {}
+  info.x, info.y = tab:get_x(), tab:get_y()
+  info.w, info.h = tab:get_width(), tab:get_height()
+  if table.contains(tab_names, tab.name) then
+    info.container = true
+  end
+  GUIframe.tabCoords[tab.name] = info
+end
+
+local function get_containers(pos)
+  if type(pos) == "table" then
+    pos = pos.name
+  end
+  for _, w in ipairs({'right', 'left', 'container', 'tabs'}) do
+    pos = pos:gsub(w, w:title())
+  end
+  local con, tab
+  if string.find(pos, "Container") then
+    con = GUIframe[pos]
+    if not con then
+      return
+    end
+    tabs = con.tabs
+  elseif string.find(pos, "Tabs") then
+    tabs = GUIframe[pos]
+    if not tab then
+      return
+    end
+    con = tabs.con
+  else
+    con = GUIframe[pos .. "Container"]
+    tabs = GUIframe[pos .. "Tabs"]
+  end
+  return con, tabs
+end
+
+local function config()
+  configs = table.update(GUIframe.defaults, GUIframe.configs)
+  GUIframe.windows = {}
+  GUIframe.tabCoords = {}
+  tabsInfo =
+    {
+      topLeftTabs =
+        {
+          name = 'topLeftTabs',
+          x = 0,
+          y = 0,
+          width = configs.leftStartWidth,
+          height = configs.tabHeight,
+        },
+      bottomLeftTabs =
+        {
+          name = 'bottomLeftTabs',
+          x = 0,
+          y = configs.leftStartHeight,
+          width = configs.leftStartWidth,
+          height = configs.tabHeight,
+        },
+      topRightTabs =
+        {
+          name = 'topRightTabs',
+          x = mainW - configs.rightStartWidth,
+          y = 0,
+          width = configs.rightStartWidth,
+          height = configs.tabHeight,
+        },
+      bottomRightTabs =
+        {
+          name = 'bottomRightTabs',
+          x = mainW - configs.rightStartWidth,
+          y = configs.rightStartHeight,
+          width = configs.rightStartWidth,
+          height = configs.tabHeight,
+        },
+    }
+  containerInfo =
+    {
+      topLeftContainer =
+        {
+          name = 'topLeftContainer',
+          x = 0,
+          y = configs.tabHeight,
+          width = configs.leftStartWidth,
+          height = configs.leftStartHeight - configs.tabHeight,
+        },
+      bottomLeftContainer =
+        {
+          name = 'bottomLeftContainer',
+          x = 0,
+          y = configs.leftStartHeight + configs.tabHeight,
+          width = configs.leftStartWidth,
+          height = configs.leftStartHeight - configs.tabHeight,
+        },
+      topRightContainer =
+        {
+          name = 'topRightContainer',
+          x = mainW - configs.rightStartWidth,
+          y = configs.tabHeight,
+          width = configs.rightStartWidth,
+          height = configs.rightStartHeight - configs.tabHeight,
+        },
+      bottomRightContainer =
+        {
+          name = 'bottomRightContainer',
+          x = mainW - configs.rightStartWidth,
+          y = configs.rightStartHeight + configs.tabHeight,
+          width = configs.rightStartWidth,
+          height = configs.rightStartHeight - configs.tabHeight,
+        },
+      bottomContainer =
+        {
+          name = 'bottomContainer',
+          x = configs.leftStartWidth,
+          y = mainH - configs.bottomStartHeight,
+          height = configs.bottomStartHeight,
+          width = mainW - configs.leftStartWidth - configs.rightStartWidth,
+        },
+      topContainer =
+        {
+          name = 'topContainer',
+          x = configs.leftStartWidth,
+          y = 0,
+          height = configs.topStartHeight,
+          width = mainW - configs.leftStartWidth - configs.rightStartWidth,
+        },
+    }
+  resizeInfo =
+    {
+      resizeLeft =
+        {
+          name = 'resizeLeft',
+          x = configs.leftStartWidth,
+          y = configs.leftStartHeight - configs.resizeHeight / 2,
+          height = configs.resizeHeight,
+          width = configs.resizeWidth,
+        },
+      resizeRight =
+        {
+          name = 'resizeRight',
+          x = configs.rightStartWidth - configs.resizeWidth,
+          y = configs.rightStartHeight - configs.resizeHeight / 2,
+          height = configs.resizeHeight,
+          width = configs.resizeWidth,
+        },
+      resizeTop =
+        {
+          name = 'resizeTop',
+          x = halfW - configs.resizeWidth / 2,
+          y = configs.topStartHeight,
+          height = configs.resizeHeight,
+          width = configs.resizeWidth,
+        },
+      resizeBottom =
+        {
+          name = 'resizeBottom',
+          x = halfW - configs.resizeWidth / 2,
+          y = mainH - configs.bottomStartHeight - configs.resizeHeight,
+          height = configs.resizeHeight,
+          width = configs.resizeWidth,
+        },
+    }
+  for name, cons in pairs(containerInfo) do
+    GUIframe[name] = Geyser.Container:new(cons)
+  end
+  for name, cons in pairs(tabsInfo) do
+    GUIframe[name] = Geyser.Container:new(cons)
+    local cname = name:gsub("Tabs", "Container")
+    GUIframe[cname].tabs = GUIframe[name]
+    GUIframe[name].con = GUIframe[cname]
+  end
+  local style = resize_style
+  local path = getMudletHomeDir()
+  path = path:gsub("[\\/]", "/")
+  configs.resizeRestImage = configs.resizeRestImage:gsub("[\\/]", "/")
+  configs.resizeHoverImage = configs.resizeHoverImage:gsub("[\\/]", "/")
+  local no_image
+  if
+    not (io.exists(path .. configs.resizeHoverImage) and io.exists(path .. configs.resizeRestImage))
+  then
+    debugc("GUIframe: config: resize image(s) not found")
+    path = "255,20,147,"
+    style = "background-color: rgba(%s%s);"
+    no_image = true
+  end
+  for name, cons in pairs(resizeInfo) do
+    GUIframe[name] = Geyser.Label:new(cons)
+    GUIframe[name]:setColor(0, 0, 0, 0)
+    GUIframe[name]:setStyleSheet(
+      string.format(style, path, (no_image and "100") or configs.resizeRestImage)
+    )
+    GUIframe[name]:setOnEnter(
+      "GUIframe." .. name .. ".setStyleSheet",
+      GUIframe[name],
+      string.format(style, path, (no_image and "255") or configs.resizeHoverImage)
+    )
+    GUIframe[name]:setOnLeave(
+      "GUIframe." .. name .. ".setStyleSheet",
+      GUIframe[name],
+      string.format(style, path, (no_image and "100") or configs.resizeRestImage)
+    )
+    GUIframe[name]:setClickCallback("GUIframe.buttonClick", name)
+    GUIframe[name]:setReleaseCallback("GUIframe.buttonRelease", name)
+    GUIframe[name]:setMoveCallback("GUIframe.buttonMove", name)
+  end
+  setBorderLeft(configs.leftStartWidth + configs.borderOffset)
+  setBorderRight(configs.rightStartWidth + configs.borderOffset)
+  setBorderTop(configs.topStartHeight + configs.borderOffset)
+  setBorderBottom(configs.bottomStartHeight + configs.borderOffset)
+  GUIframe.initialized = true
+end
+
+local function deselectContainer(container, tabs)
+  -- hide all windows in container
+  for _, win in pairs(container.windowList) do
+    win:hide()
+    win.active = false
+  end
+  -- unhighlight all tabs in tabs container
+  if tabs then
+    for _, tab in pairs(tabs.windowList) do
+      local name = tab.name:gsub("Tab", "")
+      local show = GUIframe.windows[name].showText
+      if show then
+        tab:echo(configs.tabEchoStyle .. name)
+      end
+    end
+  end
+end
+
+local function adjustTabs(tabs)
+  if not GUIframe.initialized then
+    error("GUIframe not initialized", 2)
+  end
+  -- remove duplicated window names
+  local found = {}
+  for k, v in ipairs(tabs.windows) do
+    if not table.contains(found, v) and tabs.windowList[v] and not tabs.windowList[v].isClicked then
+      table.insert(found, v)
+    end
+  end
+  -- calculate tab width and set height
+  local w, h = math.floor(100 / #tabs.windows), configs.tabHeight
+
+  local function wrap(num)
+    return tostring(num) .. "%"
+  end
+
+  -- resize and reposition all tabs
+  local shown, first
+  for k, v in ipairs(found) do
+    local tab = tabs.windowList[v]
+    if not first then
+      first = v:gsub("Tab", "")
+    end
+    if not shown and tab.active then
+      shown = v
+    elseif tab.active then
+      tab.active = false
+    end
+    update_tab(tab, wrap(w * (k - 1)), 0, wrap(w), h)
+  end
+  if first and not shown and GUIframe.windows[first] then
+    GUIframe.windows[first]:show()
+  end
+  tabs.space_pos = nil
+end
+
+local function reorderTabs(tabs, name, pos)
+  local windows = tabs.windows
+  while table.contains(windows, name) do
+    table.remove(windows, table.index_of(windows, name))
+  end
+  table.insert(windows, pos, name)
+end
+
+local function makeSpace(tabs, tab, pos)
+  if not GUIframe.initialized then
+    error("GUIframe not initialized", 2)
+  end
+  local windows = table.deepcopy(tabs.windows)
+  local space_pos = tabs.space_pos
+  local tab_pos = table.index_of(windows, tab.name)
+  -- calculate tab width and set height
+  local num_tabs = #windows + 1
+  if tab_pos then
+    num_tabs = num_tabs - 1
+    if pos &gt; tab_pos then
+      pos = pos - 1
+    end
+    if pos == space_pos then
+      pos = pos + 1
+    end
+  elseif space_pos and pos &gt;= space_pos then
+    pos = pos + 1
+  end
+  local w, h = math.floor(100 / num_tabs), configs.tabHeight
+
+  local function wrap(num)
+    return tostring(num) .. "%"
+  end
+
+  -- resize and reposition all tabs
+  if tab_pos then
+    table.remove(windows, tab_pos)
+  end
+  for k, v in ipairs(windows) do
+    if k &gt;= pos then
+      update_tab(tabs.windowList[v], wrap(w * k), 0, wrap(w), h)
+    else
+      update_tab(tabs.windowList[v], wrap(w * (k - 1)), 0, wrap(w), h)
+    end
+  end
+  tabs.space_pos = pos
+end
+
+local function round(num, roundTo)
+  local b, r = math.modf(num / roundTo)
+  if r &gt;= 0.5 then
+    b = b + 1
+  end
+  return b * roundTo
+end
+
+local function setBorder(side, val)
+  local funcs =
+    {left = setBorderLeft, right = setBorderRight, top = setBorderTop, bottom = setBorderBottom}
+  val = math.max(val, 0)
+  funcs[side](val)
+end
+
+local function resizeContainers(side, w, h)
+  if table.contains({"left", "right"}, side) then
+    local info =
+      {
+        left =
+          {
+            resize = "resizeLeft",
+            cons = {"topLeftContainer", "bottomLeftContainer"},
+            tabs = {"topLeftTabs", "bottomLeftTabs"},
+            x = 0,
+            w = w,
+          },
+        right =
+          {
+            resize = "resizeRight",
+            cons = {"topRightContainer", "bottomRightContainer"},
+            tabs = {"topRightTabs", "bottomRightTabs"},
+            x = w,
+            w = mainW - w,
+          },
+      }
+    info = info[side]
+    -- move and resize top, bottom and tab containers
+    update_tab(GUIframe[info.tabs[1]], info.x, 0, info.w, configs.tabHeight)
+    update_tab(GUIframe[info.tabs[2]], info.x, h, info.w, configs.tabHeight)
+    GUIframe[info.cons[1]]:resize(info.w, h - configs.tabHeight)
+    GUIframe[info.cons[1]]:move(info.x, configs.tabHeight)
+    GUIframe[info.cons[2]]:resize(info.w, mainH - h - configs.tabHeight)
+    GUIframe[info.cons[2]]:move(info.x, h + configs.tabHeight)
+    -- adjust border size
+    setBorder(side, info.w + configs.borderOffset)
+    -- adjust width of top and bottom containers
+    local x, y
+    x = (GUIframe.sides.left ~= "hidden" and GUIframe.topLeftContainer:get_width()) or 0
+    w = ((GUIframe.sides.right ~= "hidden" and GUIframe.topRightContainer:get_x()) or mainW) - x
+    for _, con in ipairs({GUIframe.topContainer, GUIframe.bottomContainer}) do
+      y, h = con:get_y(), con:get_height()
+      con:resize(w, h)
+      con:move(x, y)
+    end
+  elseif table.contains({"top", "bottom"}, side) then
+    local x = 0
+    w = mainW
+    if GUIframe.sides.left ~= "hidden" then
+      w = w - GUIframe.topLeftContainer:get_width()
+      x = GUIframe.topLeftContainer:get_width()
+    end
+    if GUIframe.sides.right ~= "hidden" then
+      w = w - GUIframe.topRightContainer:get_width()
+    end
+    local info =
+      {
+        top = {con = "topContainer", y = 0, h = h},
+        bottom = {con = "bottomContainer", y = h, h = mainH - h},
+      }
+    local con = GUIframe[info[side].con]
+    con:resize(w, info[side].h)
+    con:move(x, info[side].y)
+    setBorder(side, info[side].h + configs.borderOffset)
+  end
+end
+
+local function refresh()
+  if not GUIframe.initialized then
+    error("GUIframe not initialized", 2)
+  end
+  mainW, mainH = getMainWindowSize()
+  local rH, rW = configs.resizeHeight, configs.resizeWidth
+  local x, y, w
+  -- adjust bottom left and right container heights
+  for _, C in ipairs({GUIframe.bottomLeftContainer, GUIframe.bottomRightContainer}) do
+    C:resize(C:get_width(), mainH - C:get_y())
+  end
+  -- reposition right containers
+  w = GUIframe.topRightContainer:get_width()
+  for
+    _, C in
+      ipairs(
+        {
+          GUIframe.topRightContainer,
+          GUIframe.topRightTabs,
+          GUIframe.bottomRightContainer,
+          GUIframe.bottomRightTabs,
+        }
+      )
+  do
+    C:move(mainW - w, C:get_y())
+  end
+  -- resize and reposition bottom and top containers
+  w, x = mainW, 0
+  if GUIframe.sides.left ~= "hidden" then
+    w = w - GUIframe.topLeftContainer:get_width()
+    x = GUIframe.topLeftContainer:get_width()
+  end
+  if GUIframe.sides.right ~= "hidden" then
+    w = w - GUIframe.topRightContainer:get_width()
+  end
+  for _, C in ipairs({GUIframe.topContainer, GUIframe.bottomContainer}) do
+    C:resize(w, C:get_height())
+    C:move(x, C.name == "topContainer" and 0 or mainH - C:get_height())
+  end
+  -- reposition resize labels
+  x, y = GUIframe.topLeftContainer:get_width(), GUIframe.bottomLeftTabs:get_y()
+  GUIframe.resizeLeft:move(x, y - rH / 2)
+  x, y = GUIframe.topRightContainer:get_x(), GUIframe.bottomRightTabs:get_y()
+  GUIframe.resizeRight:move(x - rW, y - rH / 2)
+  x = (GUIframe.topContainer:get_width() - rW) / 2
+  if GUIframe.sides.left ~= "hidden" then
+    x = x + GUIframe.topLeftContainer:get_width()
+  end
+  y = GUIframe.topContainer:get_height()
+  GUIframe.resizeTop:move(x, y)
+  y = GUIframe.bottomContainer:get_y()
+  GUIframe.resizeBottom:move(x, y - rH)
+end
+
+-- enables the resize label for the given side and shows all associated containers if hidden
+
+function GUIframe.enable(side)
+  if not GUIframe.initialized then
+    error("GUIframe not initialized", 2)
+  end
+  if not table.contains(sides, side) then
+    error("GUIframe.enable: invalid side", 2)
+  end
+  local cons = side_containers[side]
+  for _, con in ipairs(cons) do
+    GUIframe[con]:show()
+    for _, win in pairs(GUIframe[con].windowList) do
+      -- loop can be removed after Geyser fix comes in
+      if win.active then
+        win:show()
+      end
+    end
+  end
+  if table.contains({"left", "right"}, side) then
+    setBorder(side, GUIframe[cons[1]]:get_width() + configs.borderOffset)
+  else
+    setBorder(side, GUIframe[cons[1]]:get_height() + configs.borderOffset)
+  end
+  GUIframe["resize" .. side:title()]:show()
+  GUIframe.sides[side] = "enabled"
+  refresh()
+end
+
+-- disables and hides the resize label for the given side, and hides all associated containers if indicated
+
+function GUIframe.disable(side, hide)
+  if not GUIframe.initialized then
+    error("GUIframe not initialized", 2)
+  end
+  if not table.contains(sides, side) then
+    error("GUIframe.disable: invalid side", 2)
+  end
+  local cons = side_containers[side]
+  GUIframe.sides[side] = "disabled"
+  if hide then
+    for _, con in ipairs(cons) do
+      GUIframe[con]:hide()
+      for _, win in pairs(GUIframe[con].windowList) do
+        -- loop can be removed after Geyser fix comes in
+        if win.type == "mapper" then
+          win:hide()
+        end
+      end
+    end
+    local border = _G["setBorder" .. side:title()]
+    border(0)
+    GUIframe.sides[side] = "hidden"
+  end
+  GUIframe["resize" .. side:title()]:hide()
+  refresh()
+end
+
+-- adds a Geyser window or container to the given container, with a tab showing the given name if applicable
+
+function GUIframe.addWindow(window, name, container, hideText)
+  if not GUIframe.initialized then
+    config()
+  end
+  if type(container) == "table" then
+    container = container.name
+  end
+  local con, tabs = get_containers(container)
+	if not window then
+		error("GUIframe.addWindow: invalid window", 2)
+	end
+  if not con then
+    error("GUIframe.addWindow: invalid container name", 2)
+  end
+  if not name then
+    error("GUIframe.addWindow: name argument required", 2)
+  end
+  -- remove window from any containers
+  for _, tcon in ipairs(container_names) do
+    if table.contains(GUIframe[tcon].windows, window.name) then
+      GUIframe.removeWindow(name, tcon)
+    end
+  end
+  deselectContainer(con, tabs)
+  -- add tab for window, if applicable
+  if tabs then
+    local showText = not hideText
+    window.showText = showText
+    local lbl =
+      Geyser.Label:new({name = name .. "Tab", x = 0, y = 0, width = 10, height = 10}, tabs)
+    lbl:setStyleSheet(configs.tabStyle)
+    if showText then
+      lbl:echo(configs.tabEchoStyle .. "&lt;b&gt;" .. name)
+    end
+    lbl:setClickCallback("GUIframe.buttonClick", name)
+    lbl:setReleaseCallback("GUIframe.buttonRelease", name)
+    lbl:setMoveCallback("GUIframe.buttonMove", name)
+    GUIframe.tabs[name] = lbl
+    adjustTabs(tabs)
+  end
+  -- add window to container and set size and position
+  con:add(window)
+  window:resize("100%", "100%")
+  window:move(0, 0)
+  window:show()
+  GUIframe.windows[name] = window
+  raiseEvent("sysWindowResizeEvent")
+end
+
+-- removes a named Geyser window or container from the named container (using name given in GUIframe.addWindow)
+
+function GUIframe.removeWindow(name, container)
+  if not GUIframe.initialized then
+    error("GUIframe not initialized", 2)
+  end
+  if not container then
+    container = GUIframe.windows[name].container
+  end
+  local con, tabs = get_containers(container)
+  if not con or not table.contains(container_names, con.name) then
+    error("GUIframe.removeWindow: invalid container name", 2)
+  end
+  if not name then
+    error("GUIframe.removeWindow: name argument required", 2)
+  end
+  if tabs then
+    local lbl = tabs.windowList[name .. "Tab"]
+    if lbl then
+      tabs:remove(lbl)
+      adjustTabs(tabs)
+      lbl:hide()
+    end
+  end
+  local window = GUIframe.windows[name]
+  con:remove(window)
+  window:hide()
+end
+
+-- saves the current GUI setup, including the size of the different containers and what windows go in which container
+
+function GUIframe.saveSettings()
+  if not GUIframe.initialized then
+    error("GUIframe not initialized", 2)
+  end
+  local saveTbl = {}
+  local w, h = GUIframe.topLeftContainer:get_width(), GUIframe.bottomLeftTabs:get_y()
+  saveTbl.left = {w = w, h = h}
+  w, h = GUIframe.topRightContainer:get_width(), GUIframe.bottomRightTabs:get_y()
+  saveTbl.right = {w = w, h = h}
+  w, h = GUIframe.topContainer:get_width(), GUIframe.topContainer:get_height()
+  saveTbl.top = {w = w, h = h}
+  w, h = GUIframe.bottomContainer:get_width(), GUIframe.bottomContainer:get_height()
+  saveTbl.bottom = {w = w, h = h}
+  -- get added windows and containers they are assigned to
+  local windows = {}
+  local text = {}
+  for k, v in pairs(GUIframe.windows) do
+    local con = v.container.name
+    windows[con] = windows[con] or {}
+    table.insert(windows[con], k)
+    text[con] = text[con] or {}
+    text[con][k] = v.showText
+  end
+  -- reorder windows to match tab order for tabbed containers
+  for con, wins in pairs(windows) do
+    if con:find("Left") or con:find("Right") then
+      local tabs = GUIframe[con].tabs.windows
+      local new = {}
+      for k, v in ipairs(tabs) do
+        local wname = v:gsub("Tab", "")
+        table.insert(new, {wname, text[con][wname]})
+      end
+      windows[con] = new
+    end
+  end
+  saveTbl.windows = windows
+  saveTbl.sides = GUIframe.sides
+  table.save(getMudletHomeDir() .. "/GUIframeSave.lua", saveTbl)
+end
+
+-- loads GUI setup from a previous save
+
+function GUIframe.loadSettings(redraw)
+  if not GUIframe.initialized then
+    error("GUIframe not initialized", 2)
+  end
+  local saveTbl = {}
+  local path = getMudletHomeDir() .. "/GUIframeSave.lua"
+  path = path:gsub("\\", "/")
+  mainW, mainH = getMainWindowSize()
+  if not io.exists(path) then
+    debugc("GUIframe.loadSettings: save file doesn't exist.")
+    return
+  end
+  table.load(path, saveTbl)
+  resizeContainers("left", saveTbl.left.w, saveTbl.left.h)
+  resizeContainers("right", mainW - saveTbl.right.w, saveTbl.right.h)
+  resizeContainers("top", saveTbl.top.w, saveTbl.top.h)
+  resizeContainers("bottom", saveTbl.bottom.w, mainH - saveTbl.bottom.h)
+  for con, wins in pairs(saveTbl.windows) do
+    for _, name in ipairs(wins) do
+      if type(name) == "string" then
+        GUIframe.addWindow(GUIframe.windows[name], name, con)
+      else
+        local n, s = name[1], not name[2]
+        GUIframe.addWindow(GUIframe.windows[n], n, con, s)
+      end
+    end
+  end
+  for side, state in pairs(saveTbl.sides) do
+    if state == "enabled" then
+      GUIframe.enable(side)
+    elseif state == "disabled" then
+      GUIframe.disable(side, false)
+    elseif state == "hidden" then
+      GUIframe.disable(side, true)
+    end
+  end
+  -- force redraw of screen
+  if redraw then
+    setBackgroundColor(1, 1, 1)
+    setBackgroundColor(0, 0, 0)
+  end
+end
+
+-- can be called to force the script to run its config function again
+
+function GUIframe.reinitialize()
+  config()
+end
+
+-- can be called to activate a given tab without clicking on it
+
+function GUIframe.activate(name)
+  if not GUIframe.initialized then
+    error("GUIframe not initialized", 1)
+  end
+  local window = GUIframe.windows[name]
+  if window then
+    local con, tabs = get_containers(window.container.name)
+    -- hide and unhighlight other windows and tabs
+    deselectContainer(con, tabs)
+    -- show selected window
+    window:show()
+    window.active = true
+    -- highlight selected tab
+    if window.showText then
+      GUIframe.tabs[name]:echo(configs.tabEchoStyle .. "&lt;b&gt;" .. name)
+    end
+  end
+end
+
+-- can be called to apply a style to a given tab
+
+function GUIframe.styleTab(name, style)
+  if not GUIframe.initialized then
+    error("GUIframe not initialized", 1)
+  end
+  local tab = GUIframe.tabs[name]
+  if tab then
+    tab:setStyleSheet(style)
+  end
+end
+
+-- internally used function to handle button click callbacks
+
+function GUIframe.buttonClick(name, event)
+  if not GUIframe.initialized then
+    error("GUIframe not initialized", 2)
+  end
+  if table.contains(resizeLabels, name) then
+    if event.button == "RightButton" then
+      local lbl = GUIframe[name]
+      lbl.difX, lbl.difY = event.x, event.y
+      lbl.savedX, lbl.savedY = getMousePosition()
+      GUIframe[name].isClicked = true
+    end
+  elseif event.button == "LeftButton" then
+    local window = GUIframe.windows[name]
+    local con, tabs = get_containers(window.container.name)
+    -- hide and unhighlight other windows and tabs
+    deselectContainer(con, tabs)
+    -- show selected window
+    window:show()
+    window.active = true
+    -- highlight selected tab
+    if window.showText then
+      GUIframe.tabs[name]:echo(configs.tabEchoStyle .. "&lt;b&gt;" .. name)
+    end
+  elseif event.button == "RightButton" then
+    local window, tab = GUIframe.windows[name], GUIframe.tabs[name]
+    tab.savedX, tab.savedY = getMousePosition()
+    tab.difX, tab.difY, tab.isClicked = event.x, event.y, true
+    -- force update of coords for all tabs and tab containers
+    GUIframe.tabCoords = {}
+    for _, name in ipairs(tab_names) do
+      get_window_coords(GUIframe[name], true)
+      for tname, tab in pairs(GUIframe[name].windowList) do
+        get_window_coords(tab, true)
+      end
+    end
+  end
+  raiseEvent("GUIframe.buttonClick", name, event)
+end
+
+-- internally used function to handle button release callbacks
+
+function GUIframe.buttonRelease(name, event)
+  if not GUIframe.initialized then
+    error("GUIframe not initialized", 2)
+  end
+  if table.contains(resizeLabels, name) then
+    if event.button == "RightButton" then
+      local lbl = GUIframe[name]
+      lbl.savedX, lbl.savedY, lbl.difX, lbl.difY, lbl.isClicked = nil, nil, nil, nil, false
+    end
+  elseif event.button == "RightButton" then
+    local window, tab = GUIframe.windows[name], GUIframe.tabs[name]
+    local con, tabs = get_containers(window.container.name)
+    tab.difX, tab.difY, tab.savedX, tab.savedY, tab.isClicked = nil, nil, nil, nil, false
+    hideWindow("show_container")
+    for _, tname in ipairs(tab_names) do
+      local info = GUIframe[tname]
+      if info.mouse_over then
+        local pos = info.space_pos
+        info.mouse_over = nil
+        GUIframe.addWindow(window, name, tname:gsub("Tabs", ""), not window.showText)
+        if pos then
+          reorderTabs(info, tab.name, pos)
+          adjustTabs(info)
+        end
+      end
+    end
+    adjustTabs(tabs)
+  end
+  raiseEvent("GUIframe.buttonRelease", name, event)
+end
+
+-- internally used function to handle button move callbacks
+
+function GUIframe.buttonMove(name, event)
+  if not GUIframe.initialized then
+    error("GUIframe not initialized", 2)
+  end
+  if table.contains(resizeLabels, name) then
+    lbl = GUIframe[name]
+    if lbl.isClicked then
+      local w, h = getMousePosition()
+      w, h = round(w - lbl.difX, 10), round(h - lbl.difY, 10)
+      mainW, mainH = getMainWindowSize()
+      local side, cW, cH, rX, rY
+      local minX = GUIframe.sides.left ~= "hidden" and GUIframe.topLeftContainer:get_width() or 0
+      local maxX = GUIframe.sides.right ~= "hidden" and GUIframe.topRightContainer:get_x() or mainW
+      local minY = GUIframe.sides.top ~= "hidden" and GUIframe.topContainer:get_height() or 0
+      local maxY = GUIframe.sides.left ~= "hidden" and GUIframe.bottomContainer:get_y() or mainH
+      local mid, min, max = GUIframe.topContainer:get_width(), math.min, math.max
+      local tabH, rH, rW = configs.tabHeight, configs.resizeHeight, configs.resizeWidth
+      w, h = max(w, 0), max(h, 0)
+      -- specify position of resize labels and size of containers
+      local info =
+        {
+          resizeLeft =
+            {
+              side = "left",
+              x = min(w, maxX - rW),
+              y = min(max(h + rH / 2, tabH), mainH - tabH) - rH / 2,
+              w = min(w, maxX - rW),
+              h = min(max(h + rH / 2, tabH), mainH - tabH),
+            },
+          resizeRight =
+            {
+              side = "right",
+              x = min(max(w, minX), mainW),
+              y = min(max(h + rH / 2, tabH), mainH - tabH) - rH / 2,
+              w = min(max(w, minX), mainW - rW) + rW,
+              h = min(max(h + rH / 2, tabH), mainH - tabH),
+            },
+          resizeTop =
+            {
+              side = "top",
+              x = minX + (mid - rW) / 2,
+              y = min(h, maxY - rH),
+              w = maxX - minX,
+              h = min(h, maxY - rH),
+            },
+          resizeBottom =
+            {
+              side = "bottom",
+              x = minX + (mid - rW) / 2,
+              y = min(max(h, minY) - rH, mainH),
+              w = maxX - minX,
+              h = min(max(h, minY) + rH, mainH),
+            },
+        }
+      info = info[name]
+      lbl:move(info.x, info.y)
+      resizeContainers(info.side, info.w, info.h)
+    end
+  else
+    local window, tab = GUIframe.windows[name], GUIframe.tabs[name]
+    local con, tabs = get_containers(window.container.name)
+    local x, y = getMousePosition()
+    local over_con, over_tab
+    if tab and tab.isClicked then
+      moveWindow(tab.name, x - tab.difX, y - tab.difY)
+      -- check to see if mouse is over any tab containers
+      for _, tcon in ipairs(tab_names) do
+        if check_overlap(tcon, x, y) then
+          over_con = tcon
+          GUIframe[tcon].mouse_over = true
+          local info = GUIframe.tabCoords[tcon]
+          local tx, ty, tw, th = info.x, info.y, info.w, info.h
+          createLabel("show_container", 0, 0, 0, 0, 1)
+          moveWindow("show_container", tx, ty)
+          resizeWindow("show_container", tw, th)
+          setLabelStyleSheet(
+            "show_container",
+            [[
+                        background-color: black;
+                        border: 2px solid white;]]
+          )
+          showWindow("show_container")
+          lowerWindow("show_container")
+          -- check to see if mouse is over any tabs
+          for tname, info in pairs(GUIframe.tabs) do
+            if tname ~= name and check_overlap(info, x, y) then
+              over_tab = info.name
+              local windows = GUIframe[tcon].windows
+              local index = table.index_of(windows, over_tab)
+              makeSpace(GUIframe[tcon], tab, index)
+              break
+            end
+          end
+          break
+        end
+      end
+      -- remove any unnecessary spaces in tab containers
+      for _, name in ipairs(tab_names) do
+        if name ~= over_con then
+          adjustTabs(GUIframe[name])
+          GUIframe[name].mouse_over = nil
+        end
+      end
+    end
+  end
+  raiseEvent("GUIframe.buttonMove", name, event)
+end
+
+-- internally used function to handle sysWindowResizeEvent
+
+function GUIframe.eventHandler(event, ...)
+  if event == "sysWindowResizeEvent" and GUIframe.initialized then
+    refresh()
+  end
+end
+
+registerAnonymousEventHandler("sysWindowResizeEvent", "GUIframe.eventHandler")</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>CSSMan</name>
+				<packageName></packageName>
+				<script>-- CSSMan by Vadi. Public domain.
+
+CSSMan = {}
+CSSMan.__index = CSSMan
+
+function CSSMan.new(stylesheet)
+  local obj  = { stylesheet = {} }
+  setmetatable(obj,CSSMan)
+  local trim = string.trim
+
+  assert(type(stylesheet) == "string", "CSSMan.new: no stylesheet provided. A possible error is that you might have used CSSMan.new, not CSSMan:new")
+
+  for line in stylesheet:gmatch("[^\r\n]+") do
+    local attribute, value = line:match("^(.-):(.-);$")
+    if attribute and value then
+      attribute, value = trim(attribute), trim(value)
+      obj.stylesheet[attribute] = value
+    end
+  end
+
+  return obj
+end
+
+function CSSMan:set(key, value)
+  self.stylesheet[key] = value
+end
+
+function CSSMan:get(key)
+  return self.stylesheet[key]
+end
+
+function CSSMan:getCSS(key)
+  local lines, concat = {}, table.concat
+  for k,v in pairs(self.stylesheet) do lines[#lines+1] = concat({k,": ", v, ";"}) end
+  return concat(lines, "\n")
+end
+
+function CSSMan:gettable()
+  return self.stylesheet
+end
+
+function CSSMan:settable(tbl)
+  assert(type(tbl) == "table", "CSSMan:settable: table expected, got "..type(tbl))
+
+  self.stylesheet = tbl
+end</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>Logging</name>
+				<packageName></packageName>
+				<script>-- Das Ziel des Avalet-Loggers ist, eine Möglichkeit zu haben, aus verschiedenen
+-- Quellen Ausgaben in verschiedene Dateien umzuleiten. Um diese dann optional in den
+-- Tabs auf der Oberfläche anzeigen zu können.
+-- Quellen für diese Ausleitung sind beispielsweise: 
+-- --&gt; Trigger
+-- --&gt; ATCP
+-- --&gt; Logging-Ausgaben im Code für Debugging und Error-Logging im Betrieb
+-- Und zwar vorzugsweise sowohl aus Avalet heraus als auch durch eventuelle
+-- Sub-Module.
+-- Funktionen sind also:
+-- --&gt; Eine Datei angeben zu können, die innerhalb des Profils gespeichert wird,
+--     und in die dann die Logausgaben irgendwie in geschickter Weise (Dateigröße?)
+--     rausgeschrieben werden.
+-- --&gt; Einen Tab im Frontend anlegen können, in dem die Log-Ausgabe, also der Inhalt
+--     der Datei, in einer Mini-Konsole angezeigt wird. (Muss es nicht geben, einfach
+--     in eine Datei loggen können sollte auch gehen.)
+-- --&gt; Aus den verschiedenen Quellen in den entsprechenden Logger reinschreiben zu können.
+-- --&gt; Ein intelligenter Umgang mit den Dateien und dem verwendeten Speicher.
+--
+-- Das Logging (inklusive auch von Triggern, Timern etc.) basiert erstmal auf einer
+-- Arbeit vom User Wyd aus dem Mudlet-Forum, die ich unter dieser Adresse gefunden habe:
+-- https://forums.mudlet.org/viewtopic.php?t=1424
+--
+-- Anpassungen von Marco Steffens
+
+
+Logger = Logger or {
+		_currFileNum = 0,
+
+		_fileName = nil,
+
+		_keepOpen = {}
+}
+
+function Logger:getLogDirectory()
+	if string.char(getMudletHomeDir():byte()) == "/" then _sep = "/" else  _sep = "\\" end
+	local logdir = getMudletHomeDir() ..  _sep .. "log" .. _sep
+	return logdir
+end
+
+function Logger:echo(message)
+	cecho("\n&lt;red&gt;Logger: ")
+	cecho("&lt;white&gt;" .. message)
+end
+
+function Logger:Log(file, val, options)
+	options = options or Logger.options or {}
+
+	local line = ""
+   if table.contains(options, "timestamp") then
+		local time_format = "'['dd'.'MM'.'yyyy' - 'hh':'mm':'ss'.'zzz]: "
+		line = line .. getTime(true, time_format)
+	end
+
+	if table.contains(options, "split") then
+		local maxSize = options.split
+		self:_checkFileSize(file, maxSize)
+	end
+	
+	local keepopen = table.contains(options, "keepOpen")
+
+	local f
+	
+	if not self._keepOpen[file] then
+		local filename = self:getLogDirectory()  .. file .. ".txt"
+		f = io.open(filename, "a+")
+		self._keepOpen[file] = f
+	else
+		f = self._keepOpen[file]
+	end
+
+	line = line .. val
+	f:write(line .. "\n")
+
+	if not keepopen then
+		self:_closeLog(file)
+	end
+end
+
+function Logger:CloseLog(file)
+	if file then
+		self:_closeLog(file)
+	else
+		for f, _ in pairs(self._keepOpen) do
+			self:_closeLog(f)
+		end
+	end
+end
+
+function Logger:SearchLog(file, pattern)
+	self:_closeLog(file) -- close the log if its open, so we can access it
+
+	local filename = self:getLogDirectory() .. file .. ".txt"
+	if not io.exists(filename) then
+		self:echo("File '" .. file .. "' does not exist!")
+		return
+	end
+
+	local counter = 0
+
+	local numBackups = self:_getCurrentFileNumber(file)
+
+	Logger:echo("Searching for '&lt;green&gt;" .. pattern .. "&lt;white&gt;' in file '" .. file .. "'")
+	
+	local t = 1;
+	local lines = 0
+	local r = rex.new(pattern)
+
+	while t &lt;= numBackups do
+		local bfilename = self:getLogDirectory() .. file .. "." .. tostring(t) .. ".txt"
+		local f = io.open(bfilename, "r")
+
+		for line in f:lines() do
+			lines = lines + 1
+			if r:match(line) then
+				cecho("\n&lt;grey&gt;" .. line .. "  &lt;white&gt;(in " .. file .. "." .. tostring(t) .. ".txt)")
+				counter = counter + 1
+			end
+		end
+
+		f:close()
+
+		t = t + 1
+	end
+
+	local f = io.open(filename, "r")
+
+	for line in f:lines() do
+		lines = lines + 1
+		if r:match(line) then
+			cecho("\n&lt;grey&gt;" .. line .. "  &lt;white&gt;(in " .. file .. ".txt)")
+			counter = counter + 1
+		end
+	end
+
+	f:close()
+
+	Logger:echo("Term matched " .. counter .. " times in " .. lines .. " lines.")
+end
+
+-- Hinzugefügt von Marco Steffens
+function Logger:ReadLog(file)
+	self:_closeLog(file) -- close the log if its open, so we can access it
+	debugc("File: "..self:getLogDirectory() .. file .. ".txt\n")
+	local filename = self:getLogDirectory() .. file .. ".txt"
+	if not io.exists(filename) then
+		self:echo("File '" .. file .. "' does not exist!")
+		return "bla"
+	else
+		local f = io.open(filename, "r")
+		content = ""
+		for line in f:lines() do
+			if line ~= "" then
+				-- "'['dd'.'MM'.'yyyy' - 'hh':'mm':'ss'.'zzz]: "
+				-- "[05.04.2020 - 16:45:00.283]: "
+				--x = string.gsub("hello world", "%w+", "%0 %0", 1)
+				-- ^\[\d{2}\.\d{2}\.\d{4} - (\d{2}:\d{2}:\d{2}).\d{3}\]: (.*)$
+				-- "^%[%d{2}%.%d{2}%.%d{4} %- (%d{2}:%d{2}:%d{2})%.%d{3}%]: (.*)$", "[%0]: %1", 1)
+				-- %^ITALIC%^schelmisch%^NO_ITALIC%^
+				line = string.gsub(line, "^%[%d+%.%d+%.%d+ %- (%d+:%d+:%d+)%.%d+%]: (.*)$", "%1: %2", 1)
+				content = content .. "\n" .. line
+			end
+		end
+		return content
+	end
+end
+
+function Logger:LogSection(file, options)
+		if self.trigger_id then 
+			Logger:echo("Already logging a section. Do Logger:StopLogging() first")
+			return
+		end
+
+		options = options or {}
+		
+		if not table.contains(options, "keepOpen") then table.insert(options, "keepOpen") end
+		
+		local splitSize = 0
+		if table.contains(options, "split") then
+			splitSize = options.split
+			self:_checkFileSize(file, splitSize)
+		end
+
+		-- we don't want to pass this on
+		options.split = nil
+
+		self:Log(file, "\n\n", {"keepOpen"})
+		self:Log(file, "[[[START OF SECTION]]]", {"timestamp", "keepOpen"})
+
+		self.logging_file = file
+		self.options = options
+		self.trigger_id = tempRegexTrigger(".*", [[ Logger:Log("]] .. file .. [[", matches[1], Logger.options)]])	
+		
+		if splitSize ~= 0 then
+			self.splitSize = splitSize
+			enableTimer("Check File Size")
+		end
+		Logger:echo("Started logging!")
+end
+
+function Logger:StopLogging()
+	if self.trigger_id then
+		killTrigger(self.trigger_id)
+		self:_closeLog(self.logging_file)
+		self.trigger_id = nil
+		self.options = nil
+		self.splitSize = 0
+		disableTimer("Check File Size")
+		self:Log(self.logging_file, "[[[END OF SECTION]]]", {"timestamp"})
+
+		self.logging_file = nil
+		Logger:echo("Logging stopped!")
+	end
+end
+
+function Logger:_checkFileSize(file, maxSize)
+	--Check whether our file size is to big
+	if self:_getFileSize(file) &gt;= maxSize then
+		-- if it is, we need to rename the current file.txt to file.n.text
+		self:_closeLog(file)
+		local t = self:_getNextFileNumber(file)
+		os.rename(self:getLogDirectory() .. file .. ".txt", self:getLogDirectory() .. file .. "." .. t .. ".txt")
+	end
+end
+
+function Logger:_getFileSize(file)
+	local filename = self:getLogDirectory()  .. file .. ".txt"
+	local f = io.open(filename, "r")
+
+	if not f then return 0 end
+	local size = f:seek("end")    -- get file size
+  	
+	f:close()
+	return size / 1024 -- We want size in kb's, not bytes
+end
+
+function Logger:_getCurrentFileNumber(file)
+	local t = 1
+	local stop = false
+	while not stop do
+		local filename = self:getLogDirectory() .. file .. "." .. tostring(t) .. ".txt"
+		if io.exists(filename) then
+			t = t + 1
+		else
+			stop = true
+		end
+	end
+
+	self._currFileNum = t - 1
+
+	return self._currFileNum
+end
+
+function Logger:_getNextFileNumber(file)
+	local current = self:_getCurrentFileNumber(file)
+	self._currFileNum = current + 1
+	return self._currFileNum
+end
+
+
+function Logger:_closeLog(file)
+	if self._keepOpen[file] then
+		self._keepOpen[file]:close()
+		self._keepOpen[file] = nil
+	end
+end</script>
+				<eventHandlerList />
+			</Script>
+		</ScriptGroup>
+		<ScriptGroup isActive="yes" isFolder="yes">
+			<name>Misc Functions</name>
+			<packageName></packageName>
+			<script>-------------------------------------------------
+--         Put your Lua functions here.        --
+--                                             --
+-- Note that you can also use external scripts --
+-------------------------------------------------
+</script>
+			<eventHandlerList />
+			<Script isActive="yes" isFolder="no">
+				<name>Utility Functions</name>
+				<packageName></packageName>
+				<script>-- Convert a lua table into a lua syntactically correct string
+function table_to_string(tbl)
+    local result = "{"
+    for k, v in pairs(tbl) do
+        -- Check the key type (ignore any numerical keys - assume its an array)
+        if type(k) == "string" then
+            result = result.."[\""..k.."\"]".."="
+        end
+
+        -- Check the value type
+        if type(v) == "table" then
+            result = result..table_to_string(v)
+        elseif type(v) == "boolean" then
+            result = result..tostring(v)
+        else
+            result = result.."\""..v.."\""
+        end
+        result = result..","
+    end
+    -- Remove leading commas from the result
+    if result ~= "" then
+        result = result:sub(1, result:len()-1)
+    end
+    return result.."}"
+end
+
+
+function readFileFromFS(path, mode)
+	data = {}
+	file = io.open (path, mode)
+	data = yajl.to_value(file:read())
+	file:close()
+	return data
+end
+
+function writeDataToFS(path, data, mode)
+	file = io.open (path, mode)
+	file:write(yajl.to_string(data))
+	file:flush()
+	file:close()
+	return true
+end</script>
+				<eventHandlerList />
+			</Script>
+		</ScriptGroup>
+		<Script isActive="yes" isFolder="no">
+			<name>CONFIG</name>
+			<packageName></packageName>
+			<script>avalonUI = {}
+-- Font size for the People Here window
+avalonUI.infoBoxFontSize = 9
+
+
+avalonUI.chatFontSize = 9
+avalonUI.chatTabFontSize = 9
+
+
+avalonUI.GaugeFrontColorTimer = "purple"
+avalonUI.GaugeFrontColorTP = "darkred"
+avalonUI.GaugeFrontColorAP = "darkgoldenrod"
+avalonUI.GaugeFrontColorZP = "blue"
+avalonUI.GaugeFrontColorMana = "green"
+avalonUI.MiniConsoleCenterFontSize = 9
+avalonUI.MiniConsoleTabsFontSize = 9
+
+
+
+
+avalonUI.CSS = {}
+
+--  background-color: black;
+--  border-color: DarkSlateBlue;
+--  border-style: double;
+--  border-radius: 1px;
+--  border-width: 1px;
+--  margin: 1px;
+--  qproperty-alignment: 'AlignCenter | AlignCenter';
+--  display:none;
+--  visibility: hidden;
+avalonUI.CSS.base = CSSMan.new([[
+	background-color: rgba(0,0,0,100);
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 10px;
+	border-color: white;
+	font: TypeWriter;
+	margin-left: 10px;
+	margin-right: 10px;
+  
+]])
+  
+ -- CSS Boxes
+avalonUI.CSS.boxCSS = CSSMan.new([[
+	background-color: rgba(0,0,0,100);
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 10px;
+	border-color: white;
+	font: TypeWriter;
+	margin: 10px;
+]])
+
+-- CSS Tab-Element ---------------------------------------------
+
+avalonUI.CSS.tabElementFooterCSS = CSSMan.new([[
+	background-color: rgb(20,0,20);
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+]])
+
+-- Each window actually has two labels. One for the light blue background, and another for the dark blue center. This will create that dark blue center. 
+avalonUI.CSS.tabElementCenterCSS = CSSMan.new([[
+	background-color: rgba(0,0,0,100);
+	border-radius: 10px;
+	margin: 5px;
+]])
+
+-- Now we create the windows that appear when each tab is clicked. Each window has two labels, one atop the other. The first, which we'll create here, has rounded edges on its bottom. 
+avalonUI.CSS.tabElementAtopCSS = CSSMan.new([[
+	background-color: rgb(20,0,20);
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+]])
+
+-- The second label serves as the window's center and has rounded edges on all sides. And a margin of 5px from it's parent, the label we just created. When adding stuff to your windows, this is the label you'll want to use. menu.&lt;tabname&gt;center
+avalonUI.CSS.tabElementCenterTabCSS = CSSMan.new([[
+	background-color: rgba(0,0,0,100);
+	border-radius: 10px;
+	margin: 5px;
+]])
+
+-- Hier werden die Tabs und die Seiten dazu erzeugt.
+-- Erzeugt einen Tab für jeden Eintrag in der Menu-Liste
+-- Stylesheet für jeden Tab
+--background-color: ]]..menu.color1..[[;
+--background-color: rgb(20,0,20);
+avalonUI.CSS.MenuTabCSS = CSSMan.new([[
+	background-color: rgb(20,0,20);
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	margin-right: 1px;
+	margin-left: 1px;
+]])
+
+-- CSS Top Menu ------------------------------------------------
+
+--	border-width: 1px;
+--	border-color: white;
+--	margin: 2px; 
+--	border-style: solid;
+--	border-radius: 7;
+--	padding: 3px;
+-- 	qproperty-alignment: 'AlignTop';
+avalonUI.CSS.MenuLabelCSS = CSSMan.new([[
+	background-color: rgba(0,0,0,100);
+	font-weight: bold;
+	font-size: 16pt;
+	color: white;
+]])
+--avalonUI.TopMenuOptions:echo([[&lt;p style="font-size:22px"&gt;&lt;b&gt;&lt;font color="white"&gt;&amp;#9881;]])
+
+-- CSS Gauges --------------------------------------------------
+
+avalonUI.CSS.GaugeBackCSS = CSSMan.new([[
+	background-color: rgba(0,0,0,0);
+	border-style: solid;
+	border-color: white;
+	border-width: 1px;
+	border-radius: 5px;
+	padding: 5px;
+	width: 30%;
+	height: 80%;
+]])
+
+avalonUI.CSS.GaugeFrontCSS = CSSMan.new([[
+	background-color: rgba(0,0,0,0);
+	border-style: solid;
+	border-color: white;
+	border-width: 1px;
+	border-radius: 5px;
+	padding: 5px;
+	width: 30%;
+	height: 80%;
+]])
+
+--	background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #78bd33, stop: 0.1 #6ebd20, stop: 0.49 #4c9900, stop: 0.5 #387000, stop: 1 #4c9900);
+avalonUI.CSS.GaugeTextCSS = CSSMan.new([[
+	padding: 5px;
+	font-weight: bold;
+]])
+
+--	background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #78bd33, stop: 0.1 #6ebd20, stop: 0.49 #4c9900, stop: 0.5 #387000, stop: 1 #4c9900);
+avalonUI.CSS.GaugeTimerTextCSS = CSSMan.new([[
+	font-weight: bold;
+	padding: 50px;
+]])
+</script>
+			<eventHandlerList />
+		</Script>
+		<ScriptGroup isActive="yes" isFolder="yes">
+			<name>DataObjects</name>
+			<packageName></packageName>
+			<script>-------------------------------------------------
+--         Put your Lua functions here.        --
+--                                             --
+-- Note that you can also use external scripts --
+-------------------------------------------------
+</script>
+			<eventHandlerList />
+			<Script isActive="yes" isFolder="no">
+				<name>initCharacter</name>
+				<packageName></packageName>
+				<script>--initCharacter()
+
+function initCharacter()
+
+  character = {}
+  
+  character.name = ""       -- ATCP: AvalonName
+  character.vollername = "" -- ATCP: AvalonVollName
+  character.alter = ""      -- ATCP: AvalonAlter
+  character.gilde = ""      -- ATCP: AvalonGilde
+  character.zuenfte = ""    -- ATCP: AvalonZuenfte
+  character.ep = ""         -- ATCP: AvalonEP
+  character.level = ""      -- ATCP: AvalonLevel
+  character.gesinnung = ""  -- ATCP: AvalonGesinnung
+  character.portfolio = ""  -- ATCP: AvalonPortfolio
+  character.hunger = ""     -- ATCP: AvalonHunger
+  character.durst = ""      -- ATCP: AvalonDurst
+  --
+  character.hoehe = ""      -- ATCP: AvalonHoehe
+  characterflucht = ""      -- ATCP: AvalonFlucht
+  character.schutz = ""     -- ATCP: AvalonSchutz
+  character.gruppenname = ""-- ATCP: AvalonGruppe
+  character.zaubern = 0     -- ATCP: AvalonZaubern
+  character.kampf = 0       -- ATCP: AvalonKampf
+  character.angegriffen = ""-- ATCP: AvalonAngegriffen
+  character.getoetet = ""   -- ATCP: AvalonGetoetet
+  character.gruppeGetoetet = ""-- ATCP: AvalonGruppeGetoetet
+  character.allyGetoetet = ""-- ATCP: AvalonAllyGetoetet
+  --
+  character.stats = {}
+  character.stats.tp = 0      -- ATCP: AvalonTP
+  character.stats.tp_max = 0  -- ATCP: AvalonMAXTP
+  character.stats.ap = 0      -- ATCP: AvalonAP
+  character.stats.ap_max = 0  -- ATCP: AvalonMAXAP
+  character.stats.zp = 0      -- ATCP: AvalonSP
+  character.stats.zp_max = 0  -- ATCP: AvalonMAXSP
+  character.stats.mp = 0      -- ATCP: AvalonMP
+  character.stats.mp_max = 0  -- ATCP: AvalonMAXMP
+  --
+  character.inventarRein = ""	-- ATCP: AvalonInventarRein
+  character.inventarRaus = ""	-- ATCP: AvalonInventarRaus
+  character.behaelterRein = ""	-- ATCP: AvalonBehaelterRein
+  character.behaelterRaus = ""	-- ATCP: AvalonBehaelterRaus
+  character.gefuehrt = ""     -- ATCP: AvalonGefuehrt
+  character.gesenkt = ""      -- ATCP: AvalonGesenkt
+  character.angezogen = ""    -- ATCP: AvalonAngezogen
+  character.ausgezogen = ""   -- ATCP: AvalonAusgezogen
+  --
+  character.lastMove = ""
+  
+  character.ep_speicher = ""
+  
+  return character
+end
+
+</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>initTimer</name>
+				<packageName></packageName>
+				<script>--Timer
+--create a new trigger group
+--permGroup("Trigger für Timer", "trigger")
+
+-- permRegexTrigger(name, parent, pattern table, lua code)
+-- Create a regex trigger that will match on the prompt to record your status
+--permRegexTrigger("Prompt", "", {"^(\d+)h, (\d+)m"}, [[health = tonumber(matches[2]); mana = tonumber(matches[3])]])
+
+function initTimer()
+  timerStrings = {} -- name, startstring, stopstring
+  --table.insert(timerStrings, {["name"]="\1", ["start"]="\2",["stop"]="\3", ["duration"]="600"}))
+  table.insert(timerStrings, {["name"]="Sternenstaub", ["start"]="Du wirst von Sternenstaub umgeben\\.",["stop"]="Dein Sternenstaub loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Magieaufladung", ["start"]="Du hast einen Teil Deiner regenerativen Energien in Deine Zauber umgelenkt\\.",["stop"]="Deine Energien fliessen wieder normal\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Erdaura", ["start"]="Du hebst Deine Haende, beschreibst einen Halbkreis.*|Die Partikel verdichten sich um Dich\\.",["stop"]="Dein Staubschleier loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Luftaura", ["start"]="Du bist in den Watteflocken kaum noch auszumachen\\.",["stop"]="Deine Watteflocken loesen sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Wasseraura", ["start"]="Es regnet aus der Wolke auf Dich herab.*",["stop"]="Dein Wasserschleier loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Todesaura", ["start"]="Du senkst Deine Haende, aber der Schutz der schwarzen Schleier.*|Die schwarzen Schleier verdichten sich um Dich\\.",["stop"]="Deine Todesaura loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Feueraura", ["start"]="Du senkst Deine Haende, aber der Schutz der Manawolken.*|Die Manawolken verdichten sich um Dich\\.",["stop"]="Deine Feueraura loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Kampfbeschwoerung", ["start"]="Du wirst von einer heiligen Aura umgeben\\.",["stop"]="Deine heilige Aura loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Kernschild", ["start"]="Das Glitzern legt sich als schuetzendes Schild ueber Dich\\.",["stop"]="Dein Kernschild loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Knochenschild", ["start"]="Du erhebst Dich wieder, der wirbelnde Schild aus Knochen umgibt Dich",["stop"]="Deine schuetzende Knochenwolke loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Steinhaut", ["start"]="Du bist nun vollkommen in eine Steinhaut eingehuellt, .*",["stop"]=".*Du befreist Dich von Deiner Steinhaut.*|.*Deine Steinhaut loest sich auf.*|Das hat Deiner Steinhaut den letzten Rest gegeben, sie loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Schild", ["start"]="Du wirst von einem magischen Schild umgeben\\.",["stop"]="Dein magischer Schild loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Licht I", ["start"]="Du erzeugst Dir eine kleine Feuerkugel\\.",["stop"]="Deine Feuerkugel erlischt\\.", ["duration"]="240"})
+  table.insert(timerStrings, {["name"]="Licht II", ["start"]="Du erzeugst Dir eine kleine Leuchtflamme\\.",["stop"]="Deine Leuchtflamme erlischt\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Licht III", ["start"]="Ein grosser Lichtbogen breitet sich ueber Deinem Kopf aus\\.",["stop"]="Dein Lichtbogen verschwindet\\.", ["duration"]="1200"})
+  table.insert(timerStrings, {["name"]="Arkanschild", ["start"]="Du wirst von einem Arkanschild umgeben\\.",["stop"]="Dein Arkanschild loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Manarausch", ["start"]="Dichte Manawolken bilden nun einen gewaltigen Schutz um Dich herum\\.",["stop"]="Dein Manarausch laesst wieder nach\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Magiertrance", ["start"]="^Die Welt um Dich herum verliert an Bedeutung. Nur noch Deine Zauber sind$",["stop"]="Du erwachst aus Deiner Trance\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Windhaut", ["start"]="Du bist nun vollkommen in eine Windhaut eingehuellt\\.",["stop"]="Deine Windhaut loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Daemonenhaut", ["start"]="Du bist nun vollkommen in eine Daemonenhaut eingehuellt\\.",["stop"]="Deine Daemonenhaut loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Lebensaura", ["start"]="Du oeffnest die Augen, aber der Schutz der Bluetenblaetter umgibt Dich",["stop"]="Deine Lebensaura loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Schwarzschild", ["start"]="Du wirst von einem magischen Schild umgeben, der Dich besser parieren",["stop"]="Dein Schwarzschild loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Weissschild", ["start"]="Du wirst von einem magischen Schild umgeben, der Dich Deinen Gegner .*", ["stop"]="Dein Weissschild loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Holzhaut", ["start"]="Deine Haut sieht nun hoelzern und sehr widerstandsfaehig aus\\.|Deine Blaetterhaut sieht nun hoelzern und sehr widerstandsfaehig aus\\.|Deine Blaetterhaut fuehlt sich nun recht hoelzern an\\.|Deine Haut fuehlt sich nun recht hoelzern an\\.", ["stop"]="Deine Holzhaut loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Blaetterhaut", ["start"]="Deine Haut ist nun mit Blaettern bedeckt, die Dir ein angenehmes Klima|Deine Holzhaut ist nun mit Blaettern bedeckt, die Dir ein angenehmes Klima", ["stop"]="Deine Blaetterhaut loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Pflanzenblick", ["start"]="Du siehst die Pflanzen um Dich herum jetzt viel klarer\\.", ["stop"]="Dein besonderer Blick fuer die Pflanzen an Deinem Weg verschwindet wieder\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Friedfertigkeit", ["start"]="Du fuehlst Dich nun .* friedfertig\\.", ["stop"]="Du fuehlst Dich wieder kaempferischer, ungestuemer\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Kampfeslust", ["start"]="Du bekommst so langsam richtig Lust auf ein kleines Kraeftemessen\\.", ["stop"]="Du fuehlst Dich wieder ruhiger, besonnener\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Todkonvertieren", ["start"]="Du wirst von einem heiligen Schutz umgeben\\.", ["stop"]="Dein heiliger Schutz loest sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Zorn", ["start"]="Du wirst von kuehlen Winden umgeben\\.", ["stop"]="Die kuehlen Winde, welche Dich umgeben, verschwinden\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Kampfsegen", ["start"]="Du bist motiviert und willig zu kaempfen\\.", ["stop"]="Deine Motivation und Dein Kampfeswille schwinden\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Trotz", ["start"]="Du hast nun verbesserte Verteidigungsfertigkeiten\\.", ["stop"]="Deine verbesserten Verteidigungsfertigkeiten schwinden\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Vergeltung", ["start"]="Du oeffnest Deine Augen und buendelst Deine Wut\\.", ["stop"]="Die Wut in Dir scheint besiegt\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Blutrausch", ["start"]="Du laesst einen fuerchterlichen Urschrei von Dir. Es scheint so, als .*", ["stop"]="Die roetlichen Manawolken loesen sich auf\\.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Segen", ["start"]="^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-z]+) beginnt\, schwach zu leuchten\.", ["stop"]="(Dein|Deine)([a-z ,]*)([A-z]+) verliert .* magische Kraft.", ["duration"]="600"})
+  --^(Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-z]+)beginnt\, schwach zu leuchten\.)
+  
+  --echo("Group is active: ".. isActive("AvaletTriggerFuerTimer", "trigger").."\n")
+  
+  createTempTimer(timerStrings)
+  --createPermTimer(timerStrings)
+end
+
+-- Hier werden die Trigger erzeugt, die letztlich einen Timer setzen bzw. löschen.
+-- Temporäre Timer werden beim Schließen von Mudlet gelöscht. Das ermöglicht es,
+-- die Timer noch zu verändern. Temporäre Trigger sind in Mudlet (im Code-Editor)
+-- nicht sichtbar.
+function createTempTimer(timerStrings)
+
+  for k, v in pairs(timerStrings) do
+  
+  --cecho("&lt;magenta&gt;Erzeuge Timer-Trigger: " .. v["name"] .. "\n")
+
+    if v["duration"] == nil then
+      v["duration"] = "false"
+    end
+
+    param = ""
+    --Bei bestimmten Zaubern werden Begriffe aus dem auslösenden Text verwendet, um den
+    --Namen für den Timer zu bauen. Hier wird der dafür notwendige Parameter gesetzt.
+    --(Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.)
+    if v["name"] == "Segen" then
+    	param = ", matches[4]"
+    end
+    luaCode = [[registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[)]]
+    tempRegexTrigger(v["start"], luaCode)
+    
+    param = ""
+    if v["name"] == "Segen" then
+    	param = ", matches[4]"
+    end
+    luaCode = [[removeTimer("]]..v["name"]..[["]]..param..[[)]]
+    tempRegexTrigger(v["stop"], luaCode)
+    
+  end -- for
+end
+
+-- Hier werden die Trigger erzeugt, die letztlich einen Timer setzen bzw. löschen.
+-- Permanente Timer werden normalerweise nicht gelöscht. Außerdem sind sie im Code-Editor
+-- von Mudlet sichtbar. Das ermöglicht es, diese Trigger nachträglich über Mudlet zu
+-- bearbeiten. Andererseits ist das nachträgliche Ändern von Triggern aber schwieriger
+-- (und hier auch nicht gelöst, die müssten dann erst gelöscht werden).
+-- So lange Avalet als gezipptes Modul installiert ist, könnte man das Modul einfach ohne
+-- diese Trigger ausliefern. Die Timer würden dann beim Start erzeugt werden, und sie wären
+-- auch in der Oberfläche von Mudlet sichtbar. Aber da Mudlet nicht in ein gepacktes Modul
+-- schreiben kann, wären sie trotzdem beim Schließen von Mudlet weg. Aber dann müsste man
+-- aufpassen, dass die Trigger wirklich nicht enthalten sind.
+-- Jedenfalls wird diese Funktion nicht verwendet.
+function createPermTimer(timerStrings)
+
+  -- Erzeugt eine sortierte Liste von Triggern. Weil es einfach schöner ist, wenn
+  -- man die Liste im Code-Editor von Mudlet sieht. Ist bei temporäten Triggern ja
+  -- überflüssig.
+  function sortTimerStrings(a, b) return a["name"] &lt; b["name"] end
+  table.sort(timerStrings, sortTimerStrings)
+
+  for k, v in pairs(timerStrings) do
+  
+    --cecho("&lt;magenta&gt;Erzeuge Timer-Trigger: " .. v["name"] .. "\n")
+
+    if exists(v["name"].."Start", "trigger") == 0 then
+
+      if v["duration"] == nil then
+        v["duration"] = "false"
+      end
+
+      param = ""
+      --Bei bestimmten Zaubern werden Begriffe aus dem auslösenden Text verwendet, um den
+      --Namen für den Timer zu bauen. Hier wird der dafür notwendige Parameter gesetzt.
+      --(Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.)
+      if v["name"] == "Segen" then
+      	param = ", matches[4]"
+      end
+      luaCode = [[registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[)]]
+      permRegexTrigger(v["name"].."Start", "AvaletTriggerFuerTimer", {v["start"]}, luaCode)
+    end -- if exists
+      
+    if exists(v["name"].."Stop", "trigger") == 0 then
+      param = ""
+      if v["name"] == "Segen" then
+      	param = ", matches[4]"
+      end
+      luaCode = [[removeTimer("]]..v["name"]..[["]]..param..[[)]]
+      	permRegexTrigger(v["name"].."Stop", "AvaletTriggerFuerTimer", {v["stop"]}, luaCode)
+    end -- if exists
+      
+  end -- for
+  --feedTriggers("\nDu laesst einen fuerchterlichen Urschrei von Dir. Es scheint so, als bla\n")
+end
+  
+
+
+
+</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>createInfoScreenModel</name>
+				<packageName></packageName>
+				<script>-----------------------------------------------------
+-- Charakter-Informationen rechts oben (Infobox)
+-----------------------------------------------------
+
+function createInfoScreenModel()
+  GUIModel.infobox = "\nWarte auf Daten..."
+end
+
+
+
+function updateInfoBox()
+	GUIModel.infobox = "\n"
+	if avalonUI ~= nil then 
+		clearWindow("Infobox") 
+	end
+	if player.vollername == nil then 
+		return
+	end
+	if string.len(player.vollername) ~= 0 then
+		GUIModel.infobox = GUIModel.infobox .. "In Avalon bist Du bekannt als\n\n" .. player.vollername .. "\n\n"
+		if string.len(player.gilde) ~= 0 then
+			if player.gilde == "keine" then
+				GUIModel.infobox = GUIModel.infobox .. "Du bist noch in keiner Gilde.\n"
+			else
+				if player.gilde == "Druiden" then
+					GUIModel.infobox = GUIModel.infobox .. "Du bist bei den " .. player.gilde .. ".\n"
+				elseif player.gilde == "Magier" then
+					GUIModel.infobox = GUIModel.infobox .. "Du bist in der " .. player.gilde .. "gilde.\n"
+				else
+					GUIModel.infobox = GUIModel.infobox .. "Du bist " .. player.gilde .. ".\n"
+				end
+			end
+		end
+		if string.len(player.zuenfte) == 0 then
+			GUIModel.infobox = GUIModel.infobox .. "Du uebst noch keine Berufe aus.\n"
+		else
+			local zuenfte = {}
+			for i in string.gmatch(player.zuenfte, "%w+") do
+				table.insert(zuenfte, i)
+			end			
+			str = ""
+			for k,v in pairs(zuenfte) do
+				if k == #zuenfte then
+					str = str .. " und "
+				end
+				str = str .. v
+				if k &lt; #zuenfte - 1 then
+					str = str .. ", "
+				end
+			end
+			
+			GUIModel.infobox = GUIModel.infobox .. "Du gehoerst den Zuenften " .. str .. " an.\n"
+			--GUIModel.infobox = GUIModel.infobox .. "Deine Berufe sind: " .. player.zuenfte .. ".\n"
+		end
+		if string.len(player.alter) ~= 0 then
+			str = player.alter
+			tage = string.gsub(str, "^(%d+%sTage?)%s.*", "%1", 1)
+			stunden = string.gsub(str, ".*%s(%d+%sStunden?)%s.*", "%1", 1)
+			minuten = string.gsub(str, ".*%s(%d+%sMinuten?)%s.*", "%1", 1)
+			sekunden = string.gsub(str, ".*%s(%d+%sSekunden?)%s.*", "%1", 1)
+
+			str = tage .. " " .. stunden .. " und " .. minuten
+
+			GUIModel.infobox = GUIModel.infobox .. "Du bist etwa " .. str .. " alt.\n"
+			--GUIModel.infobox = GUIModel.infobox .. "Du bist " .. player.alter .. " alt\n"
+		end
+		if string.len(player.portfolio) ~= 0 then
+			if (player.portfolio ~= "keines") then
+				if player.portfolio == player.name then
+					GUIModel.infobox = GUIModel.infobox .. "Du bist Erstie in Deinem Portfolio.\n\n"
+				else
+					GUIModel.infobox = GUIModel.infobox .. "Du bist Zweitie im Portfolio von " .. string.title(player.portfolio) .. ".\n\n"
+				end
+			end
+		end
+		if string.len(player.level) ~= 0 then
+			GUIModel.infobox = GUIModel.infobox .. "Du bist Level " .. player.level .. "\n"
+		end
+		if string.len(player.ep) ~= 0 then
+			GUIModel.infobox = GUIModel.infobox .. "Dafür hast du bisher " .. player.ep .. " Erfahrungspunkte gesammelt.\n\n"
+		end
+		if string.len(player.gesinnung) ~= 0 then
+			GUIModel.infobox = GUIModel.infobox .. "Deine Gesinnung ist " .. player.gesinnung .. ".\n"
+		end
+		if string.len(player.hunger) ~= 0 then
+			GUIModel.infobox = GUIModel.infobox .. "Hunger: " .. player.hunger .. ".\n"
+		end
+		if string.len(player.durst) ~= 0 then
+			GUIModel.infobox = GUIModel.infobox .. "Durst: " .. player.durst .. ".\n"
+		end
+	else
+		debugc("\nKeine Player-Daten vorhanden!\n")
+		GUIModel.infobox = "\nWarte auf Daten...\n"
+	end
+end
+--updateInfoBox()
+
+
+function onRefreshInfobox(event, args)
+-- Diese Funktion kann aufgerufen werden, obwohl noch
+-- kein Player-Objekt besteht. (Also obwohl der Player-Name noch nicht
+-- per ATCP eingetroffen ist. Workaround: auf player.name testen.)
+	if player.name ~= "" then
+		writeDataToFS(characterFilePath, player, "w")
+		updateInfoBox()
+		--avalonUI.infobox:echo(args)
+		avalonUI.infobox:echo(GUIModel.infobox)
+	--avalonUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "&lt;b&gt;" .. args[1] .. "/" .. args[2] .. "&lt;/b&gt;")
+	end
+end
+registerAnonymousEventHandler("RefreshInfobox", "onRefreshInfobox")
+--raiseEvent("RefreshCharacterVollername", ???)
+
+</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>createChatModel</name>
+				<packageName></packageName>
+				<script>-- createChatModel
+
+--------------------------------------------
+--- Tabs-Element rechts unten
+-------------------------------------------
+function createChatModel()
+  -- Generelle Variablen für das Tab-Element
+  GUIModel.tabElement = GUIModel.tabElement or {
+    tabs = {"Reden", "Sagen", "Gruppe", "Volk", "Gilde", "Laber", "Schwafel"},
+    --tabs = {"Reden"},
+    --width = "10%",
+    --height = "40%",
+  }
+  -- Speichert das aktuell ausgewählte Element:
+  GUIModel.tabElement.currentTab = GUIModel.tabElement.currentTab or GUIModel.tabElement.tabs[1]
+  
+  for k,v in pairs(GUIModel.tabElement.tabs) do
+  	-- Schreibt für jeden Tab einen Leerstring ("\n") in eine Datei,
+  	-- die nach dem Tab benannt ist. In diese Datei wird der Text 
+  	-- für den Tab gespeichert. Durch das Reinschreiben hier wird
+  	-- die Datei erzeugt, wenn es sie noch nicht gibt.
+  	Logger:Log(v, "")
+  end
+
+end
+
+
+
+function onRefreshTabElement(event, channel)
+
+	content = ""
+	if GUIModel.tabElement.currentTab == channel then
+		debugc("Der TAB " .. channel .. " wird aktualisiert.")
+		
+		content = Logger:ReadLog(channel)
+	
+	end
+	debugc("&lt;magenta&gt;clearWindow: ".. channel .. "\n")
+	clearWindow(channel)
+	avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(content)
+	--avalonUI.tabElementTabs[v.."console"]:echo(GUIModel.tabElement["chat"..v])
+end
+registerAnonymousEventHandler("RefreshTabElement", "onRefreshTabElement")
+--raiseEvent("RefreshTabElement", "aktiverTabName")
+
+</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>createTopMenuModel</name>
+				<packageName></packageName>
+				<script>--createTopMenuModel()
+
+function createTopMenuModel()
+  -------------------------------------------------------------
+  --- Top-Menü
+  -- Menü-Label dürfen nicht in einem Container sein, deshalb sind die 
+  -- Top-Level-Einträge direkt auf der Oberfläche positioniert.
+  -------------------------------------------------------------
+  GUIModel.TopMenuEntries = {}
+  --cecho("&lt;magenta&gt;TopMenuEntries\n")
+  function addTopMenuEntry(label, position, childs)
+  	--TODO: validierung der Parameter (insbesondere der childs)
+  	table.insert(GUIModel.TopMenuEntries,position,{label,childs})
+  end
+  
+  -- Dummy-Menü:
+  --addTopMenuEntry("Top1", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3","luafun",{"a31", "a32", "a33"}}})
+  --addTopMenuEntry("Top2", 2, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3", "luafun",{"a31", "a32", "a33"}}})
+  --addTopMenuEntry("Top1a", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3", "luafun",{"a31", "a32", "a33"}}})
+  
+  -- Muster zum Hinzufügen eines Menüs:
+  --addTopMenuEntry(
+  --	"Top1", 
+  --	1, 
+  --	{
+  --		{"childName1", 1, "childBeschriftung1", "luafun", {"a1","a2","a3"}}, 
+  --		{"childName2", 2, "childBeschriftung2", "luafun", {"a1","a2","a3"}}, 
+  --		{"childName1a", 1, "childBeschriftung1a", "luafun", {"a1","a2","a3"}}
+  --	}
+  --)
+
+end</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>createMapperModel</name>
+				<packageName></packageName>
+				<script>--createMapperModel()
+
+function createMapperModel()
+
+end
+</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>createTimerModel</name>
+				<packageName></packageName>
+				<script>-- createTimerModel()
+
+function createTimerModel()
+  listOfTimers = {}
+  sortListOfTimers()
+end
+
+
+
+function sortListOfTimers()
+	-- echo("\nfunc sortListOfTimers()\n")
+	sortedListOfTimers = {}
+	for k, v in pairs(listOfTimers) do
+		
+		-- echo("NAME: " .. v["name"] .. "\n")
+	
+		if v["duration"] == "false" then
+			-- echo("add permanent timer\n")
+			table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = 600, ["duration"] = 600})
+		else
+			-- echo("add temporary timer ... gleich kommt ein ture\n")
+			remaining = (tonumber(v["duration"]) - ((os.time() - v["starttime"])))
+			if remaining &lt;= -30 then 
+-- TODO: 		hier einr emoveTimer könnte Probleme machen, weil removeTimer wieder sortListOfTimers aufruft - aber
+--       		im MOment scheint es zu funktionieren.
+--       		Problem ist, dass Timer irgendwanng elöscht werden müssen, da sie nach einem längeren disconnect vielleicht
+--       		schon grundlos laufen, aber dann eben auch nie vom entsprechenden trigger beendet werden.
+--       		die methode hier funzt nur bei temporären timern, nicht bei permanenten. lösung dafür?
+				removeTimer(v["name"])
+				break
+			end
+			if remaining &lt;= 0 then 
+				remaining = 0 
+			end
+			-- echo("remaining: " .. tostring(remaining) .. "\n")
+			table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = remaining, ["duration"] = v["duration"]})
+			-- table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = v["duration"] - ((os.time() - v["starttime"])), ["duration"] = 600})
+		end
+		-- table.insert(sortedListOfTimers, {})
+	end
+
+	sortMyTimers = function(a, b) return a["remaining"] &gt; b["remaining"] end
+	table.sort(sortedListOfTimers, sortMyTimers)
+	--echo("Anzahl Elemente in sortedListOfTimers(): "..#sortedListOfTimers.."\n")
+end
+
+
+
+function findTimerByName(name)
+	--echo("findTimerByName\n")
+    for k, v in pairs(listOfTimers) do
+        if v["name"] == name then return k end
+    end
+    return nil
+end
+
+function registerTimer(name, duration , param)
+	--echo("\nregisterTimer\n")
+	param = param or nil
+	if param ~= nil then
+		--cecho("&lt;magenta&gt;\nParam ist nicht nil\n")
+		name = name .. " " .. param
+	end
+	if duration == false then
+		duration = "false"
+	end
+	table.insert(listOfTimers, {["name"] = name, ["starttime"] = os.time(), ["duration"] = duration})
+	--echo("starttime: " .. os.time() .. "\n")
+	sortListOfTimers()
+	raiseEvent("RecreateTimerView")
+end
+
+function removeTimer(name, param)
+	--echo("removeTimer\n")
+	param = param or nil
+	if param ~= nil then
+		--cecho("&lt;magenta&gt;\nRemove: Param ist nicht nil sondern: "..param.."\n")
+		name = name .. " " .. param
+	end
+	key = findTimerByName(name)
+	if key ~= nil then
+		table.remove(listOfTimers, key)
+	end
+	sortListOfTimers()
+	raiseEvent("RecreateTimerView")
+end
+--removeTimer("Magiertrance")
+
+
+
+function recreateTimer()
+	--echo("func recreateTimer\n")
+	sortListOfTimers()
+
+	for k = 1, 9, 1 do
+		hideWindow("avalonUI.Timer"..k.."_front")
+		hideWindow("avalonUI.Timer"..k.."_back")	
+		avalonUI["Timer"..k]:setText ("")
+	end
+
+	timerSchriftfarbe="white"
+
+	for k, v in pairs(sortedListOfTimers) do
+		showWindow("avalonUI.Timer"..k.."_front")
+		showWindow("avalonUI.Timer"..k.."_back")		
+		if v["remaining"] &lt; 1 then
+			v["remaining"] = 1
+			timerSchriftfarbe="fuchsia"
+		elseif v["remaining"] &lt; 30 then
+			timerSchriftfarbe="red"
+		elseif v["remaining"] &lt; 60 then
+			timerSchriftfarbe="yellow"
+		else
+			timerSchriftfarbe="white"
+		end
+		--avalonUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), v["name"])
+		avalonUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), [[&lt;b&gt;&lt;font color="]]..timerSchriftfarbe..[["&gt;&amp;nbsp;]] .. v["name"] .. [[&lt;/b&gt;&lt;/font&gt;]])
+		--echo("\nRECREATE remaining: " .. v["remaining"] .. ", duration: " .. v["duration"] .. ", name: " .. v["name"] .. "\n\n")
+	end
+end
+
+
+function refreshTimer()
+	--echo("func refreshTimer\n")
+	sortListOfTimers()
+
+	timerSchriftfarbe="white"
+	for k, v in pairs(sortedListOfTimers) do
+		showWindow("avalonUI.Timer"..k.."_front")
+		showWindow("avalonUI.Timer"..k.."_back")		
+		if v["remaining"] &lt; 1 then
+			v["remaining"] = 1
+			timerSchriftfarbe="fuchsia"
+		elseif v["remaining"] &lt; 30 then
+			timerSchriftfarbe="red"
+		elseif v["remaining"] &lt; 60 then
+			timerSchriftfarbe="yellow"
+		else
+			timerSchriftfarbe="white"
+		end
+		--avalonUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), v["name"])
+		avalonUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), [[&lt;b&gt;&lt;font color="]]..timerSchriftfarbe..[["&gt;&amp;nbsp;]] .. v["name"] .. [[&lt;/b&gt;&lt;/font&gt;]])	
+		--echo("REFRESH remaining: " .. tostring(v["remaining"]) .. ", duration: " .. tostring(v["duration"]) .. ", name: " .. tostring(v["name"]) .. "\n")		
+	end
+end
+
+
+
+function onRefreshTimerView(event, args)
+	--echo("onRefreshTimerView DAS SOLLTE NICHT PASSIEREN\n")
+	if #listOfTimers ~= nil then
+		--echo("listOfTimers ist nicht nil\n")
+		if #listOfTimers &gt; 0 then
+			--echo("listOfTimers ist &gt; 0\n")
+			--timersStopWatch = timersStopWatch or createStopWatch()
+			enableTimer("avaletTimersTimer")
+		else
+			--echo("timer disabled\n")
+			disableTimer("avaletTimersTimer")
+		end
+	else
+		--echo("#listOfTimers == nil\n")
+		disableTimer("avaletTimersTimer")
+	end
+end
+registerAnonymousEventHandler("RefreshTimerView", "onRefreshTimerView")
+
+
+function onRecreateTimerView(event, args)
+	--echo("onRecreateTimerView\n")
+
+	if #listOfTimers ~= nil then
+		--echo("listOfTimers ist nicht nil\n")
+		if #listOfTimers &gt; 0 then
+			--echo("listOfTimers ist &gt; 0\n")
+			enableTimer("avaletTimersTimer")
+		else
+			--echo("timer disabled\n")
+			disableTimer("avaletTimersTimer")
+		end
+	else
+		--echo("#listOfTimers == nild\n")
+		disableTimer("avaletTimersTimer")
+	end
+	recreateTimer()
+end
+registerAnonymousEventHandler("RecreateTimerView", "onRecreateTimerView")
+</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>createGaugeModel</name>
+				<packageName></packageName>
+				<script>--createGaugeModel()
+
+
+function createGaugeModel()
+
+end
+
+
+--------------------------------------------------------------------------------
+-- Refresh Event Handler
+--------------------------------------------------------------------------------
+
+
+function onRefreshHealthBar(event, args)
+	-- Das Gauge-Element wird bei einem "current value" von 0 vollständig
+	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei einem negativen
+	-- Wert geschehen würde. Deshalb wird hier jeder Wert unter 1 auf 1
+	-- gesetzt. In dem Text auf dem Gauge muss aber natürlich der wirkliche
+	-- Wert stehen, deshalb die unterschiedliche Behandlung hier.
+	currentValue = args[1]
+	if currentValue &lt; 1 then
+		currentValue = 1
+	end
+	
+	percent = -1 --math.ceil((100 / args[2]) * args[1])
+  if args[1] == args[2] then
+    percent = 100
+  elseif args[1] == 0 then
+    percent = 0
+  else 
+    percent = math.floor((100 / args[2]) * args[1])
+  end
+	
+	avalonUI.Health:setValue(tonumber(currentValue), tonumber(args[2]), "&lt;b&gt;&lt;center&gt;" .. args[1] .. "/" .. args[2] .. "&lt;/center&gt;&lt;/br&gt;&lt;center&gt;TP&lt;/center&gt;&lt;/br&gt;&lt;center&gt;("..percent.."%)&lt;/center&gt;&lt;/b&gt;")
+	-- avalonUI.Health:setValue(100,100,[[&lt;b&gt;&lt;center&gt;999/999&lt;/center&gt;&lt;/br&gt;&lt;center&gt;TP&lt;/center&gt;&lt;/b&gt;]])
+	-- [[&lt;b&gt;&lt;font color="]]..timerSchriftfarbe..[["&gt;&amp;nbsp;]] .. v["name"] .. [[&lt;/b&gt;&lt;/font&gt;]]
+end
+registerAnonymousEventHandler("RefreshHealthBar", "onRefreshHealthBar")
+
+
+function onRefreshEnduranceBar(event, args)
+	-- Das Gauge-Element wird bei einem "current value" von 0 vollständig
+	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei einem negativen
+	-- Wert geschehen würde. Deshalb wird hier jeder Wert unter 1 auf 1
+	-- gesetzt. In dem Text auf dem Gauge muss aber natürlich der wirkliche
+	-- Wert stehen, deshalb die unterschiedliche Behandlung hier.
+	currentValue = args[1]
+	if currentValue &lt; 1 then
+		currentValue = 1
+	end
+	
+	percent = -1 --math.ceil((100 / args[2]) * args[1])
+  if args[1] == args[2] then
+    percent = 100
+  elseif args[1] == 0 then
+    percent = 0
+  else
+    percent = math.floor((100 / args[2]) * args[1])
+  end
+	
+	avalonUI.Endurance:setValue(tonumber(currentValue), tonumber(args[2]), "&lt;b&gt;&lt;center&gt;" .. tostring(args[1]) .. "/" .. tostring(args[2]) .. "&lt;/center&gt;&lt;/br&gt;&lt;center&gt;AP&lt;/center&gt;&lt;/br&gt;&lt;center&gt;("..percent.."%)&lt;/center&gt;&lt;/b&gt;")
+end
+registerAnonymousEventHandler("RefreshEnduranceBar", "onRefreshEnduranceBar")
+
+
+function onRefreshSpellpointsBar(event, args)
+	-- Das Gauge-Element wird bei einem "current value" von 0 vollständig
+	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei einem negativen
+	-- Wert geschehen würde. Deshalb wird hier jeder Wert unter 1 auf 1
+	-- gesetzt. In dem Text auf dem Gauge muss aber natürlich der wirkliche
+	-- Wert stehen, deshalb die unterschiedliche Behandlung hier.
+	currentValue = args[1]
+	if currentValue &lt; 1 then
+		currentValue = 1
+	end
+	
+  percent = -1 --math.ceil((100 / args[2]) * args[1])
+  if args[1] == args[2] then
+    percent = 100
+  elseif args[1] == 0 then
+    percent = 0
+  else 
+    percent = math.floor((100 / args[2]) * args[1])
+  end
+	
+	avalonUI.Spellpoints:setValue(tonumber(currentValue), tonumber(args[2]), "&lt;b&gt;&lt;center&gt;" .. args[1] .. "/" .. args[2] .. "&lt;/center&gt;&lt;/br&gt;&lt;center&gt;ZP&lt;/center&gt;&lt;/br&gt;&lt;center&gt;("..percent.."%)&lt;/center&gt;&lt;/b&gt;")
+end
+registerAnonymousEventHandler("RefreshSpellpointsBar", "onRefreshSpellpointsBar")
+
+
+function onRefreshManaBar(event, args)
+	-- Das Gauge-Element wird bei einem "current value" von 0 vollständig
+	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei einem negativen
+	-- Wert geschehen würde. Deshalb wird hier jeder Wert unter 1 auf 1
+	-- gesetzt. In dem Text auf dem Gauge muss aber natürlich der wirkliche
+	-- Wert stehen, deshalb die unterschiedliche Behandlung hier.
+	currentValue = args[1]
+	if currentValue &lt; 1 then
+		currentValue = 1
+	end
+	
+	percent = -1 --math.ceil((100 / args[2]) * args[1])
+  if args[1] == args[2] then
+    percent = 100
+  elseif args[1] == 0 then
+    percent = 0
+  else
+    percent = math.floor((100 / args[2]) * args[1])
+  end
+	
+	avalonUI.Mana:setValue(tonumber(currentValue), tonumber(args[2]), "&lt;b&gt;&lt;center&gt;" .. args[1] .. "/" .. args[2] .. " Mana ("..percent.."%)&lt;/center&gt;&lt;/b&gt;")
+end
+registerAnonymousEventHandler("RefreshManaBar", "onRefreshManaBar")
+</script>
+				<eventHandlerList />
+			</Script>
+		</ScriptGroup>
+		<Script isActive="yes" isFolder="no">
+			<name>GUIFrame defaults</name>
+			<packageName></packageName>
+			<script>local mainW, mainH = getMainWindowSize()
+local tabSheet = table.deepcopy(avalonUI.CSS.base)
+tabSheet.stylesheet.margin = nil
+--tabSheet:set("margin-right", "1px")
+--tabSheet:set("margin-left", "1px")
+--tabSheet:set("border-width", "2px")
+----tabSheet:set("display", "none")
+----tabSheet:set("visibility", "hidden")
+
+--	background-color: rgba(0,0,0,100);
+--	border-style: solid;
+--	border-width: 1px;
+--	border-radius: 10px;
+--	border-color: white;
+--	font: TypeWriter;
+--	margin: 10px;
+tabSheet:set("background-color", "rgba(0,0,0,100)")
+tabSheet:set("border-style", "solid")
+tabSheet:set("border-width", "1px")
+tabSheet:set("border-radius", "10px")
+tabSheet:set("border-color", "white")
+tabSheet:set("font", "TypeWriter")
+tabSheet:set("margin-left", "10px")
+tabSheet:set("margin-right", "10px")
+tabSheet:set("width", "98%")
+tabSheet:set("height", "20px")
+
+
+GUIframe.configs = {
+    tabHeight = 20,
+    tabStyle = tabSheet:getCSS(),
+    tabEchoStyle = '&lt;center&gt;&lt;p style="font-size:13px; color:LightYellow"&gt;',
+    leftStartWidth = math.floor(mainW * 0.16),       --math.floor(mainW / 6.8),
+    leftStartHeight = math.floor(mainH / 2.5),        --math.floor(mainH / 3),
+    rightStartWidth = math.floor(mainW * 0.35),        --math.floor(mainW / 3),
+    rightStartHeight = math.floor(mainH / 2),    --math.floor(mainH * 0.42),
+    topStartHeight = 60,   --30
+    bottomStartHeight = 0, --65
+    resizeHoverImage = "/AvalonUI/blue_arrows.png",
+    resizeRestImage = "/AvalonUI/blue_arrows_20t.png",
+    borderOffset = 0,
+}</script>
+			<eventHandlerList />
+		</Script>
+		<ScriptGroup isActive="yes" isFolder="yes">
+			<name>UI functions</name>
+			<packageName></packageName>
+			<script>-------------------------------------------------
+--         Put your Lua functions here.        --
+--                                             --
+-- Note that you can also use external scripts --
+-------------------------------------------------
+</script>
+			<eventHandlerList />
+			<Script isActive="yes" isFolder="no">
+				<name>Build UI</name>
+				<packageName></packageName>
+				<script>function avalonUI.buildUI()
+
+  --avalonUI.buildBoxes()
+  avalonUI.buildInfoScreen()
+  avalonUI.buildChat()
+  avalonUI.buildTopBar()
+  avalonUI.buildMapper()
+  avalonUI.buildTimer()
+
+  --avalonUI.buildMapper()
+  --avalonUI.buildChat()
+  --avalonUI.buildPeopleHere()
+  --avalonUI.buildTopBar()
+  --avalonUI.buildBottomBar()
+  --avalonUI.buildBashingInfo()
+  --tempTimer(0, function()
+	-- 	avalonUI.chat.initChannels()
+	-- 	avalonUI.updateCritCounter()
+	--	end)
+
+	GUIframe.disable("top")
+	GUIframe.disable("bottom")
+	GUIframe.disable("right")
+	GUIframe.disable("left")
+--	raiseEvent("AvalonUI built")   -- Keinen Schimmer was dieser Event machen soll --&gt; kann der weg?
+end
+
+function unlockUI()
+	GUIframe.enable("top")
+	GUIframe.enable("bottom")
+	GUIframe.enable("right")
+	GUIframe.enable("left")
+end
+
+function lockUI()
+	GUIframe.disable("top")
+	GUIframe.disable("bottom")
+	GUIframe.disable("right")
+	GUIframe.disable("left")
+end
+
+
+
+-- Diese Funktion wird durch den "sysInstall"-Event aufgerufen, also bei jedem
+-- Neustart von Mudlet. Hier wird Avalet initialisiert. Eine weitere Funktion,
+-- die beim "sysInstall"-Event aufgerufen wird, steht weiter unten.
+function avalonUI.UIInstalled(_, name)
+	if name ~= "Avalet" then
+		return
+	else
+    player = initCharacter()
+initTimer()
+
+GUIModel = GUIModel or {}
+createInfoScreenModel()
+createChatModel()
+createTopMenuModel()
+createTimerModel()
+createGaugeModel()  
+  
+		avalonUI.buildUI()
+--		tempTimer(0, [[avalonUI.updateChar()]])
+	end
+end
+registerAnonymousEventHandler("sysInstall", "avalonUI.UIInstalled")
+
+
+</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>Build Boxes</name>
+				<packageName></packageName>
+				<script>----------------------------------------
+-- Boxes
+-- Die Boxen definieren die entgültige Unterteilung der Oberfläche. Es gibt also eine Boxen
+-- für die Elemente, die TP, ZP, AP und Mana anzeigen. (Links unten.) Eine weitere für die 
+-- Timer links in der Mitte. Eine weitere für das Karten-Widget links oben. Eine für die
+-- Charakterinformationen rechts oben. Und eine für das Tab-Element rechts unten.
+-- Im Bereich oben in der Mitte gibt es keine Box. Der Grund ist oben bei den Backgrounds 
+-- dokumentiert.
+-- Die Boxen haben hauptsächlich den Zweck, einen (derzeit weißen) Rahmen um die Bereiche 
+-- anzeigen zu können. Ansonsten sind sie Container für weitere Elemente, die die dort
+-- sichtbaren Informationen anzeigen.
+----------------------------------------
+
+function avalonUI.buildBoxes()
+  -- Box1 ist das Element rechts oben, in dem die Charakterinformationen ausgegeben werden.
+  avalonUI.Box1 = Geyser.Label:new({
+  	name = "avalonUI.Box1",
+  	x = 0, y = 0,
+  	width = "100%",
+  	height = "50%",
+  })
+  avalonUI.Box1:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
+  --avalonUI.Box1:echo("&lt;center&gt;avalonUI.Box1")
+  GUIframe.addWindow(avalonUI.Box1, 'Box1', 'topright')
+  
+end
+</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>Build infoScreen</name>
+				<packageName></packageName>
+				<script>-----------------------------------------------------
+-- Charakter-Informationen rechts oben
+-----------------------------------------------------
+function avalonUI.buildInfoScreen()
+
+  -- Box1 ist das Element rechts oben, in dem die Charakterinformationen ausgegeben werden.
+  avalonUI.Box1 = Geyser.Label:new({
+  	name = "avalonUI.Box1",
+  	x = 0, y = 0,
+  	width = "100%",
+  	height = "50%",
+  })
+  avalonUI.Box1:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
+  --avalonUI.Box1:echo("&lt;center&gt;avalonUI.Box1")
+  GUIframe.addWindow(avalonUI.Box1, "Info-Screen", "topright")
+    
+  avalonUI.infobox = Geyser.MiniConsole:new({
+    name="Infobox",
+    x="3%", y="3%",
+    width = "94%",
+    height = "94%",
+    autoWrap = true,
+    color = "black",
+    scrollBar = false,
+    fontSize = avalonUI.infoBoxFontSize,
+  }, avalonUI.Box1)
+  avalonUI.infobox:setColor("black") -- give it a nice black background
+  avalonUI.infobox:setFont("Bitstream Vera Sans Mono")
+  setWindowWrap("Infobox", 60)
+  clearWindow("Infobox")
+  --avalonUI.infobox:echo(GUIModel.infobox)
+  --avalonUI.infobox:echo("initialisiert")
+
+end</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>Build chat</name>
+				<packageName></packageName>
+				<script>--------------------------------------------
+--- Tabs-Element rechts unten
+-------------------------------------------
+function avalonUI.buildChat()
+
+  -- Box2: In diesem Bereich wird das Tabulatoren-Element rechts unten angezeigt.
+  avalonUI.Box2 = Geyser.Label:new({
+  	name = "avalonUI.Box2",
+  	x = 0, y = "50%",
+  	width = "100%",-- 50%
+  	height = "50%",
+  })--, avalonUI.Right)
+  avalonUI.Box2:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
+  GUIframe.addWindow(avalonUI.Box2, "Chat", "bottomright")
+
+  
+  avalonUI.tabElement = {}
+  -- Container, der alles andere enthält. Container sind unsichtbar, deshalb kein Stylesheet
+  avalonUI.tabElement.Container = Geyser.Container:new({
+    name = "avalonUI.tabElement.Container",
+    x = "3%", y = "3%",
+    width = "94%",
+    height = "94%",
+  }, avalonUI.Box2)
+
+  -- die Kopfzeile des Tab-Elements, also da wo die Tabs sind
+  avalonUI.tabElement.Header = Geyser.HBox:new({
+    name = "avalonUI.tabElement.Header",
+    x = 0, y = 0,
+    width = "100%",
+    height = "10%",
+  }, avalonUI.tabElement.Container)
+
+
+  -- Der Körper des Tab-Elements, also da wo der Inhalt steht.
+  -- Der Container für jeden TAb-Inhalt
+  avalonUI.tabElement.Footer = Geyser.Label:new({
+    name = "avalonUI.tabElement.Footer",
+    x = 0, y = "10%",
+    width = "100%",
+    height = "90%",
+  }, avalonUI.tabElement.Container)
+  avalonUI.tabElement.Footer:setStyleSheet(avalonUI.CSS.tabElementFooterCSS:getCSS())
+
+
+  -- Each window actually has two labels. One for the light blue background,
+  -- and another for the dark blue center. This will create that dark blue center. 
+  avalonUI.tabElement.Center = Geyser.Label:new({
+    name = "avalonUI.tabElement.Center",
+    x = 0, y = 0,
+    width = "100%",
+    height = "100%",
+  }, avalonUI.tabElement.Footer)
+  avalonUI.tabElement.Center:setStyleSheet(avalonUI.CSS.tabElementCenterCSS:getCSS())
+
+
+  -- Hier werden die Tabs und die Seiten dazu erzeugt.
+  avalonUI.tabElement.tabs = {}
+
+	for k, v in pairs(GUIModel.tabElement.tabs) do
+	
+		if avalonUI.tabElement.tabs[v.."tab"] == nil then
+
+			-- Erzeugt einen Tab für jeden Eintrag in der Menu-Liste
+			avalonUI.tabElement.tabs[v.."tab"] = Geyser.Label:new({
+				name = "avalonUI.tabElement.tabs."..v.."tab",
+			  }, avalonUI.tabElement.Header)
+			avalonUI.tabElement.tabs[v.."tab"]:setFontSize(avalonUI.chatTabFontSize)	  
+			avalonUI.tabElement.tabs[v.."tab"]:setStyleSheet(avalonUI.CSS.MenuTabCSS:getCSS())
+			avalonUI.tabElement.tabs[v.."tab"]:echo("&lt;center&gt;"..v)
+
+			-- We need our tabs to do stuff when clicked, so we'll assign it a callback function, avalonUI.tabElement.tabs.click, which we'll create later on. Our tab name is the argument. 
+			avalonUI.tabElement.tabs[v.."tab"]:setClickCallback("avalonUI.tabElementOnClick", v)
+
+			-- Now we create the windows that appear when each tab is clicked. Each window has two labels, one atop the other. The first, which we'll create here, has rounded edges on its bottom. 
+			avalonUI.tabElement.tabs[v] = Geyser.Label:new({
+				name = "avalonUI.tabElement.tabs."..v,
+				x = 0, y = 0,
+				width = "100%",
+				height = "100%",
+			  }, avalonUI.tabElement.Footer)
+			avalonUI.tabElement.tabs[v]:setStyleSheet(avalonUI.CSS.tabElementAtopCSS:getCSS())
+			-- The second label serves as the window's center and has rounded edges on all sides. And a margin of 5px from it's parent, the label we just created. When adding stuff to your windows, this is the label you'll want to use. avalonUI.tabElement.tabs.&lt;tabname&gt;center
+			avalonUI.tabElement.tabs[v.."center"] = Geyser.Label:new({
+				name = "avalonUI.tabElement.tabs."..v.."center",
+				x = 0, y = 0,
+				width = "100%",
+				height = "100%",
+			  }, avalonUI.tabElement.tabs[v])
+			avalonUI.tabElement.tabs[v.."center"]:setStyleSheet(avalonUI.CSS.tabElementCenterTabCSS:getCSS())
+
+			--------
+			-- Inhalte der Tabs
+			-- Alle Tabs enthalten eine Mini-Console.
+			-- Bei den Kanal-Tabs wird dort die Ausgabe der entsprechenden Kanäle gesammelt angezeigt.
+			-- Bei anderen Tabs gibt es andere Inhalte.
+			-- Jede Minikonsole ist ansprechbar über ... ???
+			avalonUI.tabElement.tabs[v.."console"] = Geyser.MiniConsole:new({
+				name=string.title(v),
+				x="2%", y="2%",
+				width = "96%",
+				height = "96%",
+				autoWrap = true,
+				color = "black",
+				scrollBar = true,--false,
+				fontSize = avalonUI.chatFontSize,
+			}, avalonUI.tabElement.tabs[v.."center"])
+			debugc("&lt;magenta&gt;Consolen-Name: "..string.title(v).."\n")
+			setWindowWrap(string.title(v), 60)
+			--avalonUI.infobox:setColor("black") -- give it a nice black background
+			--avalonUI.infobox:setFont("Bitstream Vera Sans Mono")
+			--clearWindow("avalonUI.tabElement.tabs." .. v .. "console")
+		--	avalonUI.tabElement.tabs[v.."console"]:echo(GUIModel.tabElement["chat"..v])
+			avalonUI.tabElement.tabs[v.."console"]:echo(v)
+
+			-- Finally, we hide all the windows and end the for loop.
+			avalonUI.tabElement.tabs[v]:hide()
+
+		end -- if nil
+	end  -- for
+
+  raiseEvent("RefreshTabElement", GUIModel.tabElement.currentTab)
+  avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab]:show()
+
+
+end
+
+
+-- The last step is to create our callback function for when a tab is clicked.
+-- This will hide that tab that is stored in menu.current, set menu.current to
+-- the clicked tab, and then show the menu.current tab. 
+function avalonUI.tabElementOnClick(tab)
+	-- Das hier funktioniert nur, wenn die Tab-Beschriftung dem Channel
+	-- entspricht, also dem Namen der Datei, in die die Inhalte des
+	-- Tabs vorher geschrieben wurden. Minus dem .txt
+	avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab]:hide()
+	GUIModel.tabElement.currentTab = tab
+	--refreshTabElement(tab)
+--	echo("TAB: " .. tab .. "\n")
+	raiseEvent("RefreshTabElement", tab)
+	avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab]:show()
+end
+
+
+
+
+</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>Build top menu</name>
+				<packageName></packageName>
+				<script>-------------------------------------------------------------
+--- Top-Menü
+-- Menü-Label dürfen nicht in einem Container sein, deshalb sind die 
+-- Top-Level-Einträge direkt auf der Oberfläche positioniert.
+-------------------------------------------------------------
+
+function avalonUI.buildTopBar()
+
+  avalonUI.topBar = Geyser.Label:new({
+    name = "avalonUI.topBar",
+    x = "15%", y = "0%",
+    width = "50%",
+    height = "7%",
+    --nestable = true,
+  })
+  --avalonUI.Top:setStyleSheet(avalonUI.BackgroundCSS:getCSS())
+  avalonUI.topBar:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
+  GUIframe.addWindow(avalonUI.topBar, "TopBar", "top")
+
+--end
+
+
+--avalonUI.MenuLabelCSS
+--TopMenuOptions[i]:setStyleSheet(avalonUI.MenuLabelCSS:getCSS())
+
+--function GUItopMenucreateMenu()
+	d = 0
+	for k, v in ipairs(GUIModel.TopMenuEntries) do
+
+		avalonUI["TopMenu"..v[1]] = Geyser.Label:new({ 
+			name = "TopMenu"..v[1], 
+			x = tostring(17+d*10).."%", 
+			y = "1.5%" , 
+			width = 200,
+			height = 35,
+			nestable = true,
+		})
+		avalonUI["TopMenu"..v[1]]:setStyleSheet(avalonUI.CSS.MenuLabelCSS:getCSS())
+		avalonUI["TopMenu"..v[1]]:setFontSize(12)
+		avalonUI["TopMenu"..v[1]]:echo(v[1])
+		--GUI["TopMenu"..v[1]]:echo([[&lt;p style="font-size:22px"&gt;&lt;b&gt;&lt;font color="white"&gt;]]..v[1])
+		--setLabelClickCallback( "TopMenuOptions", "ClickTopMenuPreferences")
+		--setLabelClickCallback(labelName, luaFunctionName, [any arguments])
+		local subMenuEntries = {}
+		for k2, v2 in ipairs(v[2]) do
+			-- erstmal sortierte table der sub-entries bauen
+			table.insert(subMenuEntries, v2[2], {v2[1], v2[3], v2[4], v2[5]}) -- tabelle, position, {name, message, luafunct, args}
+		end
+		for k3, v3 in ipairs(subMenuEntries) do
+			avalonUI["TopMenu"..v[1]..v3[1]] = avalonUI["TopMenu"..v[1]]:addChild({
+				name = "TopMenu"..v[1]..v3[1],
+				height = 50,
+				width = 100, 
+				flyOut=true,
+				layoutDir="BV", 
+				message=v3[2]
+			})
+			avalonUI["TopMenu"..v[1]..v3[1]]:setStyleSheet(avalonUI.CSS.MenuLabelCSS:getCSS())
+			--TopMenuOptions[i]:setStyleSheet(LabelCSS:getCSS())
+			--setLabelClickCallback( "TopMenuOptions"..i, "ClickTopMenuCallback","tDir[i]","bla bla")
+			--setLabelClickCallback(labelName, luaFunctionName, [any arguments])
+		end
+
+		--if v[5] then
+		--	for i=1,#v[5] do
+		--		echo ("arg["..i.."] = "..v[5][i].."\n")
+		--	end
+		--end
+		d = d+1
+	end
+    
+  
+  -------------------------
+  -- Menü "Options"
+  -------------------------
+  -- wird hier extra hinzugefügt.
+  -- Menü-Label dürfen nicht in einem Container sein, deshalb sind die Top-Level-Einträge direkt auf der Oberfläche positioniert.
+  avalonUI.TopMenuOptions= Geyser.Label:new({ 
+  	name = "TopMenuOptions", 
+  	x = "62%", 
+  	y = "1.5%" , 
+  	width = 35,
+  	height = 30,
+  	nestable = true,
+  })
+  avalonUI.TopMenuOptions:setStyleSheet(avalonUI.CSS.MenuLabelCSS:getCSS())
+  avalonUI.TopMenuOptions:setFontSize(12)
+  avalonUI.TopMenuOptions:echo([[&amp;#9881;]])
+  --avalonUI.TopMenuOptions:echo([[&lt;p style="font-size:22px"&gt;&lt;b&gt;&lt;font color="white"&gt;&amp;#9881;]])
+  --setLabelClickCallback( "TopMenuOptions", "ClickTopMenuPreferences")
+  --setLabelClickCallback(labelName, luaFunctionName, [any arguments])
+  
+  i = 1
+  avalonUI.TopMenuOptions[i] = avalonUI.TopMenuOptions:addChild({
+  	name = "TopMenuOptions"..i,
+  	height = 50,
+  	width = 100, 
+  	flyOut=true,
+  	layoutDir="BV", 
+  	message="comming soon"
+  })
+  avalonUI.TopMenuOptions[i]:setStyleSheet(avalonUI.CSS.MenuLabelCSS:getCSS())
+  --setLabelClickCallback( "TopMenuOptions"..i, "ClickTopMenuCallback","tDir[i]","bla bla")
+  --setLabelClickCallback(labelName, luaFunctionName, [any arguments])
+
+end</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>Build mapper</name>
+				<packageName></packageName>
+				<script>function avalonUI.buildMapper()
+
+  avalonUI.Box4 = Geyser.Label:new({
+    name = "avalonUI.Box4",
+    x = "0%", y = "0%",
+    width = "100%",
+    height = "50%",
+  })--, avalonUI.Left)
+  avalonUI.Box4:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
+  GUIframe.addWindow(avalonUI.Box4, "Map", "topleft")
+  
+  
+  ----------------------------------------
+  -- Mapper (Karte) links oben
+  ----------------------------------------
+  
+  --avalonUI.Mapper = Geyser.Mapper:new({ 
+  --	name = "Mapper",
+  --	x = "5%", y = "5%", 
+  --	width = "90%", 
+  --	height = "90%"
+  --}, avalonUI.Box4)
+
+end</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>Build timer</name>
+				<packageName></packageName>
+				<script>function avalonUI.buildTimer()
+  
+  -- Box5 enthält die Fortschrittsbalken, mit denen die Timer angezeigt werden. Links in 
+  -- der Mitte. Box5 ist kein Label-Element, sondern ein Container, und die sind unsichtbar(?)
+  -- Deshalb geht das hier mit dem weißen Rahmen nicht. Lösung ist, hier noch ein Label
+  -- zu nehmen, dort dann den Container drin, und in dem dann die Gauges.
+  avalonUI.Box5c = Geyser.Container:new({
+  	name = "avalonUI.Box5c",
+  	x = "0%", y = "0%",
+  	width = "100%",
+  	height = "100%",
+  })--, avalonUI.Box5a)
+  --avalonUI.Box5:setStyleSheet(avalonUI.CSS.BoxCSS:getCSS())
+  GUIframe.addWindow(avalonUI.Box5c, "Timer", "bottomleft")  
+
+
+
+  avalonUI.Box5a = Geyser.Label:new({
+  	name = "avalonUI.Box5a",
+  	x = "0%", y = "0%",
+  	width = "100%",
+  	height = "70%",
+  }, avalonUI.Box5c)--, avalonUI.Left)
+  avalonUI.Box5a:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
+  --GUIframe.addWindow(avalonUI.Box5a, "Timer", "bottomleft")  
+
+  
+--  avalonUI.Box5 = Geyser.Container:new({
+--  	name = "avalonUI.Box5",
+--  	x = "2%", y = "0%",
+--  	width = "98%",
+--  	height = "100%",
+--  }, avalonUI.Box5a)
+--  --avalonUI.Box5:setStyleSheet(avalonUI.CSS.BoxCSS:getCSS())
+
+   -- Box7 enthält die Fortschrittsbalken, mit denen TP, AP, ZP und Mana angezeigt werden. Links
+-- unten. Box7 ist auch kein Label-Element, sondern ein Container, deshalb gilt auch hier,
+-- was oben bei Box5 dokumentiert ist. Auch ein TODO.
+avalonUI.Box7 = Geyser.Container:new({
+	name = "avalonUI.Box7",
+	x = "0%", y = "70%",
+	width = "100%",
+	height = "30%",
+}, avalonUI.Box5c)
+--avalonUI.Box7:setStyleSheet(avalonUI.BoxCSS:getCSS())
+  
+  
+  
+  
+  
+  
+  ---------------------------------------------------------------------------
+  -- Gauges für die Timer
+  -- Hier werden (derzeit) 9 Gauge-Elemente für die Timer erzeugt und positioniert.
+  -- in der Funktion "recreateTimer" werden die Timer dann alle unsichtbar und
+  -- nur die benötigten werden wieder sichtbar und mit Werten beschrieben.
+  -- Eigentlich war geplant, die Timer dynamischer zu gestalten, so dass es auch
+  -- mehr als neun werden könnten. (Der Rest sollte dann etwas zusammen rücken.)
+  -- Aber es scheint nicht möglich zu sein, einmal erzeugte Gauge-Elemente wieder
+  -- zu löschen. (Auf nil setzen wirkt jedenfalls nicht.) Deshalb die statische
+  -- Lösung und das unsichtbar machen.
+  ---------------------------------------------------------------------------
+  
+  for k = 1, 9, 1 do
+  	avalonUI["Timer"..k] = Geyser.Gauge:new({
+  		name = "avalonUI.Timer"..k,
+  		x = "4%", y = (100-(k*10)-5).."%",
+  		width="90%", height="9%",
+  		orientation = "goofy",
+  	}, avalonUI.Box5a)
+  	avalonUI["Timer"..k].back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
+  	avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorTimer)
+  	avalonUI["Timer"..k].front:setStyleSheet(avalonUI.CSS.GaugeFrontCSS:getCSS())
+  	avalonUI["Timer"..k]:setValue(600, 600, "")
+  end
+  
+  recreateTimer()
+  
+  
+  -----------------------------------
+  -- Gauges für TP, AP, ZP und Mana
+  -----------------------------------
+  
+  avalonUI.Health = Geyser.Gauge:new({
+  	name = "avalonUI.Health",
+  	x = "2%", y = "0%",
+  	width="30%", height="75%",
+  	orientation="vertical",
+  }, avalonUI.Box7)
+  avalonUI.Health.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
+  avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorTP)
+  avalonUI.Health.front:setStyleSheet(avalonUI.CSS.GaugeFrontCSS:getCSS())
+  avalonUI.Health.text:setStyleSheet(avalonUI.CSS.GaugeTextCSS:getCSS())
+  avalonUI.Health.text:setFontSize(9)	
+  avalonUI.Health:setValue(100,100,[[&lt;b&gt;&lt;center&gt;TP&lt;/center&gt;&lt;/b&gt;]])
+
+  
+  avalonUI.Endurance = Geyser.Gauge:new({
+  	name = "avalonUI.Endurance",
+  	x = "35%", y = "0%",
+  	width="30%", height="75%",
+  	orientation="vertical",
+  }, avalonUI.Box7)
+  avalonUI.Endurance.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
+  avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorAP)
+  avalonUI.Endurance.front:setStyleSheet(avalonUI.CSS.GaugeFrontCSS:getCSS())
+  avalonUI.Endurance.text:setStyleSheet(avalonUI.CSS.GaugeTextCSS:getCSS())
+  avalonUI.Endurance.text:setFontSize(9)
+  avalonUI.Endurance:setValue(100,100,[[&lt;b&gt;&lt;center&gt;AP&lt;/center&gt;&lt;/b&gt;]])
+  
+  
+  avalonUI.Spellpoints = Geyser.Gauge:new({
+  	name = "avalonUI.Spellpoints",
+  	x = "68%", y = "0%",
+  	width="30%", height="75%",
+  	orientation="vertical",
+  }, avalonUI.Box7)
+  avalonUI.Spellpoints.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
+  avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorZP)
+  avalonUI.Spellpoints.front:setStyleSheet(avalonUI.CSS.GaugeFrontCSS:getCSS())
+  avalonUI.Spellpoints.text:setStyleSheet(avalonUI.CSS.GaugeTextCSS:getCSS())
+  avalonUI.Spellpoints.text:setFontSize(9)
+  avalonUI.Spellpoints:setValue(100,100, [[&lt;b&gt;&lt;center&gt;ZP&lt;/center&gt;&lt;/b&gt;]])
+
+  
+  avalonUI.Mana = Geyser.Gauge:new({
+  	name = "avalonUI.Mana",
+  	x = "2%", y = "78%",
+  	width="96%", height="20%",
+  }, avalonUI.Box7)
+  avalonUI.Mana.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
+  avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorMana)
+  avalonUI.Mana.front:setStyleSheet(avalonUI.CSS.GaugeFrontCSS:getCSS())
+  avalonUI.Mana.text:setFontSize(9)
+  avalonUI.Mana:setValue(9999,9999, [[&lt;b&gt;&lt;center&gt;Mana&lt;/center&gt;&lt;/b&gt;]])
+
+end</script>
+				<eventHandlerList />
+			</Script>
+		</ScriptGroup>
+		<ScriptGroup isActive="yes" isFolder="yes">
+			<name>ATCP</name>
+			<packageName></packageName>
+			<script>-------------------------------------------------
+--         Put your Lua functions here.        --
+--                                             --
+-- Note that you can also use external scripts --
+-------------------------------------------------
+</script>
+			<eventHandlerList />
+			<Script isActive="yes" isFolder="no">
+				<name>atcp</name>
+				<packageName></packageName>
+				<script>----------------------------------------
+-- ATCP-Handling
+-- In diesem Script findet der Umgang mit den ATCP-Daten statt,
+-- die Avalon sendet (und empfängt) 
+-- Eine Beschreibung der ATCP-Schnittstelle von Avalon findet sich im Wiki:
+-- https://avalon.mud.de/wiki/avalon:atcp
+-- Dieses Script basiert auf einem Demo-Script von Vadi aus dem mudlet.org-Forum,
+-- das ich hier gefunden habe:
+-- https://forums.mudlet.org/viewtopic.php?f=6&amp;t=1243
+----------------------------------------
+
+-- The following scripts attach handlers to the ATCP functions and echos them. 
+-- It also parses the stats line and stores all stats in a easily accecble table,
+-- and exits too.
+
+-- Anscheinend wird ein einer Tabelle mit dem Namen "atcp", wenn es existiert,
+-- alles gespeichert, was per atcp reinkommt.
+--atcp = {}
+
+
+----------------------------------------
+-- onATCPEvent
+----------------------------------------
+
+function onATCPEvent(event, arg)
+	cecho("&lt;magenta&gt;Wer dies lesen kann, hat einen Fehler gefunden! (atcp.lua, funct. onATCPEvent\n")
+end
+
+----------------------------------------------------------------------------------------
+-- Misc
+----------------------------------------------------------------------------------------
+
+-- event == "AvalonGrafikVermeiden"
+function onATCPEventAvalonGrafikVermeiden(event, arg)
+	debugc("AvalonGrafikVermeiden = " .. tostring(arg) .. "\n")
+
+--	channel = "ATCP"
+--	message = "AvalonGrafikVermeiden = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonGrafikVermeiden", "onATCPEventAvalonGrafikVermeiden")
+
+
+
+-- event == "AuthRequest"
+function onATCPEventAuthRequest(event, arg)
+	debugc("AuthRequest = " .. tostring(arg) .. "\n")
+  --cecho("\n&lt;magenta&gt;AuthRequest: " .. tostring(arg) .. "\n")
+--	channel = "ATCP"
+--	message = "AuthRequest = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AuthRequest", "onATCPEventAuthRequest")
+
+
+
+----------------------------------------------------------------------------------------
+--  Charakter-Daten/Spielstand
+----------------------------------------------------------------------------------------
+
+-- event == "AvalonName"
+function onATCPEventAvalonName(event, arg)
+	debugc("&lt;magenta&gt;AvalonName per ATCP empfangen!\n")
+	if player.name ~= arg then
+		if string.len(player.name) == 0 then
+			loadCharacterFileFromDisk(arg)
+		end
+		player.name = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonName", "onATCPEventAvalonName")
+
+
+
+-- event == "AvalonVollName"
+function onATCPEventAvalonVollName(event, arg)
+	debugc("&lt;magenta&gt;AvalonVollName per ATCP empfangen!\n")
+	if player.vollername ~= arg then
+		player.vollername = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonVollName", "onATCPEventAvalonVollName")
+
+
+
+-- event == "AvalonPortfolio"
+function onATCPEventAvalonPortfolio(event, arg)
+	debugc("&lt;magenta&gt;AvalonPortfolio per ATCP empfangen!\n")
+	if player.portfolio ~= arg then 
+		player.portfolio = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonPortfolio", "onATCPEventAvalonPortfolio")
+
+
+
+-- event == "AvalonGilde"
+function onATCPEventAvalonGilde(event, arg)
+	debugc("&lt;magenta&gt;AvalonGilde per ATCP empfangen!\n")
+	if player.gilde ~= arg then
+		player.gilde = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonGilde", "onATCPEventAvalonGilde")
+
+
+-- event == "AvalonZuenfte"
+function onATCPEventAvalonZuenfte(event, arg)
+	debugc("&lt;magenta&gt;AvalonZuenfte per ATCP empfangen!\n")
+	if player.zuenfte ~= arg then 
+		player.zuenfte = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonZuenfte", "onATCPEventAvalonZuenfte")
+
+
+
+-- event == "AvalonAlter"
+function onATCPEventAvalonAlter(event, arg)
+	debugc("&lt;magenta&gt;AvalonAlter per ATCP empfangen: " .. arg .. "\n")
+	if player.alter ~= arg then 
+		player.alter = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonAlter", "onATCPEventAvalonAlter")
+
+
+
+-- event == "AvalonLevel"
+function onATCPEventAvalonLevel(event, arg)
+	debugc("&lt;magenta&gt;AvalonLevel per ATCP empfangen!\n")
+	if player.level ~= arg then
+		player.level = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonLevel", "onATCPEventAvalonLevel")
+
+
+
+-- event == "AvalonEP"
+function onATCPEventAvalonEP(event, arg)
+	debugc("&lt;magenta&gt;AvalonEP per ATCP empfangen!\n")
+	if player.ep ~= arg then
+		player.ep = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonEP", "onATCPEventAvalonEP")
+
+
+
+-- event == "AvalonGesinnung"
+function onATCPEventAvalonGesinnung(event, arg)
+	debugc("&lt;magenta&gt;AvalonGesinnung per ATCP empfangen!\n")
+	if player.gesinnung ~= arg then 
+		player.gesinnung = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonGesinnung", "onATCPEventAvalonGesinnung")
+
+
+
+-- event == "AvalonHunger"
+-- Die Texte für Hunger und für Durst haben am Ende ein Leerzeichen zu viel.
+function onATCPEventAvalonHunger(event, arg)
+	debugc("&lt;magenta&gt;AvalonHunger per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.hunger ~= arg then 
+		player.hunger = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonHunger", "onATCPEventAvalonHunger")
+
+
+
+-- event == "AvalonDurst"
+-- Die Texte für Hunger und für Durst haben am Ende ein Leerzeichen zu viel.
+function onATCPEventAvalonDurst(event, arg)
+	debugc("&lt;magenta&gt;AvalonDurst per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.durst ~= arg then
+		player.durst = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonDurst", "onATCPEventAvalonDurst")
+
+
+
+-- event == "AvalonDurst"
+-- Die Texte für Hunger und für Durst haben am Ende ein Leerzeichen zu viel.
+function onATCPEventAvalonDurst(event, arg)
+	debugc("&lt;magenta&gt;AvalonDurst per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.durst ~= arg then
+		player.durst = arg
+		raiseEvent("RefreshInfobox", arg)
+	end
+end
+registerAnonymousEventHandler("AvalonDurst", "onATCPEventAvalonDurst")
+
+
+
+-- event == "AvalonHoehe"
+function onATCPEventAvalonHoehe(event, arg)
+	debugc("&lt;magenta&gt;AvalonHoehe per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.hoehe ~= arg then
+		player.hoehe = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonHoehe = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonHoehe", "onATCPEventAvalonHoehe")
+
+
+
+-- event == "AvalonFlucht"
+function onATCPEventAvalonFlucht(event, arg)
+	debugc("&lt;magenta&gt;AvalonFlucht per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.flucht ~= arg then
+		player.flucht = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonFlucht = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonFlucht", "onATCPEventAvalonFlucht")
+
+
+
+-- event == "AvalonSchutz"
+function onATCPEventAvalonSchutz(event, arg)
+	debugc("&lt;magenta&gt;AvalonSchutz per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.schutz ~= arg then
+		player.schutz = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonSchutz = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonSchutz", "onATCPEventAvalonSchutz")
+
+
+
+-- event == "AvalonGruppe"
+function onATCPEventAvalonGruppe(event, arg)
+	debugc("&lt;magenta&gt;AvalonGruppe per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.gruppenname ~= arg then
+		player.gruppenname = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonGruppe = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonGruppe", "onATCPEventAvalonGruppe")
+
+
+
+-- event == "AvalonZaubern"
+function onATCPEventAvalonZaubern(event, arg)
+	debugc("&lt;magenta&gt;AvalonZaubern per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.zaubern ~= arg then
+		player.zaubern = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonZaubern = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonZaubern", "onATCPEventAvalonZaubern")
+
+
+
+-- event == "AvalonKampf"
+function onATCPEventAvalonKampf(event, arg)
+	debugc("&lt;magenta&gt;AvalonKampf per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.kampf ~= arg then
+		player.kampf = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonKampf = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonKampf", "onATCPEventAvalonKampf")
+
+
+
+-- event == "AvalonAngegriffen"
+function onATCPEventAvalonAngegriffen(event, arg)
+	debugc("&lt;magenta&gt;AvalonAngegriffen per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.angegriffen ~= arg then
+		player.angegriffen = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonAngegriffen = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonAngegriffen", "onATCPEventAvalonAngegriffen")
+
+
+
+-- event == "AvalonGetoetet"
+function onATCPEventAvalonGetoetet(event, arg)
+	debugc("&lt;magenta&gt;AvalonGetoetet per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.getoetet ~= arg then
+		player.getoetet = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonGetoetet = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonGetoetet", "onATCPEventAvalonGetoetet")
+
+
+
+-- event == "AvalonGruppeGetoetet"
+function onATCPEventAvalonGruppeGetoetet(event, arg)
+	debugc("&lt;magenta&gt;AvalonGruppeGetoetet per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.gruppeGetoetet ~= arg then
+		player.gruppeGetoetet = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonGruppeGetoetet = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonGruppeGetoetet", "onATCPEventAvalonGruppeGetoetet")
+
+
+
+-- event == "AvalonAllyGetoetet"
+function onATCPEventAvalonAllyGetoetet(event, arg)
+	debugc("&lt;magenta&gt;AvalonAllyGetoetet per ATCP empfangen!\n")
+	arg = string.trim(arg)
+	if player.allyGetoetet ~= arg then
+		player.allyGetoetet = arg
+		-- raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonAllyGetoetet = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonAllyGetoetet", "onATCPEventAvalonAllyGetoetet")
+
+
+
+----------------------------------------------------------------------------------------
+--  TP, TPMAX, AP, APMAX, ZP, ZPMAX, MP, MPMAX
+----------------------------------------------------------------------------------------
+
+-- event == "AvalonTP"
+function onATCPEventAvalonTP(event, arg)
+	if player.stats.tp ~= tonumber(arg) then 
+		player.stats.tp = tonumber(arg)
+		raiseEvent("RefreshHealthBar", {player.stats.tp, player.stats.tp_max})
+	end
+end
+registerAnonymousEventHandler("AvalonTP", "onATCPEventAvalonTP")
+
+
+
+-- event == "AvalonMAXTP"
+function onATCPEventAvalonMAXT(event, arg)
+	if player.stats.tp_max ~= tonumber(arg) then
+		player.stats.tp_max = tonumber(arg)
+		raiseEvent("RefreshHealthBar", {player.stats.tp, player.stats.tp_max})
+	end
+end
+registerAnonymousEventHandler("AvalonMAXTP", "onATCPEventAvalonMAXT")
+
+
+
+-- event == "AvalonAP"
+function onATCPEventAvalonAP(event, arg)
+	if player.stats.ap ~= tonumber(arg) then 
+		player.stats.ap = tonumber(arg)
+		raiseEvent("RefreshEnduranceBar", {player.stats.ap, player.stats.ap_max})
+	end
+end
+registerAnonymousEventHandler("AvalonAP", "onATCPEventAvalonAP")
+
+
+
+-- event == "AvalonMAXAP"
+function onATCPEventAvalonMAXAP(event, arg)
+	if player.stats.ap_max ~= tonumber(arg) then 
+		player.stats.ap_max = tonumber(arg)
+		raiseEvent("RefreshEnduranceBar", {player.stats.ap, player.stats.ap_max})
+	end
+end
+registerAnonymousEventHandler("AvalonMAXAP", "onATCPEventAvalonMAXAP")
+
+
+
+-- event == "AvalonSP"
+function onATCPEventAvalonSP(event, arg)
+	if player.stats.zp ~= tonumber(arg) then 
+		player.stats.zp = tonumber(arg)
+		raiseEvent("RefreshSpellpointsBar", {player.stats.zp, player.stats.zp_max})
+	end
+end
+registerAnonymousEventHandler("AvalonSP", "onATCPEventAvalonSP")
+
+
+
+-- event == "AvalonMAXSP"
+function onATCPEventAvalonMAXSP(event, arg)
+	if player.stats.zp_max ~= tonumber(arg) then 
+		player.stats.zp_max = tonumber(arg)
+		raiseEvent("RefreshSpellpointsBar", {player.stats.zp, player.stats.zp_max})
+	end
+end
+registerAnonymousEventHandler("AvalonMAXSP", "onATCPEventAvalonMAXSP")
+
+
+
+-- event == "AvalonMP"
+function onATCPEventAvalonMP(event, arg)
+	if player.stats.mp ~= tonumber(arg) then
+		player.stats.mp = tonumber(arg)
+		raiseEvent("RefreshManaBar", {player.stats.mp, player.stats.mp_max})
+	end
+end
+registerAnonymousEventHandler("AvalonMP", "onATCPEventAvalonMP")
+
+
+
+-- event == "AvalonMAXMP"
+function onATCPEventAvalonMAXMP(event, arg)
+	if player.stats.mp_max ~= tonumber(arg) then
+		player.stats.mp_max = tonumber(arg)
+		raiseEvent("RefreshManaBar", {player.stats.mp, player.stats.mp_max})
+	end
+end
+registerAnonymousEventHandler("AvalonMAXMP", "onATCPEventAvalonMAXMP")
+
+
+
+----------------------------------------------------------------------------------------
+--  Kommunikation
+--
+-- Meldungen über channel:
+-- Avalon.Channel [kanalname] [Nachricht]
+----------------------------------------------------------------------------------------
+
+-- In der per ATCP empfangenen Kommunikation gibt es Formatierungsanweisungen,
+-- die hier rausgefiltert werden.
+function clearMessage(str)
+	message = str
+	message = string.gsub(message, "%%%^ITALIC%%%^", "")
+	message = string.gsub(message, "%%%^NO_ITALIC%%%^", "")
+	message = string.gsub(message, "%%%^NC_html_begin_colour%(%#[A-Za-z0-9]+%)%%%^", "")
+	message = string.gsub(message, "%%%^NC_html_end_colour%%%^", "")
+
+	return message
+end
+
+
+-- event == "AvalonChannel"
+function onATCPEventAvalonChannel(event, arg)
+	debugc("AvalonChannel = " .. arg .. "\n")
+	
+	channel = string.title(string.match(arg, "(%w+)"))
+	message = arg:gsub("^.-%s", "", 1)
+	message = clearMessage(message)
+
+	-- Die Channelnamen hängen davon ab, in welcher Gilde, Zunft, in welchem Volk etc. der Char ist.
+	-- Keine Ahnung wie die alle heißen... 
+	-- Aber ich plünder mal das Script von Twrx und hoffe ansonsten, dass sich Spieler melden,
+	-- wenn ihr Kanal nicht abgedeckt ist. Diese Spieler haben dann in ihrem Profil-Verzeichnis, dort
+	-- im Ordner "log", eine Datei mit dem Kanalnamen + ".txt". Diesen Namen - ohne ".txt" - hier 
+	-- sinnig einbauen.
+
+	if channel == "Hyraskrieger" then channel = "Gilde" end
+	if channel == "Golemkultisten" then channel = "Gilde" end
+	if channel == "Daemonenkrieger" then channel = "Gilde" end
+	if channel == "Runenschmied" then channel = "Gilde" end
+	if channel == "Barden" then channel = "Gilde" end
+	if channel == "Kleriker" then channel = "Gilde" end
+	if channel == "Druiden" then channel = "Gilde" end
+	if channel == "Nekromanten" then channel = "Gilde" end
+	if channel == "Magier" then channel = "Gilde" end
+
+	if channel == "Mensch" then channel = "Volk" end
+	if channel == "Hobbit" then channel = "Volk" end
+	if channel == "Elf" then channel = "Volk" end
+	if channel == "Dunkelelf" then channel = "Volk" end
+	if channel == "Zwerg" then channel = "Volk" end
+	if channel == "Chaoszentaur" then channel = "Volk" end
+	if channel == "Amphib" then channel = "Volk" end
+	
+	Logger:Log(channel, message, {"timestamp"})
+	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonChannel", "onATCPEventAvalonChannel")
+
+
+
+-- event == "AvalonComm"
+function onATCPEventAvalonComm(event, arg)
+	debugc("AvalonComm = " .. arg .. "\n")
+	--Logger:Log(file, line_to_save, options_table)
+	channel = "Sagen"
+	message = arg:gsub("^.-%s", "", 1)
+	message = clearMessage(message)
+	Logger:Log(channel, message, {"timestamp"})
+	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonComm", "onATCPEventAvalonComm")
+
+
+
+-- event == "AvalonRComm"
+function onATCPEventAvalonRComm(event, arg)
+	debugc("AvalonRComm = " .. arg .. "\n")
+	--if player.stats.mp_max ~= tonumber(arg) then
+	--	player.stats.mp_max = tonumber(arg)
+	--	raiseEvent("RefreshManaBar", {player.stats.mp, player.stats.mp_max})
+	--end
+	channel = "Reden"
+	message = arg:gsub("^.-%s", "", 1)
+	message = clearMessage(message)
+	Logger:Log(channel, message, {"timestamp"})
+	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonRComm", "onATCPEventAvalonRComm")
+
+
+
+-- event == "AvalonSoul"
+function onATCPEventAvalonSoul(event, arg)
+	debugc("AvalonSoul = " .. arg .. "\n")
+	--if player.stats.mp_max ~= tonumber(arg) then
+	--	player.stats.mp_max = tonumber(arg)
+	--	raiseEvent("RefreshManaBar", {player.stats.mp, player.stats.mp_max})
+	--end
+	channel = "Sagen"
+	message = arg:gsub("^.-%s", "", 1)
+	message = clearMessage(message)
+	Logger:Log(channel, message, {"timestamp"})
+	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonSoul", "onATCPEventAvalonSoul")
+
+
+
+-- event == "AvalonRSoul"
+function onATCPEventAvalonRSoul(event, arg)
+	debugc("AvalonRSoul = " .. arg .. "\n")
+	--if player.stats.mp_max ~= tonumber(arg) then
+	--	player.stats.mp_max = tonumber(arg)
+	--	raiseEvent("RefreshManaBar", {player.stats.mp, player.stats.mp_max})
+	--end
+	channel = "Reden"
+	message = arg:gsub("^.-%s", "", 1)
+	message = clearMessage(message)
+	Logger:Log(channel, message, {"timestamp"})
+	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonRSoul", "onATCPEventAvalonRSoul")
+
+
+
+----------------------------------------------------------------------------------------
+--  ??? Item-Handling
+----------------------------------------------------------------------------------------
+
+-- event == "AvalonInventarRein"
+function onATCPEventAvalonInventarRein(event, arg)
+	debugc("AvalonInventarRein = " .. arg .. "\n")
+	
+	if player.inventarRein ~= arg then
+		player.inventarRein = arg
+--		raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonInventarRein = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonInventarRein", "onATCPEventAvalonInventarRein")
+
+
+
+-- event == "AvalonInventarRaus"
+function onATCPEventAvalonInventarRaus(event, arg)
+	debugc("AvalonInventarRaus = " .. arg .. "\n")
+	
+	if player.inventarRaus ~= arg then
+		player.inventarRaus = arg
+--		raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonInventarRaus = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonInventarRaus", "onATCPEventAvalonInventarRaus")
+
+
+
+-- event == "AvalonBehaelterRein"
+function onATCPEventAvalonBehaelterRein(event, arg)
+	debugc("AvalonBehaelterRein = " .. arg .. "\n")
+	
+	if player.behaelterRein ~= arg then
+		player.behaelterRein = arg
+--		raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonBehaelterRein = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonBehaelterRein", "onATCPEventAvalonBehaelterRein")
+
+
+
+-- event == "AvalonBehaelterRaus"
+function onATCPEventAvalonBehaelterRaus(event, arg)
+	debugc("AvalonBehaelterRaus = " .. arg .. "\n")
+	
+	if player.behaelterRaus ~= arg then
+		player.behaelterRaus = arg
+--		raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonBehaelterRaus = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonBehaelterRaus", "onATCPEventAvalonBehaelterRaus")
+
+
+
+-- event == "AvalonGefuehrt"
+function onATCPEventAvalonGefuehrt(event, arg)
+	debugc("AvalonAvalonGefuehrt = " .. arg .. "\n")
+	
+	if player.gefuehrt ~= arg then
+		player.gefuehrt = arg
+--		raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonGefuehrt = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonGefuehrt", "onATCPEventAvalonGefuehrt")
+
+
+
+-- event == "AvalonGesenkt"
+function onATCPEventAvalonGesenkt(event, arg)
+	debugc("AvalonGesenkt = " .. arg .. "\n")
+	
+	if player.gesenkt ~= arg then
+		player.gesenkt = arg
+--		raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonGesenkt = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonGesenkt", "onATCPEventAvalonGesenkt")
+
+
+
+-- event == "AvalonAngezogen"
+function onATCPEventAvalonAngezogen(event, arg)
+	debugc("AvalonAvalonAngezogen = " .. arg .. "\n")
+	
+	if player.angezogen ~= arg then
+		player.angezogen = arg
+--		raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonAngezogen = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonAngezogen", "onATCPEventAvalonAngezogen")
+
+
+
+-- event == "AvalonAusgezogen"
+function onATCPEventAvalonAusgezogen(event, arg)
+	debugc("AvalonGesenkt = " .. arg .. "\n")
+	
+	if player.ausgezogen ~= arg then
+		player.ausgezogen = arg
+--		raiseEvent("RefreshInfobox", arg)
+	end
+--	channel = "ATCP"
+--	message = "AvalonAusgezogen = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonAusgezogen", "onATCPEventAvalonAusgezogen")
+
+
+
+--------------------------------------------------------------------
+-- Map/Mapper
+--------------------------------------------------------------------
+
+-- event == "AvalonDunkel"
+function onATCPEventAvalonDunkel(event, arg)
+	debugc("AvalonDunkel = " .. tostring(arg) .. "\n")
+
+--	-- mapper.dunkel gibt es nicht, bei bedarf anlegen	
+--	if tmapper.dunkel ~= arg then
+--		tmapper.dunkel = arg
+--	end
+--	channel = "ATCP"
+--	message = "AvalonDunkel = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonDunkel", "onATCPEventAvalonDunkel")
+
+
+
+-- event == "AvalonRoomID"
+function onATCPEventAvalonRoomID(event, arg)
+	debugc("AvalonRoomID = " .. tostring(arg) .. "\n")
+
+--	-- tMapper.roomID gibt es nicht, bei bedarf anlegen	
+--	if tMapper.roomID ~= arg then
+--		tMapper.roomID = arg
+--	end
+--	channel = "ATCP"
+--	message = "AvalonRoomID = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonRoomID", "onATCPEventAvalonRoomID")
+
+
+
+-- event == "AvalonRoomBrief"
+function onATCPEventAvalonRoomBrief(event, arg)
+	debugc("AvalonRoomBrief = " .. tostring(arg) .. "\n")
+
+--	-- tMapper.roomBrief gibt es nicht, bei bedarf anlegen	
+--	if tMapper.roomBrief ~= arg then
+--		tMapper.roomBrief = arg
+--	end
+--	channel = "ATCP"
+--	message = "AvalonRoomBrief = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonRoomBrief", "onATCPEventAvalonRoomBrief")
+
+
+
+-- event == "AvalonArea"
+function onATCPEventAvalonArea(event, arg)
+	debugc("AvalonArea = " .. tostring(arg) .. "\n")
+
+--	-- tMapper.area gibt es nicht, bei bedarf anlegen	
+--	if tMapper.area ~= arg then
+--		tMapper.area = arg
+--	end
+--	channel = "ATCP"
+--	message = "AvalonArea = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonArea", "onATCPEventAvalonArea")
+
+
+
+-- event == "AvalonInv"
+function onATCPEventAvalonInv(event, arg)
+	debugc("AvalonInv = " .. tostring(arg) .. "\n")
+
+--	-- tMapper.inv gibt es nicht, bei bedarf anlegen	
+--	if tMapper.inv ~= arg then
+--		tMapper.inv = arg
+--	end
+--	channel = "ATCP"
+--	message = "AvalonInv = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonInv", "onATCPEventAvalonInv")
+
+
+
+-- event == "AvalonSite"
+function onATCPEventAvalonSite(event, arg)
+	debugc("AvalonSite = " .. tostring(arg) .. "\n")
+
+--	-- tMapper.site gibt es nicht, bei bedarf anlegen	
+--	if tMapper.site ~= arg then
+--		tMapper.site = arg
+--	end
+--	channel = "ATCP"
+--	message = "AvalonSite = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonSite", "onATCPEventAvalonSite")
+
+
+
+-- event == "AvalonExits"
+function onATCPEventAvalonExits(event, arg)
+	debugc("AvalonExits = " .. tostring(arg) .. "\n")
+
+--	-- tMapper.exits gibt es nicht, bei bedarf anlegen	
+--	if tMapper.exits ~= arg then
+--		tMapper.exits = arg
+--	end
+--	channel = "ATCP"
+--	message = "AvalonExits = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonExits", "onATCPEventAvalonExits")
+
+
+
+-- event == "AvalonAvalonWeg"
+function onATCPEventAvalonAvalonWeg(event, arg)
+	debugc("AvalonAvalonWeg = " .. tostring(arg) .. "\n")
+
+--	-- tMapper.avalonWeg gibt es nicht, bei bedarf anlegen	
+--	if tMapper.avalonWeg ~= arg then
+--		tMapper.avalonWeg = arg
+--	end
+--	channel = "ATCP"
+--	message = "AvalonAvalonWeg = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonAvalonWeg", "onATCPEventAvalonAvalonWeg")
+
+
+
+-- event == "AvalonAvalonIcon16"
+function onATCPEventAvalonAvalonIcon16(event, arg)
+	debugc("AvalonAvalonWeg = " .. tostring(arg) .. "\n")
+
+--	-- tMapper.avalonIcon16 gibt es nicht, bei bedarf anlegen	
+--	if tMapper.avalonIcon16 ~= arg then
+--		tMapper.avalonIcon16 = arg
+--	end
+--	channel = "ATCP"
+--	message = "AvalonAvalonIcon16 = " .. arg .. "\n"
+--	Logger:Log(channel, message, {"timestamp"})
+--	raiseEvent("RefreshTabElement", channel)
+end
+registerAnonymousEventHandler("AvalonAvalonIcon16", "onATCPEventAvalonAvalonIcon16")
+
+
+
+--------------------------------------------------------------------
+-- onKill wird durch einen kill ausgelöst -- ab hier nicht funktionsfähig
+--------------------------------------------------------------------
+
+function onKillEvent(event,name,file)
+	--sendATCP("ava_req_inv", "hier")
+	if tMetzel and tMetzel.sMode ~= nil then fMetzelGetoetet() end 
+	--sendAll("r","t bewohner")
+end
+--registerAnonymousEventHandler("KillEvent", "onKillEvent")
+
+-- Script: AvalonAllyGetoetet
+function AvalonAllyGetoetet(event,arg)
+	onATCP (event,arg)
+	raiseEvent("onKillEvent",arg)
+end
+--registerAnonymousEventHandler("AvalonAllyGetoetet", "AvalonAllyGetoetet")
+
+-- Script: AvalonAP
+function AvalonAP(event,arg)
+	tPlayer.diffap = tonumber(arg) - tonumber(tPlayer.ap)
+	onATCP (event,arg)
+end
+--registerAnonymousEventHandler("AvalonAP", "AvalonAP")
+
+
+-- Script: AvalonBehaelterRaus
+function AvalonBehaelterRaus(event,arg)
+	onATCP (event,arg)
+	--sendATCP("ava_req_inv", "mich")
+end
+--registerAnonymousEventHandler("AvalonBehaelterRaus", "AvalonBehaelterRaus")
+
+-- Script: AvalonBehaelterRein
+function AvalonBehaelterRein(event,arg)
+	onATCP (event,arg)
+	--sendATCP("ava_req_inv", "mich")
+end
+--registerAnonymousEventHandler("AvalonBehaelterRein", "AvalonBehaelterRein")
+</script>
+				<eventHandlerList />
+			</Script>
+		</ScriptGroup>
+	</ScriptPackage>
 	<KeyPackage>
 		<KeyGroup isActive="yes" isFolder="yes">
 			<name>Keypadfunktionen</name>
@@ -245,65 +4335,8 @@ raiseEvent("keyPadEvent",5)
 				<keyModifier>536870912</keyModifier>
 			</Key>
 		</KeyGroup>
-	</KeyPackage>	
-	<ScriptPackage>
-		<ScriptGroup isActive="yes" isFolder="no">
-			<name>Avalet</name>
-			<packageName></packageName>
-			<script>-- BEGINN Avalet-Kram
--- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
-require "Avalet"                 -- lädt die init.lua
--- ENDE Avalet-Kram
---
--- ACHTUNG!!! Änderungen an diesem Modul (Avalet) werden nicht gespeichert!
--- Weder Skripte noch Trigger noch Timer noch Alias noch sonst irgendwas.
--- Änderungen können hier zu Testzwecken reingeschrieben werden, aber sie
--- überstehen keinen Neustart von Mudlet. Eigene Skripte, Trigger etc. müssen
--- in ein eigenes Mudlet-Modul (oder einfach lokal in ein Profil) geschrieben
--- werden!
-			</script>
-			<eventHandlerList />
-		</ScriptGroup>	
-<!--
-		<ScriptGroup isActive="yes" isFolder="yes">
-			<name>AvaletGUI</name>
-			<packageName></packageName>
-			<script>-- Avalet-Kram
--- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
--- ENDE Avalet-Kram
-			</script>
-			<eventHandlerList />
-			<Script isActive="yes" isFolder="no">
-				<name>AvaletGUI</name>
-				<packageName></packageName>
-				<script>-- Avalet-Kram
--- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
---require "Avalet.scripts.gui"           -- lädt die angegebene lua-datei
---require "Avalet.scripts.character"     -- lädt die angegebene lua-datei
--- ENDE Avalet-Kram
-				</script>
-				<eventHandlerList />
-			</Script>
-		</ScriptGroup>
-		<ScriptGroup isActive="yes" isFolder="yes">
-			<name>AvaletATCP</name>
-			<packageName></packageName>
-			<script>-- Avalet-Kram
--- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
--- ENDE Avalet-Kram
-			</script>
-			<eventHandlerList />
-			<Script isActive="yes" isFolder="no">
-				<name>AvaletATCP</name>
-				<packageName></packageName>
-				<script>-- Avalet-Kram
--- Bitte eigenen Code HINTER dem Avalet-Kram einfügen.
--- require "Avalet.scripts.atcp"     -- lädt die angegebene lua-datei
--- ENDE Avalet-Kram
-				</script>
-				<eventHandlerList />
-			</Script>
-		</ScriptGroup>
--->
-	</ScriptPackage>
+	</KeyPackage>
+	<HelpPackage>
+		<helpURL></helpURL>
+	</HelpPackage>
 </MudletPackage>
