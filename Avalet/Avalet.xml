@@ -109,14 +109,29 @@ mudletHomeDir = getMudletHomeDir()
 -- oder so) Wenn das Mud den CharNamen sendet, wird die dazugehörige Char-Datei ge-
 -- laden und von da an verwendet.
 --avaletCharacterFile = ""
+characterFilePath = characterFilePath or ""
 avaletCharacterFilePrefix = "AvaletCharacter"
 avaletCharacterFileExtension = ".json"
 function loadCharacterFileFromDisk(charName)
 	--debugc("&lt;magenta&gt;Unerwünschter Aufruf?\n")
-	characterFilePath = getMudletHomeDir() .. "/" .. avaletCharacterFilePrefix .. string.title(charName) .. avaletCharacterFileExtension
+  
+	if string.char(getMudletHomeDir():byte()) == "/" then _sep = "/" else  _sep = "\\" end
+  
+  characterFilePath = getMudletHomeDir() .. _sep .. avaletCharacterFilePrefix .. string.title(charName) .. avaletCharacterFileExtension
+  
+	--local logdir = getMudletHomeDir() ..  _sep .. "log" .. _sep
+  -- Marco Steffens: Es gab Probleme mit Leerzeichen im Pfad unter Linux. 
+  -- Das hier ist der Versuch, das Problem zu lösen. Indem das Leerzeichen
+  -- mit einem "\" maskiert wird. Alternativ müsste man das mit Anführungs-
+  -- zeichen um den Pfad rum lösen.
+  if _sep == "/" then
+    string.gsub(characterFilePath, " ", "\ ")
+  end
+  
+	--characterFilePath = getMudletHomeDir() .. "/" .. avaletCharacterFilePrefix .. string.title(charName) .. avaletCharacterFileExtension
 	--echo(characterFilePath .. "\n")
 	if io.exists(characterFilePath) then
-		--cecho("&lt;magenta&gt;fCharakter-Datei ist vorhanden, versuche Datei zu laden:\n" .. characterFilePath .. "\n")
+		--cecho("&lt;magenta&gt;Charakter-Datei ist vorhanden, versuche Datei zu laden:\n" .. characterFilePath .. "\n")
     -- merge 2 tables
     subset = readFileFromFS(characterFilePath, "r")
     for k,v in pairs(subset) do player[k] = v end
@@ -301,6 +316,23 @@ function onSysUninstall(_, name)
   --cecho("&lt;magenta&gt;uninstall Avalet!")
 end
 registerAnonymousEventHandler("sysUninstall", "onSysUninstall")
+
+
+--sysInstallPackage
+--Avalet funktioniert nicht, wenn es als Paket installiert wird - nur als Modul!
+--Deshalb hier die Fehlermeldung
+function onSysInstallPackage(_, name)
+  debugc("&lt;magenta&gt;function onSysInstallPackage()")
+  -- Erstmal prüfen, ob es Avalet ist, was da installiert wurde:
+  if name ~= "Avalet" then return end
+  
+  cecho("\n\n&lt;magenta&gt;!!!    ACHTUNG: Avalet wurde als Paket installiert!    !!!\n")
+  cecho(    "&lt;magenta&gt;!!!        Avalet funktioniert als Paket nicht.        !!!\n")
+  cecho(    "&lt;magenta&gt;!!!    Avalet muss jetzt erst deinstalliert werden!    !!!\n")
+  cecho(    "&lt;magenta&gt;!!!  Anschließend Avalet bitte als MODUL installieren! !!!\n\n")
+  
+end
+registerAnonymousEventHandler("sysInstallPackage", "onSysInstallPackage")
 </script>
 			<eventHandlerList />
 		</Script>
@@ -1722,6 +1754,11 @@ function readFileFromFS(path, mode)
 end
 
 function writeDataToFS(path, data, mode)
+  --cecho("\n&lt;magenta&gt;writeDataToFS()\n")
+  --cecho("&lt;magenta&gt;path: " .. path .. "\n")
+  --cecho("&lt;magenta&gt;data: " .. tostring(data) .. "\n")
+  --cecho("&lt;magenta&gt;mode: " .. tostring(mode) .. "\n")
+
 	file = io.open (path, mode)
 	file:write(yajl.to_string(data))
 	file:flush()
@@ -2212,6 +2249,7 @@ function onRefreshInfobox(event, args)
 -- kein Player-Objekt besteht. (Also obwohl der Player-Name noch nicht
 -- per ATCP eingetroffen ist. Workaround: auf player.name testen.)
 	if player.name ~= "" then
+    
 		writeDataToFS(characterFilePath, player, "w")
 		updateInfoBox()
 		--avalonUI.infobox:echo(args)

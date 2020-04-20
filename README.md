@@ -2,7 +2,9 @@
 
 > **Mit dem Update auf Version 0.9-beta hat sich äußerlich hoffentlich wenig verändert - unter der Oberfläche aber viel. Ich hab natürlich getestet und hoffe, dass ich keine weiteren Fehler eingebaut habe. Falls es aber doch Probleme gibt, schreib mir bitte. (Beispielsweise an Rofhessa in Avalon.) Und für alle Fälle gibt es [hier](https://github.com/MarcoSteffens/Avalet/releases/download/v0.8-beta/Avalet.mpackage) die letzte Version (0.8-beta) weiterhin zum Download.**
 
-Avalet ist ein Mudlet-Module für das [MUD Avalon](https://avalon.mud.de/). Für ein bisschen (mehr) Farbe und ein bisschen Klicki-Bunti. 
+Avalet ist ein Mudlet-Module für das [MUD Avalon](https://avalon.mud.de/). Für ein bisschen (mehr) Farbe und ein bisschen Klicki-Bunti.
+
+![aktueller Screenshot](latest_screenshot.png) 
 
 Avalet bietet in erster Linie:
 - Laufen mit dem [Ziffernblock](https://github.com/MarcoSteffens/Avalet/wiki/Tastaturbelegung-f%C3%BCr-den-Ziffernblock)!
@@ -29,12 +31,6 @@ Außerdem gibt es hier ein **MyAvalon**-Modul. Dieses Modul kannst Du benutzen, 
             \_______________________________________________________\_/
 
 ```
-
-## Letzter Screenshot
-
-So sieht Avalet grade aus:
-
-![aktueller Screenshot](latest_screenshot.png)
 
 ## Was Avalet ist
 
