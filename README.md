@@ -15,7 +15,7 @@ Avalet bietet in erster Linie:
 - Noch vieles mehr! *(coming soon)*
 - Und noch mehr! *(coming soon)*
 
-Eine Installationsanleitung findest du weiter unten auf dieser Seite.
+Avalet muss unbedingt als Modul installiert werden, nicht als Paket! Eine ausführlichere Installationsanleitung findest du weiter unten auf dieser Seite.
 
 Außerdem gibt es hier ein **MyAvalon**-Modul. Dieses Modul kannst Du benutzen, um eigene Trigger, Timer etc. in Mudlet zu bauen, und sie in verschiedenen Profilen, also mit verschiedenen Charakteren zu benutzen. Das Modul ist praktisch leer, aber wenn Du Dich nicht selber damit beschäftigen möchtest, dann nimmt es Dir die Arbeit ab, selber ein Modul zu erstellen. Wie Du das **MyAvalon**-Modul verwenden kannst, habe ich [hier im Wiki](https://github.com/MarcoSteffens/Avalet/wiki/Das-MyAvalon-Modul) etwas ausführlicher beschrieben.
 
@@ -38,6 +38,12 @@ Avalet ist für Mudlet-Benutzer gedacht, die sich nicht selbst in die Programmie
 
 Außerdem bietet Avalet die Möglichkeit, eigene Erweiterungen mit einzubinden. Also mit Menüpunkt in der Oberfläche, Karteikartenreiter etc.
 
+## Was Avalet NICHT ist
+
+Avalet ist kein Ersatz für das Soundpack oder für die Arbeit von Ban. Wenn du eine Sprachausgabe benutzt, dann ist dir mit diesen beiden Werkzeugen (und mit MUSHclient) derzeit sicher besser geholfen.
+
+Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das Avalon-Volk zu bringen oder um meine Script-Sammlung zu teilen. Irgendwelche Geheimnisse werden hier nicht aufgedeckt. (Aber es gibt ja die Möglichkeit, Sub-Module hinzuzufügen. Wenn du also *deine* Script-Sammlung gern mit *mir* teilen möchtest - *email me*! :) )
+
 ```
             __________________________________________________________
            /                                                        / \
@@ -49,12 +55,6 @@ Außerdem bietet Avalet die Möglichkeit, eigene Erweiterungen mit einzubinden. 
             \_______________________________________________________\_/
 
 ```
-
-## Was Avalet NICHT ist
-
-Avalet ist kein Ersatz für das Soundpack oder für die Arbeit von Ban. Wenn du eine Sprachausgabe benutzt, dann ist dir mit diesen beiden Werkzeugen (und mit MUSHclient) derzeit sicher besser geholfen.
-
-Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das Avalon-Volk zu bringen oder um meine Script-Sammlung zu teilen. Irgendwelche Geheimnisse werden hier nicht aufgedeckt. (Aber es gibt ja die Möglichkeit, Sub-Module hinzuzufügen. Wenn du also *deine* Script-Sammlung gern mit *mir* teilen möchtest - *email me*! :) )
 
 ## Bekannte größere Einschränkungen von Avalet derzeit:
 

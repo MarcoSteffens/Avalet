@@ -55,7 +55,32 @@
 			</Timer>
 		</TimerGroup>
 	</TimerPackage>
-	<AliasPackage />
+	<AliasPackage>
+		<AliasGroup isActive="yes" isFolder="yes">
+			<name>Avalet</name>
+			<script></script>
+			<command></command>
+			<packageName></packageName>
+			<regex></regex>
+			<Alias isActive="no" isFolder="no">
+				<name>Wer-Liste</name>
+				<script></script>
+				<command>wer -evSn</command>
+				<packageName></packageName>
+				<regex>^wer$</regex>
+			</Alias>
+		</AliasGroup>
+		<Alias isActive="yes" isFolder="no">
+			<name>ausloggen</name>
+			<script>echo("Von Avalet gemessene SessionEP: " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n")
+player.sessionEP = tonumber(player.ep)
+send(matches[1])
+</script>
+			<command></command>
+			<packageName></packageName>
+			<regex>^(ende|ende hier|einschlafen)$</regex>
+		</Alias>
+	</AliasPackage>
 	<ActionPackage />
 	<ScriptPackage>
 		<Script isActive="yes" isFolder="no">
@@ -162,7 +187,7 @@ end
 CSSMan = CSSMan or {}
 avalonUI = avalonUI or {}
 
-avalonUI.atcp = {}
+avalonUI.atcp = avalonUI.atcp or {}
 
 --avalonUI.buildUI()
 
@@ -1941,51 +1966,53 @@ function initCharacter()
 
   character = {}
   
-  character.name = ""       -- ATCP: AvalonName
-  character.vollername = "" -- ATCP: AvalonVollName
-  character.alter = ""      -- ATCP: AvalonAlter
-  character.gilde = ""      -- ATCP: AvalonGilde
-  character.zuenfte = ""    -- ATCP: AvalonZuenfte
-  character.ep = ""         -- ATCP: AvalonEP
-  character.level = ""      -- ATCP: AvalonLevel
-  character.gesinnung = ""  -- ATCP: AvalonGesinnung
-  character.portfolio = ""  -- ATCP: AvalonPortfolio
-  character.hunger = ""     -- ATCP: AvalonHunger
-  character.durst = ""      -- ATCP: AvalonDurst
+  character.name = ""           -- ATCP: AvalonName
+  character.vollername = ""     -- ATCP: AvalonVollName
+  character.alter = ""          -- ATCP: AvalonAlter
+  character.gilde = ""          -- ATCP: AvalonGilde
+  character.zuenfte = ""        -- ATCP: AvalonZuenfte
+  character.ep = ""             -- ATCP: AvalonEP
+  character.level = ""          -- ATCP: AvalonLevel
+  character.gesinnung = ""      -- ATCP: AvalonGesinnung
+  character.portfolio = ""      -- ATCP: AvalonPortfolio
+  character.hunger = ""         -- ATCP: AvalonHunger
+  character.durst = ""          -- ATCP: AvalonDurst
   --
-  character.hoehe = ""      -- ATCP: AvalonHoehe
-  characterflucht = ""      -- ATCP: AvalonFlucht
-  character.schutz = ""     -- ATCP: AvalonSchutz
-  character.gruppenname = ""-- ATCP: AvalonGruppe
-  character.zaubern = 0     -- ATCP: AvalonZaubern
-  character.kampf = 0       -- ATCP: AvalonKampf
-  character.angegriffen = ""-- ATCP: AvalonAngegriffen
-  character.getoetet = ""   -- ATCP: AvalonGetoetet
-  character.gruppeGetoetet = ""-- ATCP: AvalonGruppeGetoetet
-  character.allyGetoetet = ""-- ATCP: AvalonAllyGetoetet
+  character.hoehe = ""          -- ATCP: AvalonHoehe
+  character.flucht = ""         -- ATCP: AvalonFlucht
+  character.schutz = ""         -- ATCP: AvalonSchutz
+  character.gruppenname = ""    -- ATCP: AvalonGruppe
+  character.zaubern = 0         -- ATCP: AvalonZaubern
+  character.kampf = 0           -- ATCP: AvalonKampf
+  character.angegriffen = ""    -- ATCP: AvalonAngegriffen
+  character.getoetet = ""       -- ATCP: AvalonGetoetet
+  character.gruppeGetoetet = "" -- ATCP: AvalonGruppeGetoetet
+  character.allyGetoetet = ""   -- ATCP: AvalonAllyGetoetet
   --
   character.stats = {}
-  character.stats.tp = 0      -- ATCP: AvalonTP
-  character.stats.tp_max = 0  -- ATCP: AvalonMAXTP
-  character.stats.ap = 0      -- ATCP: AvalonAP
-  character.stats.ap_max = 0  -- ATCP: AvalonMAXAP
-  character.stats.zp = 0      -- ATCP: AvalonSP
-  character.stats.zp_max = 0  -- ATCP: AvalonMAXSP
-  character.stats.mp = 0      -- ATCP: AvalonMP
-  character.stats.mp_max = 0  -- ATCP: AvalonMAXMP
+  character.stats.tp = 0        -- ATCP: AvalonTP
+  character.stats.tp_max = 0    -- ATCP: AvalonMAXTP
+  character.stats.ap = 0        -- ATCP: AvalonAP
+  character.stats.ap_max = 0    -- ATCP: AvalonMAXAP
+  character.stats.zp = 0        -- ATCP: AvalonSP
+  character.stats.zp_max = 0    -- ATCP: AvalonMAXSP
+  character.stats.mp = 0        -- ATCP: AvalonMP
+  character.stats.mp_max = 0    -- ATCP: AvalonMAXMP
   --
-  character.inventarRein = ""	-- ATCP: AvalonInventarRein
-  character.inventarRaus = ""	-- ATCP: AvalonInventarRaus
-  character.behaelterRein = ""	-- ATCP: AvalonBehaelterRein
-  character.behaelterRaus = ""	-- ATCP: AvalonBehaelterRaus
-  character.gefuehrt = ""     -- ATCP: AvalonGefuehrt
-  character.gesenkt = ""      -- ATCP: AvalonGesenkt
-  character.angezogen = ""    -- ATCP: AvalonAngezogen
-  character.ausgezogen = ""   -- ATCP: AvalonAusgezogen
+  character.inventarRein = ""	  -- ATCP: AvalonInventarRein
+  character.inventarRaus = ""	  -- ATCP: AvalonInventarRaus
+  character.behaelterRein = ""	  -- ATCP: AvalonBehaelterRein
+  character.behaelterRaus = ""  -- ATCP: AvalonBehaelterRaus
+  character.gefuehrt = ""       -- ATCP: AvalonGefuehrt
+  character.gesenkt = ""        -- ATCP: AvalonGesenkt
+  character.angezogen = ""      -- ATCP: AvalonAngezogen
+  character.ausgezogen = ""     -- ATCP: AvalonAusgezogen
   --
   character.lastMove = ""
   
   character.ep_speicher = ""
+  
+  character.sessionEP = 0
   
   return character
 end
@@ -2202,9 +2229,13 @@ function updateInfoBox()
 		end
 		if string.len(player.alter) ~= 0 then
 			str = player.alter
+    tage="0 Tage"
 			tage = string.gsub(str, "^(%d+%sTage?)%s.*", "%1", 1)
+      stunden="0 Stunden"
 			stunden = string.gsub(str, ".*%s(%d+%sStunden?)%s.*", "%1", 1)
+      minuten="0 Minuten"
 			minuten = string.gsub(str, ".*%s(%d+%sMinuten?)%s.*", "%1", 1)
+      sekunden="0 Sekunden"
 			sekunden = string.gsub(str, ".*%s(%d+%sSekunden?)%s.*", "%1", 1)
 
 			str = tage .. " " .. stunden .. " und " .. minuten
@@ -2236,6 +2267,12 @@ function updateInfoBox()
 		if string.len(player.durst) ~= 0 then
 			GUIModel.infobox = GUIModel.infobox .. "Durst: " .. player.durst .. ".\n"
 		end
+    if player.schutz ~= nil then
+      GUIModel.infobox = GUIModel.infobox .. "\nSchutz: " .. player.schutz .. "\n"
+    end
+    if player.sessionEP ~= nil then
+      GUIModel.infobox = GUIModel.infobox .. "\nSession-EP: " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n"
+    end
 	else
 		debugc("\nKeine Player-Daten vorhanden!\n")
 		GUIModel.infobox = "\nWarte auf Daten...\n"
@@ -3477,6 +3514,7 @@ function onATCPEventAvalonEP(event, arg)
 	debugc("&lt;magenta&gt;AvalonEP per ATCP empfangen!\n")
 	if player.ep ~= arg then
 		player.ep = arg
+    --player.sessionEP = tonumber(arg) - tonumber(player.sessionEP)
 		raiseEvent("RefreshInfobox", arg)
 	end
 end
@@ -3853,28 +3891,28 @@ function onATCPEventAvalonChannel(event, arg)
 	if channel == "Chaoszentaur" then channel = "Volk" end
 	if channel == "Amphib" then channel = "Volk" end
 	
-	Logger:Log(channel, message, {"timestamp"})
+	Logger:Log(channel, message, {"timestamp", split = 1000})
 	raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonChannel", "onATCPEventAvalonChannel")
 
 
 
--- event == "AvalonComm"
+-- event == "AvalonComm" (Sagen)
 function onATCPEventAvalonComm(event, arg)
 	debugc("AvalonComm = " .. arg .. "\n")
 	--Logger:Log(file, line_to_save, options_table)
 	channel = "Sagen"
 	message = arg:gsub("^.-%s", "", 1)
 	message = clearMessage(message)
-	Logger:Log(channel, message, {"timestamp"})
+	Logger:Log(channel, message, {"timestamp", split = 1000})
 	raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonComm", "onATCPEventAvalonComm")
 
 
 
--- event == "AvalonRComm"
+-- event == "AvalonRComm" (Reden)
 function onATCPEventAvalonRComm(event, arg)
 	debugc("AvalonRComm = " .. arg .. "\n")
 	--if player.stats.mp_max ~= tonumber(arg) then
@@ -3884,7 +3922,7 @@ function onATCPEventAvalonRComm(event, arg)
 	channel = "Reden"
 	message = arg:gsub("^.-%s", "", 1)
 	message = clearMessage(message)
-	Logger:Log(channel, message, {"timestamp"})
+	Logger:Log(channel, message, {"timestamp", split = 1000})
 	raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonRComm", "onATCPEventAvalonRComm")
@@ -3901,7 +3939,7 @@ function onATCPEventAvalonSoul(event, arg)
 	channel = "Sagen"
 	message = arg:gsub("^.-%s", "", 1)
 	message = clearMessage(message)
-	Logger:Log(channel, message, {"timestamp"})
+	Logger:Log(channel, message, {"timestamp", split = 1000})
 	raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonSoul", "onATCPEventAvalonSoul")
@@ -3918,7 +3956,7 @@ function onATCPEventAvalonRSoul(event, arg)
 	channel = "Reden"
 	message = arg:gsub("^.-%s", "", 1)
 	message = clearMessage(message)
-	Logger:Log(channel, message, {"timestamp"})
+	Logger:Log(channel, message, {"timestamp", split = 1000})
 	raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonRSoul", "onATCPEventAvalonRSoul")
