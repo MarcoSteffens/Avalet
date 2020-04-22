@@ -1,6 +1,6 @@
 # Avalet
 
-> **Mit dem Update auf Version 0.9-beta hat sich äußerlich hoffentlich wenig verändert - unter der Oberfläche aber viel. Ich hab natürlich getestet und hoffe, dass ich keine weiteren Fehler eingebaut habe. Falls es aber doch Probleme gibt, schreib mir bitte. (Beispielsweise an Rofhessa in Avalon.) Und für alle Fälle gibt es [hier](https://github.com/MarcoSteffens/Avalet/releases/download/v0.8-beta/Avalet.mpackage) die letzte Version (0.8-beta) weiterhin zum Download.**
+> **Avalet wird grade sehr aktiv von mir entwickelt und ändert sich deshalb ständig. Das es noch kein automatisches Update gibt, lohnt es sich, hier häufiger nach einer neuen Version zu schauen. Wenn du einen Fehler findest oder einen Feature-Wunsch hast - schreib mir. Ich bin Rofhessa in Avalon.**
 
 Avalet ist ein Mudlet-Module für das [MUD Avalon](https://avalon.mud.de/). Für ein bisschen (mehr) Farbe und ein bisschen Klicki-Bunti.
 
@@ -14,6 +14,7 @@ Avalet bietet in erster Linie:
 - Viel mehr *bling-bling* als Plain-Avalon!
 - Noch vieles mehr! *(coming soon)*
 - Und noch mehr! *(coming soon)*
+- Enthält Script von Twrx!!!!!
 
 Avalet muss unbedingt als Modul installiert werden, nicht als Paket! Eine ausführlichere Installationsanleitung findest du weiter unten auf dieser Seite.
 
@@ -44,6 +45,10 @@ Avalet ist kein Ersatz für das Soundpack oder für die Arbeit von Ban. Wenn du 
 
 Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das Avalon-Volk zu bringen oder um meine Script-Sammlung zu teilen. Irgendwelche Geheimnisse werden hier nicht aufgedeckt. (Aber es gibt ja die Möglichkeit, Sub-Module hinzuzufügen. Wenn du also *deine* Script-Sammlung gern mit *mir* teilen möchtest - *email me*! :) )
 
+## Bekannte größere Einschränkungen von Avalet derzeit:
+
+- Die Oberfläche skaliert nicht richtig, wenn man die Fenstergröße ändert. Umfangreicheres Problem - bis auf weiteres ist Avalet leider eine Vollbild-Anwendung.
+
 ```
             __________________________________________________________
            /                                                        / \
@@ -55,11 +60,6 @@ Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das A
             \_______________________________________________________\_/
 
 ```
-
-## Bekannte größere Einschränkungen von Avalet derzeit:
-
-- Die Oberfläche skaliert nicht richtig, wenn man die Fenstergröße ändert. Umfangreicheres Problem - bis auf weiteres ist Avalet leider eine Vollbild-Anwendung.
-
 
 ## Installation
 
@@ -91,13 +91,13 @@ Für eine **Aktualisierung** einfach die neuere Version downloaden und die alte 
 
 Ich freue mich über jede Form von Rückmeldung per "rede" oder Mudmail (Rofhessa), Mail (rofhessa@gmx-topmail.de), Brieftaube oder wie auch immer. Wenn du Lob loswerden willst, (konstruktive) Kritik, Hinweise, Ideen, Bugmeldungen, Featurewünsche oder wenn du einfach nur mal "Hallo" sagen willst, bin ich dein Mensch. Du kannst auch hier auf der Seite einen "*Issue*" eintragen, wenn du magst.
 
-Wenn du Lust hast, dich direkt an diesem Projekt zu beteiligen, freue ich mich natürlich auch. Wenn du dir schon selber in Mudlet etwas gebaut hast, was dir in Avalet fehlt, dann könntest du es einfach in eine Kopie des ```MyAvalon```-Moduls einbauen und mir schicken. Wenn du kannst, kannst du auch die Funktionen von Github benutzen und einen *pull request* schicken. Später kannst du vielleicht auch *Collaborator* werden, aber im Moment gibt es dafür noch nicht die nötige Struktur.
+Wenn du Lust hast, dich direkt an diesem Projekt zu beteiligen, freue ich mich natürlich auch. Am besten meldest du dich dann und wir besprechen, wie das gehen kann.
 
 **Besonders freuen würde ich mich über Unterstützung beim Design.** Das ist etwas, was ich praktisch überhaupt nicht kann. Wenn du dich da einbringen willst, sprich mich bitte an und lass uns einen Weg finden.
 
 **Beachte bitte, dass Avalet unter einer sehr freien Lizenz steht. Das würde Deinen Beitrag dann einschließen.**
 
-Avalon ist im Moment als "Avalon-GUI für jedermensch" gedacht. Die Funktionalität soll entsprechend sein. Also: sinnvolle Unterstützung auch (und grade) für Anfänger. Aber kein *scripting* für Fortgeschrittene bitte. Wofür du das Plugin-System nutzt, musst du selber wissen.
+Avalon ist im Moment als "Avalon-GUI für jedermensch" gedacht. Die Funktionalität soll entsprechend sein. Also: sinnvolle Unterstützung auch (und grade) für Anfänger. Aber kein *scripting* für Fortgeschrittene bitte. Was du in eigenen Erweiterungen von Avalet machst, musst du selber wissen.
 
 ```
             __________________________________________________________
