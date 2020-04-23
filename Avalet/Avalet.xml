@@ -72,13 +72,13 @@
 		</AliasGroup>
 		<Alias isActive="yes" isFolder="no">
 			<name>ausloggen</name>
-			<script>echo("Von Avalet gemessene SessionEP: " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n")
+			<script>--echo("\nVon Avalet gemessene Session-EP: " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n\n")
 player.sessionEP = tonumber(player.ep)
 send(matches[1])
 </script>
 			<command></command>
 			<packageName></packageName>
-			<regex>^(ende|ende hier|einschlafen)$</regex>
+			<regex>^(ende|ende hier|einschlafen|schlaf ein|schlafe ein)$</regex>
 		</Alias>
 	</AliasPackage>
 	<ActionPackage />
@@ -98,7 +98,7 @@ send(matches[1])
 
 character = character or {}
 player = player or {}
-
+--GUIModel = GUIModel or {}
 
 --player = initCharacter()
 
@@ -187,7 +187,7 @@ end
 CSSMan = CSSMan or {}
 avalonUI = avalonUI or {}
 
-avalonUI.atcp = avalonUI.atcp or {}
+--avalonUI.atcp = avalonUI.atcp or {}
 
 --avalonUI.buildUI()
 
@@ -1796,7 +1796,7 @@ end</script>
 		<Script isActive="yes" isFolder="no">
 			<name>CONFIG</name>
 			<packageName></packageName>
-			<script>avalonUI = {}
+			<script>avalonUI = avalonUI or {}
 -- Font size for the People Here window
 avalonUI.infoBoxFontSize = 9
 
@@ -2052,7 +2052,7 @@ function initTimer()
   table.insert(timerStrings, {["name"]="Arkanschild", ["start"]="Du wirst von einem Arkanschild umgeben\\.",["stop"]="Dein Arkanschild loest sich auf\\.", ["duration"]="600"})
   table.insert(timerStrings, {["name"]="Manarausch", ["start"]="Dichte Manawolken bilden nun einen gewaltigen Schutz um Dich herum\\.",["stop"]="Dein Manarausch laesst wieder nach\\."})
   table.insert(timerStrings, {["name"]="Magiertrance", ["start"]="^Die Welt um Dich herum verliert an Bedeutung. Nur noch Deine Zauber sind$",["stop"]="Du erwachst aus Deiner Trance\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Windhaut", ["start"]="Du bist nun vollkommen in eine Windhaut eingehuellt\\.",["stop"]="Du befreist Dich von Deiner Windhaut\\.|Deine Windhaut loest sich auf\\."})
+  table.insert(timerStrings, {["name"]="Windhaut", ["start"]="Du bist nun vollkommen in eine Windhaut eingehuellt\\.",["stop"]="Du befreist Dich von Deiner Windhaut\\.|Deine Windhaut loest sich auf\\.", ["duration"]="600"})
   table.insert(timerStrings, {["name"]="Daemonenhaut", ["start"]="Du bist nun vollkommen in eine Daemonenhaut eingehuellt\\.",["stop"]="Deine Daemonenhaut loest sich auf\\.", ["duration"]="600"})
   table.insert(timerStrings, {["name"]="Lebensaura", ["start"]="Du oeffnest die Augen, aber der Schutz der Bluetenblaetter umgibt Dich",["stop"]="Deine Lebensaura loest sich auf\\.", ["duration"]="600"})
   table.insert(timerStrings, {["name"]="Schwarzschild", ["start"]="Du wirst von einem magischen Schild umgeben, der Dich besser parieren",["stop"]="Dein Schwarzschild loest sich auf\\.", ["duration"]="600"})
@@ -2711,6 +2711,23 @@ registerAnonymousEventHandler("RefreshManaBar", "onRefreshManaBar")
 </script>
 				<eventHandlerList />
 			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>settings</name>
+				<packageName></packageName>
+				<script>--Benutzerdefinierte Einstellungen
+
+avalonUI.settings = avalonUI.settings or {}
+
+-- Einstellungen der Höhe/Breite der Fensterbereiche
+avalonUI.settings.configGUIframe_leftStartWidth = nil
+avalonUI.settings.configGUIframe_leftStartHeight = nil
+avalonUI.settings.configGUIframe_rightStartWidth = nil
+avalonUI.settings.configGUIframe_rightStartHeight = nil
+
+
+</script>
+				<eventHandlerList />
+			</Script>
 		</ScriptGroup>
 		<Script isActive="yes" isFolder="no">
 			<name>GUIFrame defaults</name>
@@ -2773,44 +2790,36 @@ GUIframe.configs = {
 				<name>Build UI</name>
 				<packageName></packageName>
 				<script>function avalonUI.buildUI()
-
   --avalonUI.buildBoxes()
   avalonUI.buildInfoScreen()
   avalonUI.buildChat()
   avalonUI.buildTopBar()
   avalonUI.buildMapper()
   avalonUI.buildTimer()
-
-  --avalonUI.buildMapper()
-  --avalonUI.buildChat()
-  --avalonUI.buildPeopleHere()
-  --avalonUI.buildTopBar()
-  --avalonUI.buildBottomBar()
-  --avalonUI.buildBashingInfo()
-  --tempTimer(0, function()
-	-- 	avalonUI.chat.initChannels()
-	-- 	avalonUI.updateCritCounter()
-	--	end)
-
-	GUIframe.disable("top")
-	GUIframe.disable("bottom")
-	GUIframe.disable("right")
-	GUIframe.disable("left")
---	raiseEvent("AvalonUI built")   -- Keinen Schimmer was dieser Event machen soll --&gt; kann der weg?
+  
+  GUIframe.disable("top")
+  GUIframe.disable("bottom")
+  GUIframe.disable("right")
+  GUIframe.disable("left")
+  --	raiseEvent("AvalonUI built")   -- Keinen Schimmer was dieser Event machen soll --&gt; kann der weg?
 end
 
 function unlockUI()
-	GUIframe.enable("top")
-	GUIframe.enable("bottom")
-	GUIframe.enable("right")
-	GUIframe.enable("left")
+  GUIframe.enable("top")
+  GUIframe.enable("bottom")
+  GUIframe.enable("right")
+  GUIframe.enable("left")
+  avalonUI.buildChat()
+  raiseEvent("RecreateTimerView")
 end
 
 function lockUI()
-	GUIframe.disable("top")
-	GUIframe.disable("bottom")
-	GUIframe.disable("right")
-	GUIframe.disable("left")
+  GUIframe.disable("top")
+  GUIframe.disable("bottom")
+  GUIframe.disable("right")
+  GUIframe.disable("left")
+  avalonUI.buildChat()
+  raiseEvent("RecreateTimerView")
 end
 
 
@@ -2819,22 +2828,22 @@ end
 -- Neustart von Mudlet. Hier wird Avalet initialisiert. Eine weitere Funktion,
 -- die beim "sysInstall"-Event aufgerufen wird, steht weiter unten.
 function avalonUI.UIInstalled(_, name)
-	if name ~= "Avalet" then
-		return
-	else
+  if name ~= "Avalet" then
+    return
+  else
     player = initCharacter()
-initTimer()
-
-GUIModel = GUIModel or {}
-createInfoScreenModel()
-createChatModel()
-createTopMenuModel()
-createTimerModel()
-createGaugeModel()  
-  
-		avalonUI.buildUI()
---		tempTimer(0, [[avalonUI.updateChar()]])
-	end
+    initTimer()
+    
+    GUIModel = GUIModel or {}
+    createInfoScreenModel()
+    createChatModel()
+    createTopMenuModel()
+    createTimerModel()
+    createGaugeModel()  
+    
+    avalonUI.buildUI()
+    --tempTimer(0, [[avalonUI.updateChar()]])
+  end
 end
 registerAnonymousEventHandler("sysInstall", "avalonUI.UIInstalled")
 
@@ -2857,7 +2866,7 @@ registerAnonymousEventHandler("sysInstall", "avalonUI.UIInstalled")
 -- anzeigen zu können. Ansonsten sind sie Container für weitere Elemente, die die dort
 -- sichtbaren Informationen anzeigen.
 ----------------------------------------
-
+-- wird nicht verwendet!
 function avalonUI.buildBoxes()
   -- Box1 ist das Element rechts oben, in dem die Charakterinformationen ausgegeben werden.
   avalonUI.Box1 = Geyser.Label:new({
@@ -3616,6 +3625,11 @@ function onATCPEventAvalonSchutz(event, arg)
 	arg = string.trim(arg)
 	if player.schutz ~= arg then
 		player.schutz = arg
+    -- Wenn ein Schutzzauber hinzu kommt, gibt es eine ATCP-Message. Wenn ein
+    -- Schutz wegfällt, gibt es aber keine. Um die Anzeige (und was sonst noch 
+    -- so davon abhängt...) zu aktualisieren, werden hier deshalb bei jeder
+    -- Veränderung ... Das ist doch quatsch. 
+    --sendATCP("ava_req_update")
 		-- raiseEvent("RefreshInfobox", arg)
 	end
 --	channel = "ATCP"
