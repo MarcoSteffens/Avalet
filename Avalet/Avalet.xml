@@ -1886,6 +1886,34 @@ avalonUI.CSS.tabElementCenterTabCSS = CSSMan.new([[
 --background-color: rgb(20,0,20);
 avalonUI.CSS.MenuTabCSS = CSSMan.new([[
 	background-color: rgb(20,0,20);
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 10px;
+	border-color: white;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	margin-right: 1px;
+	margin-left: 1px;
+]])
+
+avalonUI.CSS.MenuTabCurrentCSS = CSSMan.new([[
+	background-color: purple;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 10px;
+	border-color: white;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	margin-right: 1px;
+	margin-left: 1px;
+]])
+
+avalonUI.CSS.MenuTabMarkedCSS = CSSMan.new([[
+	background-color: rgb(50,0,50);
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 10px;
+	border-color: white;
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
 	margin-right: 1px;
@@ -2338,7 +2366,8 @@ function onRefreshTabElement(event, channel)
 		debugc("Der TAB " .. channel .. " wird aktualisiert.")
 		
 		content = Logger:ReadLog(channel)
-	
+	else
+    avalonUI.markTab(channel)
 	end
 	debugc("&lt;magenta&gt;clearWindow: ".. channel .. "\n")
 	clearWindow(channel)
@@ -2805,8 +2834,8 @@ GUIframe.configs = {
 end
 
 function unlockUI()
-  GUIframe.enable("top")
-  GUIframe.enable("bottom")
+  --GUIframe.enable("top")
+  --GUIframe.enable("bottom")
   GUIframe.enable("right")
   GUIframe.enable("left")
   avalonUI.buildChat()
@@ -2996,10 +3025,14 @@ function avalonUI.buildChat()
 			avalonUI.tabElement.tabs[v.."tab"]:setStyleSheet(avalonUI.CSS.MenuTabCSS:getCSS())
 			avalonUI.tabElement.tabs[v.."tab"]:echo("&lt;center&gt;"..v)
 
-			-- We need our tabs to do stuff when clicked, so we'll assign it a callback function, avalonUI.tabElement.tabs.click, which we'll create later on. Our tab name is the argument. 
+			-- We need our tabs to do stuff when clicked, so we'll assign it 
+     -- a callback function, avalonUI.tabElement.tabs.click, which we'll create later on.
+     -- Our tab name is the argument. 
 			avalonUI.tabElement.tabs[v.."tab"]:setClickCallback("avalonUI.tabElementOnClick", v)
 
-			-- Now we create the windows that appear when each tab is clicked. Each window has two labels, one atop the other. The first, which we'll create here, has rounded edges on its bottom. 
+			-- Now we create the windows that appear when each tab is clicked.
+     -- Each window has two labels, one atop the other. The first, which we'll create here,
+     -- has rounded edges on its bottom. 
 			avalonUI.tabElement.tabs[v] = Geyser.Label:new({
 				name = "avalonUI.tabElement.tabs."..v,
 				x = 0, y = 0,
@@ -3007,7 +3040,9 @@ function avalonUI.buildChat()
 				height = "100%",
 			  }, avalonUI.tabElement.Footer)
 			avalonUI.tabElement.tabs[v]:setStyleSheet(avalonUI.CSS.tabElementAtopCSS:getCSS())
-			-- The second label serves as the window's center and has rounded edges on all sides. And a margin of 5px from it's parent, the label we just created. When adding stuff to your windows, this is the label you'll want to use. avalonUI.tabElement.tabs.&lt;tabname&gt;center
+			-- The second label serves as the window's center and has rounded edges on all sides. 
+     -- And a margin of 5px from it's parent, the label we just created. When adding stuff
+     -- to your windows, this is the label you'll want to use. avalonUI.tabElement.tabs.&lt;tabname&gt;center
 			avalonUI.tabElement.tabs[v.."center"] = Geyser.Label:new({
 				name = "avalonUI.tabElement.tabs."..v.."center",
 				x = 0, y = 0,
@@ -3060,15 +3095,20 @@ function avalonUI.tabElementOnClick(tab)
 	-- Das hier funktioniert nur, wenn die Tab-Beschriftung dem Channel
 	-- entspricht, also dem Namen der Datei, in die die Inhalte des
 	-- Tabs vorher geschrieben wurden. Minus dem .txt
+--avalonUI.tabElement.tabs[tab.."tab"]:setFontSize(avalonUI.chatTabFontSize)  
+  avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."tab"]:setStyleSheet(avalonUI.CSS.MenuTabCSS:getCSS())
 	avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab]:hide()
 	GUIModel.tabElement.currentTab = tab
 	--refreshTabElement(tab)
---	echo("TAB: " .. tab .. "\n")
-	raiseEvent("RefreshTabElement", tab)
-	avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab]:show()
+  --echo("TAB: " .. tab .. "\n")
+  raiseEvent("RefreshTabElement", tab)
+  avalonUI.tabElement.tabs[tab.."tab"]:setStyleSheet(avalonUI.CSS.MenuTabCurrentCSS:getCSS())
+  avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab]:show()
 end
 
-
+function avalonUI.markTab(tab)
+  avalonUI.tabElement.tabs[tab.."tab"]:setStyleSheet(avalonUI.CSS.MenuTabMarkedCSS:getCSS())
+end
 
 
 </script>
