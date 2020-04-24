@@ -46,7 +46,7 @@
 			<command></command>
 			<packageName></packageName>
 			<time>00:00:00.000</time>
-			<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+			<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
 				<name>avaletTimersTimer</name>
 				<script>refreshTimer()</script>
 				<command></command>
@@ -3107,7 +3107,17 @@ function avalonUI.tabElementOnClick(tab)
 end
 
 function avalonUI.markTab(tab)
-  avalonUI.tabElement.tabs[tab.."tab"]:setStyleSheet(avalonUI.CSS.MenuTabMarkedCSS:getCSS())
+  --Manche Kanäle haben keinen Tab, der wäre dann hier "nil" (gebrüll z.b.)
+  if avalonUI.tabElement.tabs[tab.."tab"] == nil then
+    debugc("\n\nTab zum Markieren ist nil: "..tab.."\n\n")
+  elseif avalonUI.CSS.MenuTabMarkedCSS == nil then
+    debugc("\n\nCSS zum Markieren ist nil: "..tab.."\n\n")
+  else
+    avalonUI.tabElement.tabs[tab.."tab"]:setStyleSheet(avalonUI.CSS.MenuTabMarkedCSS:getCSS())
+  end
+  
+  --avalonUI.tabElement.tabs[tab.."tab"]:setStyleSheet(avalonUI.CSS.MenuTabMarkedCSS:getCSS())
+
 end
 
 
