@@ -46,7 +46,7 @@
 			<command></command>
 			<packageName></packageName>
 			<time>00:00:00.000</time>
-			<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+			<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
 				<name>avaletTimersTimer</name>
 				<script>refreshTimer()</script>
 				<command></command>
@@ -2299,7 +2299,9 @@ function updateInfoBox()
       GUIModel.infobox = GUIModel.infobox .. "\nSchutz: " .. player.schutz .. "\n"
     end
     if player.sessionEP ~= nil then
-      GUIModel.infobox = GUIModel.infobox .. "\nSession-EP: " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n"
+      if player.ep ~= nil then
+        GUIModel.infobox = GUIModel.infobox .. "\nSession-EP: " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n"
+      end
     end
 	else
 		debugc("\nKeine Player-Daten vorhanden!\n")
@@ -3082,8 +3084,8 @@ function avalonUI.buildChat()
 	end  -- for
 
   raiseEvent("RefreshTabElement", GUIModel.tabElement.currentTab)
-  avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab]:show()
-
+  --avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab]:show()
+  avalonUI.tabElementOnClick(GUIModel.tabElement.currentTab)
 
 end
 
