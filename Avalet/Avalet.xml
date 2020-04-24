@@ -1999,7 +1999,7 @@ function initCharacter()
   character.alter = ""          -- ATCP: AvalonAlter
   character.gilde = ""          -- ATCP: AvalonGilde
   character.zuenfte = ""        -- ATCP: AvalonZuenfte
-  character.ep = ""             -- ATCP: AvalonEP
+  character.ep = 0             -- ATCP: AvalonEP
   character.level = ""          -- ATCP: AvalonLevel
   character.gesinnung = ""      -- ATCP: AvalonGesinnung
   character.portfolio = ""      -- ATCP: AvalonPortfolio
