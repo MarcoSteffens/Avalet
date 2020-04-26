@@ -1,14 +1,14 @@
 # Avalet
 
-> **Avalet wird grade sehr aktiv von mir entwickelt und ändert sich deshalb ständig. Das es noch kein automatisches Update gibt, lohnt es sich, hier häufiger nach einer neuen Version zu schauen. Wenn du einen Fehler findest oder einen Feature-Wunsch hast - schreib mir. Ich bin Rofhessa in Avalon.**
+> **Avalet wird grade sehr aktiv von mir entwickelt und ändert sich deshalb ständig. Das es noch kein automatisches Update (oder sowas) gibt, lohnt es sich, hier häufiger nach einer neuen Version zu schauen. Wenn du einen Fehler findest oder einen Feature-Wunsch hast - schreib mir. Ich bin Rofhessa in Avalon.**
 
-Avalet ist ein Mudlet-Module für das [MUD Avalon](https://avalon.mud.de/). Für ein bisschen (mehr) Farbe und ein bisschen Klicki-Bunti.
+Avalet ist ein Mudlet-Module für das [MUD Avalon](https://avalon.mud.de/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
 
 ![aktueller Screenshot](latest_screenshot.png) 
 
 Avalet bietet in erster Linie:
 - Laufen mit dem [Ziffernblock](https://github.com/MarcoSteffens/Avalet/wiki/Tastaturbelegung-f%C3%BCr-den-Ziffernblock)!
-- Einen nicht zu übersehenden Überblick über TP, ZP, AP und Mana!
+- Einen nicht zu übersehende Anzeige von TP, AP, ZP und Mana!
 - Eine Ausleitung der wesentlichen Kommunikationskanäle!
 - Eine Anzeige von Schildzaubern, Auren und anderen Timern! Mit *fancy* *Rückschritts*balken! ;)
 - Eine dauerhafte Anzeige einiger wichtiger (und einiger nicht so wichtiger) Charakter-Informationen!
@@ -18,7 +18,7 @@ Avalet bietet in erster Linie:
 - Und noch mehr! *(coming soon)*
 - Enthält Script von Twrx!!!!!
 
-Avalet muss unbedingt als Modul installiert werden, nicht als Paket! Eine ausführlichere Installationsanleitung findest du weiter unten auf dieser Seite.
+**Avalet muss unbedingt als Modul installiert werden, nicht als Paket! Und der Charakter muss dazu ausgeloggt sein, nicht nur Statue/disconnected. Auch bei einem Update.** Eine ausführlichere Installationsanleitung findest du weiter unten auf dieser Seite.
 
 Außerdem gibt es hier ein **MyAvalon**-Modul. Dieses Modul kannst Du benutzen, um eigene Trigger, Timer etc. in Mudlet zu bauen, und sie in verschiedenen Profilen, also mit verschiedenen Charakteren zu benutzen. Das Modul ist praktisch leer, aber wenn Du Dich nicht selber damit beschäftigen möchtest, dann nimmt es Dir die Arbeit ab, selber ein Modul zu erstellen. Wie Du das **MyAvalon**-Modul verwenden kannst, habe ich [hier im Wiki](https://github.com/MarcoSteffens/Avalet/wiki/Das-MyAvalon-Modul) etwas ausführlicher beschrieben.
 
@@ -30,7 +30,7 @@ Außerdem gibt es hier ein **MyAvalon**-Modul. Dieses Modul kannst Du benutzen, 
             |                                                       |
             |  "Wenn so heisser Scheiss jetzt schon verschenkt      |
             |   wird, kann ich den Laden ja bald zumachen!"         |_
-            |                           Zwoniman ueber Avalet       | |
+            |                               Zwoniman ueber Avalet   | |
             \_______________________________________________________\_/
 
 ```
@@ -43,7 +43,7 @@ Außerdem bietet Avalet die Möglichkeit, eigene Erweiterungen mit einzubinden. 
 
 ## Was Avalet NICHT ist
 
-Avalet ist kein Ersatz für das Soundpack oder für die Arbeit von Ban. Wenn du eine Sprachausgabe benutzt, dann ist dir mit diesen beiden Werkzeugen (und mit MUSHclient) derzeit sicher besser geholfen.
+Avalet ist kein Ersatz für [das Soundpack](http://www.avalon-soundpack.de/de/latest/) oder für die Arbeit von Ban. Wenn du eine Sprachausgabe benutzt, dann ist dir mit diesen beiden Werkzeugen (und mit MUSHclient) derzeit sicher besser geholfen.
 
 Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das Avalon-Volk zu bringen oder um meine Script-Sammlung zu teilen. Irgendwelche Geheimnisse werden hier nicht aufgedeckt. (Aber es gibt ja die Möglichkeit, Sub-Module hinzuzufügen. Wenn du also *deine* Script-Sammlung gern mit *mir* teilen möchtest - *email me*! :) )
 
@@ -58,22 +58,24 @@ Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das A
            \________________________________________________________\_/
             |                                                       |
             |  "Mit Avalet haette ich es in 30 Tagen geschafft!"    |_
-            |                         Phileas Fogg ueber Avalet     | |
+            |                           Phileas Fogg ueber Avalet   | |
             \_______________________________________________________\_/
 
 ```
 
 ## Installation
 
+**Je nachdem, was sich grad an Avalet geändert hat, musst du eventuell richtig ausgeloggt sein, wenn du Avalet updatest. Nicht einfach nur disconnected/Statue! Manche Funktionen initialisieren sich sonst nicht richtig. Aber auch wenn du es das erste Mal installierst, kann das sinnvoll sein.**
+
 Das eigentliche Modul besteht aus der Datei Avalet.mpackage. Die speicherst du bei dir irgendwo ab.
 
 Dann legst du dir am besten ein sauberes (also neues) Profil in Mudlet an. Und *entfernst* als erstes in den `Preferences` auf dem Reiter `General` und in der Rubrik `Game protocols` den Haken bei `Enable GMCP`. Ava*lon* sendet per ATCP stattdessen, und mit eingeschaltetem GMCP funktioniert Ava*let* nicht.
 
-Anschließend importierst du dann mit dem **Modul-Manager** das vorhin gespeicherte Modul (`Avalet.mpackage`) in dein Profil. 
+Anschließend importierst du dann mit dem **Modul-Manager** das vorhin gespeicherte Modul (`Avalet.mpackage`) in dein Profil. Avalet funktioniert nur als Modul, nicht als Paket!
 
 Danach sollte alles funktionieren.
 
-Für eine **Aktualisierung** einfach die neuere Version downloaden und die alte damit überschreiben. Anschließend Mudlet neu starten.
+Für eine **Aktualisierung** einfach die neuere Version downloaden und die alte damit überschreiben. **Anschließend Mudlet neu starten.** (Nicht einfach nur *reconnect*en.)
 
 (Die Datei Avalet.zip ist - abgesehen vom Namen - identisch mit der .mpackage-Datei, die kannst du also auch nehmen. Aber .mpackage ist der Standard.)
 
@@ -85,7 +87,7 @@ Für eine **Aktualisierung** einfach die neuere Version downloaden und die alte 
             |                                                       |
             |     "Suuuuperschnelle Lieferung! Dafuer gibt es       |
             |      ein extra <3 von mir!"                           |_
-            |                         Lorielle ueber Avalet         | |
+            |                               Lorielle ueber Avalet   | |
             \_______________________________________________________\_/
 
 ```
@@ -97,9 +99,9 @@ Wenn du Lust hast, dich direkt an diesem Projekt zu beteiligen, freue ich mich n
 
 **Besonders freuen würde ich mich über Unterstützung beim Design.** Das ist etwas, was ich praktisch überhaupt nicht kann. Wenn du dich da einbringen willst, sprich mich bitte an und lass uns einen Weg finden.
 
-**Beachte bitte, dass Avalet unter einer sehr freien Lizenz steht. Das würde Deinen Beitrag dann einschließen.**
+**Beachte bitte, dass Avalet unter einer sehr freien Lizenz steht. Das würde Deinen Beitrag dann einschließen. Wenn du dich hier mit Code beteiligst, dann gehe ich davon aus, dass du den ohne jeden Vorbehalt dem Projekt überlässt.**
 
-Avalon ist im Moment als "Avalon-GUI für jedermensch" gedacht. Die Funktionalität soll entsprechend sein. Also: sinnvolle Unterstützung auch (und grade) für Anfänger. Aber kein *scripting* für Fortgeschrittene bitte. Was du in eigenen Erweiterungen von Avalet machst, musst du selber wissen.
+Avalet ist im Moment als "Avalon-GUI für jedermensch" gedacht. Die Funktionalität soll entsprechend sein. Also: sinnvolle Unterstützung auch (und grade) für Anfänger. Aber keine Automation für Fortgeschrittene bitte. Was du in eigenen Erweiterungen von Avalet machst, musst du selber wissen.
 
 ```
             __________________________________________________________
@@ -108,13 +110,13 @@ Avalon ist im Moment als "Avalon-GUI für jedermensch" gedacht. Die Funktionalit
            \________________________________________________________\_/
             |                                                       |
             |   "Wie konnte ich nur jemals ohne Timer spielen!?"    |_
-            |                                Rofhessa ueber Avalet  | |
+            |                               Rofhessa ueber Avalet   | |
             \_______________________________________________________\_/
 
 ```
 ## Shownotes
 
-Es gäbe Avalet nicht ohne Twrx! Und wenn ich hier immer nur "ich" schreibe, dann liegt das daran, dass er so schlau ist, mich die ganze Tipperei erledigen zu lassen. Aber er hat alle meine doofen Fragen beantwortet, Code-Beispiele geliefert und mich überhaupt erst dazu gebracht, dass ich mich mit Mudlet beschäftigt habe. Also: wenn ihr Avalet doof findet - beschwert euch bei Twrx. ;)
+Es gäbe Avalet nicht ohne Twrx! Und wenn ich hier immer nur "ich" schreibe, dann liegt das daran, dass er so schlau ist, mich die ganze Tipperei erledigen zu lassen. Aber er hat alle meine doofen Fragen beantwortet, Code-Beispiele geliefert und mich überhaupt erst dazu gebracht, dass ich mich mit Mudlet beschäftigt habe. Also: wenn du Avalet doof findest - beschwer dich bei Twrx. ;)
 
 ```
             __________________________________________________________
@@ -123,7 +125,7 @@ Es gäbe Avalet nicht ohne Twrx! Und wenn ich hier immer nur "ich" schreibe, dan
            \________________________________________________________\_/
             |                                                       |
             |   "Ich bin Groot!"                                    |_
-            |                            Groot ueber Avalet         | |
+            |                                  Groot ueber Avalet   | |
             \_______________________________________________________\_/
 
 ```
