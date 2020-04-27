@@ -99,7 +99,7 @@ Wenn du Lust hast, dich direkt an diesem Projekt zu beteiligen, freue ich mich n
 
 **Besonders freuen würde ich mich über Unterstützung beim Design.** Das ist etwas, was ich praktisch überhaupt nicht kann. Wenn du dich da einbringen willst, sprich mich bitte an und lass uns einen Weg finden.
 
-**Beachte bitte, dass Avalet unter einer sehr freien Lizenz steht. Das würde Deinen Beitrag dann einschließen. Wenn du dich hier mit Code beteiligst, dann gehe ich davon aus, dass du den ohne jeden Vorbehalt dem Projekt überlässt.**
+**Beachte bitte, dass Avalet unter einer sehr freien Lizenz steht. Das würde Deinen Beitrag dann einschließen.**
 
 Avalet ist im Moment als "Avalon-GUI für jedermensch" gedacht. Die Funktionalität soll entsprechend sein. Also: sinnvolle Unterstützung auch (und grade) für Anfänger. Aber keine Automation für Fortgeschrittene bitte. Was du in eigenen Erweiterungen von Avalet machst, musst du selber wissen.
 

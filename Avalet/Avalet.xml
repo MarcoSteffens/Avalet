@@ -69,6 +69,14 @@
 				<packageName></packageName>
 				<regex>^wer$</regex>
 			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Laufrichtung</name>
+				<script>send(matches[1])
+</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(norden|sueden|osten|westen|nordost|suedost|suedwest|nordwest|nordosten|suedosten|suedwesten|nordwesten)$</regex>
+			</Alias>
 		</AliasGroup>
 		<Alias isActive="yes" isFolder="no">
 			<name>ausloggen</name>
@@ -172,6 +180,16 @@ function loadCharacterFileFromDisk(charName)
 end
 
 
+-- Wenn nach dem Start von Mudlet der Name des angemeldeten Charakters
+-- per ATCP erstmals übertragen wird, kann dieses Modul sich initialisieren.
+-- Also: Charakterdaten laden, Chat-Verläufe laden, ...
+function initPlayer(name)
+  -- Playerdaten laden
+  -- Chat-Verläufe laden
+
+end
+
+
 --initTimer()
 
 --GUIModel = GUIModel or {}
@@ -233,7 +251,7 @@ function onKeyPadEvent(eventName,key,tDirections)
 --		send(tDirections[key],false)
 --		--send("b pflanzen")
 --	end
-end --function
+end --function onKeyPadEvent
 registerAnonymousEventHandler("keyPadEvent", "onKeyPadEvent")
 
 
@@ -2290,10 +2308,10 @@ function updateInfoBox()
 			GUIModel.infobox = GUIModel.infobox .. "Deine Gesinnung ist " .. player.gesinnung .. ".\n"
 		end
 		if string.len(player.hunger) ~= 0 then
-			GUIModel.infobox = GUIModel.infobox .. "Hunger: " .. player.hunger .. ".\n"
+			GUIModel.infobox = GUIModel.infobox .. "Hunger: " .. player.hunger .. "\n"
 		end
 		if string.len(player.durst) ~= 0 then
-			GUIModel.infobox = GUIModel.infobox .. "Durst: " .. player.durst .. ".\n"
+			GUIModel.infobox = GUIModel.infobox .. "Durst: " .. player.durst .. "\n"
 		end
     if player.schutz ~= nil then
       GUIModel.infobox = GUIModel.infobox .. "\nSchutz: " .. player.schutz .. "\n"
@@ -2358,6 +2376,18 @@ function createChatModel()
   end
 
 end
+
+
+function reduceContentSize(content)
+
+  if #content &gt; 250000 then
+    -- so lange Zeilen vom Anfang löschen, bis die Größe unter die Schwelle fällt.
+    -- diese Funktion wird bei jedem Hinzufügen einer Zeile aufgerufen, also alle
+    -- paar Sekunden bei manchen Kanälen. Zeitweise häufiger.
+  end
+
+end
+
 
 
 
@@ -4020,7 +4050,9 @@ function onATCPEventAvalonRSoul(event, arg)
 	--	raiseEvent("RefreshManaBar", {player.stats.mp, player.stats.mp_max})
 	--end
 	channel = "Reden"
+  -- Kanalnamen aus der Nachricht entfernen:
 	message = arg:gsub("^.-%s", "", 1)
+  -- Formatierungen entfernen:
 	message = clearMessage(message)
 	Logger:Log(channel, message, {"timestamp", split = 1000})
 	raiseEvent("RefreshTabElement", channel)
