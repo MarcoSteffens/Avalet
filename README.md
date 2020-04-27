@@ -39,7 +39,7 @@ Außerdem gibt es hier ein **MyAvalon**-Modul. Dieses Modul kannst Du benutzen, 
 
 Avalet ist für Mudlet-Benutzer gedacht, die sich nicht selbst in die Programmierung so einer Oberfläche einarbeiten, aber trotzdem ein bisschen mehr Komfort wollen.
 
-Außerdem bietet Avalet die Möglichkeit, eigene Erweiterungen mit einzubinden. Also mit Menüpunkt in der Oberfläche, Karteikartenreiter etc.
+Geplant ist außerdem, dass sich "Submodule" in die Oberfläche von Avalet mit einklinken können, so dass man eigene, individuelle Erweiterungen entwickeln kann. So dass Avalet mit den Bedürfnissen der Benutzer mitwächst. Aber das ist derzeit noch nicht fertig.
 
 ## Was Avalet NICHT ist
 
