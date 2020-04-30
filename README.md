@@ -20,6 +20,8 @@ Avalet bietet in erster Linie:
 
 **Avalet muss unbedingt als Modul installiert werden, nicht als Paket! Und der Charakter muss dazu ausgeloggt sein, nicht nur Statue/disconnected. Auch bei einem Update.** Eine ausführlichere Installationsanleitung findest du weiter unten auf dieser Seite.
 
+## Zum selber machen: MyAvalon, das DIY-Modul
+
 Außerdem gibt es hier ein **MyAvalon**-Modul. Dieses Modul kannst Du benutzen, um eigene Trigger, Timer etc. in Mudlet zu bauen, und sie in verschiedenen Profilen, also mit verschiedenen Charakteren zu benutzen. Das Modul ist praktisch leer, aber wenn Du Dich nicht selber damit beschäftigen möchtest, dann nimmt es Dir die Arbeit ab, selber ein Modul zu erstellen. Wie Du das **MyAvalon**-Modul verwenden kannst, habe ich [hier im Wiki](https://github.com/MarcoSteffens/Avalet/wiki/Das-MyAvalon-Modul) etwas ausführlicher beschrieben.
 
 ```

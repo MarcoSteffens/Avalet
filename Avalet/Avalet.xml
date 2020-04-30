@@ -38,6 +38,27 @@
 				<integer>1</integer>
 			</regexCodePropertyList>
 		</Trigger>
+		<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>TestSegen</name>
+			<script>send("denk ruestungssegen!: " .. matches[4])
+</script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList>
+				<string>^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-Za-z\s]+) beginnt\, schwach zu( leuchten\.)?</string>
+			</regexCodeList>
+			<regexCodePropertyList>
+				<integer>1</integer>
+			</regexCodePropertyList>
+		</Trigger>
 	</TriggerPackage>
 	<TimerPackage>
 		<TimerGroup isActive="yes" isFolder="yes" isTempTimer="no" isOffsetTimer="no">
@@ -102,10 +123,16 @@ send(matches[1])
 
 --cecho("&lt;magenta&gt;Avalet init ...\n")
 
+CSSMan = CSSMan or {}
+avalonUI = avalonUI or {}
 
 
 character = character or {}
 player = player or {}
+
+
+
+
 --GUIModel = GUIModel or {}
 
 --player = initCharacter()
@@ -171,7 +198,7 @@ function loadCharacterFileFromDisk(charName)
 		--player = readFileFromFS(characterFilePath, "r")
 		--echo("...done\n")
 	else
-	  cecho("&lt;magenta&gt;Charakter-Datei nicht gefunden für: " .. charName .. "\n")
+	  --cecho("&lt;magenta&gt;Charakter-Datei nicht gefunden für: " .. charName .. "\n")
 		--echo("Erzeuge Character-Objekt\n")
 		--player = Character()
 		--echo("...done\n")
@@ -180,13 +207,20 @@ function loadCharacterFileFromDisk(charName)
 end
 
 
+function loadCharacterChatsFromDisk(name)
+  return
+end
+
+
 -- Wenn nach dem Start von Mudlet der Name des angemeldeten Charakters
 -- per ATCP erstmals übertragen wird, kann dieses Modul sich initialisieren.
 -- Also: Charakterdaten laden, Chat-Verläufe laden, ...
 function initPlayer(name)
+  debugc("Funktion initPlayer aufgerufen mit Parameter: " .. name)
   -- Playerdaten laden
+  loadCharacterFileFromDisk(name)
   -- Chat-Verläufe laden
-
+  loadCharacterChatsFromDisk(name)
 end
 
 
@@ -202,8 +236,6 @@ end
 
 
 --player = Character()-- or {}
-CSSMan = CSSMan or {}
-avalonUI = avalonUI or {}
 
 --avalonUI.atcp = avalonUI.atcp or {}
 
@@ -1620,6 +1652,18 @@ function Logger:SearchLog(file, pattern)
 end
 
 -- Hinzugefügt von Marco Steffens
+function Logger:logFileExists(file)
+  self:_closeLog(file) -- close the log if its open, so we can access it
+	local filename = self:getLogDirectory() .. file .. ".txt"
+	if not io.exists(filename) then
+    return false
+	else
+    return true
+  end
+end
+
+
+-- Hinzugefügt von Marco Steffens
 function Logger:ReadLog(file)
 	self:_closeLog(file) -- close the log if its open, so we can access it
 	debugc("File: "..self:getLogDirectory() .. file .. ".txt\n")
@@ -1630,6 +1674,7 @@ function Logger:ReadLog(file)
 	else
 		local f = io.open(filename, "r")
 		content = ""
+    lastdate = ""
 		for line in f:lines() do
 			if line ~= "" then
 				-- "'['dd'.'MM'.'yyyy' - 'hh':'mm':'ss'.'zzz]: "
@@ -1638,6 +1683,11 @@ function Logger:ReadLog(file)
 				-- ^\[\d{2}\.\d{2}\.\d{4} - (\d{2}:\d{2}:\d{2}).\d{3}\]: (.*)$
 				-- "^%[%d{2}%.%d{2}%.%d{4} %- (%d{2}:%d{2}:%d{2})%.%d{3}%]: (.*)$", "[%0]: %1", 1)
 				-- %^ITALIC%^schelmisch%^NO_ITALIC%^
+        date = string.gsub(line, "^%[(%d+%.%d+%.%d+) %- %d+:%d+:%d+%.%d+%]: .*$", "%1", 1)
+        if lastdate ~= date then
+          content = content .. "\n\n~~~~~~~~~~~~~~~~~~~~ " .. date .. " ~~~~~~~~~~~~~~~~~~~~\n"
+          lastdate = date
+        end
 				line = string.gsub(line, "^%[%d+%.%d+%.%d+ %- (%d+:%d+:%d+)%.%d+%]: (.*)$", "%1: %2", 1)
 				content = content .. "\n" .. line
 			end
@@ -1645,6 +1695,55 @@ function Logger:ReadLog(file)
 		return content
 	end
 end
+
+
+
+
+-- TEST
+
+-- Hinzugefügt von Marco Steffens
+function Logger:ReadLogWithLineLimit()
+  --file = "C:/Users/mstef/.config/mudlet/profiles/Ava - Rofhessa - DEV\log\Sagen.txt"
+  file = "Sagen"
+	self:_closeLog(file) -- close the log if its open, so we can access it
+	debugc("File: "..self:getLogDirectory() .. file .. ".txt\n")
+	local filename = self:getLogDirectory() .. file .. ".txt"
+	if not io.exists(filename) then
+		self:echo("File '" .. file .. "' does not exist!")
+		return
+	else
+		local f = io.open(filename, "r")
+		content = ""
+    
+    --f:seek("end",-24)
+    --content = f:read("*a")
+    
+    --content = f:lines()
+    lineCounter = 0
+			if line ~= "" then
+  		 for line in f:lines() do
+        lineCounter = lineCounter + 1
+      end
+--				-- "'['dd'.'MM'.'yyyy' - 'hh':'mm':'ss'.'zzz]: "
+--				-- "[05.04.2020 - 16:45:00.283]: "
+--				--x = string.gsub("hello world", "%w+", "%0 %0", 1)
+--				-- ^\[\d{2}\.\d{2}\.\d{4} - (\d{2}:\d{2}:\d{2}).\d{3}\]: (.*)$
+--				-- "^%[%d{2}%.%d{2}%.%d{4} %- (%d{2}:%d{2}:%d{2})%.%d{3}%]: (.*)$", "[%0]: %1", 1)
+--				-- %^ITALIC%^schelmisch%^NO_ITALIC%^
+--				line = string.gsub(line, "^%[%d+%.%d+%.%d+ %- (%d+:%d+:%d+)%.%d+%]: (.*)$", "%1: %2", 1)
+--				content = content .. "\n" .. line
+--			end
+		end
+    content = tostring(lineCounter)
+		return content
+	end
+end
+
+--- TEST ENDE
+
+
+
+
 
 function Logger:LogSection(file, options)
 		if self.trigger_id then 
@@ -2360,19 +2459,22 @@ function createChatModel()
   -- Generelle Variablen für das Tab-Element
   GUIModel.tabElement = GUIModel.tabElement or {
     tabs = {"Reden", "Sagen", "Gruppe", "Volk", "Gilde", "Laber", "Schwafel"},
-    --tabs = {"Reden"},
-    --width = "10%",
-    --height = "40%",
   }
   -- Speichert das aktuell ausgewählte Element:
   GUIModel.tabElement.currentTab = GUIModel.tabElement.currentTab or GUIModel.tabElement.tabs[1]
   
   for k,v in pairs(GUIModel.tabElement.tabs) do
+  
+    --GUIModel.tabElement.tabs[v.."console"]:echo(v)
+    
+    
   	-- Schreibt für jeden Tab einen Leerstring ("\n") in eine Datei,
   	-- die nach dem Tab benannt ist. In diese Datei wird der Text 
   	-- für den Tab gespeichert. Durch das Reinschreiben hier wird
   	-- die Datei erzeugt, wenn es sie noch nicht gibt.
-  	Logger:Log(v, "")
+    if Logger:logFileExists(v) == false then
+  	   Logger:Log(v, "")
+    end
   end
 
 end
@@ -2390,9 +2492,9 @@ end
 
 
 
-
+-- Wird ausgeführt, wenn per ATCP eine neue Kommunikation eingeht.
 function onRefreshTabElement(event, channel)
-
+  -- Wenn für den aktuell angezeigten Tab eine neue Nachricht eingeht,
 	content = ""
 	if GUIModel.tabElement.currentTab == channel then
 		debugc("Der TAB " .. channel .. " wird aktualisiert.")
@@ -3516,14 +3618,15 @@ registerAnonymousEventHandler("AuthRequest", "onATCPEventAuthRequest")
 
 -- event == "AvalonName"
 function onATCPEventAvalonName(event, arg)
-	debugc("&lt;magenta&gt;AvalonName per ATCP empfangen!\n")
-	if player.name ~= arg then
-		if string.len(player.name) == 0 then
-			loadCharacterFileFromDisk(arg)
-		end
-		player.name = arg
-		raiseEvent("RefreshInfobox", arg)
-	end
+  debugc("&lt;magenta&gt;AvalonName per ATCP empfangen!\n")
+  debugc("&lt;magenta&gt;AvalonName: " .. arg .."\n")
+  if player.name ~= arg then
+    if string.len(player.name) == 0 then
+      initPlayer(arg)
+    end
+    player.name = arg
+    raiseEvent("RefreshInfobox", arg)
+  end
 end
 registerAnonymousEventHandler("AvalonName", "onATCPEventAvalonName")
 
@@ -3956,39 +4059,50 @@ end
 
 -- event == "AvalonChannel"
 function onATCPEventAvalonChannel(event, arg)
-	debugc("AvalonChannel = " .. arg .. "\n")
-	
-	channel = string.title(string.match(arg, "(%w+)"))
-	message = arg:gsub("^.-%s", "", 1)
-	message = clearMessage(message)
-
-	-- Die Channelnamen hängen davon ab, in welcher Gilde, Zunft, in welchem Volk etc. der Char ist.
-	-- Keine Ahnung wie die alle heißen... 
-	-- Aber ich plünder mal das Script von Twrx und hoffe ansonsten, dass sich Spieler melden,
-	-- wenn ihr Kanal nicht abgedeckt ist. Diese Spieler haben dann in ihrem Profil-Verzeichnis, dort
-	-- im Ordner "log", eine Datei mit dem Kanalnamen + ".txt". Diesen Namen - ohne ".txt" - hier 
-	-- sinnig einbauen.
-
-	if channel == "Hyraskrieger" then channel = "Gilde" end
-	if channel == "Golemkultisten" then channel = "Gilde" end
-	if channel == "Daemonenkrieger" then channel = "Gilde" end
-	if channel == "Runenschmied" then channel = "Gilde" end
-	if channel == "Barden" then channel = "Gilde" end
-	if channel == "Kleriker" then channel = "Gilde" end
-	if channel == "Druiden" then channel = "Gilde" end
-	if channel == "Nekromanten" then channel = "Gilde" end
-	if channel == "Magier" then channel = "Gilde" end
-
-	if channel == "Mensch" then channel = "Volk" end
-	if channel == "Hobbit" then channel = "Volk" end
-	if channel == "Elf" then channel = "Volk" end
-	if channel == "Dunkelelf" then channel = "Volk" end
-	if channel == "Zwerg" then channel = "Volk" end
-	if channel == "Chaoszentaur" then channel = "Volk" end
-	if channel == "Amphib" then channel = "Volk" end
-	
-	Logger:Log(channel, message, {"timestamp", split = 1000})
-	raiseEvent("RefreshTabElement", channel)
+  debugc("AvalonChannel = " .. arg .. "\n")
+  
+  -- Zu Beginn der ATCP-Nachricht steht der Kanal, über den sie geschickt wurde.
+  -- Wenn ein Mensch per "vr" zu den Menschen spricht, dann steht da: "mensch ..."
+  -- Dieser Kanal wird hier extrahiert. Gleichzeitig wird der erste Buchstabe in
+  -- einen Großbuchstaben geändert.
+  channel = string.title(string.match(arg, "^(%w+)"))
+  -- Die eigentliche Nachricht ist der Teil nach dem ersten Leerzeichen.
+  message = arg:gsub("^.-%s", "", 1)
+  -- Die Nachricht kann Steuercode enthalten, beispielsweise für farbigen Text.
+  -- Der wird hier rausgefiltert.
+  message = clearMessage(message)
+  
+  -- Die Channelnamen hängen davon ab, in welcher Gilde, Zunft, in welchem Volk etc. der Char ist.
+  -- Auf der Oberfläche sollen die Kanalnamen aber "Volk" und "Gilde" etc. heißen. 
+  -- Um an die "echten" Channelnamen zu kommen, plündere ich mal das Skript von Twrx. Sollte da
+  -- nicht alles richtig ankommen, melden sich hoffentlich die Spieler.
+  if channel == "Hyraskrieger" then channel = "Gilde" end
+  if channel == "Golemkultisten" then channel = "Gilde" end
+  if channel == "Daemonenkrieger" then channel = "Gilde" end
+  if channel == "Runenschmied" then channel = "Gilde" end
+  if channel == "Barden" then channel = "Gilde" end
+  if channel == "Kleriker" then channel = "Gilde" end
+  if channel == "Druiden" then channel = "Gilde" end
+  if channel == "Nekromanten" then channel = "Gilde" end
+  if channel == "Magier" then channel = "Gilde" end
+  
+  if channel == "Mensch" then channel = "Volk" end
+  if channel == "Hobbit" then channel = "Volk" end
+  if channel == "Elf" then channel = "Volk" end
+  if channel == "Dunkelelf" then channel = "Volk" end
+  if channel == "Zwerg" then channel = "Volk" end
+  if channel == "Chaoszentaur" then channel = "Volk" end
+  if channel == "Amphib" then channel = "Volk" end
+  
+  -- Schließlich wird die Nachricht in das entsprechende Logfile geschrieben.
+  -- Diese Dateien liegen im "log"-Verzeichnis im jeweiligen Mudlet-Profil.
+  -- Und sie sind nach dem Kanalnamen benannt. ("Sagen.txt")
+  -- TODO: Charakternamen hinzufügen, damit ein Profil auch mit unterschiedlichen
+  --       Charakteren gespielt werden kann.
+  Logger:Log(channel, message, {"timestamp", split = 1000})
+  -- Anschließend muss evtl. die Anzeige auf der Oberfläche aktualisiert werden.
+  -- Dafür sorgt dieses Event:
+  raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonChannel", "onATCPEventAvalonChannel")
 
@@ -3996,13 +4110,19 @@ registerAnonymousEventHandler("AvalonChannel", "onATCPEventAvalonChannel")
 
 -- event == "AvalonComm" (Sagen)
 function onATCPEventAvalonComm(event, arg)
-	debugc("AvalonComm = " .. arg .. "\n")
-	--Logger:Log(file, line_to_save, options_table)
-	channel = "Sagen"
-	message = arg:gsub("^.-%s", "", 1)
-	message = clearMessage(message)
-	Logger:Log(channel, message, {"timestamp", split = 1000})
-	raiseEvent("RefreshTabElement", channel)
+  debugc("AvalonComm = " .. arg .. "\n")
+  -- Der Kanalname steht auch am Anfang der Nachricht, aber in Kapitalien.
+  -- Ich setz den einfach mal von Hand:  
+  channel = "Sagen"
+  -- Die eigentliche Nachricht ist der Teil hinter dem ersten Leerzeichen,
+  -- alles vorher wird hier abgeschnitten.
+  message = arg:gsub("^.-%s", "", 1)
+  -- Die Nachricht wird von Steuercode (Farbe) befreit:
+  message = clearMessage(message)
+  -- Die Nachricht wird in das entsprechende Logfile geschrieben:
+  Logger:Log(channel, message, {"timestamp", split = 1000})
+  -- Die Anzeige auf der Oberfläche wird ggf. aktualisiert:
+  raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonComm", "onATCPEventAvalonComm")
 
@@ -4011,10 +4131,6 @@ registerAnonymousEventHandler("AvalonComm", "onATCPEventAvalonComm")
 -- event == "AvalonRComm" (Reden)
 function onATCPEventAvalonRComm(event, arg)
 	debugc("AvalonRComm = " .. arg .. "\n")
-	--if player.stats.mp_max ~= tonumber(arg) then
-	--	player.stats.mp_max = tonumber(arg)
-	--	raiseEvent("RefreshManaBar", {player.stats.mp, player.stats.mp_max})
-	--end
 	channel = "Reden"
 	message = arg:gsub("^.-%s", "", 1)
 	message = clearMessage(message)
@@ -4025,13 +4141,9 @@ registerAnonymousEventHandler("AvalonRComm", "onATCPEventAvalonRComm")
 
 
 
--- event == "AvalonSoul"
+-- event == "AvalonSoul" (Sagen)
 function onATCPEventAvalonSoul(event, arg)
 	debugc("AvalonSoul = " .. arg .. "\n")
-	--if player.stats.mp_max ~= tonumber(arg) then
-	--	player.stats.mp_max = tonumber(arg)
-	--	raiseEvent("RefreshManaBar", {player.stats.mp, player.stats.mp_max})
-	--end
 	channel = "Sagen"
 	message = arg:gsub("^.-%s", "", 1)
 	message = clearMessage(message)
@@ -4042,20 +4154,18 @@ registerAnonymousEventHandler("AvalonSoul", "onATCPEventAvalonSoul")
 
 
 
--- event == "AvalonRSoul"
+-- event == "AvalonRSoul" (Reden)
 function onATCPEventAvalonRSoul(event, arg)
-	debugc("AvalonRSoul = " .. arg .. "\n")
-	--if player.stats.mp_max ~= tonumber(arg) then
-	--	player.stats.mp_max = tonumber(arg)
-	--	raiseEvent("RefreshManaBar", {player.stats.mp, player.stats.mp_max})
-	--end
-	channel = "Reden"
+  debugc("AvalonRSoul = " .. arg .. "\n")
+  channel = "Reden"
   -- Kanalnamen aus der Nachricht entfernen:
-	message = arg:gsub("^.-%s", "", 1)
+  message = arg:gsub("^.-%s", "", 1)
   -- Formatierungen entfernen:
-	message = clearMessage(message)
-	Logger:Log(channel, message, {"timestamp", split = 1000})
-	raiseEvent("RefreshTabElement", channel)
+  message = clearMessage(message)
+  -- Nachricht ins logfile schreiben:
+  Logger:Log(channel, message, {"timestamp", split = 1000})
+  -- evtl. Anzeige auf der Oberfläche aktualisieren:
+  raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonRSoul", "onATCPEventAvalonRSoul")
 
