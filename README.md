@@ -7,7 +7,7 @@ Avalet ist ein Mudlet-Module für das [MUD Avalon](https://avalon.mud.de/). Für
 ![aktueller Screenshot](latest_screenshot.png) 
 
 Avalet bietet in erster Linie:
-- Laufen mit dem Ziffernblock! [Tastaturbelegung](https://github.com/MarcoSteffens/Avalet/wiki/Tastaturbelegung-f%C3%BCr-den-Ziffernblock)!
+- Laufen mit dem Ziffernblock! ([Tastaturbelegung](https://github.com/MarcoSteffens/Avalet/wiki/Tastaturbelegung-f%C3%BCr-den-Ziffernblock))
 - Einen nicht zu übersehende Anzeige von TP, AP, ZP und Mana!
 - Eine Ausleitung der wesentlichen Kommunikationskanäle!
 - Eine Anzeige von Schildzaubern, Auren und anderen Timern! Mit *fancy* *Rückschritts*balken! ;)
