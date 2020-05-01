@@ -7,7 +7,7 @@ Avalet ist ein Mudlet-Module für das [MUD Avalon](https://avalon.mud.de/). Für
 ![aktueller Screenshot](latest_screenshot.png) 
 
 Avalet bietet in erster Linie:
-- Laufen mit dem [Ziffernblock](https://github.com/MarcoSteffens/Avalet/wiki/Tastaturbelegung-f%C3%BCr-den-Ziffernblock)!
+- Laufen mit dem Ziffernblock! [Tastaturbelegung](https://github.com/MarcoSteffens/Avalet/wiki/Tastaturbelegung-f%C3%BCr-den-Ziffernblock)!
 - Einen nicht zu übersehende Anzeige von TP, AP, ZP und Mana!
 - Eine Ausleitung der wesentlichen Kommunikationskanäle!
 - Eine Anzeige von Schildzaubern, Auren und anderen Timern! Mit *fancy* *Rückschritts*balken! ;)
@@ -67,8 +67,6 @@ Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das A
 
 ## Installation
 
-**Je nachdem, was sich grad an Avalet geändert hat, musst du eventuell richtig ausgeloggt sein, wenn du Avalet updatest. Nicht einfach nur disconnected/Statue! Manche Funktionen initialisieren sich sonst nicht richtig. Aber auch wenn du es das erste Mal installierst, kann das sinnvoll sein.**
-
 Das eigentliche Modul besteht aus der Datei Avalet.mpackage. Die speicherst du bei dir irgendwo ab.
 
 Dann legst du dir am besten ein sauberes (also neues) Profil in Mudlet an. Und *entfernst* als erstes in den `Preferences` auf dem Reiter `General` und in der Rubrik `Game protocols` den Haken bei `Enable GMCP`. Ava*lon* sendet per ATCP stattdessen, und mit eingeschaltetem GMCP funktioniert Ava*let* nicht.
@@ -80,6 +78,11 @@ Danach sollte alles funktionieren.
 Für eine **Aktualisierung** einfach die neuere Version downloaden und die alte damit überschreiben. **Anschließend Mudlet neu starten.** (Nicht einfach nur *reconnect*en.)
 
 (Die Datei Avalet.zip ist - abgesehen vom Namen - identisch mit der .mpackage-Datei, die kannst du also auch nehmen. Aber .mpackage ist der Standard.)
+
+### Bekannte Fehlerquellen bei der Installation
+
+- Es ist notwendig, den Charakter richtig auszuloggen, um Avalet zu installieren oderum ein updaten zu machen. Und Mudlet nach der Installation auch richtig zu schließen und wieder zu öffnen. Es mag auch mal ohne gehen, aber eine Garantie gibt es dafür nicht.
+- Wenn man im Modul-Manager das Häkchen bei "Synchronisieren" setzt, passieren komische Dinge. Das Modul deinstalliert sich beispielsweise selbst. Mudlet kann *nicht* in gepackte Module (.mpackage, .zip) schreiben! Und damit dann aber offenbar auch nicht richtig umgehen. Wenn du das Modul selber verändern willst, musst du es entpacken und dann die entpackte Version ("Avalet.xml") als *Modul* laden. Dann mit Häkchen bei Synch. (Aber deine Änderungen sind natürlich weg, wenn du dann die nächste Version von Avalet installierst.)
 
 ```
             __________________________________________________________
