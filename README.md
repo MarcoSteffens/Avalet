@@ -1,7 +1,5 @@
 # Avalet
 
-> **Avalet funktioniert NICHT mit Mudlet 4.8.**
-
 > **Avalet wird grade sehr aktiv von mir entwickelt und ändert sich deshalb ständig. Das es noch kein automatisches Update (oder sowas) gibt, lohnt es sich, hier häufiger nach einer neuen Version zu schauen. Wenn du einen Fehler findest oder einen Feature-Wunsch hast - schreib mir. Ich bin Rofhessa in Avalon.**
 
 Avalet ist ein Mudlet-Module für das [MUD Avalon](https://avalon.mud.de/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.

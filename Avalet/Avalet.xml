@@ -38,7 +38,7 @@
 				<integer>1</integer>
 			</regexCodePropertyList>
 		</Trigger>
-		<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+		<Trigger isActive="no" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 			<name>TestSegen</name>
 			<script>send("denk ruestungssegen!: " .. matches[4])
 </script>
@@ -83,16 +83,10 @@
 			<command></command>
 			<packageName></packageName>
 			<regex></regex>
-			<Alias isActive="no" isFolder="no">
-				<name>Wer-Liste</name>
-				<script></script>
-				<command>wer -evSn</command>
-				<packageName></packageName>
-				<regex>^wer$</regex>
-			</Alias>
 			<Alias isActive="yes" isFolder="no">
 				<name>Laufrichtung</name>
-				<script>send(matches[1])
+				<script>-- was wollte ich hiermit wohl machen? *kopfkratz*
+send(matches[1])
 </script>
 				<command></command>
 				<packageName></packageName>
@@ -101,8 +95,12 @@
 		</AliasGroup>
 		<Alias isActive="yes" isFolder="no">
 			<name>ausloggen</name>
-			<script>--echo("\nVon Avalet gemessene Session-EP: " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n\n")
-player.sessionEP = tonumber(player.ep)
+			<script>-- Dieses Alias soll ausgelöst werden, wenn der Spieler den
+-- Charakter richtig ausloggt. Aber NICHT, wenn er Statue wird.
+
+--echo("\nVon Avalet gemessene Session-EP: " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n\n")
+--player.sessionEP = tonumber(player.ep)
+raiseEvent("logoutEvent")
 send(matches[1])
 </script>
 			<command></command>
@@ -130,6 +128,10 @@ avalonUI = avalonUI or {}
 character = character or {}
 player = player or {}
 
+avalonUI.chats = avalonUI.chats or {}
+avalonUI.chats.lastdate = avalonUI.chats.lastdate or ""
+  
+  --character.chats["schwafel",""]
 
 
 
@@ -206,10 +208,65 @@ function loadCharacterFileFromDisk(charName)
 	end
 end
 
-
-function loadCharacterChatsFromDisk(name)
-  return
+characterChatsPath = characterChatsPath or ""
+function loadCharacterChatsFromDisk(charName)
+	debugc("function loadCharacterChatsFromDisk")
+  
+	if string.char(getMudletHomeDir():byte()) == "/" then _sep = "/" else  _sep = "\\" end
+  characterChatsPath = getMudletHomeDir() .. _sep .. "AvaletChats" .. string.title(charName) .. ".json"
+  
+  -- Leerzeichen maskieren für Linux-Systeme 
+  if _sep == "/" then string.gsub(characterChatsPath, " ", "\ ") end
+  
+	if io.exists(characterChatsPath) then
+    subset = readFileFromFS(characterChatsPath, "r")
+    for k,v in pairs(subset) do avalonUI.chats[k] = v end
+	else
+		writeDataToFS(characterChatsPath, avalonUI.chats, "w")
+	end
 end
+
+function avaletTest(alter)
+    local str = alter
+    local tage = ""
+    tage = string.gsub(str, "^(%d+%sTage?)%s.*", "%1", 1)
+    if tage == str then
+      tage = "0 Tage"
+    end
+    local stunden = ""
+    stunden = string.gsub(str, ".*%s(%d+%sStunden?)%s.*", "%1", 1)
+    if stunden == str then
+      stunden = string.gsub(str, "^(%d+%sStunden?)%s.*", "%1", 1)
+      if stunden == str then
+        stunden = "0 Stunden"
+      end
+    end
+    local minuten = ""
+    minuten = string.gsub(str, ".*%s(%d+%sMinuten?)%s.*", "%1", 1)
+    if minuten == str then
+      minuten = string.gsub(str, "^(%d+%sMinuten?)%s.*", "%1", 1)
+      if minuten == str then
+        minuten = "0 Minuten"
+      end
+    end
+    --local sekunden = ""
+    --sekunden = string.gsub(str, ".*%s(%d+%sSekunden?)%s.*", "%1", 1)
+    --if sekunden == str then
+    --  sekunden = "0 Sekunden"
+    --end
+    
+    str = tage .. " " .. stunden .. " und " .. minuten
+    
+    cecho("\n&lt;magenta&gt;Du bist etwa " .. str .. " alt.\n")
+
+end
+
+
+
+
+
+
+
 
 
 -- Wenn nach dem Start von Mudlet der Name des angemeldeten Charakters
@@ -222,46 +279,6 @@ function initPlayer(name)
   -- Chat-Verläufe laden
   loadCharacterChatsFromDisk(name)
 end
-
-
---initTimer()
-
---GUIModel = GUIModel or {}
---createInfoScreenModel()
---createChatModel()
---createTopMenuModel()
---createTimerModel()
---createGaugeModel()
-
-
-
---player = Character()-- or {}
-
---avalonUI.atcp = avalonUI.atcp or {}
-
---avalonUI.buildUI()
-
---avalonUI.chat.current = avalonUI.chat.current or avalonUI.chat.tabs[1]
---avalonUI.hits = avalonUI.hits or 0
---avalonUI.crits = avalonUI.crits or 0
---avalonUI.targetName = avalonUI.targetName or "Nothing"
-
--- Die aktuellen ATCP-Daten werden in einer Tabelle namens "atcp" gespeichert.
--- Jedenfalls wenn diese Tabelle existiert.
--- (Aber ob das auch funktioniert, wenn sie im avalonUI-Namespace liegt?)
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -295,12 +312,14 @@ end
 registerAnonymousEventHandler("sysConnectionEvent", "onSysConnectionEvent")
 
 
-
+-- Raised when Mudlet is shutting down the profile - a good event to hook
+-- onto for saving all of your data.
 function onSysExitEvent()
 	debugc("&lt;red&gt;onSysExitEvent\n")
-	--echo("Schreibe Character in Datei...\n")
+	echo("Schreibe Character in Datei...\n")
 	if player.name ~= "" then
 		writeDataToFS(characterFilePath, player, "w")
+   --writeDataToFS(characterChatsPath, avalonUI.chats, "w")
 	end
 	--echo("...done\n")
 end
@@ -312,8 +331,28 @@ function onSysDisconnectionEvent()
 	debugc("&lt;red&gt;onSysDisconnectionEvent()\n")
 	--echo("Schreibe Character in Datei...\n")
 	writeDataToFS(characterFilePath, player, "w")
+ writeDataToFS(characterChatsPath, avalonUI.chats, "w")
 end
 registerAnonymousEventHandler("sysDisconnectionEvent", "onSysDisconnectionEvent")
+
+
+-- Dieses Event wird ausgelöst, wenn der Spieler den Charakter richtig ausloggt,
+-- also mit "schlafe ein" etc. Ausgelöst wird dieses Event durch ein Alias auf
+-- die Befehle, mit denen das Ausloggen möglich ist. Außer ich hab einen vergessen.
+-- Derzeit: ^(ende|ende hier|einschlafen|schlaf ein|schlafe ein)$
+function onLogoutEvent()
+	debugc("&lt;red&gt;onLogoutEvent()\n")
+  --echo("\nVon Avalet gemessene Session-EP: " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n\n")
+  player.sessionEP = tonumber(player.ep)
+
+  for k,v in pairs(GUIModel.tabElement.tabs) do
+    --cecho("&lt;magenta&gt;Hier würde gelöscht werden: " .. v .. "\n")
+    avalonUI.chats[v] = {}
+    
+  end
+
+end
+registerAnonymousEventHandler("logoutEvent", "onLogoutEvent")
 
 
 
@@ -1560,7 +1599,7 @@ function Logger:Log(file, val, options)
 	options = options or Logger.options or {}
 
 	local line = ""
-   if table.contains(options, "timestamp") then
+  if table.contains(options, "timestamp") then
 		local time_format = "'['dd'.'MM'.'yyyy' - 'hh':'mm':'ss'.'zzz]: "
 		line = line .. getTime(true, time_format)
 	end
@@ -1720,9 +1759,9 @@ function Logger:ReadLogWithLineLimit()
     
     --content = f:lines()
     lineCounter = 0
-			if line ~= "" then
-  		 for line in f:lines() do
-        lineCounter = lineCounter + 1
+ 		 for line in f:lines() do 
+  			if line ~= "" then
+       lineCounter = lineCounter + 1 
       end
 --				-- "'['dd'.'MM'.'yyyy' - 'hh':'mm':'ss'.'zzz]: "
 --				-- "[05.04.2020 - 16:45:00.283]: "
@@ -1733,11 +1772,11 @@ function Logger:ReadLogWithLineLimit()
 --				line = string.gsub(line, "^%[%d+%.%d+%.%d+ %- (%d+:%d+:%d+)%.%d+%]: (.*)$", "%1: %2", 1)
 --				content = content .. "\n" .. line
 --			end
-		end
+		  end
     content = tostring(lineCounter)
 		return content
-	end
-end
+	end--if not io.exists(filename) then
+end --function Logger:ReadLogWithLineLimit()
 
 --- TEST ENDE
 
@@ -1896,8 +1935,8 @@ function readFileFromFS(path, mode)
 end
 
 function writeDataToFS(path, data, mode)
-  --cecho("\n&lt;magenta&gt;writeDataToFS()\n")
-  --cecho("&lt;magenta&gt;path: " .. path .. "\n")
+  debugc("\n&lt;magenta&gt;writeDataToFS()\n")
+  debugc("&lt;magenta&gt;path: " .. path .. "\n")
   --cecho("&lt;magenta&gt;data: " .. tostring(data) .. "\n")
   --cecho("&lt;magenta&gt;mode: " .. tostring(mode) .. "\n")
 
@@ -1921,6 +1960,11 @@ avalonUI.infoBoxFontSize = 9
 avalonUI.chatFontSize = 9
 avalonUI.chatTabFontSize = 9
 
+
+-- Ausrichtung der Timer-Fortschrittsbalken
+-- (Änderung erst durch Neustart von Mudlet)
+avalonUI.timerOrientation = "goofy"      -- fancy! Rückschrittsbalken!
+--avalonUI.timerOrientation = "horizontal" -- doofe Fortschrittsbalken
 
 avalonUI.GaugeFrontColorTimer = "purple"
 avalonUI.GaugeFrontColorTP = "darkred"
@@ -2134,7 +2178,7 @@ function initCharacter()
   character.gruppeGetoetet = "" -- ATCP: AvalonGruppeGetoetet
   character.allyGetoetet = ""   -- ATCP: AvalonAllyGetoetet
   --
-  character.stats = {}
+  character.stats = character.stats or {}
   character.stats.tp = 0        -- ATCP: AvalonTP
   character.stats.tp_max = 0    -- ATCP: AvalonMAXTP
   character.stats.ap = 0        -- ATCP: AvalonAP
@@ -2213,8 +2257,13 @@ function initTimer()
   table.insert(timerStrings, {["name"]="Trotz", ["start"]="Du hast nun verbesserte Verteidigungsfertigkeiten\\.", ["stop"]="Deine verbesserten Verteidigungsfertigkeiten schwinden\\.", ["duration"]="600"})
   table.insert(timerStrings, {["name"]="Vergeltung", ["start"]="Du oeffnest Deine Augen und buendelst Deine Wut\\.", ["stop"]="Die Wut in Dir scheint besiegt\\.", ["duration"]="600"})
   table.insert(timerStrings, {["name"]="Blutrausch", ["start"]="Du laesst einen fuerchterlichen Urschrei von Dir. Es scheint so, als .*", ["stop"]="Die roetlichen Manawolken loesen sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Segen", ["start"]="^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-z]+) beginnt\, schwach zu leuchten\.", ["stop"]="(Dein|Deine)([a-z ,]*)([A-z]+) verliert .* magische Kraft.", ["duration"]="600"})
+  --table.insert(timerStrings, {["name"]="Segen", ["start"]="^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-z]+) beginnt\\, schwach zu leuchten\\.", ["stop"]="(Dein|Deine)([a-z ,]*)([A-z]+) verliert .* magische Kraft.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="Segen", ["start"]="^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-Za-z\\s]+) beginnt\\, schwach zu( leuchten\\.)?", ["stop"]="(Dein|Deine)([a-z ,]*)([A-z\\s]+) verliert .* magische Kraft.", ["duration"]="600"})
+  
   --^(Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-z]+)beginnt\, schwach zu leuchten\.)
+  
+  
+  --^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-Za-z\s]+) beginnt\, schwach zu( leuchten\.)?
   
   --echo("Group is active: ".. isActive("AvaletTriggerFuerTimer", "trigger").."\n")
   
@@ -2372,22 +2421,44 @@ function updateInfoBox()
 			GUIModel.infobox = GUIModel.infobox .. "Du gehoerst den Zuenften " .. str .. " an.\n"
 			--GUIModel.infobox = GUIModel.infobox .. "Deine Berufe sind: " .. player.zuenfte .. ".\n"
 		end
-		if string.len(player.alter) ~= 0 then
-			str = player.alter
-    tage="0 Tage"
-			tage = string.gsub(str, "^(%d+%sTage?)%s.*", "%1", 1)
-      stunden="0 Stunden"
-			stunden = string.gsub(str, ".*%s(%d+%sStunden?)%s.*", "%1", 1)
-      minuten="0 Minuten"
-			minuten = string.gsub(str, ".*%s(%d+%sMinuten?)%s.*", "%1", 1)
-      sekunden="0 Sekunden"
-			sekunden = string.gsub(str, ".*%s(%d+%sSekunden?)%s.*", "%1", 1)
-
-			str = tage .. " " .. stunden .. " und " .. minuten
-
-			GUIModel.infobox = GUIModel.infobox .. "Du bist etwa " .. str .. " alt.\n"
-			--GUIModel.infobox = GUIModel.infobox .. "Du bist " .. player.alter .. " alt\n"
-		end
+  if string.len(player.alter) ~= 0 then
+    -- Also ich habe keinen regulären Ausdruck gefunden, der Stunden und Minuten sowohl
+    -- in der Mitte der Zeichenkette als auch am Anfang zuverlässig erkennt. Bestenfalls
+    -- wurde dabei nur eine Ziffer übernommen (also "8 Minuten" statt "28 Minuten"). Deshalb
+    -- die zweistufige Lösung. Wer da besser ist als ich --&gt; mail me! (Aber erst testen!)
+    local str = player.alter
+    local tage = ""
+    tage = string.gsub(str, "^(%d+%sTage?)%s.*", "%1", 1)
+    if tage == str then
+      tage = "0 Tage"
+    end
+    local stunden = ""
+    stunden = string.gsub(str, ".*%s(%d+%sStunden?)%s.*", "%1", 1)
+    if stunden == str then
+      stunden = string.gsub(str, "^(%d+%sStunden?)%s.*", "%1", 1)
+      if stunden == str then
+        stunden = "0 Stunden"
+      end
+    end
+    local minuten = ""
+    minuten = string.gsub(str, ".*%s(%d+%sMinuten?)%s.*", "%1", 1)
+    if minuten == str then
+      minuten = string.gsub(str, "^(%d+%sMinuten?)%s.*", "%1", 1)
+      if minuten == str then
+        minuten = "0 Minuten"
+      end
+    end
+    --local sekunden = ""
+    --sekunden = string.gsub(str, ".*%s(%d+%sSekunden?)%s.*", "%1", 1)
+    --if sekunden == str then
+    --  sekunden = "0 Sekunden"
+    --end
+    
+    str = tage .. " " .. stunden .. " und " .. minuten
+    
+    GUIModel.infobox = GUIModel.infobox .. "Du bist etwa " .. str .. " alt.\n"
+    --GUIModel.infobox = GUIModel.infobox .. "Du bist " .. player.alter .. " alt\n"
+  end
 		if string.len(player.portfolio) ~= 0 then
 			if (player.portfolio ~= "keines") then
 				if player.portfolio == player.name then
@@ -2465,16 +2536,18 @@ function createChatModel()
   
   for k,v in pairs(GUIModel.tabElement.tabs) do
   
-    --GUIModel.tabElement.tabs[v.."console"]:echo(v)
+    --avalonUI.chats  
+    --table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = 600, ["duration"] = 600}) 
+    avalonUI.chats[v] = {}
     
     
   	-- Schreibt für jeden Tab einen Leerstring ("\n") in eine Datei,
   	-- die nach dem Tab benannt ist. In diese Datei wird der Text 
   	-- für den Tab gespeichert. Durch das Reinschreiben hier wird
   	-- die Datei erzeugt, wenn es sie noch nicht gibt.
-    if Logger:logFileExists(v) == false then
-  	   Logger:Log(v, "")
-    end
+    --if Logger:logFileExists(v) == false then
+  	 --  Logger:Log(v, "")
+    --end
   end
 
 end
@@ -2491,21 +2564,127 @@ function reduceContentSize(content)
 end
 
 
+-- In der per ATCP empfangenen Kommunikation gibt es Formatierungsanweisungen,
+-- die hier rausgefiltert werden.
+function avalonUI.clearMessage(str)
+	message = str
+	message = string.gsub(message, "%%%^ITALIC%%%^", "")
+	message = string.gsub(message, "%%%^NO_ITALIC%%%^", "")
+	message = string.gsub(message, "%%%^NC_html_begin_colour%(%#[A-Za-z0-9]+%)%%%^", "")
+	message = string.gsub(message, "%%%^NC_html_end_colour%%%^", "")
+
+	return message
+end
+
+-- Hier wird die Kommunikation verarbeitet, die über die Comm-Kanäle per ATCP eingehen.
+-- Eine erste Verarbeitung fand schon beim Eingang der Nachricht statt, also bei
+-- ATCP --&gt; atcp (Trennung von channel und message nämlich, aber auch die Zuordnung von
+-- einzelnen Kanälen zu Sammelbegriffen, bspswse "vr" zu "Volk".
+function avalonUI.processMessage(channel, message)
+
+  -- Die Nachricht kann Steuercode enthalten, beispielsweise für farbigen Text.
+  -- Der wird hier rausgefiltert.
+  message = avalonUI.clearMessage(message)
+  
+  local logfilename = ""
+  if player.name ~= nil and player.name ~= "" then
+    logfilename = string.title(player.name) .. channel
+  else
+    logfilename = channel
+  end
+  
+  Logger:Log(logfilename, message, {"timestamp", split = 4000})
+
+  --local timestamp = ""
+  --local lastdate = avalonUI.chats.lastdate or ""
+  local timestamp = getTime(true, "'['dd'.'MM'.'yyyy' - 'hh':'mm':'ss'.'zzz]: ")
+  --local date = getTime(true, "dd'.'MM'.'yyyy")
+  --local time = getTime(true, "hh':'mm':'ss")                     --local time = getTime(true, "hh':'mm':'ss'.'zzz")
+  local line = ""
+
+  -- Hier können auch Comm-Nachrichten landen, für die es keinen Tab gibt. Also:
+  if avalonUI.chats[channel] ~= nil then
+    -- Wenn noch nix im Tab steht, muss erstmal das Datum eingefügt werden:
+--    if #avalonUI.chats[channel] == 0 then
+--      line = "~~~~~~~~~~~~~~~~~~~~ " .. date .. " ~~~~~~~~~~~~~~~~~~~~\n\n"
+--      table.insert(avalonUI.chats[channel], line)
+--      line = ""
+--    end
+    -- Bei Datumswechsel muss ein neues Datum eingefügt werden:
+--    if lastdate ~= date then
+--      if lastdate ~= "" then line = "\n" end
+--      line = line .. "~~~~~~~~~~~~~~~~~~~~ " .. date .. " ~~~~~~~~~~~~~~~~~~~~\n\n"
+--      avalonUI.chats.lastdate = date
+--      table.insert(avalonUI.chats[channel], line)
+--      line = ""
+--    end
+    -- Timestamp vor die Zeile und ab damit in die Tabelle:
+    
+    while #avalonUI.chats[channel] &gt;= 500 do
+      table.remove(avalonUI.chats[channel], 1)
+    end
+    
+    line = timestamp .. message --.. "\n"
+    table.insert(avalonUI.chats[channel], line)
+    -- Für die aktualisierung der Anzeige sorgen:
+    raiseEvent("RefreshTabElement", channel)
+  end  
+end
+
+
+function clearTab(channel)
+
+  debugc("&lt;magenta&gt;clearWindow: ".. channel .. "\n")    
+  clearWindow(channel)
+  avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(" ")
+
+end
+
+
 
 -- Wird ausgeführt, wenn per ATCP eine neue Kommunikation eingeht.
-function onRefreshTabElement(event, channel)
+function onRefreshTabElement(_, channel)
   -- Wenn für den aktuell angezeigten Tab eine neue Nachricht eingeht,
-	content = ""
-	if GUIModel.tabElement.currentTab == channel then
-		debugc("Der TAB " .. channel .. " wird aktualisiert.")
-		
-		content = Logger:ReadLog(channel)
+  local content = ""
+  local lastdate = ""
+  local date = ""
+  local line = ""
+  if GUIModel.tabElement.currentTab == channel then
+    debugc("Der TAB " .. channel .. " wird aktualisiert.")
+    debugc("&lt;magenta&gt;clearWindow: ".. channel .. "\n")    
+    --clearWindow(channel)
+    clearTab(channel)
+    
+    for _,v in pairs(avalonUI.chats[channel]) do
+
+      date = string.gsub(v, "^%[(%d+%.%d+%.%d+) %- %d+:%d+:%d+%.%d+%]: .*$", "%1", 1)
+      --content = ""
+      
+      if lastdate ~= date then
+        if lastdate ~= "" then content = "\n" end
+        content = content .. "\n~~~~~~~~~~~~~~~~~~~~ " .. date .. " ~~~~~~~~~~~~~~~~~~~~\n\n"
+        lastdate = date
+      end
+      line = string.gsub(v, "^%[%d+%.%d+%.%d+ %- (%d+:%d+:%d+)%.%d+%]: (.*)$", "%1: %2", 1)
+      content = content .. line .. "\n"
+
+      if #content &gt; 8000 then
+        --cecho("&lt;magenta&gt;\n"..tostring(#content).."\n")
+        avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(content)
+        content = ""
+      end
+    end
+    if content ~= "" then
+      --cecho("&lt;magenta&gt;\n"..tostring(#content).."\n")
+      avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(content)
+      --avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(" ")
+    end
 	else
     avalonUI.markTab(channel)
 	end
-	debugc("&lt;magenta&gt;clearWindow: ".. channel .. "\n")
-	clearWindow(channel)
-	avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(content)
+--	debugc("&lt;magenta&gt;clearWindow: ".. channel .. "\n")
+--	clearWindow(channel)
+--	avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(content)
 	--avalonUI.tabElementTabs[v.."console"]:echo(GUIModel.tabElement["chat"..v])
 end
 registerAnonymousEventHandler("RefreshTabElement", "onRefreshTabElement")
@@ -3469,7 +3648,7 @@ avalonUI.Box7 = Geyser.Container:new({
   		name = "avalonUI.Timer"..k,
   		x = "4%", y = (100-(k*10)-5).."%",
   		width="90%", height="9%",
-  		orientation = "goofy",
+  		orientation = avalonUI.timerOrientation, --"goofy"
   	}, avalonUI.Box5a)
   	avalonUI["Timer"..k].back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
   	avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorTimer)
@@ -3621,6 +3800,7 @@ function onATCPEventAvalonName(event, arg)
   debugc("&lt;magenta&gt;AvalonName per ATCP empfangen!\n")
   debugc("&lt;magenta&gt;AvalonName: " .. arg .."\n")
   if player.name ~= arg then
+    --cecho("&lt;magenta&gt;\nplayer.name ~= arg\n")
     if string.len(player.name) == 0 then
       initPlayer(arg)
     end
@@ -3729,7 +3909,8 @@ registerAnonymousEventHandler("AvalonGesinnung", "onATCPEventAvalonGesinnung")
 
 
 -- event == "AvalonHunger"
--- Die Texte für Hunger und für Durst haben am Ende ein Leerzeichen zu viel.
+-- Die Texte für Hunger und für Durst hatten am Ende ein Leerzeichen zu viel.
+-- Aber ein Trim kann nie schaden.
 function onATCPEventAvalonHunger(event, arg)
 	debugc("&lt;magenta&gt;AvalonHunger per ATCP empfangen!\n")
 	arg = string.trim(arg)
@@ -3813,7 +3994,7 @@ function onATCPEventAvalonSchutz(event, arg)
     -- Wenn ein Schutzzauber hinzu kommt, gibt es eine ATCP-Message. Wenn ein
     -- Schutz wegfällt, gibt es aber keine. Um die Anzeige (und was sonst noch 
     -- so davon abhängt...) zu aktualisieren, werden hier deshalb bei jeder
-    -- Veränderung ... Das ist doch quatsch. 
+    -- Veränderung ... Das ist doch quatsch. Anders lösen. 
     --sendATCP("ava_req_update")
 		-- raiseEvent("RefreshInfobox", arg)
 	end
@@ -4044,19 +4225,6 @@ registerAnonymousEventHandler("AvalonMAXMP", "onATCPEventAvalonMAXMP")
 -- Avalon.Channel [kanalname] [Nachricht]
 ----------------------------------------------------------------------------------------
 
--- In der per ATCP empfangenen Kommunikation gibt es Formatierungsanweisungen,
--- die hier rausgefiltert werden.
-function clearMessage(str)
-	message = str
-	message = string.gsub(message, "%%%^ITALIC%%%^", "")
-	message = string.gsub(message, "%%%^NO_ITALIC%%%^", "")
-	message = string.gsub(message, "%%%^NC_html_begin_colour%(%#[A-Za-z0-9]+%)%%%^", "")
-	message = string.gsub(message, "%%%^NC_html_end_colour%%%^", "")
-
-	return message
-end
-
-
 -- event == "AvalonChannel"
 function onATCPEventAvalonChannel(event, arg)
   debugc("AvalonChannel = " .. arg .. "\n")
@@ -4070,7 +4238,7 @@ function onATCPEventAvalonChannel(event, arg)
   message = arg:gsub("^.-%s", "", 1)
   -- Die Nachricht kann Steuercode enthalten, beispielsweise für farbigen Text.
   -- Der wird hier rausgefiltert.
-  message = clearMessage(message)
+  --message = clearMessage(message)
   
   -- Die Channelnamen hängen davon ab, in welcher Gilde, Zunft, in welchem Volk etc. der Char ist.
   -- Auf der Oberfläche sollen die Kanalnamen aber "Volk" und "Gilde" etc. heißen. 
@@ -4099,10 +4267,11 @@ function onATCPEventAvalonChannel(event, arg)
   -- Und sie sind nach dem Kanalnamen benannt. ("Sagen.txt")
   -- TODO: Charakternamen hinzufügen, damit ein Profil auch mit unterschiedlichen
   --       Charakteren gespielt werden kann.
-  Logger:Log(channel, message, {"timestamp", split = 1000})
+--  Logger:Log(channel, message, {"timestamp", split = 4000})
+  avalonUI.processMessage(channel, message)
   -- Anschließend muss evtl. die Anzeige auf der Oberfläche aktualisiert werden.
   -- Dafür sorgt dieses Event:
-  raiseEvent("RefreshTabElement", channel)
+--  raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonChannel", "onATCPEventAvalonChannel")
 
@@ -4118,11 +4287,12 @@ function onATCPEventAvalonComm(event, arg)
   -- alles vorher wird hier abgeschnitten.
   message = arg:gsub("^.-%s", "", 1)
   -- Die Nachricht wird von Steuercode (Farbe) befreit:
-  message = clearMessage(message)
+  --message = clearMessage(message)
   -- Die Nachricht wird in das entsprechende Logfile geschrieben:
-  Logger:Log(channel, message, {"timestamp", split = 1000})
+  --Logger:Log(channel, message, {"timestamp", split = 4000})
+  avalonUI.processMessage(channel, message)
   -- Die Anzeige auf der Oberfläche wird ggf. aktualisiert:
-  raiseEvent("RefreshTabElement", channel)
+  --raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonComm", "onATCPEventAvalonComm")
 
@@ -4133,9 +4303,10 @@ function onATCPEventAvalonRComm(event, arg)
 	debugc("AvalonRComm = " .. arg .. "\n")
 	channel = "Reden"
 	message = arg:gsub("^.-%s", "", 1)
-	message = clearMessage(message)
-	Logger:Log(channel, message, {"timestamp", split = 1000})
-	raiseEvent("RefreshTabElement", channel)
+	--message = clearMessage(message)
+	--Logger:Log(channel, message, {"timestamp", split = 4000})
+  avalonUI.processMessage(channel, message)
+	--raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonRComm", "onATCPEventAvalonRComm")
 
@@ -4146,9 +4317,10 @@ function onATCPEventAvalonSoul(event, arg)
 	debugc("AvalonSoul = " .. arg .. "\n")
 	channel = "Sagen"
 	message = arg:gsub("^.-%s", "", 1)
-	message = clearMessage(message)
-	Logger:Log(channel, message, {"timestamp", split = 1000})
-	raiseEvent("RefreshTabElement", channel)
+	--message = clearMessage(message)
+	--Logger:Log(channel, message, {"timestamp", split = 4000})
+  avalonUI.processMessage(channel, message)
+	--raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonSoul", "onATCPEventAvalonSoul")
 
@@ -4161,11 +4333,12 @@ function onATCPEventAvalonRSoul(event, arg)
   -- Kanalnamen aus der Nachricht entfernen:
   message = arg:gsub("^.-%s", "", 1)
   -- Formatierungen entfernen:
-  message = clearMessage(message)
+  --message = clearMessage(message)
   -- Nachricht ins logfile schreiben:
-  Logger:Log(channel, message, {"timestamp", split = 1000})
+  --Logger:Log(channel, message, {"timestamp", split = 4000})
+  avalonUI.processMessage(channel, message)
   -- evtl. Anzeige auf der Oberfläche aktualisieren:
-  raiseEvent("RefreshTabElement", channel)
+  --raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonRSoul", "onATCPEventAvalonRSoul")
 
