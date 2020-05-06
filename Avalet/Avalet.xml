@@ -38,27 +38,6 @@
 				<integer>1</integer>
 			</regexCodePropertyList>
 		</Trigger>
-		<Trigger isActive="no" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-			<name>TestSegen</name>
-			<script>send("denk ruestungssegen!: " .. matches[4])
-</script>
-			<triggerType>0</triggerType>
-			<conditonLineDelta>0</conditonLineDelta>
-			<mStayOpen>0</mStayOpen>
-			<mCommand></mCommand>
-			<packageName></packageName>
-			<mFgColor>#ff0000</mFgColor>
-			<mBgColor>#ffff00</mBgColor>
-			<mSoundFile></mSoundFile>
-			<colorTriggerFgColor>#000000</colorTriggerFgColor>
-			<colorTriggerBgColor>#000000</colorTriggerBgColor>
-			<regexCodeList>
-				<string>^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-Za-z\s]+) beginnt\, schwach zu( leuchten\.)?</string>
-			</regexCodeList>
-			<regexCodePropertyList>
-				<integer>1</integer>
-			</regexCodePropertyList>
-		</Trigger>
 	</TriggerPackage>
 	<TimerPackage>
 		<TimerGroup isActive="yes" isFolder="yes" isTempTimer="no" isOffsetTimer="no">
@@ -67,7 +46,7 @@
 			<command></command>
 			<packageName></packageName>
 			<time>00:00:00.000</time>
-			<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+			<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
 				<name>avaletTimersTimer</name>
 				<script>refreshTimer()</script>
 				<command></command>
@@ -79,19 +58,16 @@
 	<AliasPackage>
 		<AliasGroup isActive="yes" isFolder="yes">
 			<name>Avalet</name>
-			<script></script>
+			<script>-- Avalet-Kram
+-- Achtung: Änderungen an diesem Modul werden NICHT gespeichert und sind
+-- spätestens nach dem nächsten Neustart von Mudlet weg.
+-- (Und wären nach dem nächsten Update von Avalet aber ohnehin weg.)
+-- Wenn du eine tolle Idee hast, die Avalet bereichern würde, schick sie
+-- doch an den Entwickler. Vielleicht sind sie dann in der nächsten Version
+-- schon fest eingebaut.</script>
 			<command></command>
 			<packageName></packageName>
 			<regex></regex>
-			<Alias isActive="yes" isFolder="no">
-				<name>Laufrichtung</name>
-				<script>-- was wollte ich hiermit wohl machen? *kopfkratz*
-send(matches[1])
-</script>
-				<command></command>
-				<packageName></packageName>
-				<regex>^(norden|sueden|osten|westen|nordost|suedost|suedwest|nordwest|nordosten|suedosten|suedwesten|nordwesten)$</regex>
-			</Alias>
 		</AliasGroup>
 		<Alias isActive="yes" isFolder="no">
 			<name>ausloggen</name>
@@ -106,6 +82,15 @@ send(matches[1])
 			<command></command>
 			<packageName></packageName>
 			<regex>^(ende|ende hier|einschlafen|schlaf ein|schlafe ein)$</regex>
+		</Alias>
+		<Alias isActive="yes" isFolder="no">
+			<name>Laufrichtung</name>
+			<script>-- was wollte ich hiermit wohl machen? *kopfkratz*
+send(matches[1])
+</script>
+			<command></command>
+			<packageName></packageName>
+			<regex>^(norden|sueden|osten|westen|nordost|suedost|suedwest|nordwest|nordosten|suedosten|suedwesten|nordwesten)$</regex>
 		</Alias>
 	</AliasPackage>
 	<ActionPackage />
@@ -2212,16 +2197,17 @@ end
 			<Script isActive="yes" isFolder="no">
 				<name>initTimer</name>
 				<packageName></packageName>
-				<script>--Timer
---create a new trigger group
---permGroup("Trigger für Timer", "trigger")
+				<script>-- Timer
+-- Erzeugt eine Trigger-Group für die Timer-Trigger.
+-- Das hat nicht funktioniert. Die Gruppe ist zwar angelegt worden, und die Trigger standen dann
+-- auch drin. Und die Trigger waren auch aktiv. Aber die Trigger-Group war es nicht. Die wurde
+-- erst nach einem Neustart aktiviert. Deshalb hab ich die Trigger-Group von Hand angelegt, die
+-- Trigger werden dann reingeschrieben und alles läuft.
+--permGroup("AvaletTriggerFuerTimer", "trigger")
 
--- permRegexTrigger(name, parent, pattern table, lua code)
--- Create a regex trigger that will match on the prompt to record your status
---permRegexTrigger("Prompt", "", {"^(\d+)h, (\d+)m"}, [[health = tonumber(matches[2]); mana = tonumber(matches[3])]])
-
-function initTimer()
-  timerStrings = {} -- name, startstring, stopstring
+-- Hier werden die Trigger für die Timer erzeugt.
+function avalonUI.initTimer()
+  local timerStrings = {}
   --table.insert(timerStrings, {["name"]="\1", ["start"]="\2",["stop"]="\3", ["duration"]="600"}))
   table.insert(timerStrings, {["name"]="Sternenstaub", ["start"]="Du wirst von Sternenstaub umgeben\\.",["stop"]="Dein Sternenstaub loest sich auf\\.", ["duration"]="600"})
   table.insert(timerStrings, {["name"]="Magieaufladung", ["start"]="Du hast einen Teil Deiner regenerativen Energien in Deine Zauber umgelenkt\\.",["stop"]="Deine Energien fliessen wieder normal\\.", ["duration"]="600"})
@@ -2259,25 +2245,20 @@ function initTimer()
   table.insert(timerStrings, {["name"]="Blutrausch", ["start"]="Du laesst einen fuerchterlichen Urschrei von Dir. Es scheint so, als .*", ["stop"]="Die roetlichen Manawolken loesen sich auf\\.", ["duration"]="600"})
   --table.insert(timerStrings, {["name"]="Segen", ["start"]="^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-z]+) beginnt\\, schwach zu leuchten\\.", ["stop"]="(Dein|Deine)([a-z ,]*)([A-z]+) verliert .* magische Kraft.", ["duration"]="600"})
   table.insert(timerStrings, {["name"]="Segen", ["start"]="^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-Za-z\\s]+) beginnt\\, schwach zu( leuchten\\.)?", ["stop"]="(Dein|Deine)([a-z ,]*)([A-z\\s]+) verliert .* magische Kraft.", ["duration"]="600"})
+  table.insert(timerStrings, {["name"]="EP-Verdoppelung", ["start"]="^Du bekommst nun eine Zeit lang erhoehte Erfahrung\\.$", ["stop"]="", ["duration"]="3600"})
   
-  --^(Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-z]+)beginnt\, schwach zu leuchten\.)
-  
-  
-  --^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-Za-z\s]+) beginnt\, schwach zu( leuchten\.)?
-  
-  --echo("Group is active: ".. isActive("AvaletTriggerFuerTimer", "trigger").."\n")
-  
-  createTempTimer(timerStrings)
-  --createPermTimer(timerStrings)
+  -- Jetzt müssen die Timer-Trigger noch erzeugt werden:  
+  avalonUI.createTempTimer(timerStrings)
+  --avalonUI.createPermTimer(timerStrings)
 end
 
 -- Hier werden die Trigger erzeugt, die letztlich einen Timer setzen bzw. löschen.
 -- Temporäre Timer werden beim Schließen von Mudlet gelöscht. Das ermöglicht es,
 -- die Timer noch zu verändern. Temporäre Trigger sind in Mudlet (im Code-Editor)
 -- nicht sichtbar.
-function createTempTimer(timerStrings)
+function avalonUI.createTempTimer(timerStrings)
 
-  for k, v in pairs(timerStrings) do
+  for _, v in pairs(timerStrings) do
   
   --cecho("&lt;magenta&gt;Erzeuge Timer-Trigger: " .. v["name"] .. "\n")
 
@@ -2285,23 +2266,25 @@ function createTempTimer(timerStrings)
       v["duration"] = "false"
     end
 
-    param = ""
-    --Bei bestimmten Zaubern werden Begriffe aus dem auslösenden Text verwendet, um den
-    --Namen für den Timer zu bauen. Hier wird der dafür notwendige Parameter gesetzt.
-    --(Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.)
+    local param = ""
+    local luaCode = ""
+    -- Bei bestimmten Zaubern werden Begriffe aus dem auslösenden Text verwendet, um den
+    -- Namen für den Timer zu bauen. Hier wird der dafür notwendige Parameter gesetzt.
+    -- (Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.)
     if v["name"] == "Segen" then
-    	param = ", matches[4]"
+      param = ", matches[4]"
     end
     luaCode = [[registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[)]]
     tempRegexTrigger(v["start"], luaCode)
     
-    param = ""
-    if v["name"] == "Segen" then
-    	param = ", matches[4]"
+    if v["stop"] ~= "" then
+      param = ""
+      if v["name"] == "Segen" then
+        param = ", matches[4]"
+      end
+      luaCode = [[removeTimer("]]..v["name"]..[["]]..param..[[)]]
+      tempRegexTrigger(v["stop"], luaCode)
     end
-    luaCode = [[removeTimer("]]..v["name"]..[["]]..param..[[)]]
-    tempRegexTrigger(v["stop"], luaCode)
-    
   end -- for
 end
 
@@ -2316,36 +2299,39 @@ end
 -- schreiben kann, wären sie trotzdem beim Schließen von Mudlet weg. Aber dann müsste man
 -- aufpassen, dass die Trigger wirklich nicht enthalten sind.
 -- Jedenfalls wird diese Funktion nicht verwendet.
-function createPermTimer(timerStrings)
+function avalonUI.createPermTimer(timerStrings)
 
-  -- Erzeugt eine sortierte Liste von Triggern. Weil es einfach schöner ist, wenn
-  -- man die Liste im Code-Editor von Mudlet sieht. Ist bei temporäten Triggern ja
-  -- überflüssig.
-  function sortTimerStrings(a, b) return a["name"] &lt; b["name"] end
+  -- Erzeugt eine sortierte Liste von Triggern. Weil es einfach schöner ist, wenn man die
+  -- Liste im Code-Editor von Mudlet sieht. Ist bei temporäten Triggern ja unnötig.
+--function sortTimerStrings(a, b) return a["name"] &lt; b["name"] end
+  local sortTimerStrings = function (a, b) return a["name"] &lt; b["name"] end
   table.sort(timerStrings, sortTimerStrings)
 
-  for k, v in pairs(timerStrings) do
+  for _, v in pairs(timerStrings) do
   
     --cecho("&lt;magenta&gt;Erzeuge Timer-Trigger: " .. v["name"] .. "\n")
 
-    if exists(v["name"].."Start", "trigger") == 0 then
+    --if exists(v["name"].."Start", "trigger") == 0 then
+    if not exists(v["name"].."Start", "trigger") then
 
       if v["duration"] == nil then
         v["duration"] = "false"
       end
 
-      param = ""
-      --Bei bestimmten Zaubern werden Begriffe aus dem auslösenden Text verwendet, um den
-      --Namen für den Timer zu bauen. Hier wird der dafür notwendige Parameter gesetzt.
-      --(Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.)
-      if v["name"] == "Segen" then
-      	param = ", matches[4]"
-      end
+      local param = ""
+      local luaCode = ""
+      -- Bei bestimmten Zaubern werden Begriffe aus dem auslösenden Text verwendet, um den
+      -- Namen für den Timer zu bauen. Und zwar ist das bei den Kleriker-Segen der Fall,
+      -- weil die anders nicht zu unterscheiden sind. Hier wird der dafür notwendige Parameter gesetzt.
+      -- (Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.)
+      if v["name"] == "Segen" then param = ", matches[4]" end
+      
       luaCode = [[registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[)]]
       permRegexTrigger(v["name"].."Start", "AvaletTriggerFuerTimer", {v["start"]}, luaCode)
     end -- if exists
       
-    if exists(v["name"].."Stop", "trigger") == 0 then
+    --if exists(v["name"].."Stop", "trigger") == 0 then
+    if not exists(v["name"].."Stop", "trigger") and v["stop"] ~= "" then
       param = ""
       if v["name"] == "Segen" then
       	param = ", matches[4]"
@@ -2355,12 +2341,7 @@ function createPermTimer(timerStrings)
     end -- if exists
       
   end -- for
-  --feedTriggers("\nDu laesst einen fuerchterlichen Urschrei von Dir. Es scheint so, als bla\n")
 end
-  
-
-
-
 </script>
 				<eventHandlerList />
 			</Script>
@@ -2426,6 +2407,13 @@ function updateInfoBox()
     -- in der Mitte der Zeichenkette als auch am Anfang zuverlässig erkennt. Bestenfalls
     -- wurde dabei nur eine Ziffer übernommen (also "8 Minuten" statt "28 Minuten"). Deshalb
     -- die zweistufige Lösung. Wer da besser ist als ich --&gt; mail me! (Aber erst testen!)
+    -- Testfälle:
+    -- "38 Tage 40 Stunden 21 Minuten 41 Sekunden 3306101",
+    -- "3 Tage 6 Stunden 2 Minuten 4 Sekunden 3306101",
+    -- "6 Stunden 21 Minuten 41 Sekunden 3306101",
+    -- "38 Tage 21 Minuten 41 Sekunden 3306101",
+    -- "21 Minuten 41 Sekunden 3306101",
+    -- "38 Tage 6 Stunden 41 Sekunden 3306101",
     local str = player.alter
     local tage = ""
     tage = string.gsub(str, "^(%d+%sTage?)%s.*", "%1", 1)
@@ -2553,28 +2541,20 @@ function createChatModel()
 end
 
 
-function reduceContentSize(content)
-
-  if #content &gt; 250000 then
-    -- so lange Zeilen vom Anfang löschen, bis die Größe unter die Schwelle fällt.
-    -- diese Funktion wird bei jedem Hinzufügen einer Zeile aufgerufen, also alle
-    -- paar Sekunden bei manchen Kanälen. Zeitweise häufiger.
-  end
-
-end
-
 
 -- In der per ATCP empfangenen Kommunikation gibt es Formatierungsanweisungen,
 -- die hier rausgefiltert werden.
 function avalonUI.clearMessage(str)
-	message = str
-	message = string.gsub(message, "%%%^ITALIC%%%^", "")
-	message = string.gsub(message, "%%%^NO_ITALIC%%%^", "")
-	message = string.gsub(message, "%%%^NC_html_begin_colour%(%#[A-Za-z0-9]+%)%%%^", "")
-	message = string.gsub(message, "%%%^NC_html_end_colour%%%^", "")
-
-	return message
+  message = str
+  message = string.gsub(message, "%%%^ITALIC%%%^", "")
+  message = string.gsub(message, "%%%^NO_ITALIC%%%^", "")
+  message = string.gsub(message, "%%%^NC_html_begin_colour%(%#[A-Za-z0-9]+%)%%%^", "")
+  message = string.gsub(message, "%%%^NC_html_end_colour%%%^", "")
+  
+  return message
 end
+
+
 
 -- Hier wird die Kommunikation verarbeitet, die über die Comm-Kanäle per ATCP eingehen.
 -- Eine erste Verarbeitung fand schon beim Eingang der Nachricht statt, also bei
@@ -2604,92 +2584,93 @@ function avalonUI.processMessage(channel, message)
 
   -- Hier können auch Comm-Nachrichten landen, für die es keinen Tab gibt. Also:
   if avalonUI.chats[channel] ~= nil then
-    -- Wenn noch nix im Tab steht, muss erstmal das Datum eingefügt werden:
---    if #avalonUI.chats[channel] == 0 then
---      line = "~~~~~~~~~~~~~~~~~~~~ " .. date .. " ~~~~~~~~~~~~~~~~~~~~\n\n"
---      table.insert(avalonUI.chats[channel], line)
---      line = ""
---    end
-    -- Bei Datumswechsel muss ein neues Datum eingefügt werden:
---    if lastdate ~= date then
---      if lastdate ~= "" then line = "\n" end
---      line = line .. "~~~~~~~~~~~~~~~~~~~~ " .. date .. " ~~~~~~~~~~~~~~~~~~~~\n\n"
---      avalonUI.chats.lastdate = date
---      table.insert(avalonUI.chats[channel], line)
---      line = ""
---    end
-    -- Timestamp vor die Zeile und ab damit in die Tabelle:
-    
+    -- Die Tabelle der einzelnen Chat-Tabs wird auf 500 Elemente begrenzt.
+    -- Um Speicher zu sparen. Die Zahl kann sich noch ändern, aber 500 schien
+    -- mir erstmal ausreichend zu sein. Wenn die Tabelle länger ist, wird
+    -- hier jeweils das erste Element entfernt.
     while #avalonUI.chats[channel] &gt;= 500 do
       table.remove(avalonUI.chats[channel], 1)
     end
-    
+
+    -- Timestamp vor die Zeile und ab damit in die Tabelle:
     line = timestamp .. message --.. "\n"
     table.insert(avalonUI.chats[channel], line)
-    -- Für die aktualisierung der Anzeige sorgen:
+
+    -- Aufbereitet wird die Anzeige bei der Ausgabe. Dafür sorgt:
     raiseEvent("RefreshTabElement", channel)
   end  
 end
 
 
+-- Teilweise gab es Anzeigeprobleme im Tab - die neuen Zeilen wurden
+-- ausgegeben, aber der Fokus rutschte nicht weiter runter, so dass
+-- die neuen Zeilen unterhalb des unteren Randes standen. Und andere
+-- (weniger eindeutige) Merkwürdigkeiten. Dabei fand das löschen des
+-- Tabs nur mit "clearWindow()" statt. Mit der zusätzlichen Ausgabe
+-- eines Leerzeichens scheint sich das Problem erledigt zu haben.
 function clearTab(channel)
-
   debugc("&lt;magenta&gt;clearWindow: ".. channel .. "\n")    
   clearWindow(channel)
   avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(" ")
-
 end
 
 
 
--- Wird ausgeführt, wenn per ATCP eine neue Kommunikation eingeht.
+-- Wird ausgeführt, wenn per ATCP eine neue Kommunikation eingeht
+-- und diese in die ChatTab-Tabelle geschrieben wurde (siehe oben).
 function onRefreshTabElement(_, channel)
-  -- Wenn für den aktuell angezeigten Tab eine neue Nachricht eingeht,
+
   local content = ""
   local lastdate = ""
   local date = ""
   local line = ""
+  -- Wenn für den aktuell angezeigten Tab eine neue Nachricht eingeht ...
   if GUIModel.tabElement.currentTab == channel then
     debugc("Der TAB " .. channel .. " wird aktualisiert.")
     debugc("&lt;magenta&gt;clearWindow: ".. channel .. "\n")    
-    --clearWindow(channel)
+
+    --... wird erstmal der alte Inhalt gelöscht.
     clearTab(channel)
     
+    -- Dann wird für jede Zeile in der ChatTab-Tabelle ...
     for _,v in pairs(avalonUI.chats[channel]) do
 
+      -- ... erstmal das Datum extrahiert. (Aus dem Timestamp am Anfang der Zeile.)
       date = string.gsub(v, "^%[(%d+%.%d+%.%d+) %- %d+:%d+:%d+%.%d+%]: .*$", "%1", 1)
       --content = ""
       
+      -- Wenn der Tab noch leer ist, wird erstmal das Datum des ersten Eintrags ausgegeben.
+      -- Und dann wieder bei jedem Datumswechsel. Dabei wird zusätzlich noch ein Leerzeichen
+      -- eingefügt.
       if lastdate ~= date then
         if lastdate ~= "" then content = "\n" end
         content = content .. "\n~~~~~~~~~~~~~~~~~~~~ " .. date .. " ~~~~~~~~~~~~~~~~~~~~\n\n"
         lastdate = date
       end
+      
+      -- Die eigentliche Zeile besteht nur aus dem Zeitstempel und dem eigentlichen Text
       line = string.gsub(v, "^%[%d+%.%d+%.%d+ %- (%d+:%d+:%d+)%.%d+%]: (.*)$", "%1: %2", 1)
       content = content .. line .. "\n"
 
+      -- Seit Mudlet 4.8 kann "echo()" nur noch 10k Zeichen auf einmal ausgeben. Hier wird
+      -- deshalb nach 8k Zeichen der Content einmal ausgegeben (und dann geleert).
       if #content &gt; 8000 then
-        --cecho("&lt;magenta&gt;\n"..tostring(#content).."\n")
         avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(content)
         content = ""
       end
     end
+    -- Zum Schluss wird noch der Rest vom Content ausgegeben, also alles unter 8k Zeichen.
     if content ~= "" then
-      --cecho("&lt;magenta&gt;\n"..tostring(#content).."\n")
       avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(content)
-      --avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(" ")
     end
+  -- Wenn die Nachricht, die eingeht, NICHT für den aktuell angezeigten Tab ist, dann wird
+  -- einfach nur der entsprechende Tab farbig markiert. Damit der User sieht, dass da noch
+  -- ungelesene Nachrichten sind.
 	else
     avalonUI.markTab(channel)
 	end
---	debugc("&lt;magenta&gt;clearWindow: ".. channel .. "\n")
---	clearWindow(channel)
---	avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(content)
-	--avalonUI.tabElementTabs[v.."console"]:echo(GUIModel.tabElement["chat"..v])
 end
 registerAnonymousEventHandler("RefreshTabElement", "onRefreshTabElement")
---raiseEvent("RefreshTabElement", "aktiverTabName")
-
 </script>
 				<eventHandlerList />
 			</Script>
@@ -2764,14 +2745,15 @@ function sortListOfTimers()
 			-- echo("add permanent timer\n")
 			table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = 600, ["duration"] = 600})
 		else
-			-- echo("add temporary timer ... gleich kommt ein ture\n")
+			-- echo("add temporary timer\n")
 			remaining = (tonumber(v["duration"]) - ((os.time() - v["starttime"])))
 			if remaining &lt;= -30 then 
--- TODO: 		hier einr emoveTimer könnte Probleme machen, weil removeTimer wieder sortListOfTimers aufruft - aber
---       		im MOment scheint es zu funktionieren.
---       		Problem ist, dass Timer irgendwanng elöscht werden müssen, da sie nach einem längeren disconnect vielleicht
---       		schon grundlos laufen, aber dann eben auch nie vom entsprechenden trigger beendet werden.
---       		die methode hier funzt nur bei temporären timern, nicht bei permanenten. lösung dafür?
+-- TODO: 		hier ein removeTimer könnte Probleme machen, weil removeTimer wieder sortListOfTimers aufruft - aber
+--       		im Moment scheint es zu funktionieren.
+--       		Problem ist, dass Timer irgendwann gelöscht werden müssen, da sie nach einem längeren disconnect
+--       		vielleicht schon grundlos laufen, aber dann eben auch nie vom entsprechenden trigger beendet werden.
+--       		Die methode hier funzt nur bei temporären TIMERN (also bei welchen mit einer Laufzeit), nicht bei 
+--         permanenten. lösung dafür?
 				removeTimer(v["name"])
 				break
 			end
@@ -2837,32 +2819,39 @@ end
 function recreateTimer()
 	--echo("func recreateTimer\n")
 	sortListOfTimers()
-
-	for k = 1, 9, 1 do
-		hideWindow("avalonUI.Timer"..k.."_front")
-		hideWindow("avalonUI.Timer"..k.."_back")	
-		avalonUI["Timer"..k]:setText ("")
-	end
+  
+  -- Erstmal alle Timer unsichtbar machen und Beschriftung löschen
+  for k = 1, 9, 1 do
+    hideWindow("avalonUI.Timer"..k.."_front")
+    hideWindow("avalonUI.Timer"..k.."_back")	
+    avalonUI["Timer"..k]:setText ("")
+  end
 
 	timerSchriftfarbe="white"
 
-	for k, v in pairs(sortedListOfTimers) do
-		showWindow("avalonUI.Timer"..k.."_front")
-		showWindow("avalonUI.Timer"..k.."_back")		
-		if v["remaining"] &lt; 1 then
-			v["remaining"] = 1
-			timerSchriftfarbe="fuchsia"
-		elseif v["remaining"] &lt; 30 then
-			timerSchriftfarbe="red"
-		elseif v["remaining"] &lt; 60 then
-			timerSchriftfarbe="yellow"
-		else
-			timerSchriftfarbe="white"
-		end
-		--avalonUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), v["name"])
-		avalonUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), [[&lt;b&gt;&lt;font color="]]..timerSchriftfarbe..[["&gt;&amp;nbsp;]] .. v["name"] .. [[&lt;/b&gt;&lt;/font&gt;]])
-		--echo("\nRECREATE remaining: " .. v["remaining"] .. ", duration: " .. v["duration"] .. ", name: " .. v["name"] .. "\n\n")
-	end
+  for k, v in pairs(sortedListOfTimers) do
+    showWindow("avalonUI.Timer"..k.."_front")
+    showWindow("avalonUI.Timer"..k.."_back")		
+    -- Der Wert des Gauge-Elements, das die Restzeit anzeigt, darf
+    -- nicht kleiner als 1 werden, sonst kommt die Anzeige durcheinander.
+    -- Außerdem wird die Schriftfarbe verändert:
+    -- "fuchsia" für 0 Sekunden Restlaufzeit und alles drüber hinaus.
+    -- "rot" für 30 bis 1 Sekunde Restlaufzeit.
+    -- "gelb" für 60 bis 30 Sekunden Restlaufzeit.
+    -- "weiß" immer sonst
+    if v["remaining"] &lt; 1 then
+      v["remaining"] = 1
+      timerSchriftfarbe="fuchsia"
+    elseif v["remaining"] &lt; 30 then
+      timerSchriftfarbe="red"
+    elseif v["remaining"] &lt; 60 then
+      timerSchriftfarbe="yellow"
+    else
+      timerSchriftfarbe="white"
+    end
+    -- Wert des Timers setzen:
+    avalonUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), [[&lt;b&gt;&lt;font color="]]..timerSchriftfarbe..[["&gt;&amp;nbsp;]] .. v["name"] .. [[&lt;/b&gt;&lt;/font&gt;]])
+  end
 end
 
 
@@ -3174,7 +3163,7 @@ function avalonUI.UIInstalled(_, name)
     return
   else
     player = initCharacter()
-    initTimer()
+    avalonUI.initTimer()
     
     GUIModel = GUIModel or {}
     createInfoScreenModel()
@@ -3739,16 +3728,8 @@ end</script>
 -- die Avalon sendet (und empfängt) 
 -- Eine Beschreibung der ATCP-Schnittstelle von Avalon findet sich im Wiki:
 -- https://avalon.mud.de/wiki/avalon:atcp
--- Dieses Script basiert auf einem Demo-Script von Vadi aus dem mudlet.org-Forum,
--- das ich hier gefunden habe:
--- https://forums.mudlet.org/viewtopic.php?f=6&amp;t=1243
-----------------------------------------
-
--- The following scripts attach handlers to the ATCP functions and echos them. 
--- It also parses the stats line and stores all stats in a easily accecble table,
--- and exits too.
-
--- Anscheinend wird ein einer Tabelle mit dem Namen "atcp", wenn es existiert,
+--
+-- Anscheinend wird in einer Tabelle mit dem Namen "atcp", wenn sie existiert(?),
 -- alles gespeichert, was per atcp reinkommt.
 --atcp = {}
 

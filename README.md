@@ -2,14 +2,14 @@
 
 > **Avalet wird grade sehr aktiv von mir entwickelt und ändert sich deshalb ständig. Das es noch kein automatisches Update (oder sowas) gibt, lohnt es sich, hier häufiger nach einer neuen Version zu schauen. Wenn du einen Fehler findest oder einen Feature-Wunsch hast - schreib mir. Ich bin Rofhessa in Avalon.**
 
-Avalet ist ein Mudlet-Module für das [MUD Avalon](https://avalon.mud.de/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
+Avalet ist ein Module für das [MUD Avalon](https://avalon.mud.de/) und den Mud-Client [Mudlet](https://www.mudlet.org/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
 
 ![aktueller Screenshot](latest_screenshot.png) 
 
 Avalet bietet in erster Linie:
 - Laufen mit dem Ziffernblock! ([Tastaturbelegung](https://github.com/MarcoSteffens/Avalet/wiki/Tastaturbelegung-f%C3%BCr-den-Ziffernblock))
 - Einen nicht zu übersehende Anzeige von TP, AP, ZP und Mana!
-- Eine Ausleitung der wesentlichen Kommunikationskanäle!
+- Eine übersichtliche Anzeige der wesentlichen Kommunikationskanäle!
 - Eine Anzeige von Schildzaubern, Auren und anderen Timern! Mit *fancy* *Rückschritts*balken! ;)
 - Eine dauerhafte Anzeige einiger wichtiger (und einiger nicht so wichtiger) Charakter-Informationen!
 - Eine Karte (und einen Mapper)! *(coming soon)*
