@@ -4,7 +4,12 @@
 	<TriggerPackage>
 		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 			<name>AvaletTriggerFuerTimer</name>
-			<script>-- Die Timer-Trigger werden im Moment als temporäre Trigger erzeugt und sind deshalb hier nicht sichtbar.</script>
+			<script>-- Timer-Trigger
+-- In dieser Trigger-Group stehen normalerweise die Trigger, die Timer erzeugen sollen.
+-- Diese Timer-Trigger werden möglicherweise grade als "temporäre Trigger" erzeugt und sind dann
+-- hier im Code(-Editor) nicht sichtbar. Das hatte Vorteile beim Entwickeln.
+-- Letztlich sollen sie aber irgendwann hier sichtbar sein, also dann als "permanente Trigger".
+-- Einstellbar ist das dort, wo die Timer gesammelt bzw. definiert werden.</script>
 			<triggerType>0</triggerType>
 			<conditonLineDelta>0</conditonLineDelta>
 			<mStayOpen>0</mStayOpen>
@@ -20,7 +25,10 @@
 		</TriggerGroup>
 		<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 			<name>OnReconnect</name>
-			<script>raiseEvent("afterReconnectEvent")</script>
+			<script>-- reconnect
+-- Dieser Trigger löst einen Event aus, wenn der Char Statue war.
+-- Also nicht neu eingeloggt wurde, sondern "reconnected".
+raiseEvent("afterReconnectEvent")</script>
 			<triggerType>0</triggerType>
 			<conditonLineDelta>0</conditonLineDelta>
 			<mStayOpen>0</mStayOpen>
@@ -40,42 +48,40 @@
 		</Trigger>
 	</TriggerPackage>
 	<TimerPackage>
-		<TimerGroup isActive="yes" isFolder="yes" isTempTimer="no" isOffsetTimer="no">
-			<name>Avalet</name>
-			<script></script>
+		<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+			<name>avaletTimersTimer</name>
+			<script>-- Timer-Timer
+-- Dieser Mudlet-Timer sorgt dafür, dass die Anzeige der Avalet-Timer
+-- aktualisiert wird. Die hier sekündlich aufgerufene Funktion sorgt dafür,
+-- dass ggf. die Reihenfolge der Timer geändert wird, dass die Schriftfarbe
+-- die Restlaufzeit wiedergibt und dass der Fortschrittsbalken aktualisiert wird.
+refreshTimer()</script>
 			<command></command>
 			<packageName></packageName>
-			<time>00:00:00.000</time>
-			<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
-				<name>avaletTimersTimer</name>
-				<script>refreshTimer()</script>
-				<command></command>
-				<packageName></packageName>
-				<time>00:00:01.000</time>
-			</Timer>
-		</TimerGroup>
+			<time>00:00:01.000</time>
+		</Timer>
+		<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+			<name>ATCP-Update</name>
+			<script>-- ATCP-Update
+-- Manche Informationen werden von ATCP nicht automatisch verschickt. Beispielsweise
+-- werden der Hunger- und der Durst-Status nicht aktualisiert, wenn der Char isst
+-- oder trinkt. Und die Anzeige des Alters auf der Oberfläche ist natürlich auch nicht
+-- aktuell. Ich setz hier deshalb mal alle 15 Sekunden eine manuelle aktualisierung. 
+-- Mal sehen, ob sich das bewährt.
+_ = sendATCP("ava_req_update")</script>
+			<command></command>
+			<packageName></packageName>
+			<time>00:00:15.000</time>
+		</Timer>
 	</TimerPackage>
 	<AliasPackage>
-		<AliasGroup isActive="yes" isFolder="yes">
-			<name>Avalet</name>
-			<script>-- Avalet-Kram
--- Achtung: Änderungen an diesem Modul werden NICHT gespeichert und sind
--- spätestens nach dem nächsten Neustart von Mudlet weg.
--- (Und wären nach dem nächsten Update von Avalet aber ohnehin weg.)
--- Wenn du eine tolle Idee hast, die Avalet bereichern würde, schick sie
--- doch an den Entwickler. Vielleicht sind sie dann in der nächsten Version
--- schon fest eingebaut.</script>
-			<command></command>
-			<packageName></packageName>
-			<regex></regex>
-		</AliasGroup>
 		<Alias isActive="yes" isFolder="no">
 			<name>ausloggen</name>
-			<script>-- Dieses Alias soll ausgelöst werden, wenn der Spieler den
+			<script>-- logout
+-- Dieses Alias soll ausgelöst werden, wenn der Spieler den
 -- Charakter richtig ausloggt. Aber NICHT, wenn er Statue wird.
-
---echo("\nVon Avalet gemessene Session-EP: " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n\n")
---player.sessionEP = tonumber(player.ep)
+-- Der hier ausgelöste Event räumt dann hauptsächlich Daten ab, damit
+-- die nächste Session sauber beginnt. (Session-EP, Chat-Tabs)
 raiseEvent("logoutEvent")
 send(matches[1])
 </script>
@@ -85,7 +91,9 @@ send(matches[1])
 		</Alias>
 		<Alias isActive="yes" isFolder="no">
 			<name>Laufrichtung</name>
-			<script>-- was wollte ich hiermit wohl machen? *kopfkratz*
+			<script>-- Laufrichtung
+-- Hier wollte ich sicherlich dafür sorgen, dass die Laufrichtung auch dann erfasst wird,
+-- wenn der Spieler tatsächlich das Laufen richtig austippt. TODO
 send(matches[1])
 </script>
 			<command></command>
@@ -2282,7 +2290,7 @@ function avalonUI.createTempTimer(timerStrings)
       if v["name"] == "Segen" then
         param = ", matches[4]"
       end
-      luaCode = [[removeTimer("]]..v["name"]..[["]]..param..[[)]]
+      luaCode = [[deregisterTimer("]]..v["name"]..[["]]..param..[[)]]
       tempRegexTrigger(v["stop"], luaCode)
     end
   end -- for
@@ -2336,7 +2344,7 @@ function avalonUI.createPermTimer(timerStrings)
       if v["name"] == "Segen" then
       	param = ", matches[4]"
       end
-      luaCode = [[removeTimer("]]..v["name"]..[["]]..param..[[)]]
+      luaCode = [[deregisterTimer("]]..v["name"]..[["]]..param..[[)]]
       	permRegexTrigger(v["name"].."Stop", "AvaletTriggerFuerTimer", {v["stop"]}, luaCode)
     end -- if exists
       
@@ -2725,109 +2733,259 @@ end
 			<Script isActive="yes" isFolder="no">
 				<name>createTimerModel</name>
 				<packageName></packageName>
-				<script>-- createTimerModel()
+				<script>-- timerModel
+-- Hier geht es um die Daten, die unmittelbar auf der Oberfläche angezeigt werden.
+-- Also um die Liste mit Timern.
+-- Auf der Oberfläche gibt es immer (derzeit: 9) Timer-Gauges, die aber per default unsichtbar
+-- sind und auch keinen Beschriftungstext enthalten. Diese "Timer-Slots" sind so sortiert, dass
+-- der erste Slot UNTEN ist und der letzte OBEN. DIESE Sortierung findet also nicht hier statt,
+-- sondern ist in der Oberfläche fest eingebaut. (Aber sortiert wird hier schon, nämlich nach
+-- Restlaufzeit.)
 
+-- function createTimerModel()
+-- Initialisierung von allem hier.
+-- Es gibt eine Tabelle "listOfTimers", in der die grade existierenden Timer mit ihren Rohdaten
+-- stehen. Also Name, maximale Laufzeit (nur bei temporären Timern), Startzeit. Noch was?
+-- Und es wird noch eine zweite Tabelle geschrieben, die "sortedListOfTimers". Diese Liste wird
+-- immer neu erstellt, und enthält die jeweils AKTUELLEN Daten der Timer. Also vor allem die
+-- konkrete Restlaufzeit.
+-- Warum ich das mal so gemacht habe weiß ich nicht, vermutlich weil ich mit Lua überfordert war. 
+-- Ich vermute stark, dass man das auch mit nur einer Tabelle lösen könnte.
 function createTimerModel()
   listOfTimers = {}
   sortListOfTimers()
-end
+end -- function createTimerModel()
 
 
-
+-- function sortListOfTimers()
+-- Hier wird die Liste mit den Timern vor der Ausgabe nach Laufzeit sortiert. Als erstes kommen dabei die
+-- Timer ohne Laufzeit, also "permantente Timer". Was nicht heißt, dass die länger laufen müssen als die
+-- "temporären Timer". Da die Liste der Timer auf der Oberfläche von UNTEN nach OBEN ausgegeben wird, stehen
+-- die "permanenten Timer" dort also UNTEN!. Auch wenn sie hier die ersten in der sortierten Liste sein werden.
+-- Durch die Sortierung nach Laufzeit ergibt sich bei den temporären Timern manchmal die Situation, dass 
+-- ein weiter oben in der Ansicht stehender Timer (= geringe Restlaufzeit) noch einen längeren Fortschritts-
+-- Balken hat als ein weiter unten stehender (= längere Laufzeit). Beispielsweise wird der Timer für 
+-- "EP-Verdoppelung" mit einer Laufzeit von 1 Stunde und einer Restlaufzeit von 12 Minuten nur noch einen 
+-- sehr kurzen Fortschrittsbalken haben, aber trotzdem noch länger laufen als ein frischer Arkanschild mit 
+-- einer Laufzeit von 10 Minuten maximal. Ich fand das manchmal irritierend und hab überlegt, die Restlaufzeit
+-- mit im Timer anzuzeigen. Aber eigentlich sind mir das zu viele (letztlich überflüssige) Informationen.
+-- Diese Funktion wird jedesmal ausgeführt, wenn das UI-Element für die Timer aktualisiert wird. Also einmal
+-- pro Sekunde derzeit.
 function sortListOfTimers()
-	-- echo("\nfunc sortListOfTimers()\n")
-	sortedListOfTimers = {}
-	for k, v in pairs(listOfTimers) do
+	-- debugc("func sortListOfTimers()")
+  
+  sortedListOfTimers = {}
+  local remaining = 0
+  
+  for k, v in pairs(listOfTimers) do
 		
-		-- echo("NAME: " .. v["name"] .. "\n")
-	
-		if v["duration"] == "false" then
-			-- echo("add permanent timer\n")
-			table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = 600, ["duration"] = 600})
-		else
-			-- echo("add temporary timer\n")
-			remaining = (tonumber(v["duration"]) - ((os.time() - v["starttime"])))
-			if remaining &lt;= -30 then 
+    -- Wenn die "duration" auf "false" gesetzt ist, dann ist es ein Timer ohne Laufzeit, der die ganze
+    -- Zeit mit vollem Fortschrittsbalken angezeigt wird. Und der durch einen Schluss-Trigger gelöscht
+    -- werden muss. Sonst steht er bis zum Neustart von Mudlet in der Timer-Übersicht. (TODO!)
+    if v["duration"] == "false" then
+      
+      -- Damit das mit dem sortieren der Liste klappt, werden hier etwas willkürlich die Werte für
+      -- remaining und duration gesetzt. Wichtig ist, dass die Zahl größer ist als der am längsten
+      -- laufende temporäre Timer. Das ist im Moment "EP-Verdoppelung" mit 3600 Sekunden.
+      table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = 60000, ["duration"] = 60000})
+
+    -- Wenn "duration" NICHT false ist, ist es ein "temporärer Timer" mit abnehmendem Fortschrittsbalken.
+    else
+      
+      -- Restlaufzeit frisch berechnen
+      remaining = (tonumber(v["duration"]) - ((os.time() - v["starttime"])))
+
+      -- Wenn der Timer aus irgendwelchen Gründen übrig geblieben ist, soll er trotzdem irgendwann 
+      -- gelöscht werden. Gründe könnten sein, dass die Ausgabe des MUDs irgendwie durcheinander geraten
+      -- ist und der Beenden-Trigger deshalb nicht gegriffen hat. Oder ein connection lost oder was auch
+      -- immer. Einen konkreten Grund gab es nicht, das ist eine Vorsichtsmaßnahme.
+      -- Ein temporärer Timer (mit einer Laufzeit) wird also gelöscht, wenn er 30 Sekunden oder mehr über
+      -- seine Laufzeit ist. Unter sehr ungünstigen Umständen (starkes lag) kann es sein, dass 30 Sekunden
+      -- nicht reichen. Aber ich glaube, dass das nur extrem selten passieren kann. 
+      if remaining &lt;= -30 then
 -- TODO: 		hier ein removeTimer könnte Probleme machen, weil removeTimer wieder sortListOfTimers aufruft - aber
 --       		im Moment scheint es zu funktionieren.
 --       		Problem ist, dass Timer irgendwann gelöscht werden müssen, da sie nach einem längeren disconnect
 --       		vielleicht schon grundlos laufen, aber dann eben auch nie vom entsprechenden trigger beendet werden.
 --       		Die methode hier funzt nur bei temporären TIMERN (also bei welchen mit einer Laufzeit), nicht bei 
 --         permanenten. lösung dafür?
-				removeTimer(v["name"])
-				break
-			end
-			if remaining &lt;= 0 then 
-				remaining = 0 
-			end
-			-- echo("remaining: " .. tostring(remaining) .. "\n")
-			table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = remaining, ["duration"] = v["duration"]})
-			-- table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = v["duration"] - ((os.time() - v["starttime"])), ["duration"] = 600})
-		end
-		-- table.insert(sortedListOfTimers, {})
-	end
+        removeTimer(v["name"])
+        break
+      end
+--      -- Wenn die Restlaufzeit unter Null ist (bei Schildzaubern normal, die laufen alle ein bisschen länger als
+--      -- die veranschlagten 600 Sekunden), dann wird der Wert hier auf 0 gesetzt. Weil sonst die Anzeige auf der
+--      -- Oberfläche kaputt geht. (Oder weil sonst das Sortieren nach remaining nicht mehr geht? Hmm. Keine Ahnung.)
+--      -- TODO: Kann gut sein, dass das hier die Anzeige beeinflusst. Wenn es nämlich mehrere Timer mit "0" gibt.
+--      -- Vielleicht ist das auch einfach überflüssig. Die Anzeige auf der Oberfläche braucht eine 1, keine 0, und
+--      -- die 1 wird auch bei "refreshTimer()" gesetzt. Das ist also nicht der Grund. Sortierung kommt mir auch
+--      -- komisch vor, negative Werte sollten doch auch richtig sortiert werden. Ich kommentier das mal aus.
+--      if remaining &lt;= 0 then 
+--        remaining = 0 
+--      end
 
-	sortMyTimers = function(a, b) return a["remaining"] &gt; b["remaining"] end
-	table.sort(sortedListOfTimers, sortMyTimers)
-	--echo("Anzahl Elemente in sortedListOfTimers(): "..#sortedListOfTimers.."\n")
-end
+      table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = remaining, ["duration"] = v["duration"]})
+
+    end
+  end
+
+  -- Die fertige Timer-Liste wird jetzt noch nach Laufzeit sortiert
+  local sortMyTimers = function(a, b) return a["remaining"] &gt; b["remaining"] end
+  table.sort(sortedListOfTimers, sortMyTimers)
+
+end --function sortListOfTimers()
 
 
-
+-- function findTimerByName(name)
+-- Hier wird der KEY des Timers in der Timer-Liste an Hand seines Namens
+-- ermittelt. Wenn kein Timer mit dem Namen zu finden ist, gibt die
+-- Funktion nil zurück.
 function findTimerByName(name)
-	--echo("findTimerByName\n")
+	--debugc("findTimerByName\n")
     for k, v in pairs(listOfTimers) do
         if v["name"] == name then return k end
     end
     return nil
+end -- function findTimerByName(name)
+
+
+-- Diese Funktion wird von den Triggern verwendet, die einen Timer erzeugen.
+-- Der Timer wird hier der Tabelle "listOfTimer" hinzugefügt, anschließend
+-- wird die Tabelle mit den sortierten Timern neu erzeugt und die Anzeige
+-- auf der Oberfläche aktualisiert.
+function registerTimer(name, duration, param)
+  --debugc("\nregisterTimer\n")
+  param = param or nil
+  if param ~= nil then
+    name = name .. " " .. param
+  end
+  if duration == false then
+    duration = "false"
+  end
+  table.insert(listOfTimers, {["name"] = name, ["starttime"] = os.time(), ["duration"] = duration})
+--Erstmal auskommentiert. Neu sortiert wird später im Programmverlauf auch so.    
+--  sortListOfTimers()
+  raiseEvent("RecreateTimerView")
 end
 
-function registerTimer(name, duration , param)
-	--echo("\nregisterTimer\n")
-	param = param or nil
-	if param ~= nil then
-		--cecho("&lt;magenta&gt;\nParam ist nicht nil\n")
-		name = name .. " " .. param
-	end
-	if duration == false then
-		duration = "false"
-	end
-	table.insert(listOfTimers, {["name"] = name, ["starttime"] = os.time(), ["duration"] = duration})
-	--echo("starttime: " .. os.time() .. "\n")
-	sortListOfTimers()
-	raiseEvent("RecreateTimerView")
-end
-
-function removeTimer(name, param)
-	--echo("removeTimer\n")
-	param = param or nil
-	if param ~= nil then
-		--cecho("&lt;magenta&gt;\nRemove: Param ist nicht nil sondern: "..param.."\n")
-		name = name .. " " .. param
-	end
-	key = findTimerByName(name)
-	if key ~= nil then
-		table.remove(listOfTimers, key)
-	end
-	sortListOfTimers()
-	raiseEvent("RecreateTimerView")
-end
---removeTimer("Magiertrance")
 
 
-
-function recreateTimer()
-	--echo("func recreateTimer\n")
-	sortListOfTimers()
+-- function removeTimer("Magiertrance")
+-- Diese Funktion wird aufgerufen, wenn ein Timer gelöscht werden soll. Also wenn er 
+-- abgelaufen ist (bei denen, die von selbst terminieren) oder wenn das Ereignis ausgelöst
+-- wird, das den Timer beendet. (Das ist der häufigere Fall, weil sich die Anzeige da
+-- letztlich nach dem MUD richtet. Wenn das MUD sagt, dass die KB aus ist, dann ist sie aus.
+-- Viele Zauber sind ohnehin nicht sonderlich pünktlich, aber die Laufzeit kann sich auch 
+-- durch lags verlängern. Teilweise ganz erheblich. Das "von selbst terminieren" ist deshalb
+-- eigentlich unglücklich, geht aber manchmal nicht anders. Beispiel dafür ist die 
+-- "EP-Verdoppelung", die vom MUD nicht abgekündigt wird.)
+-- Speziell die Kleriker-Segen machen hier eine Sonderbehandlung notwendig, womit sich der
+-- Parameter "param" begründet. Da diese Segen (Rüstungssegen, Waffensegen und Schildsegen)
+-- die gleichen Texte ausgeben, und der Trigger deshalb nicht erkennen kann, mit welchem 
+-- Zauber er es zu tun hat. Und da aber beim LÖSCHEN des Timers wichtig ist, nicht den falschen
+-- zu löschen. Versucht der Trigger, den GEGENSTAND, auf den Gezaubert wird, aus dem getriggerten
+-- Text auszulesen. Was auch eigentlich ganz gut gelingt, aber nicht immer schick ist. Dieser
+-- Gegenstands-Name wird dann für den Namen des Timers verwendet. Es ergibt sich also sowas wie
+-- "Segen: Langschwert" oder (schlimmstenfalls) "Segen: Paar Echsenlederhandschuhe". Wenn der Timer
+-- dann später gelöscht werden soll, muss das mit diesem Namen geschehen. Und der steht hier im
+-- Parameter "param". Diese Lösung ist nicht schön, und wenn die Götter mein flehentliches Bitten
+-- erhören, bekommt Avalet hoffentlich künftig den Zauber per ATCP. Aber erstmal ist es jetzt so.
+function removeTimer(name)
+  -- debugc("removeTimer\n")
   
-  -- Erstmal alle Timer unsichtbar machen und Beschriftung löschen
+  -- Der Parameter "param" ist optional und wird hier deshalb erstmal zuverlässig gemacht.
+  -- Wenn ein param gegeben ist, wird er zum Teil des Namens.
+--  param = param or nil
+--  if param ~= nil then
+--    name = name .. " " .. param
+--  end
+  key = findTimerByName(name)
+  if key ~= nil then
+    table.remove(listOfTimers, key)
+  end
+  
+--  -- Wenn ein Timer gelöscht wurde, wird die Timer-Liste neu sortiert ...
+--Erstmal auskommentiert. Neu sortiert wird später im Programmverlauf auch so.  
+--  sortListOfTimers()
+  -- ... und die Anzeige auf der Oberfläche erneuert.
+  raiseEvent("RecreateTimerView")
+end --function removeTimer(name)
+
+
+function deregisterTimer(name, param)
+  -- Der Parameter "param" ist optional und wird hier deshalb erstmal zuverlässig gemacht.
+  -- Wenn ein param gegeben ist, wird er zum Teil des Namens.
+  param = param or nil
+  if param ~= nil then
+    name = name .. " " .. param
+  end
+  removeTimer(name)
+  raiseEvent("RecreateTimerView")
+end
+
+
+
+
+-- function recreateTimer()
+-- Diese Funktion baut die Timer-Anzeige auf der Oberfläche neu auf. Das heißt,
+-- sie macht erstmal alle Timer-Gauges unsichtbar, bevor sie die Funktion aufruft,
+-- die neue Timer macht ("refreshTimer()"). Der Sinn ist, dass nicht bei jeder
+-- Aktualisierung der Timer-Gauges diese erstmal unsichtbar gemacht werden. Nötig
+-- ist das ja nur, wenn sich die Anzahl der Timer verändert.
+function recreateTimer()
+	--debugc("func recreateTimer\n")
+--	sortListOfTimers()
+  
+  -- Alle Timer unsichtbar machen und Beschriftung löschen. Es gibt
+  -- 9 Gauge-Elemente auf der Oberfläche, also (max) 9 Timer:
   for k = 1, 9, 1 do
     hideWindow("avalonUI.Timer"..k.."_front")
     hideWindow("avalonUI.Timer"..k.."_back")	
     avalonUI["Timer"..k]:setText ("")
   end
 
-	timerSchriftfarbe="white"
+--	local timerSchriftfarbe="white"
+
+--  for k, v in pairs(sortedListOfTimers) do
+--    showWindow("avalonUI.Timer"..k.."_front")
+--    showWindow("avalonUI.Timer"..k.."_back")		
+--    -- Der Wert des Gauge-Elements, das die Restzeit anzeigt, darf
+--    -- nicht kleiner als 1 werden, sonst kommt die Anzeige durcheinander.
+--    -- Außerdem wird die Schriftfarbe verändert:
+--    -- "fuchsia" für 0 Sekunden Restlaufzeit und alles drüber hinaus.
+--    -- "rot" für 30 bis 1 Sekunde Restlaufzeit.
+--    -- "gelb" für 60 bis 30 Sekunden Restlaufzeit.
+--    -- "weiß" immer sonst
+--    if v["remaining"] &lt; 1 then
+--      v["remaining"] = 1
+--      timerSchriftfarbe="fuchsia"
+--    elseif v["remaining"] &lt; 30 then
+--      timerSchriftfarbe="red"
+--    elseif v["remaining"] &lt; 60 then
+--      timerSchriftfarbe="yellow"
+--    else
+--      timerSchriftfarbe="white"
+--    end
+--    -- Wert des Timers setzen:
+--    avalonUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), [[&lt;b&gt;&lt;font color="]]..timerSchriftfarbe..[["&gt;&amp;nbsp;]] .. v["name"] .. [[&lt;/b&gt;&lt;/font&gt;]])
+--  end
+  -- Timer-Anzeige neu aufbauen:
+  refreshTimer()
+end --function recreateTimer()
+
+
+-- function refreshTimer()
+-- Wird durch den Sekunden-Timer direkt aufgerufen
+-- Wird bei anderen Gelegenheiten indirekt über "recreateTimer()" aufgerufen.
+-- Diese Funktion aktualisiert die Anzeige der Timer auf der Oberfläche bzw.
+-- sie sorgt überhaupt für eine Anzeige von Timern auf der Oberfläche.
+-- Wenn sich die Anzahl der anzuzeigenden Timer nicht ändernt, müssen die Gauge-
+-- Elemente vorher nicht unsichtbar gemacht werden. Wenn sich die Anzahl ändert,
+-- wird "recreateTimer()" ausgeführt (und von dort dann diese Funktion).
+function refreshTimer()
+	--debugc("func refreshTimer\n")
+	sortListOfTimers()
+
+	local timerSchriftfarbe = "white"
 
   for k, v in pairs(sortedListOfTimers) do
     showWindow("avalonUI.Timer"..k.."_front")
@@ -2855,69 +3013,48 @@ function recreateTimer()
 end
 
 
-function refreshTimer()
-	--echo("func refreshTimer\n")
-	sortListOfTimers()
 
-	timerSchriftfarbe="white"
-	for k, v in pairs(sortedListOfTimers) do
-		showWindow("avalonUI.Timer"..k.."_front")
-		showWindow("avalonUI.Timer"..k.."_back")		
-		if v["remaining"] &lt; 1 then
-			v["remaining"] = 1
-			timerSchriftfarbe="fuchsia"
-		elseif v["remaining"] &lt; 30 then
-			timerSchriftfarbe="red"
-		elseif v["remaining"] &lt; 60 then
-			timerSchriftfarbe="yellow"
-		else
-			timerSchriftfarbe="white"
-		end
-		--avalonUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), v["name"])
-		avalonUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), [[&lt;b&gt;&lt;font color="]]..timerSchriftfarbe..[["&gt;&amp;nbsp;]] .. v["name"] .. [[&lt;/b&gt;&lt;/font&gt;]])	
-		--echo("REFRESH remaining: " .. tostring(v["remaining"]) .. ", duration: " .. tostring(v["duration"]) .. ", name: " .. tostring(v["name"]) .. "\n")		
-	end
-end
+--function onRefreshTimerView(event, args)
+--	--echo("onRefreshTimerView DAS SOLLTE NICHT PASSIEREN\n")
+--	if #listOfTimers ~= nil then
+--		--echo("listOfTimers ist nicht nil\n")
+--		if #listOfTimers &gt; 0 then
+--			--echo("listOfTimers ist &gt; 0\n")
+--			--timersStopWatch = timersStopWatch or createStopWatch()
+--			enableTimer("avaletTimersTimer")
+--		else
+--			--echo("timer disabled\n")
+--			disableTimer("avaletTimersTimer")
+--		end
+--	else
+--		--echo("#listOfTimers == nil\n")
+--		disableTimer("avaletTimersTimer")
+--	end
+--end
+--registerAnonymousEventHandler("RefreshTimerView", "onRefreshTimerView")
 
 
-
-function onRefreshTimerView(event, args)
-	--echo("onRefreshTimerView DAS SOLLTE NICHT PASSIEREN\n")
-	if #listOfTimers ~= nil then
-		--echo("listOfTimers ist nicht nil\n")
-		if #listOfTimers &gt; 0 then
-			--echo("listOfTimers ist &gt; 0\n")
-			--timersStopWatch = timersStopWatch or createStopWatch()
-			enableTimer("avaletTimersTimer")
-		else
-			--echo("timer disabled\n")
-			disableTimer("avaletTimersTimer")
-		end
-	else
-		--echo("#listOfTimers == nil\n")
-		disableTimer("avaletTimersTimer")
-	end
-end
-registerAnonymousEventHandler("RefreshTimerView", "onRefreshTimerView")
-
-
+-- Hier wird der Sekunden-Timer, der die Timer jeweils neu
+-- berechnen lässt, aktiviert bzw. deaktiviert.
 function onRecreateTimerView(event, args)
-	--echo("onRecreateTimerView\n")
+	--debugc("onRecreateTimerView\n")
 
-	if #listOfTimers ~= nil then
-		--echo("listOfTimers ist nicht nil\n")
-		if #listOfTimers &gt; 0 then
-			--echo("listOfTimers ist &gt; 0\n")
-			enableTimer("avaletTimersTimer")
-		else
-			--echo("timer disabled\n")
-			disableTimer("avaletTimersTimer")
-		end
-	else
-		--echo("#listOfTimers == nild\n")
-		disableTimer("avaletTimersTimer")
-	end
-	recreateTimer()
+  -- Warum auch immer die Anzahl der Elemente in listOfTimers = nil sein sollte...
+  if #listOfTimers ~= nil then
+    -- Wenn es Timer in der listOfTimers gibt...
+    if #listOfTimers &gt; 0 then
+      -- ... muss auch der Timer laufen, der einmal pro Sekunde die Timer-Anzeige
+      -- auf der Oberfläche aktualisiert.
+      enableTimer("avaletTimersTimer")
+    else
+      -- Ohne anzuzeigende Timer in der Liste kann der Aktualisierungs-Timer Pause machen
+      disableTimer("avaletTimersTimer")
+    end
+  else
+    disableTimer("avaletTimersTimer")
+  end
+  -- Warum auch immer hier die Oberfläche nochmal aktualisiert werden muss - schaden wirds nicht.
+  recreateTimer()
 end
 registerAnonymousEventHandler("RecreateTimerView", "onRecreateTimerView")
 </script>
