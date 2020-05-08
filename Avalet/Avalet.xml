@@ -55,7 +55,7 @@ raiseEvent("afterReconnectEvent")</script>
 -- aktualisiert wird. Die hier sekündlich aufgerufene Funktion sorgt dafür,
 -- dass ggf. die Reihenfolge der Timer geändert wird, dass die Schriftfarbe
 -- die Restlaufzeit wiedergibt und dass der Fortschrittsbalken aktualisiert wird.
-refreshTimer()</script>
+avalonUI.refreshTimer()</script>
 			<command></command>
 			<packageName></packageName>
 			<time>00:00:01.000</time>
@@ -82,8 +82,8 @@ _ = sendATCP("ava_req_update")</script>
 -- Charakter richtig ausloggt. Aber NICHT, wenn er Statue wird.
 -- Der hier ausgelöste Event räumt dann hauptsächlich Daten ab, damit
 -- die nächste Session sauber beginnt. (Session-EP, Chat-Tabs)
-raiseEvent("logoutEvent")
 send(matches[1])
+raiseEvent("logoutEvent")
 </script>
 			<command></command>
 			<packageName></packageName>
@@ -2205,71 +2205,132 @@ end
 			<Script isActive="yes" isFolder="no">
 				<name>initTimer</name>
 				<packageName></packageName>
-				<script>-- Timer
--- Erzeugt eine Trigger-Group für die Timer-Trigger.
--- Das hat nicht funktioniert. Die Gruppe ist zwar angelegt worden, und die Trigger standen dann
--- auch drin. Und die Trigger waren auch aktiv. Aber die Trigger-Group war es nicht. Die wurde
--- erst nach einem Neustart aktiviert. Deshalb hab ich die Trigger-Group von Hand angelegt, die
--- Trigger werden dann reingeschrieben und alles läuft.
---permGroup("AvaletTriggerFuerTimer", "trigger")
+				<script>-- Timer (und Trigger für Timer)
+--
+-- HINWEIS: Hier geht es um Timer und Trigger. Wenn hier von TRIGGERN geschrieben
+-- wird, dann sind die normalen Mudlet-Trigger gemeint. Wenn hier von TIMERN 
+-- geschrieben wird, dann sind normalerweise die Timer gemeint, die auf der 
+-- Oberfläche von Avalet angezeigt werden! Die die Laufzeit beispielsweise von 
+-- Schutzzaubersprüchen anzeigen. Es sind NICHT die Mudlet-Timer gemeint!
+--
+-- Hier werden die Daten für die Trigger gesammelt, die letztlich die Timer auf 
+-- der Oberfläche erzeugen sollen.
+-- In den Funktionen weiter unten werden diese Trigger dann erzeugt. Es gibt (derzeit)
+-- vier verschiedene Funktionen, die das tun. Benutzt wird nur eine davon, aber aus 
+-- verschiedenen Gründen lasse ich die anderen drin. Und zwar:
+-- Trigger können als "temporäre" oder als "permantente" Trigger angelegt werden.
+-- "Temporäre" Trigger haben die Eigenschaft, dass sie nicht im Code-Editor (und auch
+-- nicht in dieser Datei hier) auftauchen. Außerdem werden sie durch einen Neustart
+-- von Mudlet gelöscht und neu erzeugt. Dadurch kann man sie leicht aktualisieren.
+-- "Permantente" Trigger stehem in Code-Editor, und können so leichter kontrolliert
+-- und beim Entwickeln von Avalet auch leichter modifiziert werden. Sie überstehen
+-- aber einen Neustart von Mudlet, und da man sie auch nicht ohne weiteres per Lua
+-- löschen kann, ist es sehr viel schwieriger, sie gegebenenfalls zu aktualisieren.
+-- Ich habe Funktionen für beides geschrieben, weil ich zum Debuggen die permanenten
+-- Trigger verwendet habe, für die ausgelieferte Version von Avalet dann aber wieder
+-- auf die temporären Trigger umstelle.
+-- Außerdem gibt es jeweils eine Funktion, bei der alle Trigger auf ein mal beim Start
+-- von Mudlet bzw. bei der Installation von Avalet erzeugt werden. Also die Start- und
+-- die Stop-Trigger für die einzelnen Timer. Und es gibt jeweils eine Funktion, bei der
+-- NUR die Start-Trigger bei der Installation erzeugt werden. Die dazugehörigen STOP-
+-- Trigger werden dann erzeugt, wenn der Start-Trigger ausgelöst wurde. Und dann werden
+-- sie als ONE-TIME-Trigger angelegt, löschen sich also nach einmaligem Auslösen. Das
+-- spart rund die Hälfte der Trigger - und da Trigger die ganze Zeit die Texte mitlesen
+--  müssen, spart es Laufzeit. 
+-- Es gibt also insgesamt vier Funktionen, mit denen die "Trigger für Timer" erzeugt werden.
+-- Verwendet wird aber jeweils nur eine. Fürs debugging lass ich die anderen hier drin.
+-- Außerdem: Die Trigger werden in eine Trigger-Group namens "AvaletTriggerFuerTimer"
+-- geschrieben. Eigentlich kann man eine solche Group von Lua aus erzeugen und die Trigger
+-- dann reinschreiben. Ich hatte dabei aber das Problem, dass die Trigger zwar alle 
+-- richtig geschrieben wurden und auch aktiv waren. Die Trigger-Group war aber per default
+-- deaktiviert. Wodurch auch die in ihr enthaltenen Trigger nicht funktionierten. Die
+-- Trigger-Group war erst nach einem Speichern aktivierbar. Letztlich hab ich die Group
+-- dann fest in Avalet reingeschrieben. Damit hat dann alles funktioniert. Also NICHT so:
+-- permGroup("AvaletTriggerFuerTimer", "trigger")
 
--- Hier werden die Trigger für die Timer erzeugt.
+-- function avalonUI.initTimer()
+-- Hier werden die Daten für die Timer gesammelt, aus denen die Trigger erzeugt werden. Und
+-- am Ende dieser Funktion werden sie dann auch erzeugt.
+-- Die Trigger werden entweder als temporäre oder als permanente Trigger erzeugt, aber in 
+-- jedem Fall werden sie "RegexTrigger" sein - die Texte, auf denen die Trigger reagieren
+-- sollen, müssen also reguläre Ausdrücke sein. 
+-- Außerdem ist es notwendig, die Zeichen zur Maskierung von Sonderzeichen ("\") extra einmal
+-- zu maskieren. 
+-- Die Angabe einer ["duration"] kann entfallen, der Timer wird dann OHNE Fortschrittsanzeige
+-- angezeigt, bis der Stop-Trigger ihn entfernt. (Also die ganze Zeit mit vollen Fortschritts-
+-- balken.) In dem Fall ist UNBEDINGT sicher zu stellen, dass das Löschen des Timers auch
+-- wirklich funktioniert! Die Trigger MIT Laufzeit werden ebenfalls durch einen STOP-Trigger
+-- entfernt, zusätzlich aber auch (derzeit:) 30 Sekunde nach Ende ihrer eingetragenen Laufzeit.
+-- Bei den Trigger MIT Laufzeit ist es also möglich, auf einen STOP-String zu verzichten. Der
+-- muss in dem Fall aber trotzdem hier reingeschrieben werden, und zwar so: ["stop"] = ""
+-- Beim Hinzufügen weiterer Zeilen bitte die alphabetische Sortierung berücksichtigen... 
 function avalonUI.initTimer()
-  local timerStrings = {}
-  --table.insert(timerStrings, {["name"]="\1", ["start"]="\2",["stop"]="\3", ["duration"]="600"}))
-  table.insert(timerStrings, {["name"]="Sternenstaub", ["start"]="Du wirst von Sternenstaub umgeben\\.",["stop"]="Dein Sternenstaub loest sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Magieaufladung", ["start"]="Du hast einen Teil Deiner regenerativen Energien in Deine Zauber umgelenkt\\.",["stop"]="Deine Energien fliessen wieder normal\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Erdaura", ["start"]="Du hebst Deine Haende, beschreibst einen Halbkreis.*|Die Partikel verdichten sich um Dich\\.",["stop"]="Dein Staubschleier loest sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Luftaura", ["start"]="Du bist in den Watteflocken kaum noch auszumachen\\.",["stop"]="Deine Watteflocken loesen sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Wasseraura", ["start"]="Es regnet aus der Wolke auf Dich herab.*",["stop"]="Dein Wasserschleier loest sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Todesaura", ["start"]="Du senkst Deine Haende, aber der Schutz der schwarzen Schleier.*|Die schwarzen Schleier verdichten sich um Dich\\.",["stop"]="Deine Todesaura loest sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Feueraura", ["start"]="Du senkst Deine Haende, aber der Schutz der Manawolken.*|Die Manawolken verdichten sich um Dich\\.",["stop"]="Deine Feueraura loest sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Kampfbeschwoerung", ["start"]="Du wirst von einer heiligen Aura umgeben\\.",["stop"]="Deine heilige Aura loest sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Kernschild", ["start"]="Das Glitzern legt sich als schuetzendes Schild ueber Dich\\.",["stop"]="Dein Kernschild loest sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Knochenschild", ["start"]="Du erhebst Dich wieder, der wirbelnde Schild aus Knochen umgibt Dich",["stop"]="Deine schuetzende Knochenwolke loest sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Steinhaut", ["start"]="Du bist nun vollkommen in eine Steinhaut eingehuellt, .*",["stop"]=".*Du befreist Dich von Deiner Steinhaut.*|.*Deine Steinhaut loest sich auf.*|Das hat Deiner Steinhaut den letzten Rest gegeben, sie loest sich auf\\."})
-  table.insert(timerStrings, {["name"]="Schild", ["start"]="Du wirst von einem magischen Schild umgeben\\.",["stop"]="Dein magischer Schild loest sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Licht I", ["start"]="Du erzeugst Dir eine kleine Feuerkugel\\.",["stop"]="Deine Feuerkugel erlischt\\.", ["duration"]="240"})
-  table.insert(timerStrings, {["name"]="Licht II", ["start"]="Du erzeugst Dir eine kleine Leuchtflamme\\.",["stop"]="Deine Leuchtflamme erlischt\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Licht III", ["start"]="Ein grosser Lichtbogen breitet sich ueber Deinem Kopf aus\\.",["stop"]="Dein Lichtbogen verschwindet\\.", ["duration"]="1200"})
-  table.insert(timerStrings, {["name"]="Arkanschild", ["start"]="Du wirst von einem Arkanschild umgeben\\.",["stop"]="Dein Arkanschild loest sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Manarausch", ["start"]="Dichte Manawolken bilden nun einen gewaltigen Schutz um Dich herum\\.",["stop"]="Dein Manarausch laesst wieder nach\\."})
-  table.insert(timerStrings, {["name"]="Magiertrance", ["start"]="^Die Welt um Dich herum verliert an Bedeutung. Nur noch Deine Zauber sind$",["stop"]="Du erwachst aus Deiner Trance\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Windhaut", ["start"]="Du bist nun vollkommen in eine Windhaut eingehuellt\\.",["stop"]="Du befreist Dich von Deiner Windhaut\\.|Deine Windhaut loest sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Daemonenhaut", ["start"]="Du bist nun vollkommen in eine Daemonenhaut eingehuellt\\.",["stop"]="Deine Daemonenhaut loest sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Lebensaura", ["start"]="Du oeffnest die Augen, aber der Schutz der Bluetenblaetter umgibt Dich",["stop"]="Deine Lebensaura loest sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Schwarzschild", ["start"]="Du wirst von einem magischen Schild umgeben, der Dich besser parieren",["stop"]="Dein Schwarzschild loest sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Weissschild", ["start"]="Du wirst von einem magischen Schild umgeben, der Dich Deinen Gegner .*", ["stop"]="Dein Weissschild loest sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Holzhaut", ["start"]="Deine Haut sieht nun hoelzern und sehr widerstandsfaehig aus\\.|Deine Blaetterhaut sieht nun hoelzern und sehr widerstandsfaehig aus\\.|Deine Blaetterhaut fuehlt sich nun recht hoelzern an\\.|Deine Haut fuehlt sich nun recht hoelzern an\\.", ["stop"]="Deine Holzhaut loest sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Blaetterhaut", ["start"]="Deine Haut ist nun mit Blaettern bedeckt, die Dir ein angenehmes Klima|Deine Holzhaut ist nun mit Blaettern bedeckt, die Dir ein angenehmes Klima", ["stop"]="Deine Blaetterhaut loest sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Pflanzenblick", ["start"]="Du siehst die Pflanzen um Dich herum jetzt viel klarer\\.", ["stop"]="Dein besonderer Blick fuer die Pflanzen an Deinem Weg verschwindet wieder\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Friedfertigkeit", ["start"]="Du fuehlst Dich nun .* friedfertig\\.", ["stop"]="Du fuehlst Dich wieder kaempferischer, ungestuemer\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Kampfeslust", ["start"]="Du bekommst so langsam richtig Lust auf ein kleines Kraeftemessen\\.", ["stop"]="Du fuehlst Dich wieder ruhiger, besonnener\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Todkonvertieren", ["start"]="Du wirst von einem heiligen Schutz umgeben\\.", ["stop"]="Dein heiliger Schutz loest sich auf\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Zorn", ["start"]="Du wirst von kuehlen Winden umgeben\\.", ["stop"]="Die kuehlen Winde, welche Dich umgeben, verschwinden\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Kampfsegen", ["start"]="Du bist motiviert und willig zu kaempfen\\.", ["stop"]="Deine Motivation und Dein Kampfeswille schwinden\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Trotz", ["start"]="Du hast nun verbesserte Verteidigungsfertigkeiten\\.", ["stop"]="Deine verbesserten Verteidigungsfertigkeiten schwinden\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Vergeltung", ["start"]="Du oeffnest Deine Augen und buendelst Deine Wut\\.", ["stop"]="Die Wut in Dir scheint besiegt\\.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Blutrausch", ["start"]="Du laesst einen fuerchterlichen Urschrei von Dir. Es scheint so, als .*", ["stop"]="Die roetlichen Manawolken loesen sich auf\\.", ["duration"]="600"})
-  --table.insert(timerStrings, {["name"]="Segen", ["start"]="^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-z]+) beginnt\\, schwach zu leuchten\\.", ["stop"]="(Dein|Deine)([a-z ,]*)([A-z]+) verliert .* magische Kraft.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="Segen", ["start"]="^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-Za-z\\s]+) beginnt\\, schwach zu( leuchten\\.)?", ["stop"]="(Dein|Deine)([a-z ,]*)([A-z\\s]+) verliert .* magische Kraft.", ["duration"]="600"})
-  table.insert(timerStrings, {["name"]="EP-Verdoppelung", ["start"]="^Du bekommst nun eine Zeit lang erhoehte Erfahrung\\.$", ["stop"]="", ["duration"]="3600"})
   
-  -- Jetzt müssen die Timer-Trigger noch erzeugt werden:  
-  avalonUI.createTempTimer(timerStrings)
+  local timerStrings = {
+    --{["name"]="Name", ["start"]="Start-RegExpr",["stop"]="Stop-RegExpr", ["duration"]="600"},
+    --{["name"]="Name", ["start"]="Start-RegExpr",["stop"]="", ["duration"]="600"},
+    --{["name"]="Name", ["start"]="Start-RegExpr",["stop"]="Stop-RegExpr"},
+    {["name"]="Arkanschild", ["start"]="Du wirst von einem Arkanschild umgeben\\.", ["stop"]="Dein Arkanschild loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Blaetterhaut", ["start"]="Deine Haut ist nun mit Blaettern bedeckt, die Dir ein angenehmes Klima|Deine Holzhaut ist nun mit Blaettern bedeckt, die Dir ein angenehmes Klima", ["stop"]="Deine Blaetterhaut loest sich auf\\.", ["duration"]="600"},  
+    {["name"]="Blutrausch", ["start"]="Du laesst einen fuerchterlichen Urschrei von Dir. Es scheint so, als .*", ["stop"]="Die roetlichen Manawolken loesen sich auf\\.", ["duration"]="600"},
+    {["name"]="Daemonenhaut", ["start"]="Du bist nun vollkommen in eine Daemonenhaut eingehuellt\\.", ["stop"]="Deine Daemonenhaut loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Erdaura", ["start"]="Du hebst Deine Haende, beschreibst einen Halbkreis.*|Die Partikel verdichten sich um Dich\\.", ["stop"]="Dein Staubschleier loest sich auf\\.", ["duration"]="600"},
+    {["name"]="EP-Verdoppelung", ["start"]="^Du bekommst nun eine Zeit lang erhoehte Erfahrung\\.$", ["stop"]="", ["duration"]="3600"},
+    {["name"]="Feueraura", ["start"]="Du senkst Deine Haende, aber der Schutz der Manawolken.*|Die Manawolken verdichten sich um Dich\\.", ["stop"]="Deine Feueraura loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Friedfertigkeit", ["start"]="Du fuehlst Dich nun .* friedfertig\\.", ["stop"]="Du fuehlst Dich wieder kaempferischer, ungestuemer\\.", ["duration"]="600"},
+    {["name"]="Holzhaut", ["start"]="Deine Haut sieht nun hoelzern und sehr widerstandsfaehig aus\\.|Deine Blaetterhaut sieht nun hoelzern und sehr widerstandsfaehig aus\\.|Deine Blaetterhaut fuehlt sich nun recht hoelzern an\\.|Deine Haut fuehlt sich nun recht hoelzern an\\.", ["stop"]="Deine Holzhaut loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Kampfbeschwoerung", ["start"]="Du wirst von einer heiligen Aura umgeben\\.",["stop"]="Deine heilige Aura loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Kampfeslust", ["start"]="Du bekommst so langsam richtig Lust auf ein kleines Kraeftemessen\\.", ["stop"]="Du fuehlst Dich wieder ruhiger, besonnener\\.", ["duration"]="600"},
+    {["name"]="Kampfsegen", ["start"]="Du bist motiviert und willig zu kaempfen\\.", ["stop"]="Deine Motivation und Dein Kampfeswille schwinden\\.", ["duration"]="600"},
+    {["name"]="Kernschild", ["start"]="Das Glitzern legt sich als schuetzendes Schild ueber Dich\\.", ["stop"]="Dein Kernschild loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Knochenschild", ["start"]="Du erhebst Dich wieder, der wirbelnde Schild aus Knochen umgibt Dich", ["stop"]="Deine schuetzende Knochenwolke loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Lebensaura", ["start"]="Du oeffnest die Augen, aber der Schutz der Bluetenblaetter umgibt Dich", ["stop"]="Deine Lebensaura loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Licht I", ["start"]="Du erzeugst Dir eine kleine Feuerkugel\\.", ["stop"]="Deine Feuerkugel erlischt\\.", ["duration"]="240"},
+    {["name"]="Licht II", ["start"]="Du erzeugst Dir eine kleine Leuchtflamme\\.",["stop"]="Deine Leuchtflamme erlischt\\.", ["duration"]="600"},
+    {["name"]="Licht III", ["start"]="Ein grosser Lichtbogen breitet sich ueber Deinem Kopf aus\\.", ["stop"]="Dein Lichtbogen verschwindet\\.", ["duration"]="1200"},
+    {["name"]="Luftaura", ["start"]="Du bist in den Watteflocken kaum noch auszumachen\\.", ["stop"]="Deine Watteflocken loesen sich auf\\.", ["duration"]="600"},
+    {["name"]="Magieaufladung", ["start"]="Du hast einen Teil Deiner regenerativen Energien in Deine Zauber umgelenkt\\.",["stop"]="Deine Energien fliessen wieder normal\\.", ["duration"]="600"},
+    {["name"]="Magiertrance", ["start"]="^Die Welt um Dich herum verliert an Bedeutung. Nur noch Deine Zauber sind$",["stop"]="Du erwachst aus Deiner Trance\\.", ["duration"]="600"},
+    {["name"]="Manarausch", ["start"]="Dichte Manawolken bilden nun einen gewaltigen Schutz um Dich herum\\.",["stop"]="Dein Manarausch laesst wieder nach\\."},
+    {["name"]="Pflanzenblick", ["start"]="Du siehst die Pflanzen um Dich herum jetzt viel klarer\\.", ["stop"]="Dein besonderer Blick fuer die Pflanzen an Deinem Weg verschwindet wieder\\.", ["duration"]="600"},
+    {["name"]="Schild", ["start"]="Du wirst von einem magischen Schild umgeben\\.",["stop"]="Dein magischer Schild loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Schwarzschild", ["start"]="Du wirst von einem magischen Schild umgeben, der Dich besser parieren",["stop"]="Dein Schwarzschild loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Segen", ["start"]="^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-Za-z\\s]+) beginnt\\, schwach zu( leuchten\\.)?", ["stop"]="(Dein|Deine)([a-z ,]*)([A-z\\s]+) verliert .* magische Kraft.", ["duration"]="600"},
+    {["name"]="Steinhaut", ["start"]="Du bist nun vollkommen in eine Steinhaut eingehuellt, .*",["stop"]=".*Du befreist Dich von Deiner Steinhaut.*|.*Deine Steinhaut loest sich auf.*|Das hat Deiner Steinhaut den letzten Rest gegeben, sie loest sich auf\\."},
+    {["name"]="Sternenstaub", ["start"]="Du wirst von Sternenstaub umgeben\\.",["stop"]="Dein Sternenstaub loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Todesaura", ["start"]="Du senkst Deine Haende, aber der Schutz der schwarzen Schleier.*|Die schwarzen Schleier verdichten sich um Dich\\.",["stop"]="Deine Todesaura loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Todkonvertieren", ["start"]="Du wirst von einem heiligen Schutz umgeben\\.", ["stop"]="Dein heiliger Schutz loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Trotz", ["start"]="Du hast nun verbesserte Verteidigungsfertigkeiten\\.", ["stop"]="Deine verbesserten Verteidigungsfertigkeiten schwinden\\.", ["duration"]="600"},
+    {["name"]="Vergeltung", ["start"]="Du oeffnest Deine Augen und buendelst Deine Wut\\.", ["stop"]="Die Wut in Dir scheint besiegt\\.", ["duration"]="600"},
+    {["name"]="Wasseraura", ["start"]="Es regnet aus der Wolke auf Dich herab.*",["stop"]="Dein Wasserschleier loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Weissschild", ["start"]="Du wirst von einem magischen Schild umgeben, der Dich Deinen Gegner .*", ["stop"]="Dein Weissschild loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Windhaut", ["start"]="Du bist nun vollkommen in eine Windhaut eingehuellt\\.",["stop"]="Du befreist Dich von Deiner Windhaut\\.|Deine Windhaut loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Zorn", ["start"]="Du wirst von kuehlen Winden umgeben\\.", ["stop"]="Die kuehlen Winde, welche Dich umgeben, verschwinden\\.", ["duration"]="600"},
+  }
+ 
+  -- Jetzt müssen die Timer-Trigger noch erzeugt werden. Dafür gibt es, wie weiter
+  -- oben beschrieben, vier Möglichkeiten:
+  -- 1) erzeugt alle Start- und alle Stop-Trigger als temporäre Trigger:
+  --avalonUI.createTempTimer(timerStrings)
+  -- 2) erzeugt alle START-Trigger als temporäre Trigger. Die STOP-Trigger werden 
+  --    vom jeweiligen START-Trigger erzeugt, und zwar als ONE-TIME temp. Trigger:
+  avalonUI.createImprovedTempTimer(timerStrings)
+  -- 3) erzeugt alle Start- und alle Stop-Trigger als permante Trigger:
   --avalonUI.createPermTimer(timerStrings)
-end
+  -- 4) erzeugt alle Start-Trigger als permanente Trigger. Die STOP-Trigger werden
+  --    vom jeweiligen START-Trigger erzeugt, und zwar als ONE-TIME-temp.(!) Trigger:
+  --avalonUI.createMixedTimer(timerStrings)
 
--- Hier werden die Trigger erzeugt, die letztlich einen Timer setzen bzw. löschen.
--- Temporäre Timer werden beim Schließen von Mudlet gelöscht. Das ermöglicht es,
--- die Timer noch zu verändern. Temporäre Trigger sind in Mudlet (im Code-Editor)
--- nicht sichtbar.
+end -- function avalonUI.initTimer()
+
+
+
+-- function avalonUI.createTempTimer(timerStrings)
+-- Hier werden die Start- UND die Stop-Trigger als TEMPORÄRE Trigger erzeugt
 function avalonUI.createTempTimer(timerStrings)
 
   for _, v in pairs(timerStrings) do
   
-  --cecho("&lt;magenta&gt;Erzeuge Timer-Trigger: " .. v["name"] .. "\n")
-
     if v["duration"] == nil then
       v["duration"] = "false"
     end
@@ -2279,47 +2340,88 @@ function avalonUI.createTempTimer(timerStrings)
     -- Bei bestimmten Zaubern werden Begriffe aus dem auslösenden Text verwendet, um den
     -- Namen für den Timer zu bauen. Hier wird der dafür notwendige Parameter gesetzt.
     -- (Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.)
-    if v["name"] == "Segen" then
-      param = ", matches[4]"
-    end
-    luaCode = [[registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[)]]
+    if v["name"] == "Segen" then param = ", matches[4]" end
+
+    -- START-Trigger:
+    luaCode = [[avalonUI.registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[)]]
     tempRegexTrigger(v["start"], luaCode)
     
+    -- STOP-Trigger (nur bei Bedarf):
     if v["stop"] ~= "" then
-      param = ""
-      if v["name"] == "Segen" then
-        param = ", matches[4]"
-      end
-      luaCode = [[deregisterTimer("]]..v["name"]..[["]]..param..[[)]]
+      luaCode = [[avalonUI.deregisterTimer("]]..v["name"]..[["]]..param..[[)]]
       tempRegexTrigger(v["stop"], luaCode)
     end
   end -- for
 end
 
--- Hier werden die Trigger erzeugt, die letztlich einen Timer setzen bzw. löschen.
--- Permanente Timer werden normalerweise nicht gelöscht. Außerdem sind sie im Code-Editor
--- von Mudlet sichtbar. Das ermöglicht es, diese Trigger nachträglich über Mudlet zu
--- bearbeiten. Andererseits ist das nachträgliche Ändern von Triggern aber schwieriger
--- (und hier auch nicht gelöst, die müssten dann erst gelöscht werden).
--- So lange Avalet als gezipptes Modul installiert ist, könnte man das Modul einfach ohne
--- diese Trigger ausliefern. Die Timer würden dann beim Start erzeugt werden, und sie wären
--- auch in der Oberfläche von Mudlet sichtbar. Aber da Mudlet nicht in ein gepacktes Modul
--- schreiben kann, wären sie trotzdem beim Schließen von Mudlet weg. Aber dann müsste man
--- aufpassen, dass die Trigger wirklich nicht enthalten sind.
--- Jedenfalls wird diese Funktion nicht verwendet.
+
+
+-- function avalonUI.createImprovedTempTimer(timerStrings)
+-- Hier werden die START-Trigger als temporäre Trigger erzeugt. Und zwar so,
+-- dass sie sich beim Auslösen ihren eigenen temporären One-Time-STOP-Trigger
+-- erzeugen
+function avalonUI.createImprovedTempTimer(timerStrings)
+  -- Beispiel für einen Timer-Trigger, der sich seinen eigenen Timer-Ende-Trigger setzt:
+  -- permRegexTrigger("Flamme", "AvaletTriggerFuerTimer", {"^Flamme an!$"}, [[registerTimer("Flamme", "60"); tempRegexTrigger("^Flamme aus!$", function() removeTimer("Flamme") end, 1)]])
+  -- Nur der Timer-Ende-Trigger:
+  -- tempRegexTrigger("^Flamme aus!$", function() removeTimer("Flamme") end, 1)
+
+  for _, v in pairs(timerStrings) do
+
+    if v["duration"] == nil then
+      v["duration"] = "false"
+    end
+
+    local param = ""
+    local stopTimer = ""
+    local luaCode = ""
+      -- Bei bestimmten Zaubern werden Begriffe aus dem auslösenden Text verwendet, um den
+      -- Namen für den Timer zu bauen. Und zwar ist das bei den Kleriker-Segen der Fall,
+      -- weil die anders nicht zu unterscheiden sind. Hier wird der dafür notwendige Parameter gesetzt.
+      -- (Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.)
+    if v["name"] == "Segen" then param = ", matches[4]" end
+    
+    -- Wenn eine Stop-RegExpr existiert, wird beim Auslösen des Triggers ein temporärer One-Time-Stop-Trigger gesetzt.
+    -- Da ich das folgende schon vor mehr als 20 Minuten geschrieben habe, verstehe ich es jetzt selber nicht mehr.
+    -- Aber die Ersetzung von "\" durch "\\" MUSS sein, weil die einzelnen Maskierungen beim Verarbeiten entfallen,
+    -- also jeweils immer eine. Und weil beim Stop-Timer-Trigger eine Verarbeitung mehr erfolgt als beim Start-Dings. 
+    if v["stop"] ~= nil and v["stop"] ~= "" then
+      stopTimer = [[; tempRegexTrigger("]]..string.gsub(v["stop"], [[\]], [[\\]])..[[", function() avalonUI.deregisterTimer("]]..v["name"]..[["]]..param..[[) end, 1)]]
+    end
+
+    -- Zusammenbau und Erzeugen des temporären Triggers:
+    luaCode = [[avalonUI.registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[)]] .. stopTimer
+    tempRegexTrigger(v["start"], luaCode)
+      
+  end -- for  
+end -- function avalonUI.createMixedTimer(timerStrings)
+
+
+
+-- function avalonUI.createPermTimer(timerStrings)
+-- Hier werden die Start- UND die Stop-Trigger als PERMANENTE Trigger erzeugt
+-- Wenn diese permanenten Trigger von mir beim Entwickeln erzeugt werden, schreibt Mudlet
+-- sie in diese Datei, also in den Code, und speichert sie. Dann würde ich die Datei packen
+-- und als Modul ausliefern und die Trigger wären fest eincodiert. Wenn ich dran denken
+-- würde, die Trigger vor dem Ausliefern immer zu löschen, könnte ich die permantenten Trigger
+-- trotzdem verwenden. Denn dann würden sie zwar auch bei der Installation von Avalet erzeugt
+-- werden. Da Mudlet aber nicht in ein gepacktes Modul schreiben kann, wären sie nach Programm-
+-- ende wieder gelöscht. Und mit der Abfrage, ob sie existieren, würden sie dann beim Programm-
+-- START wieder neu erzeugt werden. Aber da ich da nicht dran denken werde, benutze ich statt
+-- dessen die temporären Trigger. (Und die permanenten Trigger zur zum Debuggen.)
+-- Sollte sich dieser Vorbehalt mal ändern, warum auch immer, dann wäre es vielleicht
+-- besser, die START-Trigger als permanente Trigger auszulegen, die STOP-Trigger dann als 
+-- temporäre. Wie in der Funktion "avalonUI.createMixedTimer()"
 function avalonUI.createPermTimer(timerStrings)
 
   -- Erzeugt eine sortierte Liste von Triggern. Weil es einfach schöner ist, wenn man die
   -- Liste im Code-Editor von Mudlet sieht. Ist bei temporäten Triggern ja unnötig.
---function sortTimerStrings(a, b) return a["name"] &lt; b["name"] end
   local sortTimerStrings = function (a, b) return a["name"] &lt; b["name"] end
   table.sort(timerStrings, sortTimerStrings)
 
   for _, v in pairs(timerStrings) do
-  
-    --cecho("&lt;magenta&gt;Erzeuge Timer-Trigger: " .. v["name"] .. "\n")
 
-    --if exists(v["name"].."Start", "trigger") == 0 then
+    -- Trigger nur erzeugen, wenn sie nicht schon existieren:  
     if not exists(v["name"].."Start", "trigger") then
 
       if v["duration"] == nil then
@@ -2334,22 +2436,76 @@ function avalonUI.createPermTimer(timerStrings)
       -- (Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.)
       if v["name"] == "Segen" then param = ", matches[4]" end
       
-      luaCode = [[registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[)]]
+      -- Zusammenbau und Erzeugen des START-Triggers als permanter Trigger:
+      luaCode = [[avalonUI.registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[)]]
       permRegexTrigger(v["name"].."Start", "AvaletTriggerFuerTimer", {v["start"]}, luaCode)
     end -- if exists
       
-    --if exists(v["name"].."Stop", "trigger") == 0 then
+    -- Nur bei Bedarf und wenn er nicht schon existiert: der STOP-Trigger:
     if not exists(v["name"].."Stop", "trigger") and v["stop"] ~= "" then
-      param = ""
-      if v["name"] == "Segen" then
-      	param = ", matches[4]"
-      end
-      luaCode = [[deregisterTimer("]]..v["name"]..[["]]..param..[[)]]
+      -- Zusammenbau und Erzeugen des STOP-Triggers als permanenter Trigger:
+      luaCode = [[avalonUI.deregisterTimer("]]..v["name"]..[["]]..param..[[)]]
       	permRegexTrigger(v["name"].."Stop", "AvaletTriggerFuerTimer", {v["stop"]}, luaCode)
     end -- if exists
-      
   end -- for
-end
+end --function avalonUI.createPermTimer(timerStrings)
+
+
+
+-- function avalonUI.createMixedTimer(timerStrings)
+-- Hier werden die START-Trigger als PERMANENTE Trigger erzeugt. Und zwar so,
+-- dass sie sich beim Auslösen ihren eigenen TEMPORÄREN One-Time-STOP-Trigger
+-- erzeugen
+-- Siehe auch Kommentar zur vorherigen Funktion (createPermTimer())
+function avalonUI.createMixedTimer(timerStrings)
+  -- Beispiel für einen Timer-Trigger, der sich seinen eigenen Timer-Ende-Trigger setzt:
+  -- permRegexTrigger("Flamme", "AvaletTriggerFuerTimer", {"^Flamme an!$"}, [[registerTimer("Flamme", "60"); tempRegexTrigger("^Flamme aus!$", function() removeTimer("Flamme") end, 1)]])
+  -- Nur der Timer-Ende-Trigger:
+  -- tempRegexTrigger("^Flamme aus!$", function() removeTimer("Flamme") end, 1)
+
+  -- Erzeugt eine sortierte Liste von Triggern. Weil es einfach schöner ist, wenn man die
+  -- Liste im Code-Editor von Mudlet sieht. Ist bei temporäten Triggern ja unnötig.
+  local sortTimerStrings = function (a, b) return a["name"] &lt; b["name"] end
+  table.sort(timerStrings, sortTimerStrings)
+
+  for _, v in pairs(timerStrings) do
+
+    -- Eigentlich wäre es sinnvoll, der Trigger würde gelöscht werden, wenn er schon existiert.
+    -- Weil man nur so ein Update der zu triggernden Texte machen kann. Geht aber nicht. Die
+    -- Mudlet-Funktion "killTrigger" kann nur temporäre Trigger löschen. (Evtl. könnte man hier
+    -- über die Trigger-Group löschen, aber dann müsste man die neu erzeugen und das ging auch
+    -- nicht. Siehe oben.)
+    if not exists(v["name"], "trigger") then
+
+      if v["duration"] == nil then
+        v["duration"] = "false"
+      end
+
+      local param = ""
+      local stopTimer = ""
+      local luaCode = ""
+      -- Bei bestimmten Zaubern werden Begriffe aus dem auslösenden Text verwendet, um den
+      -- Namen für den Timer zu bauen. Und zwar ist das bei den Kleriker-Segen der Fall,
+      -- weil die anders nicht zu unterscheiden sind. Hier wird der dafür notwendige Parameter gesetzt.
+      -- (Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.)
+      if v["name"] == "Segen" then param = ", matches[4]" end
+      
+      -- Wenn eine Stop-RegExpr existiert, wird beim Auslösen des Triggers ein temporärer One-Time-Stop-Trigger gesetzt.
+      -- Da ich das folgende schon vor mehr als 20 Minuten geschrieben habe, verstehe ich es jetzt selber nicht mehr.
+      -- Aber die Ersetzung von "\" durch "\\" muss sein, weil die einzelnen Maskierungen beim verarbeiten entfallen,
+      -- also jeweils immer eine. Und weil beim Stop-Timer-Trigger eine Verarbeitung mehr erfolgt als beim Start-Dings. 
+      if v["stop"] ~= nil and v["stop"] ~= "" then
+        stopTimer = [[; tempRegexTrigger("]]..string.gsub(v["stop"], [[\]], [[\\]])..[[", function() avalonUI.deregisterTimer("]]..v["name"]..[["]]..param..[[) end, 1)]]
+      end
+      
+      -- Zusammenbau und erzeugen des PERMANENTEN Start-Triggers, der sich einen eigenen TEMPORÄREN Stop-Trigger erzeugt:      
+      luaCode = [[avalonUI.registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[)]] .. stopTimer
+      permRegexTrigger(v["name"], "AvaletTriggerFuerTimer", {v["start"]}, luaCode)
+
+    end -- if not exists
+      
+  end -- for  
+end -- function avalonUI.createMixedTimer(timerStrings)
 </script>
 				<eventHandlerList />
 			</Script>
@@ -2532,18 +2688,8 @@ function createChatModel()
   
   for k,v in pairs(GUIModel.tabElement.tabs) do
   
-    --avalonUI.chats  
-    --table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = 600, ["duration"] = 600}) 
     avalonUI.chats[v] = {}
     
-    
-  	-- Schreibt für jeden Tab einen Leerstring ("\n") in eine Datei,
-  	-- die nach dem Tab benannt ist. In diese Datei wird der Text 
-  	-- für den Tab gespeichert. Durch das Reinschreiben hier wird
-  	-- die Datei erzeugt, wenn es sie noch nicht gibt.
-    --if Logger:logFileExists(v) == false then
-  	 --  Logger:Log(v, "")
-    --end
   end
 
 end
@@ -2742,22 +2888,15 @@ end
 -- sondern ist in der Oberfläche fest eingebaut. (Aber sortiert wird hier schon, nämlich nach
 -- Restlaufzeit.)
 
--- function createTimerModel()
+-- function avalonUI.createTimerModel()
 -- Initialisierung von allem hier.
--- Es gibt eine Tabelle "listOfTimers", in der die grade existierenden Timer mit ihren Rohdaten
--- stehen. Also Name, maximale Laufzeit (nur bei temporären Timern), Startzeit. Noch was?
--- Und es wird noch eine zweite Tabelle geschrieben, die "sortedListOfTimers". Diese Liste wird
--- immer neu erstellt, und enthält die jeweils AKTUELLEN Daten der Timer. Also vor allem die
--- konkrete Restlaufzeit.
--- Warum ich das mal so gemacht habe weiß ich nicht, vermutlich weil ich mit Lua überfordert war. 
--- Ich vermute stark, dass man das auch mit nur einer Tabelle lösen könnte.
-function createTimerModel()
-  listOfTimers = {}
-  sortListOfTimers()
-end -- function createTimerModel()
+function avalonUI.createTimerModel()
+  avalonUI.listOfTimers = avalonUI.listOfTimers or {}
+end -- function avalonUI.createTimerModel()
 
 
 -- function sortListOfTimers()
+-- Rückgabewert: die sortierte Timer-Liste als Tabelle
 -- Hier wird die Liste mit den Timern vor der Ausgabe nach Laufzeit sortiert. Als erstes kommen dabei die
 -- Timer ohne Laufzeit, also "permantente Timer". Was nicht heißt, dass die länger laufen müssen als die
 -- "temporären Timer". Da die Liste der Timer auf der Oberfläche von UNTEN nach OBEN ausgegeben wird, stehen
@@ -2771,13 +2910,13 @@ end -- function createTimerModel()
 -- mit im Timer anzuzeigen. Aber eigentlich sind mir das zu viele (letztlich überflüssige) Informationen.
 -- Diese Funktion wird jedesmal ausgeführt, wenn das UI-Element für die Timer aktualisiert wird. Also einmal
 -- pro Sekunde derzeit.
-function sortListOfTimers()
+function avalonUI.sortListOfTimers()
 	-- debugc("func sortListOfTimers()")
   
-  sortedListOfTimers = {}
+  local sortedListOfTimers = {}
   local remaining = 0
   
-  for k, v in pairs(listOfTimers) do
+  for k, v in pairs(avalonUI.listOfTimers) do
 		
     -- Wenn die "duration" auf "false" gesetzt ist, dann ist es ein Timer ohne Laufzeit, der die ganze
     -- Zeit mit vollem Fortschrittsbalken angezeigt wird. Und der durch einen Schluss-Trigger gelöscht
@@ -2801,27 +2940,12 @@ function sortListOfTimers()
       -- immer. Einen konkreten Grund gab es nicht, das ist eine Vorsichtsmaßnahme.
       -- Ein temporärer Timer (mit einer Laufzeit) wird also gelöscht, wenn er 30 Sekunden oder mehr über
       -- seine Laufzeit ist. Unter sehr ungünstigen Umständen (starkes lag) kann es sein, dass 30 Sekunden
-      -- nicht reichen. Aber ich glaube, dass das nur extrem selten passieren kann. 
+      -- nicht reichen. Aber ich glaube, dass das nur extrem selten passieren kann.
+      -- Wenn der aktuelle Timer abgelaufen ist, dann ist der Schleifendurchlauf damit ja auch beendet. 
       if remaining &lt;= -30 then
--- TODO: 		hier ein removeTimer könnte Probleme machen, weil removeTimer wieder sortListOfTimers aufruft - aber
---       		im Moment scheint es zu funktionieren.
---       		Problem ist, dass Timer irgendwann gelöscht werden müssen, da sie nach einem längeren disconnect
---       		vielleicht schon grundlos laufen, aber dann eben auch nie vom entsprechenden trigger beendet werden.
---       		Die methode hier funzt nur bei temporären TIMERN (also bei welchen mit einer Laufzeit), nicht bei 
---         permanenten. lösung dafür?
-        removeTimer(v["name"])
+        avalonUI.removeTimer(v["name"])
         break
       end
---      -- Wenn die Restlaufzeit unter Null ist (bei Schildzaubern normal, die laufen alle ein bisschen länger als
---      -- die veranschlagten 600 Sekunden), dann wird der Wert hier auf 0 gesetzt. Weil sonst die Anzeige auf der
---      -- Oberfläche kaputt geht. (Oder weil sonst das Sortieren nach remaining nicht mehr geht? Hmm. Keine Ahnung.)
---      -- TODO: Kann gut sein, dass das hier die Anzeige beeinflusst. Wenn es nämlich mehrere Timer mit "0" gibt.
---      -- Vielleicht ist das auch einfach überflüssig. Die Anzeige auf der Oberfläche braucht eine 1, keine 0, und
---      -- die 1 wird auch bei "refreshTimer()" gesetzt. Das ist also nicht der Grund. Sortierung kommt mir auch
---      -- komisch vor, negative Werte sollten doch auch richtig sortiert werden. Ich kommentier das mal aus.
---      if remaining &lt;= 0 then 
---        remaining = 0 
---      end
 
       table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = remaining, ["duration"] = v["duration"]})
 
@@ -2832,6 +2956,8 @@ function sortListOfTimers()
   local sortMyTimers = function(a, b) return a["remaining"] &gt; b["remaining"] end
   table.sort(sortedListOfTimers, sortMyTimers)
 
+  return sortedListOfTimers
+
 end --function sortListOfTimers()
 
 
@@ -2839,9 +2965,9 @@ end --function sortListOfTimers()
 -- Hier wird der KEY des Timers in der Timer-Liste an Hand seines Namens
 -- ermittelt. Wenn kein Timer mit dem Namen zu finden ist, gibt die
 -- Funktion nil zurück.
-function findTimerByName(name)
+function avalonUI.findTimerByName(name)
 	--debugc("findTimerByName\n")
-    for k, v in pairs(listOfTimers) do
+    for k, v in pairs(avalonUI.listOfTimers) do
         if v["name"] == name then return k end
     end
     return nil
@@ -2852,7 +2978,7 @@ end -- function findTimerByName(name)
 -- Der Timer wird hier der Tabelle "listOfTimer" hinzugefügt, anschließend
 -- wird die Tabelle mit den sortierten Timern neu erzeugt und die Anzeige
 -- auf der Oberfläche aktualisiert.
-function registerTimer(name, duration, param)
+function avalonUI.registerTimer(name, duration, param)
   --debugc("\nregisterTimer\n")
   param = param or nil
   if param ~= nil then
@@ -2861,9 +2987,9 @@ function registerTimer(name, duration, param)
   if duration == false then
     duration = "false"
   end
-  table.insert(listOfTimers, {["name"] = name, ["starttime"] = os.time(), ["duration"] = duration})
---Erstmal auskommentiert. Neu sortiert wird später im Programmverlauf auch so.    
---  sortListOfTimers()
+
+  table.insert(avalonUI.listOfTimers, {["name"] = name, ["starttime"] = os.time(), ["duration"] = duration})
+
   raiseEvent("RecreateTimerView")
 end
 
@@ -2889,40 +3015,29 @@ end
 -- dann später gelöscht werden soll, muss das mit diesem Namen geschehen. Und der steht hier im
 -- Parameter "param". Diese Lösung ist nicht schön, und wenn die Götter mein flehentliches Bitten
 -- erhören, bekommt Avalet hoffentlich künftig den Zauber per ATCP. Aber erstmal ist es jetzt so.
-function removeTimer(name)
+function avalonUI.removeTimer(name)
   -- debugc("removeTimer\n")
   
-  -- Der Parameter "param" ist optional und wird hier deshalb erstmal zuverlässig gemacht.
-  -- Wenn ein param gegeben ist, wird er zum Teil des Namens.
---  param = param or nil
---  if param ~= nil then
---    name = name .. " " .. param
---  end
-  key = findTimerByName(name)
+  key = avalonUI.findTimerByName(name)
   if key ~= nil then
-    table.remove(listOfTimers, key)
+    table.remove(avalonUI.listOfTimers, key)
   end
   
---  -- Wenn ein Timer gelöscht wurde, wird die Timer-Liste neu sortiert ...
---Erstmal auskommentiert. Neu sortiert wird später im Programmverlauf auch so.  
---  sortListOfTimers()
-  -- ... und die Anzeige auf der Oberfläche erneuert.
+  -- Die Anzeige auf der Oberfläche erneuern:
   raiseEvent("RecreateTimerView")
 end --function removeTimer(name)
 
 
-function deregisterTimer(name, param)
+function avalonUI.deregisterTimer(name, param)
   -- Der Parameter "param" ist optional und wird hier deshalb erstmal zuverlässig gemacht.
   -- Wenn ein param gegeben ist, wird er zum Teil des Namens.
   param = param or nil
   if param ~= nil then
     name = name .. " " .. param
   end
-  removeTimer(name)
+  avalonUI.removeTimer(name)
   raiseEvent("RecreateTimerView")
 end
-
-
 
 
 -- function recreateTimer()
@@ -2931,9 +3046,8 @@ end
 -- die neue Timer macht ("refreshTimer()"). Der Sinn ist, dass nicht bei jeder
 -- Aktualisierung der Timer-Gauges diese erstmal unsichtbar gemacht werden. Nötig
 -- ist das ja nur, wenn sich die Anzahl der Timer verändert.
-function recreateTimer()
+function avalonUI.recreateTimer()
 	--debugc("func recreateTimer\n")
---	sortListOfTimers()
   
   -- Alle Timer unsichtbar machen und Beschriftung löschen. Es gibt
   -- 9 Gauge-Elemente auf der Oberfläche, also (max) 9 Timer:
@@ -2943,33 +3057,8 @@ function recreateTimer()
     avalonUI["Timer"..k]:setText ("")
   end
 
---	local timerSchriftfarbe="white"
-
---  for k, v in pairs(sortedListOfTimers) do
---    showWindow("avalonUI.Timer"..k.."_front")
---    showWindow("avalonUI.Timer"..k.."_back")		
---    -- Der Wert des Gauge-Elements, das die Restzeit anzeigt, darf
---    -- nicht kleiner als 1 werden, sonst kommt die Anzeige durcheinander.
---    -- Außerdem wird die Schriftfarbe verändert:
---    -- "fuchsia" für 0 Sekunden Restlaufzeit und alles drüber hinaus.
---    -- "rot" für 30 bis 1 Sekunde Restlaufzeit.
---    -- "gelb" für 60 bis 30 Sekunden Restlaufzeit.
---    -- "weiß" immer sonst
---    if v["remaining"] &lt; 1 then
---      v["remaining"] = 1
---      timerSchriftfarbe="fuchsia"
---    elseif v["remaining"] &lt; 30 then
---      timerSchriftfarbe="red"
---    elseif v["remaining"] &lt; 60 then
---      timerSchriftfarbe="yellow"
---    else
---      timerSchriftfarbe="white"
---    end
---    -- Wert des Timers setzen:
---    avalonUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), [[&lt;b&gt;&lt;font color="]]..timerSchriftfarbe..[["&gt;&amp;nbsp;]] .. v["name"] .. [[&lt;/b&gt;&lt;/font&gt;]])
---  end
   -- Timer-Anzeige neu aufbauen:
-  refreshTimer()
+  avalonUI.refreshTimer()
 end --function recreateTimer()
 
 
@@ -2981,9 +3070,11 @@ end --function recreateTimer()
 -- Wenn sich die Anzahl der anzuzeigenden Timer nicht ändernt, müssen die Gauge-
 -- Elemente vorher nicht unsichtbar gemacht werden. Wenn sich die Anzahl ändert,
 -- wird "recreateTimer()" ausgeführt (und von dort dann diese Funktion).
-function refreshTimer()
+function avalonUI.refreshTimer()
 	--debugc("func refreshTimer\n")
-	sortListOfTimers()
+  
+  -- Erstmal die Timer-Liste sortieren lassen:
+	local sortedListOfTimers = avalonUI.sortListOfTimers()
 
 	local timerSchriftfarbe = "white"
 
@@ -3013,36 +3104,15 @@ function refreshTimer()
 end
 
 
-
---function onRefreshTimerView(event, args)
---	--echo("onRefreshTimerView DAS SOLLTE NICHT PASSIEREN\n")
---	if #listOfTimers ~= nil then
---		--echo("listOfTimers ist nicht nil\n")
---		if #listOfTimers &gt; 0 then
---			--echo("listOfTimers ist &gt; 0\n")
---			--timersStopWatch = timersStopWatch or createStopWatch()
---			enableTimer("avaletTimersTimer")
---		else
---			--echo("timer disabled\n")
---			disableTimer("avaletTimersTimer")
---		end
---	else
---		--echo("#listOfTimers == nil\n")
---		disableTimer("avaletTimersTimer")
---	end
---end
---registerAnonymousEventHandler("RefreshTimerView", "onRefreshTimerView")
-
-
 -- Hier wird der Sekunden-Timer, der die Timer jeweils neu
 -- berechnen lässt, aktiviert bzw. deaktiviert.
-function onRecreateTimerView(event, args)
+function avalonUI.onRecreateTimerView(event, args)
 	--debugc("onRecreateTimerView\n")
 
   -- Warum auch immer die Anzahl der Elemente in listOfTimers = nil sein sollte...
-  if #listOfTimers ~= nil then
+  if #avalonUI.listOfTimers ~= nil then
     -- Wenn es Timer in der listOfTimers gibt...
-    if #listOfTimers &gt; 0 then
+    if #avalonUI.listOfTimers &gt; 0 then
       -- ... muss auch der Timer laufen, der einmal pro Sekunde die Timer-Anzeige
       -- auf der Oberfläche aktualisiert.
       enableTimer("avaletTimersTimer")
@@ -3053,10 +3123,10 @@ function onRecreateTimerView(event, args)
   else
     disableTimer("avaletTimersTimer")
   end
-  -- Warum auch immer hier die Oberfläche nochmal aktualisiert werden muss - schaden wirds nicht.
-  recreateTimer()
+  -- Schließlich wird noch die Oberfläche aktualisiert.
+  avalonUI.recreateTimer()
 end
-registerAnonymousEventHandler("RecreateTimerView", "onRecreateTimerView")
+registerAnonymousEventHandler("RecreateTimerView", "avalonUI.onRecreateTimerView")
 </script>
 				<eventHandlerList />
 			</Script>
@@ -3306,7 +3376,7 @@ function avalonUI.UIInstalled(_, name)
     createInfoScreenModel()
     createChatModel()
     createTopMenuModel()
-    createTimerModel()
+    avalonUI.createTimerModel()
     createGaugeModel()  
     
     avalonUI.buildUI()
@@ -3693,12 +3763,12 @@ end</script>
   -- Mapper (Karte) links oben
   ----------------------------------------
   
-  --avalonUI.Mapper = Geyser.Mapper:new({ 
-  --	name = "Mapper",
-  --	x = "5%", y = "5%", 
-  --	width = "90%", 
-  --	height = "90%"
-  --}, avalonUI.Box4)
+--  avalonUI.Mapper = Geyser.Mapper:new({ 
+--  	name = "Mapper",
+--  	x = "5%", y = "5%", 
+--  	width = "90%", 
+--  	height = "90%"
+--  }, avalonUI.Box4)
 
 end</script>
 				<eventHandlerList />
@@ -3741,16 +3811,16 @@ end</script>
 --  }, avalonUI.Box5a)
 --  --avalonUI.Box5:setStyleSheet(avalonUI.CSS.BoxCSS:getCSS())
 
-   -- Box7 enthält die Fortschrittsbalken, mit denen TP, AP, ZP und Mana angezeigt werden. Links
--- unten. Box7 ist auch kein Label-Element, sondern ein Container, deshalb gilt auch hier,
--- was oben bei Box5 dokumentiert ist. Auch ein TODO.
-avalonUI.Box7 = Geyser.Container:new({
-	name = "avalonUI.Box7",
-	x = "0%", y = "70%",
-	width = "100%",
-	height = "30%",
-}, avalonUI.Box5c)
---avalonUI.Box7:setStyleSheet(avalonUI.BoxCSS:getCSS())
+  -- Box7 enthält die Fortschrittsbalken, mit denen TP, AP, ZP und Mana angezeigt werden. Links
+  -- unten. Box7 ist auch kein Label-Element, sondern ein Container, deshalb gilt auch hier,
+  -- was oben bei Box5 dokumentiert ist. Auch ein TODO.
+  avalonUI.Box7 = Geyser.Container:new({
+    name = "avalonUI.Box7",
+    x = "0%", y = "70%",
+    width = "100%",
+    height = "30%",
+  }, avalonUI.Box5c)
+  --avalonUI.Box7:setStyleSheet(avalonUI.BoxCSS:getCSS())
   
   
   
@@ -3782,7 +3852,7 @@ avalonUI.Box7 = Geyser.Container:new({
   	avalonUI["Timer"..k]:setValue(600, 600, "")
   end
   
-  recreateTimer()
+  avalonUI.recreateTimer()
   
   
   -----------------------------------
@@ -3790,10 +3860,10 @@ avalonUI.Box7 = Geyser.Container:new({
   -----------------------------------
   
   avalonUI.Health = Geyser.Gauge:new({
-  	name = "avalonUI.Health",
-  	x = "2%", y = "0%",
-  	width="30%", height="75%",
-  	orientation="vertical",
+    name = "avalonUI.Health",
+    x = "2%", y = "0%",
+    width="30%", height="75%",
+    orientation="vertical",
   }, avalonUI.Box7)
   avalonUI.Health.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
   avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorTP)
@@ -3804,10 +3874,10 @@ avalonUI.Box7 = Geyser.Container:new({
 
   
   avalonUI.Endurance = Geyser.Gauge:new({
-  	name = "avalonUI.Endurance",
-  	x = "35%", y = "0%",
-  	width="30%", height="75%",
-  	orientation="vertical",
+    name = "avalonUI.Endurance",
+    x = "35%", y = "0%",
+    width="30%", height="75%",
+    orientation="vertical",
   }, avalonUI.Box7)
   avalonUI.Endurance.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
   avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorAP)
@@ -3818,10 +3888,10 @@ avalonUI.Box7 = Geyser.Container:new({
   
   
   avalonUI.Spellpoints = Geyser.Gauge:new({
-  	name = "avalonUI.Spellpoints",
-  	x = "68%", y = "0%",
-  	width="30%", height="75%",
-  	orientation="vertical",
+    name = "avalonUI.Spellpoints",
+    x = "68%", y = "0%",
+    width="30%", height="75%",
+    orientation="vertical",
   }, avalonUI.Box7)
   avalonUI.Spellpoints.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
   avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorZP)
@@ -3832,9 +3902,9 @@ avalonUI.Box7 = Geyser.Container:new({
 
   
   avalonUI.Mana = Geyser.Gauge:new({
-  	name = "avalonUI.Mana",
-  	x = "2%", y = "78%",
-  	width="96%", height="20%",
+    name = "avalonUI.Mana",
+    x = "2%", y = "78%",
+    width="96%", height="20%",
   }, avalonUI.Box7)
   avalonUI.Mana.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
   avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorMana)
