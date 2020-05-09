@@ -122,93 +122,85 @@ character = character or {}
 player = player or {}
 
 avalonUI.chats = avalonUI.chats or {}
-avalonUI.chats.lastdate = avalonUI.chats.lastdate or ""
-  
-  --character.chats["schwafel",""]
 
-
-
---GUIModel = GUIModel or {}
-
---player = initCharacter()
-
-
--- Speicherort des Moduls
+-- Speicherort des Moduls. Wird zu:
 -- C:/Users/&lt;usrdir&gt;/Documents/Avalet/Avalet.mpackage
 modulePath = getModulePath("Avalet")
 --echo("Path zu Avalet-Modul: " .. path .. "\n" )
 
--- Speicherort des geladenen Profils
--- C:/Users/&lt;usrdir&gt;/.config/mudlet/profiles/Ava - Groundsel1
+-- Speicherort des geladenen Profils. Wird zu:
+-- C:/Users/&lt;usrdir&gt;/.config/mudlet/profiles/&lt;Profilname&gt;
 mudletHomeDir = getMudletHomeDir()
 --echo("Path MudletHomeDir: " .. path .. "\n" )
 
------------------------------------------------------------
--- Dateien, die vom Modul geschrieben bzw. gelesen werden:
------------------------------------------------------------
--- Die Charakter-Daten werden in eine Datei persistiert und von da auch
--- geladen. Der Grund ist, dass nach einem disconnect und einem anschliessenden
--- reconnect die Daten nicht unbedingt sofort per ATCP gesendet werden. (Nach 
--- normalen Login aber schon(?)) Weshalb die Character-Informationen auf der
--- Oberfläche nicht oder nicht vollständig vorhanden wären. Und genau so wenig
--- die Anzeige für TP, ZP etc. Oder übrig gebliebene Timer. Also es wäre dann
--- nix da.
--- Das Problem ist, dass nicht alle Spieler für jeden Char ein eigenes Profil haben,
--- sondern dass sie oft mehrere Chars mit einem Profil spielen. Hier muss irgendwie
--- entschieden werden, welches die richtigen Character-Daten sind. (Und es müssen
--- auch verschiedene Versionen dieser Daten rausgeschrieben werden. Vermutlich 
--- unterschieden durch den Character-Namen im Dump-File-Namen. Aber der steht
--- erst zur Verfügung, wenn ATCP das erste Mal den Character-Namen geschickt hat.)
--- Lösung: Hier wird das Player-Objekt leer initialisiert, die Anzeige auf der
--- Oberfläche wird entsprechend gestaltet. ("Warten auf Daten...", "Du bist offline"
--- oder so) Wenn das Mud den CharNamen sendet, wird die dazugehörige Char-Datei ge-
--- laden und von da an verwendet.
---avaletCharacterFile = ""
+
+
 characterFilePath = characterFilePath or ""
 avaletCharacterFilePrefix = "AvaletCharacter"
 avaletCharacterFileExtension = ".json"
-function loadCharacterFileFromDisk(charName)
-	--debugc("&lt;magenta&gt;Unerwünschter Aufruf?\n")
+function avalonUI.loadCharacterFileFromDisk(charName)
+	--debugc("function loadCharacterFileFromDisk(charName)")
   
 	if string.char(getMudletHomeDir():byte()) == "/" then _sep = "/" else  _sep = "\\" end
   
   characterFilePath = getMudletHomeDir() .. _sep .. avaletCharacterFilePrefix .. string.title(charName) .. avaletCharacterFileExtension
   
-	--local logdir = getMudletHomeDir() ..  _sep .. "log" .. _sep
-  -- Marco Steffens: Es gab Probleme mit Leerzeichen im Pfad unter Linux. 
-  -- Das hier ist der Versuch, das Problem zu lösen. Indem das Leerzeichen
-  -- mit einem "\" maskiert wird. Alternativ müsste man das mit Anführungs-
-  -- zeichen um den Pfad rum lösen.
-  if _sep == "/" then
-    string.gsub(characterFilePath, " ", "\ ")
-  end
+  -- Hier werden Leerzeichen im Pfad mit einem "\" maskiert, um Probleme unter
+  -- Linux zu beheben. Scheint zu funktionieren. Alternativ müsste man das mit
+  -- Anführungszeichen um den Pfad rum lösen.
+  if _sep == "/" then string.gsub(characterFilePath, " ", "\ ") end
   
-	--characterFilePath = getMudletHomeDir() .. "/" .. avaletCharacterFilePrefix .. string.title(charName) .. avaletCharacterFileExtension
-	--echo(characterFilePath .. "\n")
 	if io.exists(characterFilePath) then
-		--cecho("&lt;magenta&gt;Charakter-Datei ist vorhanden, versuche Datei zu laden:\n" .. characterFilePath .. "\n")
-    -- merge 2 tables
+    -- Die Tabelle der geladenen Daten wird mit der Player-Tabelle gemerged
     subset = readFileFromFS(characterFilePath, "r")
     for k,v in pairs(subset) do player[k] = v end
-		--player = readFileFromFS(characterFilePath, "r")
-		--echo("...done\n")
 	else
 	  --cecho("&lt;magenta&gt;Charakter-Datei nicht gefunden für: " .. charName .. "\n")
-		--echo("Erzeuge Character-Objekt\n")
-		--player = Character()
-		--echo("...done\n")
 		writeDataToFS(characterFilePath, player, "w")
 	end
 end
 
+-- function loadCharacterSettingsFromDisk(charName)
+characterSettingsPath = characterSettingsPath or ""
+avaletCharacterSettingsPrefix = "AvaletCharacterSettings"
+function avalonUI.loadCharacterSettingsFromDisk(charName)
+  debugc("function loadCharacterSettingsFromDisk(charName): " .. charName)
+  
+--	if string.char(getMudletHomeDir():byte()) == "/" then _sep = "/" else  _sep = "\\" end
+  
+--  characterSettingsPath = getMudletHomeDir() .. _sep .. avaletCharacterSetingsPrefix .. string.title(charName) .. ".json"
+  
+  -- Das hier ist der Versuch, ein Problem mit Leerzeichen im Pfad unter Linux zu lösen.
+  -- Indem das Leerzeichen mit einem "\" maskiert wird. Alternativ müsste man das mit 
+  -- Anführungszeichen um den Pfad rum lösen.
+--  if _sep == "/" then string.gsub(characterFilePath, " ", "\ ") end
+  
+--	if io.exists(characterFilePath) then
+		--cecho("&lt;magenta&gt;Charakter-Datei ist vorhanden, versuche Datei zu laden:\n" .. characterFilePath .. "\n")
+    -- merge 2 tables
+--    subset = readFileFromFS(characterSettingsPath, "r")
+--    for k,v in pairs(subset) do player[k] = v end
+		--player = readFileFromFS(characterFilePath, "r")
+		--echo("...done\n")
+--	else
+	  --cecho("&lt;magenta&gt;Charakter-Datei nicht gefunden für: " .. charName .. "\n")
+		--echo("Erzeuge Character-Objekt\n")
+		--player = Character()
+		--echo("...done\n")
+--		writeDataToFS(characterSettingsPath, player, "w")
+--	end  
+  return
+end
+
+
 characterChatsPath = characterChatsPath or ""
-function loadCharacterChatsFromDisk(charName)
+function avalonUI.loadCharacterChatsFromDisk(charName)
 	debugc("function loadCharacterChatsFromDisk")
   
 	if string.char(getMudletHomeDir():byte()) == "/" then _sep = "/" else  _sep = "\\" end
   characterChatsPath = getMudletHomeDir() .. _sep .. "AvaletChats" .. string.title(charName) .. ".json"
   
-  -- Leerzeichen maskieren für Linux-Systeme 
+  -- Leerzeichen im Pfad maskieren für Linux-Systeme 
   if _sep == "/" then string.gsub(characterChatsPath, " ", "\ ") end
   
 	if io.exists(characterChatsPath) then
@@ -219,6 +211,8 @@ function loadCharacterChatsFromDisk(charName)
 	end
 end
 
+
+-- für Debug, kann dann weg:
 function avaletTest(alter)
     local str = alter
     local tage = ""
@@ -254,24 +248,28 @@ function avaletTest(alter)
 
 end
 
+-- function loadVersionInformation()
+function avalonUI.loadVersionInformation()
+  
+  -- TODO
+  return
+
+end -- function loadVersionInformation()
 
 
-
-
-
-
-
-
--- Wenn nach dem Start von Mudlet der Name des angemeldeten Charakters
--- per ATCP erstmals übertragen wird, kann dieses Modul sich initialisieren.
--- Also: Charakterdaten laden, Chat-Verläufe laden, ...
-function initPlayer(name)
+-- function initPlayer(name)
+-- Wenn nach dem Start von Mudlet der Name des angemeldeten Charakters per ATCP
+-- erstmals übertragen wird, kann dieses Modul die Charakter-abhängigen Teile
+-- initialisieren. Also im Grunde alles außer das, was Avalet selbst betrifft.
+function avalonUI.initPlayer(name)
   debugc("Funktion initPlayer aufgerufen mit Parameter: " .. name)
-  -- Playerdaten laden
-  loadCharacterFileFromDisk(name)
+  -- Settings des Chars laden
+  avalonUI.loadCharacterSettingsFromDisk(name)
+  -- Charakterdaten laden
+  avalonUI.loadCharacterFileFromDisk(name)
   -- Chat-Verläufe laden
-  loadCharacterChatsFromDisk(name)
-end
+  avalonUI.loadCharacterChatsFromDisk(name)
+end --function initPlayer(name)
 
 
 
@@ -281,7 +279,7 @@ end
 -- und fuer das automatische Schwimmen/ Klettern
 -- Dieser Event wird jedesmal ausgelöst, wenn eine Taste des Ziffernblocks verwendet wird.
 -- Das ist unter "Keybindings" bzw. "Tasten" so definiert.
-function onKeyPadEvent(eventName,key,tDirections)
+function avalonUI.onKeyPadEvent(eventName,key,tDirections)
   tDirections = {"sw","s","so","w","sc","o","nw","n","no","h","r","rein","raus"}
   player.lastMove = tDirections[key]
   --tPlayer.sLastMoveDirection=tDirections[key]
@@ -294,46 +292,45 @@ function onKeyPadEvent(eventName,key,tDirections)
 --		--send("b pflanzen")
 --	end
 end --function onKeyPadEvent
-registerAnonymousEventHandler("keyPadEvent", "onKeyPadEvent")
+registerAnonymousEventHandler("keyPadEvent", "avalonUI.onKeyPadEvent")
 
 
-function onSysConnectionEvent()
+function avalonUI.onSysConnectionEvent()
 	debugc("&lt;red&gt;sysConnectionEventHandler() running at this point.\n")
 	--echo("onConnect...\n")
 	-- Die ganzen "sendATCP" funktionieren hier noch nicht
 end
-registerAnonymousEventHandler("sysConnectionEvent", "onSysConnectionEvent")
+registerAnonymousEventHandler("sysConnectionEvent", "avalonUI.onSysConnectionEvent")
 
 
 -- Raised when Mudlet is shutting down the profile - a good event to hook
 -- onto for saving all of your data.
-function onSysExitEvent()
+function avalonUI.onSysExitEvent()
 	debugc("&lt;red&gt;onSysExitEvent\n")
-	echo("Schreibe Character in Datei...\n")
+	--echo("Schreibe Character in Datei...\n")
 	if player.name ~= "" then
 		writeDataToFS(characterFilePath, player, "w")
    --writeDataToFS(characterChatsPath, avalonUI.chats, "w")
 	end
-	--echo("...done\n")
 end
-registerAnonymousEventHandler("sysExitEvent", "onSysExitEvent")
+registerAnonymousEventHandler("sysExitEvent", "avalonUI.onSysExitEvent")
 
 
 
-function onSysDisconnectionEvent()
+function avalonUI.onSysDisconnectionEvent()
 	debugc("&lt;red&gt;onSysDisconnectionEvent()\n")
 	--echo("Schreibe Character in Datei...\n")
 	writeDataToFS(characterFilePath, player, "w")
  writeDataToFS(characterChatsPath, avalonUI.chats, "w")
 end
-registerAnonymousEventHandler("sysDisconnectionEvent", "onSysDisconnectionEvent")
+registerAnonymousEventHandler("sysDisconnectionEvent", "avalonUI.onSysDisconnectionEvent")
 
 
 -- Dieses Event wird ausgelöst, wenn der Spieler den Charakter richtig ausloggt,
 -- also mit "schlafe ein" etc. Ausgelöst wird dieses Event durch ein Alias auf
 -- die Befehle, mit denen das Ausloggen möglich ist. Außer ich hab einen vergessen.
 -- Derzeit: ^(ende|ende hier|einschlafen|schlaf ein|schlafe ein)$
-function onLogoutEvent()
+function avalonUI.onLogoutEvent()
 	debugc("&lt;red&gt;onLogoutEvent()\n")
   --echo("\nVon Avalet gemessene Session-EP: " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n\n")
   player.sessionEP = tonumber(player.ep)
@@ -345,19 +342,19 @@ function onLogoutEvent()
   end
 
 end
-registerAnonymousEventHandler("logoutEvent", "onLogoutEvent")
+registerAnonymousEventHandler("logoutEvent", "avalonUI.onLogoutEvent")
 
 
 
 -- afterReconnectEvent wird durch einen Trigger auf "Verwende alten Koerper..." ausgelöst.
 -- Das ist notwendig, da das MUD bei einem Reconnect die ATCP-Daten nicht erneut schickt.
-function afterReconnectEvent()
+function avalonUI.afterReconnectEvent()
   debugc("&lt;red&gt;afterReconnectEvent()\n")
   -- "sendATCP" gibt "true" zurück, und das wird unter Umständen im Hauptfenster
   -- ausgegeben. Außer man speichert es in einer Variable wie zum Beispiel "_".
   _ = sendATCP("ava_req_update")
 end
-registerAnonymousEventHandler("afterReconnectEvent", "afterReconnectEvent")
+registerAnonymousEventHandler("afterReconnectEvent", "avalonUI.afterReconnectEvent")
 
 
 
@@ -366,7 +363,7 @@ registerAnonymousEventHandler("afterReconnectEvent", "afterReconnectEvent")
 -- Warnung auszugeben. Aber offenbar wird GMCP nicht wie die
 -- anderen Protokolle aktiviert, ich hatte jedenfalls keinen
 -- Auslöser des "elseif", trotz aktiviertem GMCP.
-function onSysProtocolEnabled(event,arg)
+function avalonUI.onSysProtocolEnabled(event,arg)
 	debugc("&lt;red&gt;onSysProtocolEnabled() running at this point.\n")
 	if arg =="ATCP" then
 		--echo("ATCP Support aktiviert.\n")
@@ -385,73 +382,83 @@ function onSysProtocolEnabled(event,arg)
 		--echo("Support fuer "..arg.." ist aktiv.\n")
 	end
 end
-registerAnonymousEventHandler("sysProtocolEnabled", "onSysProtocolEnabled")
+registerAnonymousEventHandler("sysProtocolEnabled", "avalonUI.onSysProtocolEnabled")
 
 
 
---onSysInstall:
---Avalet:    setModulePriority("Avalet", 1)
---SubModule: priority &gt; 2, vorher prüfen ob avalet installiert ist
-function onSysInstall(_, name)
-  debugc("&lt;magenta&gt;function onSysInstall()")
+-- function onSysInstall
+-- Wird ausgeführt nach der Installation eines Moduls oder eines Paketes.
+-- Dazu wird ein EventHandler für das entsprechende Mudlet-Event registriert.
+-- Hier muss zunächst geschaut werden, ob der Event auch Avalet betrifft. 
+-- Anschließend findet hier Modul-Initialisierung statt.
+-- Avalet:    setModulePriority("Avalet", 1)
+-- SubModule: priority &gt; 2, vorher prüfen ob avalet installiert ist
+function avalonUI.onSysInstall(_, name)
+  debugc("function onSysInstall()")
   -- Erstmal prüfen, ob es Avalet ist, was da installiert wurde:
   if name ~= "Avalet" then return end
   
+  -- Für eine vernünftige Versionierung bzw. für einen irgendwie gearteten
+  -- Update-Mechanismus muss Avalet etwas über die eigene Versionsnummer wissen.
+  avalonUI.loadVersionInformation()
+
+  -- Die Modul-Priorität von Avalet wird auf 1 gesetzt, um später Submodule mit
+  -- einer niedrigeren Priorität ausstatten zu können. Das sollte dazu führen,
+  -- dass die Submodule NACH Avalet installiert werden. (Das ist aber ungetestet
+  -- und ich sehe auch nicht, wie das gehen kann. Wenn ich die Priorität erst
+  -- NACH der installation setzen kann... Vermutlich also ein TODO.)  
   setModulePriority("Avalet", 1)
   
---	Nach einem Reconnect braucht Avalet den Charakternamen. Dieser
---	Trigger reagiert auf 
---		Verwende alten Koerper...     (hierauf!)
---	und löst dann einen Event aus, der eine Anfrage nach aktuellen
---  ATCP-Daten an den Server schickt. 
-	if exists("OnReconnect", "trigger") == 0 then
-		luaCode = [[raiseEvent("afterReconnectEvent")]]
-		permRegexTrigger("OnReconnect", "Avalet", {"^Verwende alten Koerper\.\.\.$"}, luaCode)
-		
-		--1 fehlgeschlagene Logins vorher.
-	end
-  
-end
-registerAnonymousEventHandler("sysInstall", "onSysInstall")
+  --	Nach einem Reconnect braucht Avalet den Charakternamen. Nach einem normalen
+  -- Login wird der sehr schnell per ATCP gesendet. Nach einem reconnect (Statue)
+  -- aber nicht. Der Trigger, der hier erzeugt wird, reagiert auf "Verwende alten 
+  -- Koerper..." und löst dann einen Event aus, der ein ATCP-Update vom Server
+  -- anfordert. Damit kommt dann auch der Charaktername.
+  if not exists("OnReconnect", "trigger") then
+    luaCode = [[raiseEvent("afterReconnectEvent")]]
+    permRegexTrigger("OnReconnect", "Avalet", {"^Verwende alten Koerper\.\.\.$"}, luaCode)
+  end
+end -- function onSysInstall
+registerAnonymousEventHandler("sysInstall", "avalonUI.onSysInstall")
 
 
-
-function onSysUninstall(_, name)
-  -- Erstmal prüfen, ob es Avalet ist, was da _de_installiert wurde:
+-- function onSysUninstall(_, name)
+-- Diese Funktion soll ausgeführt werden, wenn Avalet deinstalliert wird.
+-- Deshalb wird hier ein EventHandler für das onSysUninstall-Event registriert.
+-- In der Funktion muss dann noch geschaut werden, ob das auch Avalet ist,
+-- was deinstalliert wurde.
+-- Die Funktion wird grad nicht verwendet, aber das wird sich sicher noch ändern.
+function avalonUI.onSysUninstall(_, name)
+  --debugc("function onSysUninstall()")
+  -- Erstmal prüfen, ob es Avalet ist, was da deinstalliert wurde:
   if name ~= "Avalet" then return end
 
-  --cecho("&lt;magenta&gt;uninstall Avalet!")
-end
-registerAnonymousEventHandler("sysUninstall", "onSysUninstall")
+end -- function onSysUninstall(_, name)
+registerAnonymousEventHandler("sysUninstall", "avalonUI.onSysUninstall")
 
 
---sysInstallPackage
---Avalet funktioniert nicht, wenn es als Paket installiert wird - nur als Modul!
---Deshalb hier die Fehlermeldung
-function onSysInstallPackage(_, name)
-  debugc("&lt;magenta&gt;function onSysInstallPackage()")
+-- sysInstallPackage
+-- Avalet funktioniert nicht, wenn es als Paket installiert wird - nur als Modul!
+-- Deshalb hier die Fehlermeldung
+function avalonUI.onSysInstallPackage(_, name)
+  debugc("function onSysInstallPackage()")
   -- Erstmal prüfen, ob es Avalet ist, was da installiert wurde:
   if name ~= "Avalet" then return end
   
   cecho("\n\n&lt;magenta&gt;!!!    ACHTUNG: Avalet wurde als Paket installiert!    !!!\n")
   cecho(    "&lt;magenta&gt;!!!        Avalet funktioniert als Paket nicht.        !!!\n")
   cecho(    "&lt;magenta&gt;!!!    Avalet muss jetzt erst deinstalliert werden!    !!!\n")
-  cecho(    "&lt;magenta&gt;!!!  Anschließend Avalet bitte als MODUL installieren! !!!\n\n")
+  cecho(    "&lt;magenta&gt;!!! Anschliessend Avalet bitte als MODUL installieren! !!!\n\n")
   
 end
-registerAnonymousEventHandler("sysInstallPackage", "onSysInstallPackage")
+registerAnonymousEventHandler("sysInstallPackage", "avalonUI.onSysInstallPackage")
 </script>
 			<eventHandlerList />
 		</Script>
 		<ScriptGroup isActive="yes" isFolder="yes">
 			<name>Framework</name>
 			<packageName></packageName>
-			<script>-------------------------------------------------
---         Put your Lua functions here.        --
---                                             --
--- Note that you can also use external scripts --
--------------------------------------------------
-</script>
+			<script></script>
 			<eventHandlerList />
 			<Script isActive="yes" isFolder="no">
 				<name>Jor'Mox's GUIframe</name>
@@ -1882,43 +1889,12 @@ end</script>
 		<ScriptGroup isActive="yes" isFolder="yes">
 			<name>Misc Functions</name>
 			<packageName></packageName>
-			<script>-------------------------------------------------
---         Put your Lua functions here.        --
---                                             --
--- Note that you can also use external scripts --
--------------------------------------------------
-</script>
+			<script></script>
 			<eventHandlerList />
 			<Script isActive="yes" isFolder="no">
 				<name>Utility Functions</name>
 				<packageName></packageName>
-				<script>-- Convert a lua table into a lua syntactically correct string
-function table_to_string(tbl)
-    local result = "{"
-    for k, v in pairs(tbl) do
-        -- Check the key type (ignore any numerical keys - assume its an array)
-        if type(k) == "string" then
-            result = result.."[\""..k.."\"]".."="
-        end
-
-        -- Check the value type
-        if type(v) == "table" then
-            result = result..table_to_string(v)
-        elseif type(v) == "boolean" then
-            result = result..tostring(v)
-        else
-            result = result.."\""..v.."\""
-        end
-        result = result..","
-    end
-    -- Remove leading commas from the result
-    if result ~= "" then
-        result = result:sub(1, result:len()-1)
-    end
-    return result.."}"
-end
-
-
+				<script>-- Hilfsfunktionen
 function readFileFromFS(path, mode)
 	data = {}
 	file = io.open (path, mode)
@@ -2132,19 +2108,14 @@ avalonUI.CSS.GaugeTimerTextCSS = CSSMan.new([[
 		<ScriptGroup isActive="yes" isFolder="yes">
 			<name>DataObjects</name>
 			<packageName></packageName>
-			<script>-------------------------------------------------
---         Put your Lua functions here.        --
---                                             --
--- Note that you can also use external scripts --
--------------------------------------------------
-</script>
+			<script></script>
 			<eventHandlerList />
 			<Script isActive="yes" isFolder="no">
 				<name>initCharacter</name>
 				<packageName></packageName>
 				<script>--initCharacter()
 
-function initCharacter()
+function avalonUI.initCharacter()
 
   character = {}
   
@@ -2516,13 +2487,13 @@ end -- function avalonUI.createMixedTimer(timerStrings)
 -- Charakter-Informationen rechts oben (Infobox)
 -----------------------------------------------------
 
-function createInfoScreenModel()
+function avalonUI.createInfoScreenModel()
   GUIModel.infobox = "\nWarte auf Daten..."
 end
 
 
 
-function updateInfoBox()
+function avalonUI.updateInfoBox()
 	GUIModel.infobox = "\n"
 	if avalonUI ~= nil then 
 		clearWindow("Infobox") 
@@ -2647,24 +2618,24 @@ function updateInfoBox()
 		debugc("\nKeine Player-Daten vorhanden!\n")
 		GUIModel.infobox = "\nWarte auf Daten...\n"
 	end
-end
---updateInfoBox()
+end -- function avalonUI.updateInfoBox()
 
 
-function onRefreshInfobox(event, args)
+
+function avalonUI.onRefreshInfobox(event, args)
 -- Diese Funktion kann aufgerufen werden, obwohl noch
 -- kein Player-Objekt besteht. (Also obwohl der Player-Name noch nicht
 -- per ATCP eingetroffen ist. Workaround: auf player.name testen.)
 	if player.name ~= "" then
     
 		writeDataToFS(characterFilePath, player, "w")
-		updateInfoBox()
+		avalonUI.updateInfoBox()
 		--avalonUI.infobox:echo(args)
 		avalonUI.infobox:echo(GUIModel.infobox)
 	--avalonUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "&lt;b&gt;" .. args[1] .. "/" .. args[2] .. "&lt;/b&gt;")
 	end
 end
-registerAnonymousEventHandler("RefreshInfobox", "onRefreshInfobox")
+registerAnonymousEventHandler("RefreshInfobox", "avalonUI.onRefreshInfobox")
 --raiseEvent("RefreshCharacterVollername", ???)
 
 </script>
@@ -2678,10 +2649,10 @@ registerAnonymousEventHandler("RefreshInfobox", "onRefreshInfobox")
 --------------------------------------------
 --- Tabs-Element rechts unten
 -------------------------------------------
-function createChatModel()
+function avalonUI.createChatModel()
   -- Generelle Variablen für das Tab-Element
   GUIModel.tabElement = GUIModel.tabElement or {
-    tabs = {"Reden", "Sagen", "Gruppe", "Volk", "Gilde", "Laber", "Schwafel"},
+    tabs = {"Reden", "Sagen", "Laber", "Gruppe", "Volk", "Gilde", "Schwafel"},
   }
   -- Speichert das aktuell ausgewählte Element:
   GUIModel.tabElement.currentTab = GUIModel.tabElement.currentTab or GUIModel.tabElement.tabs[1]
@@ -2698,8 +2669,8 @@ end
 
 -- In der per ATCP empfangenen Kommunikation gibt es Formatierungsanweisungen,
 -- die hier rausgefiltert werden.
-function avalonUI.clearMessage(str)
-  message = str
+local clearMessage = function(str)
+  local message = str
   message = string.gsub(message, "%%%^ITALIC%%%^", "")
   message = string.gsub(message, "%%%^NO_ITALIC%%%^", "")
   message = string.gsub(message, "%%%^NC_html_begin_colour%(%#[A-Za-z0-9]+%)%%%^", "")
@@ -2718,7 +2689,7 @@ function avalonUI.processMessage(channel, message)
 
   -- Die Nachricht kann Steuercode enthalten, beispielsweise für farbigen Text.
   -- Der wird hier rausgefiltert.
-  message = avalonUI.clearMessage(message)
+  message = clearMessage(message)
   
   local logfilename = ""
   if player.name ~= nil and player.name ~= "" then
@@ -2729,11 +2700,8 @@ function avalonUI.processMessage(channel, message)
   
   Logger:Log(logfilename, message, {"timestamp", split = 4000})
 
-  --local timestamp = ""
-  --local lastdate = avalonUI.chats.lastdate or ""
   local timestamp = getTime(true, "'['dd'.'MM'.'yyyy' - 'hh':'mm':'ss'.'zzz]: ")
-  --local date = getTime(true, "dd'.'MM'.'yyyy")
-  --local time = getTime(true, "hh':'mm':'ss")                     --local time = getTime(true, "hh':'mm':'ss'.'zzz")
+
   local line = ""
 
   -- Hier können auch Comm-Nachrichten landen, für die es keinen Tab gibt. Also:
@@ -2762,7 +2730,7 @@ end
 -- (weniger eindeutige) Merkwürdigkeiten. Dabei fand das löschen des
 -- Tabs nur mit "clearWindow()" statt. Mit der zusätzlichen Ausgabe
 -- eines Leerzeichens scheint sich das Problem erledigt zu haben.
-function clearTab(channel)
+local clearTab = function(channel)
   debugc("&lt;magenta&gt;clearWindow: ".. channel .. "\n")    
   clearWindow(channel)
   avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(" ")
@@ -2772,7 +2740,7 @@ end
 
 -- Wird ausgeführt, wenn per ATCP eine neue Kommunikation eingeht
 -- und diese in die ChatTab-Tabelle geschrieben wurde (siehe oben).
-function onRefreshTabElement(_, channel)
+function avalonUI.onRefreshTabElement(_, channel)
 
   local content = ""
   local lastdate = ""
@@ -2781,7 +2749,6 @@ function onRefreshTabElement(_, channel)
   -- Wenn für den aktuell angezeigten Tab eine neue Nachricht eingeht ...
   if GUIModel.tabElement.currentTab == channel then
     debugc("Der TAB " .. channel .. " wird aktualisiert.")
-    debugc("&lt;magenta&gt;clearWindow: ".. channel .. "\n")    
 
     --... wird erstmal der alte Inhalt gelöscht.
     clearTab(channel)
@@ -2824,21 +2791,21 @@ function onRefreshTabElement(_, channel)
     avalonUI.markTab(channel)
 	end
 end
-registerAnonymousEventHandler("RefreshTabElement", "onRefreshTabElement")
+registerAnonymousEventHandler("RefreshTabElement", "avalonUI.onRefreshTabElement")
 </script>
 				<eventHandlerList />
 			</Script>
 			<Script isActive="yes" isFolder="no">
 				<name>createTopMenuModel</name>
 				<packageName></packageName>
-				<script>--createTopMenuModel()
+				<script>-- TopMenu: Das Menü oberhalb des Hauptfensters
 
-function createTopMenuModel()
-  -------------------------------------------------------------
-  --- Top-Menü
+-- function avalonUI.createTopMenuModel()
+-- Erzeugt die Daten, die dann als Menü oberhalb des Hauptfensters angezeigt werden.
+-- Das Zahnrad (für das Einstellungen-Menü) wird (zur Zeit noch) in der View hinzugefügt.
+function avalonUI.createTopMenuModel()
   -- Menü-Label dürfen nicht in einem Container sein, deshalb sind die 
   -- Top-Level-Einträge direkt auf der Oberfläche positioniert.
-  -------------------------------------------------------------
   GUIModel.TopMenuEntries = {}
   --cecho("&lt;magenta&gt;TopMenuEntries\n")
   function addTopMenuEntry(label, position, childs)
@@ -2862,7 +2829,7 @@ function createTopMenuModel()
   --	}
   --)
 
-end</script>
+end -- function avalonUI.createTopMenuModel()</script>
 				<eventHandlerList />
 			</Script>
 			<Script isActive="yes" isFolder="no">
@@ -2870,7 +2837,7 @@ end</script>
 				<packageName></packageName>
 				<script>--createMapperModel()
 
-function createMapperModel()
+function avalonUI.createMapperModel()
 
 end
 </script>
@@ -3136,7 +3103,7 @@ registerAnonymousEventHandler("RecreateTimerView", "avalonUI.onRecreateTimerView
 				<script>--createGaugeModel()
 
 
-function createGaugeModel()
+function avalonUI.createGaugeModel()
 
 end
 
@@ -3146,18 +3113,18 @@ end
 --------------------------------------------------------------------------------
 
 
-function onRefreshHealthBar(event, args)
+function avalonUI.onRefreshHealthBar(event, args)
 	-- Das Gauge-Element wird bei einem "current value" von 0 vollständig
 	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei einem negativen
 	-- Wert geschehen würde. Deshalb wird hier jeder Wert unter 1 auf 1
 	-- gesetzt. In dem Text auf dem Gauge muss aber natürlich der wirkliche
 	-- Wert stehen, deshalb die unterschiedliche Behandlung hier.
-	currentValue = args[1]
+	local currentValue = args[1]
 	if currentValue &lt; 1 then
 		currentValue = 1
 	end
 	
-	percent = -1 --math.ceil((100 / args[2]) * args[1])
+	local percent = -1 --math.ceil((100 / args[2]) * args[1])
   if args[1] == args[2] then
     percent = 100
   elseif args[1] == 0 then
@@ -3170,21 +3137,21 @@ function onRefreshHealthBar(event, args)
 	-- avalonUI.Health:setValue(100,100,[[&lt;b&gt;&lt;center&gt;999/999&lt;/center&gt;&lt;/br&gt;&lt;center&gt;TP&lt;/center&gt;&lt;/b&gt;]])
 	-- [[&lt;b&gt;&lt;font color="]]..timerSchriftfarbe..[["&gt;&amp;nbsp;]] .. v["name"] .. [[&lt;/b&gt;&lt;/font&gt;]]
 end
-registerAnonymousEventHandler("RefreshHealthBar", "onRefreshHealthBar")
+registerAnonymousEventHandler("RefreshHealthBar", "avalonUI.onRefreshHealthBar")
 
 
-function onRefreshEnduranceBar(event, args)
+function avalonUI.onRefreshEnduranceBar(event, args)
 	-- Das Gauge-Element wird bei einem "current value" von 0 vollständig
 	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei einem negativen
 	-- Wert geschehen würde. Deshalb wird hier jeder Wert unter 1 auf 1
 	-- gesetzt. In dem Text auf dem Gauge muss aber natürlich der wirkliche
 	-- Wert stehen, deshalb die unterschiedliche Behandlung hier.
-	currentValue = args[1]
+	local currentValue = args[1]
 	if currentValue &lt; 1 then
 		currentValue = 1
 	end
 	
-	percent = -1 --math.ceil((100 / args[2]) * args[1])
+	local percent = -1 --math.ceil((100 / args[2]) * args[1])
   if args[1] == args[2] then
     percent = 100
   elseif args[1] == 0 then
@@ -3195,21 +3162,21 @@ function onRefreshEnduranceBar(event, args)
 	
 	avalonUI.Endurance:setValue(tonumber(currentValue), tonumber(args[2]), "&lt;b&gt;&lt;center&gt;" .. tostring(args[1]) .. "/" .. tostring(args[2]) .. "&lt;/center&gt;&lt;/br&gt;&lt;center&gt;AP&lt;/center&gt;&lt;/br&gt;&lt;center&gt;("..percent.."%)&lt;/center&gt;&lt;/b&gt;")
 end
-registerAnonymousEventHandler("RefreshEnduranceBar", "onRefreshEnduranceBar")
+registerAnonymousEventHandler("RefreshEnduranceBar", "avalonUI.onRefreshEnduranceBar")
 
 
-function onRefreshSpellpointsBar(event, args)
+function avalonUI.onRefreshSpellpointsBar(event, args)
 	-- Das Gauge-Element wird bei einem "current value" von 0 vollständig
 	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei einem negativen
 	-- Wert geschehen würde. Deshalb wird hier jeder Wert unter 1 auf 1
 	-- gesetzt. In dem Text auf dem Gauge muss aber natürlich der wirkliche
 	-- Wert stehen, deshalb die unterschiedliche Behandlung hier.
-	currentValue = args[1]
+	local currentValue = args[1]
 	if currentValue &lt; 1 then
 		currentValue = 1
 	end
 	
-  percent = -1 --math.ceil((100 / args[2]) * args[1])
+  local percent = -1 --math.ceil((100 / args[2]) * args[1])
   if args[1] == args[2] then
     percent = 100
   elseif args[1] == 0 then
@@ -3220,21 +3187,21 @@ function onRefreshSpellpointsBar(event, args)
 	
 	avalonUI.Spellpoints:setValue(tonumber(currentValue), tonumber(args[2]), "&lt;b&gt;&lt;center&gt;" .. args[1] .. "/" .. args[2] .. "&lt;/center&gt;&lt;/br&gt;&lt;center&gt;ZP&lt;/center&gt;&lt;/br&gt;&lt;center&gt;("..percent.."%)&lt;/center&gt;&lt;/b&gt;")
 end
-registerAnonymousEventHandler("RefreshSpellpointsBar", "onRefreshSpellpointsBar")
+registerAnonymousEventHandler("RefreshSpellpointsBar", "avalonUI.onRefreshSpellpointsBar")
 
 
-function onRefreshManaBar(event, args)
+function avalonUI.onRefreshManaBar(event, args)
 	-- Das Gauge-Element wird bei einem "current value" von 0 vollständig
 	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei einem negativen
 	-- Wert geschehen würde. Deshalb wird hier jeder Wert unter 1 auf 1
 	-- gesetzt. In dem Text auf dem Gauge muss aber natürlich der wirkliche
 	-- Wert stehen, deshalb die unterschiedliche Behandlung hier.
-	currentValue = args[1]
+	local currentValue = args[1]
 	if currentValue &lt; 1 then
 		currentValue = 1
 	end
 	
-	percent = -1 --math.ceil((100 / args[2]) * args[1])
+	local percent = -1 --math.ceil((100 / args[2]) * args[1])
   if args[1] == args[2] then
     percent = 100
   elseif args[1] == 0 then
@@ -3245,7 +3212,7 @@ function onRefreshManaBar(event, args)
 	
 	avalonUI.Mana:setValue(tonumber(currentValue), tonumber(args[2]), "&lt;b&gt;&lt;center&gt;" .. args[1] .. "/" .. args[2] .. " Mana ("..percent.."%)&lt;/center&gt;&lt;/b&gt;")
 end
-registerAnonymousEventHandler("RefreshManaBar", "onRefreshManaBar")
+registerAnonymousEventHandler("RefreshManaBar", "avalonUI.onRefreshManaBar")
 </script>
 				<eventHandlerList />
 			</Script>
@@ -3317,12 +3284,7 @@ GUIframe.configs = {
 		<ScriptGroup isActive="yes" isFolder="yes">
 			<name>UI functions</name>
 			<packageName></packageName>
-			<script>-------------------------------------------------
---         Put your Lua functions here.        --
---                                             --
--- Note that you can also use external scripts --
--------------------------------------------------
-</script>
+			<script></script>
 			<eventHandlerList />
 			<Script isActive="yes" isFolder="no">
 				<name>Build UI</name>
@@ -3339,7 +3301,6 @@ GUIframe.configs = {
   GUIframe.disable("bottom")
   GUIframe.disable("right")
   GUIframe.disable("left")
-  --	raiseEvent("AvalonUI built")   -- Keinen Schimmer was dieser Event machen soll --&gt; kann der weg?
 end
 
 function unlockUI()
@@ -3361,7 +3322,6 @@ function lockUI()
 end
 
 
-
 -- Diese Funktion wird durch den "sysInstall"-Event aufgerufen, also bei jedem
 -- Neustart von Mudlet. Hier wird Avalet initialisiert. Eine weitere Funktion,
 -- die beim "sysInstall"-Event aufgerufen wird, steht weiter unten.
@@ -3369,15 +3329,16 @@ function avalonUI.UIInstalled(_, name)
   if name ~= "Avalet" then
     return
   else
-    player = initCharacter()
+    player = avalonUI.initCharacter()
     avalonUI.initTimer()
     
     GUIModel = GUIModel or {}
-    createInfoScreenModel()
-    createChatModel()
-    createTopMenuModel()
+    avalonUI.createInfoScreenModel()
+    avalonUI.createChatModel()
+    avalonUI.createTopMenuModel()
+    --avalonUI.createMapperModel()
     avalonUI.createTimerModel()
-    createGaugeModel()  
+    avalonUI.createGaugeModel()  
     
     avalonUI.buildUI()
     --tempTimer(0, [[avalonUI.updateChar()]])
@@ -3919,12 +3880,7 @@ end</script>
 		<ScriptGroup isActive="yes" isFolder="yes">
 			<name>ATCP</name>
 			<packageName></packageName>
-			<script>-------------------------------------------------
---         Put your Lua functions here.        --
---                                             --
--- Note that you can also use external scripts --
--------------------------------------------------
-</script>
+			<script></script>
 			<eventHandlerList />
 			<Script isActive="yes" isFolder="no">
 				<name>atcp</name>
@@ -3990,7 +3946,7 @@ function onATCPEventAvalonName(event, arg)
   if player.name ~= arg then
     --cecho("&lt;magenta&gt;\nplayer.name ~= arg\n")
     if string.len(player.name) == 0 then
-      initPlayer(arg)
+      avalonUI.initPlayer(arg)
     end
     player.name = arg
     raiseEvent("RefreshInfobox", arg)
