@@ -114,9 +114,8 @@ Avalet ist im Moment als "Avalon-GUI für jedermensch" gedacht. Die Funktionalit
            |                                                        | |
            \________________________________________________________\_/
             |                                                       |
-            |  "Frag nicht, was dein MUD fuer dich tun kann -       |
-            |   frag, was du fuer dein MUD tun kannst."             |_
-            |                        John F. Kennedy ueber Avalet   | |
+            |   "Wie konnte ich nur jemals ohne Timer spielen?!"    |_
+            |                               Rofhessa ueber Avalet   | |
             \_______________________________________________________\_/
 
 ```
@@ -125,16 +124,14 @@ Avalet ist im Moment als "Avalon-GUI für jedermensch" gedacht. Die Funktionalit
 
 Es gäbe Avalet nicht ohne Twrx! Und wenn ich hier immer nur "ich" schreibe, dann liegt das daran, dass er so schlau ist, mich die ganze Tipperei erledigen zu lassen. Aber er hat alle meine doofen Fragen beantwortet, Code-Beispiele geliefert und mich überhaupt erst dazu gebracht, dass ich mich mit Mudlet beschäftigt habe. Also: wenn du Avalet doof findest - beschwer dich bei Twrx. ;)
 
-
-
 ```
             __________________________________________________________
            /                                                        / \
            |                                                        | |
            \________________________________________________________\_/
             |                                                       |
-            |   "Wie konnte ich nur jemals ohne Timer spielen?!"    |_
-            |                               Rofhessa ueber Avalet   | |
+            |   "Ich bin Groot!"                                    |_
+            |                                  Groot ueber Avalet   | |
             \_______________________________________________________\_/
 
 ```
