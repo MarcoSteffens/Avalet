@@ -45,7 +45,7 @@ Geplant ist außerdem, dass sich "Submodule" in die Oberfläche von Avalet mit e
 
 ## Was Avalet NICHT ist
 
-Avalet ist kein Ersatz für [das Soundpack](http://www.avalon-soundpack.de/de/latest/) oder für die Arbeit von Ban. Wenn du eine Sprachausgabe benutzt, dann ist dir mit diesen beiden Werkzeugen (und mit MUSHclient) derzeit sicher besser geholfen.
+Avalet ist kein Ersatz für [das Soundpack](http://www.avalon-soundpack.de) oder für die Arbeit von Ban. Wenn du eine Sprachausgabe benutzt, dann ist dir mit diesen beiden Werkzeugen (und mit MUSHclient) derzeit sicher besser geholfen.
 
 Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das Avalon-Volk zu bringen oder um meine Script-Sammlung zu teilen. Irgendwelche Geheimnisse werden hier nicht aufgedeckt. (Aber es gibt ja die Möglichkeit, Sub-Module hinzuzufügen. Wenn du also *deine* Script-Sammlung gern mit *mir* teilen möchtest - *email me*! :) )
 
@@ -114,14 +114,18 @@ Avalet ist im Moment als "Avalon-GUI für jedermensch" gedacht. Die Funktionalit
            |                                                        | |
            \________________________________________________________\_/
             |                                                       |
-            |   "Wie konnte ich nur jemals ohne Timer spielen!?"    |_
-            |                               Rofhessa ueber Avalet   | |
+            |  "Frag nicht, was dein MUD fuer dich tun kann -       |
+            |   frag, was du fuer dein MUD tun kannst."             |_
+            |                        John F. Kennedy ueber Avalet   | |
             \_______________________________________________________\_/
 
 ```
+
 ## Shownotes
 
 Es gäbe Avalet nicht ohne Twrx! Und wenn ich hier immer nur "ich" schreibe, dann liegt das daran, dass er so schlau ist, mich die ganze Tipperei erledigen zu lassen. Aber er hat alle meine doofen Fragen beantwortet, Code-Beispiele geliefert und mich überhaupt erst dazu gebracht, dass ich mich mit Mudlet beschäftigt habe. Also: wenn du Avalet doof findest - beschwer dich bei Twrx. ;)
+
+
 
 ```
             __________________________________________________________
@@ -129,8 +133,8 @@ Es gäbe Avalet nicht ohne Twrx! Und wenn ich hier immer nur "ich" schreibe, dan
            |                                                        | |
            \________________________________________________________\_/
             |                                                       |
-            |   "Ich bin Groot!"                                    |_
-            |                                  Groot ueber Avalet   | |
+            |   "Wie konnte ich nur jemals ohne Timer spielen?!"    |_
+            |                               Rofhessa ueber Avalet   | |
             \_______________________________________________________\_/
 
 ```

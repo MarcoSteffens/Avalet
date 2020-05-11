@@ -126,38 +126,54 @@ avalonUI.chats = avalonUI.chats or {}
 -- Speicherort des Moduls. Wird zu:
 -- C:/Users/&lt;usrdir&gt;/Documents/Avalet/Avalet.mpackage
 modulePath = getModulePath("Avalet")
---echo("Path zu Avalet-Modul: " .. path .. "\n" )
 
 -- Speicherort des geladenen Profils. Wird zu:
 -- C:/Users/&lt;usrdir&gt;/.config/mudlet/profiles/&lt;Profilname&gt;
 mudletHomeDir = getMudletHomeDir()
---echo("Path MudletHomeDir: " .. path .. "\n" )
 
+local readFileFromFS = function(path, mode)
+  debugc("readFileFromFS()")
+
+  local data = {}
+  local file = io.open (path, mode)
+  data = yajl.to_value(file:read())
+  file:close()
+  return data
+end
+
+local writeDataToFS = function(path, data, mode)
+  debugc("writeDataToFS()")
+  
+  local file = io.open (path, mode)
+  file:write(yajl.to_string(data))
+  file:flush()
+  file:close()
+  return true
+end
 
 
 characterFilePath = characterFilePath or ""
-avaletCharacterFilePrefix = "AvaletCharacter"
-avaletCharacterFileExtension = ".json"
 function avalonUI.loadCharacterFileFromDisk(charName)
 	--debugc("function loadCharacterFileFromDisk(charName)")
   
-	if string.char(getMudletHomeDir():byte()) == "/" then _sep = "/" else  _sep = "\\" end
+  -- Trennzeichen sind abhängig vom Betriebssystem
+  if string.char(getMudletHomeDir():byte()) == "/" then _sep = "/" else  _sep = "\\" end
   
-  characterFilePath = getMudletHomeDir() .. _sep .. avaletCharacterFilePrefix .. string.title(charName) .. avaletCharacterFileExtension
+  characterFilePath = getMudletHomeDir() .. _sep .. "AvaletCharacter" .. string.title(charName) .. ".json"
   
   -- Hier werden Leerzeichen im Pfad mit einem "\" maskiert, um Probleme unter
   -- Linux zu beheben. Scheint zu funktionieren. Alternativ müsste man das mit
   -- Anführungszeichen um den Pfad rum lösen.
   if _sep == "/" then string.gsub(characterFilePath, " ", "\ ") end
   
-	if io.exists(characterFilePath) then
+  if io.exists(characterFilePath) then
     -- Die Tabelle der geladenen Daten wird mit der Player-Tabelle gemerged
     subset = readFileFromFS(characterFilePath, "r")
     for k,v in pairs(subset) do player[k] = v end
-	else
-	  --cecho("&lt;magenta&gt;Charakter-Datei nicht gefunden für: " .. charName .. "\n")
-		writeDataToFS(characterFilePath, player, "w")
-	end
+  else
+    --cecho("&lt;magenta&gt;Charakter-Datei nicht gefunden für: " .. charName .. "\n")
+    writeDataToFS(characterFilePath, player, "w")
+  end
 end
 
 -- function loadCharacterSettingsFromDisk(charName)
@@ -195,58 +211,24 @@ end
 
 characterChatsPath = characterChatsPath or ""
 function avalonUI.loadCharacterChatsFromDisk(charName)
-	debugc("function loadCharacterChatsFromDisk")
+  debugc("function loadCharacterChatsFromDisk")
   
-	if string.char(getMudletHomeDir():byte()) == "/" then _sep = "/" else  _sep = "\\" end
+  if string.char(getMudletHomeDir():byte()) == "/" then _sep = "/" else  _sep = "\\" end
+  
   characterChatsPath = getMudletHomeDir() .. _sep .. "AvaletChats" .. string.title(charName) .. ".json"
   
   -- Leerzeichen im Pfad maskieren für Linux-Systeme 
   if _sep == "/" then string.gsub(characterChatsPath, " ", "\ ") end
   
-	if io.exists(characterChatsPath) then
+  if io.exists(characterChatsPath) then
     subset = readFileFromFS(characterChatsPath, "r")
     for k,v in pairs(subset) do avalonUI.chats[k] = v end
-	else
-		writeDataToFS(characterChatsPath, avalonUI.chats, "w")
-	end
+  else
+    writeDataToFS(characterChatsPath, avalonUI.chats, "w")
+  end
 end
 
 
--- für Debug, kann dann weg:
-function avaletTest(alter)
-    local str = alter
-    local tage = ""
-    tage = string.gsub(str, "^(%d+%sTage?)%s.*", "%1", 1)
-    if tage == str then
-      tage = "0 Tage"
-    end
-    local stunden = ""
-    stunden = string.gsub(str, ".*%s(%d+%sStunden?)%s.*", "%1", 1)
-    if stunden == str then
-      stunden = string.gsub(str, "^(%d+%sStunden?)%s.*", "%1", 1)
-      if stunden == str then
-        stunden = "0 Stunden"
-      end
-    end
-    local minuten = ""
-    minuten = string.gsub(str, ".*%s(%d+%sMinuten?)%s.*", "%1", 1)
-    if minuten == str then
-      minuten = string.gsub(str, "^(%d+%sMinuten?)%s.*", "%1", 1)
-      if minuten == str then
-        minuten = "0 Minuten"
-      end
-    end
-    --local sekunden = ""
-    --sekunden = string.gsub(str, ".*%s(%d+%sSekunden?)%s.*", "%1", 1)
-    --if sekunden == str then
-    --  sekunden = "0 Sekunden"
-    --end
-    
-    str = tage .. " " .. stunden .. " und " .. minuten
-    
-    cecho("\n&lt;magenta&gt;Du bist etwa " .. str .. " alt.\n")
-
-end
 
 -- function loadVersionInformation()
 function avalonUI.loadVersionInformation()
@@ -261,6 +243,8 @@ end -- function loadVersionInformation()
 -- Wenn nach dem Start von Mudlet der Name des angemeldeten Charakters per ATCP
 -- erstmals übertragen wird, kann dieses Modul die Charakter-abhängigen Teile
 -- initialisieren. Also im Grunde alles außer das, was Avalet selbst betrifft.
+-- Diese Funktion wird sowohl nach einem echten login als auch nach einem
+-- reconnect ausgeführt!
 function avalonUI.initPlayer(name)
   debugc("Funktion initPlayer aufgerufen mit Parameter: " .. name)
   -- Settings des Chars laden
@@ -335,8 +319,11 @@ function avalonUI.onLogoutEvent()
   --echo("\nVon Avalet gemessene Session-EP: " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n\n")
   player.sessionEP = tonumber(player.ep)
 
+  -- Bei einem richtigen logout werden die ChatTab-Verläufe gelöscht:
+  -- TODO: evtl. konfigurierbar machen, die Beschränkung auf (derzeit) 500 Zeilen
+  -- setzt ja auch schon eine Grenze.
   for k,v in pairs(GUIModel.tabElement.tabs) do
-    --cecho("&lt;magenta&gt;Hier würde gelöscht werden: " .. v .. "\n")
+
     avalonUI.chats[v] = {}
     
   end
@@ -456,7 +443,7 @@ registerAnonymousEventHandler("sysInstallPackage", "avalonUI.onSysInstallPackage
 			<eventHandlerList />
 		</Script>
 		<ScriptGroup isActive="yes" isFolder="yes">
-			<name>Framework</name>
+			<name>Frameworks</name>
 			<packageName></packageName>
 			<script></script>
 			<eventHandlerList />
@@ -1895,26 +1882,27 @@ end</script>
 				<name>Utility Functions</name>
 				<packageName></packageName>
 				<script>-- Hilfsfunktionen
-function readFileFromFS(path, mode)
-	data = {}
-	file = io.open (path, mode)
-	data = yajl.to_value(file:read())
-	file:close()
-	return data
-end
-
-function writeDataToFS(path, data, mode)
-  debugc("\n&lt;magenta&gt;writeDataToFS()\n")
-  debugc("&lt;magenta&gt;path: " .. path .. "\n")
-  --cecho("&lt;magenta&gt;data: " .. tostring(data) .. "\n")
-  --cecho("&lt;magenta&gt;mode: " .. tostring(mode) .. "\n")
-
-	file = io.open (path, mode)
-	file:write(yajl.to_string(data))
-	file:flush()
-	file:close()
-	return true
-end</script>
+--function readFileFromFS(path, mode)
+--	data = {}
+--	file = io.open (path, mode)
+--	data = yajl.to_value(file:read())
+--	file:close()
+--	return data
+--end
+--
+--function writeDataToFS(path, data, mode)
+--  debugc("\n&lt;magenta&gt;writeDataToFS()\n")
+--  debugc("&lt;magenta&gt;path: " .. path .. "\n")
+--  --cecho("&lt;magenta&gt;data: " .. tostring(data) .. "\n")
+--  --cecho("&lt;magenta&gt;mode: " .. tostring(mode) .. "\n")
+--
+--	file = io.open (path, mode)
+--	file:write(yajl.to_string(data))
+--	file:flush()
+--	file:close()
+--	return true
+--end
+</script>
 				<eventHandlerList />
 			</Script>
 		</ScriptGroup>
@@ -2067,6 +2055,18 @@ avalonUI.CSS.MenuLabelCSS = CSSMan.new([[
 ]])
 --avalonUI.TopMenuOptions:echo([[&lt;p style="font-size:22px"&gt;&lt;b&gt;&lt;font color="white"&gt;&amp;#9881;]])
 
+-- CSS Counter -------------------------------------------------
+
+avalonUI.CSS.counterCSS = CSSMan.new([[
+	background-color: rgb(50,0,50);
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 10px;
+	border-color: white;
+	font: TypeWriter;
+	margin: 5px;
+]])
+
 -- CSS Gauges --------------------------------------------------
 
 avalonUI.CSS.GaugeBackCSS = CSSMan.new([[
@@ -2105,15 +2105,10 @@ avalonUI.CSS.GaugeTimerTextCSS = CSSMan.new([[
 </script>
 			<eventHandlerList />
 		</Script>
-		<ScriptGroup isActive="yes" isFolder="yes">
-			<name>DataObjects</name>
+		<Script isActive="yes" isFolder="no">
+			<name>initCharacter</name>
 			<packageName></packageName>
-			<script></script>
-			<eventHandlerList />
-			<Script isActive="yes" isFolder="no">
-				<name>initCharacter</name>
-				<packageName></packageName>
-				<script>--initCharacter()
+			<script>--initCharacter()
 
 function avalonUI.initCharacter()
 
@@ -2171,12 +2166,12 @@ function avalonUI.initCharacter()
 end
 
 </script>
-				<eventHandlerList />
-			</Script>
-			<Script isActive="yes" isFolder="no">
-				<name>initTimer</name>
-				<packageName></packageName>
-				<script>-- Timer (und Trigger für Timer)
+			<eventHandlerList />
+		</Script>
+		<Script isActive="yes" isFolder="no">
+			<name>initTimer</name>
+			<packageName></packageName>
+			<script>-- Timer (und Trigger für Timer)
 --
 -- HINWEIS: Hier geht es um Timer und Trigger. Wenn hier von TRIGGERN geschrieben
 -- wird, dann sind die normalen Mudlet-Trigger gemeint. Wenn hier von TIMERN 
@@ -2478,6 +2473,317 @@ function avalonUI.createMixedTimer(timerStrings)
   end -- for  
 end -- function avalonUI.createMixedTimer(timerStrings)
 </script>
+			<eventHandlerList />
+		</Script>
+		<Script isActive="yes" isFolder="no">
+			<name>settings</name>
+			<packageName></packageName>
+			<script>--Benutzerdefinierte Einstellungen
+
+avalonUI.settings = avalonUI.settings or {}
+avalonUI.settings.GUIframe  = avalonUI.settings.GUIframe or {}
+avalonUI.settings.avalet    = avalonUI.settings.avalet or {}
+avalonUI.settings.character = avalonUI.settings.character or {}
+
+
+avalonUI.settings.avalet = {
+  ["name"] = "Avalet",
+  ["timerGaugeDirection"] = "goofy",
+  ["chatTabs"] = {},
+}
+
+avalonUI.settings.character = {
+  ["name"] = "",
+  ["backgroundColor"] = "black",
+}
+
+
+-- Einstellungen der Höhe/Breite der Fensterbereiche
+avalonUI.settings.GUIframe = {
+  ["leftStartWidth"] = nil,
+  ["leftStartHeight"] = nil,
+  ["rightStartWidth"] = nil,
+  ["rightStartHeight"] = nil,
+}
+
+
+</script>
+			<eventHandlerList />
+		</Script>
+		<Script isActive="yes" isFolder="no">
+			<name>GUIFrame defaults</name>
+			<packageName></packageName>
+			<script>local mainW, mainH = getMainWindowSize()
+local tabSheet = table.deepcopy(avalonUI.CSS.base)
+tabSheet.stylesheet.margin = nil
+--tabSheet:set("margin-right", "1px")
+--tabSheet:set("margin-left", "1px")
+--tabSheet:set("border-width", "2px")
+----tabSheet:set("display", "none")
+----tabSheet:set("visibility", "hidden")
+
+--	background-color: rgba(0,0,0,100);
+--	border-style: solid;
+--	border-width: 1px;
+--	border-radius: 10px;
+--	border-color: white;
+--	font: TypeWriter;
+--	margin: 10px;
+tabSheet:set("background-color", "rgba(0,0,0,100)")
+tabSheet:set("border-style", "solid")
+tabSheet:set("border-width", "1px")
+tabSheet:set("border-radius", "10px")
+tabSheet:set("border-color", "white")
+tabSheet:set("font", "TypeWriter")
+tabSheet:set("margin-left", "10px")
+tabSheet:set("margin-right", "10px")
+tabSheet:set("width", "98%")
+tabSheet:set("height", "20px")
+
+
+GUIframe.configs = {
+    tabHeight = 20,
+    tabStyle = tabSheet:getCSS(),
+    tabEchoStyle = '&lt;center&gt;&lt;p style="font-size:13px; color:LightYellow"&gt;',
+    leftStartWidth = math.floor(mainW * 0.16),       --math.floor(mainW / 6.8),
+    leftStartHeight = math.floor(mainH / 2.5),        --math.floor(mainH / 3),
+    rightStartWidth = math.floor(mainW * 0.35),        --math.floor(mainW / 3),
+    rightStartHeight = math.floor(mainH / 2),    --math.floor(mainH * 0.42),
+    topStartHeight = 60,   --30
+    bottomStartHeight = 0, --65
+    resizeHoverImage = "/AvalonUI/blue_arrows.png",
+    resizeRestImage = "/AvalonUI/blue_arrows_20t.png",
+    borderOffset = 0,
+}</script>
+			<eventHandlerList />
+		</Script>
+		<ScriptGroup isActive="yes" isFolder="yes">
+			<name>ModelControl</name>
+			<packageName></packageName>
+			<script></script>
+			<eventHandlerList />
+			<Script isActive="yes" isFolder="no">
+				<name>createChatModel</name>
+				<packageName></packageName>
+				<script>-- createChatModel
+
+--------------------------------------------
+--- Tabs-Element rechts unten
+-------------------------------------------
+function avalonUI.createChatModel()
+  -- Generelle Variablen für das Tab-Element
+  GUIModel.tabElement = GUIModel.tabElement or {
+    tabs = {"Reden", "Sagen", "Laber", "Neuling", "Gruppe", "Volk", "Gilde", "Schwafel"},
+  }
+  -- Speichert das aktuell ausgewählte Element:
+  GUIModel.tabElement.currentTab = GUIModel.tabElement.currentTab or GUIModel.tabElement.tabs[1]
+  
+  for k,v in pairs(GUIModel.tabElement.tabs) do
+  
+    avalonUI.chats[v] = {}
+    
+  end
+
+end
+
+
+
+-- In der per ATCP empfangenen Kommunikation gibt es Formatierungsanweisungen,
+-- die hier rausgefiltert werden.
+local clearMessage = function(str)
+  local message = str
+  message = string.gsub(message, "%%%^ITALIC%%%^", "")
+  message = string.gsub(message, "%%%^NO_ITALIC%%%^", "")
+  message = string.gsub(message, "%%%^NC_html_begin_colour%(%#[A-Za-z0-9]+%)%%%^", "")
+  message = string.gsub(message, "%%%^NC_html_end_colour%%%^", "")
+  
+  return message
+end
+
+
+
+-- Hier wird die Kommunikation verarbeitet, die über die Comm-Kanäle per ATCP eingehen.
+-- Eine erste Verarbeitung fand schon beim Eingang der Nachricht statt, also bei
+-- ATCP --&gt; atcp (Trennung von channel und message nämlich, aber auch die Zuordnung von
+-- einzelnen Kanälen zu Sammelbegriffen, bspswse "vr" zu "Volk".
+function avalonUI.processMessage(channel, message)
+
+  -- Die Nachricht kann Steuercode enthalten, beispielsweise für farbigen Text.
+  -- Der wird hier rausgefiltert.
+  message = clearMessage(message)
+  
+  local logfilename = ""
+  if player.name ~= nil and player.name ~= "" then
+    logfilename = string.title(player.name) .. channel
+  else
+    logfilename = channel
+  end
+  
+  Logger:Log(logfilename, message, {"timestamp", split = 4000})
+
+  local timestamp = getTime(true, "'['dd'.'MM'.'yyyy' - 'hh':'mm':'ss'.'zzz]: ")
+
+  local line = ""
+
+  -- Hier können auch Comm-Nachrichten landen, für die es keinen Tab gibt. Also:
+  if avalonUI.chats[channel] ~= nil then
+    -- Die Tabelle der einzelnen Chat-Tabs wird auf 500 Elemente begrenzt.
+    -- Um Speicher zu sparen. Die Zahl kann sich noch ändern, aber 500 schien
+    -- mir erstmal ausreichend zu sein. Wenn die Tabelle länger ist, wird
+    -- hier jeweils das erste Element entfernt.
+    while #avalonUI.chats[channel] &gt;= 500 do
+      table.remove(avalonUI.chats[channel], 1)
+    end
+
+    -- Timestamp vor die Zeile und ab damit in die Tabelle:
+    line = timestamp .. message --.. "\n"
+    table.insert(avalonUI.chats[channel], line)
+
+    -- Aufbereitet wird die Anzeige bei der Ausgabe. Dafür sorgt:
+    raiseEvent("RefreshTabElement", channel)
+  end  
+end
+
+
+-- Teilweise gab es Anzeigeprobleme im Tab - die neuen Zeilen wurden
+-- ausgegeben, aber der Fokus rutschte nicht weiter runter, so dass
+-- die neuen Zeilen unterhalb des unteren Randes standen. Und andere
+-- (weniger eindeutige) Merkwürdigkeiten. Dabei fand das löschen des
+-- Tabs nur mit "clearWindow()" statt. Mit der zusätzlichen Ausgabe
+-- eines Leerzeichens scheint sich das Problem erledigt zu haben.
+local clearTab = function(channel)
+  debugc("&lt;magenta&gt;clearWindow: ".. channel .. "\n")    
+  clearWindow(channel)
+  avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(" ")
+end
+
+
+
+-- Wird ausgeführt, wenn per ATCP eine neue Kommunikation eingeht
+-- und diese in die ChatTab-Tabelle geschrieben wurde (siehe oben).
+function avalonUI.onRefreshTabElement(_, channel)
+
+  local content = ""
+  local lastdate = ""
+  local date = ""
+  local line = ""
+  -- Wenn für den aktuell angezeigten Tab eine neue Nachricht eingeht ...
+  if GUIModel.tabElement.currentTab == channel then
+    debugc("Der TAB " .. channel .. " wird aktualisiert.")
+
+    --... wird erstmal der alte Inhalt gelöscht.
+    clearTab(channel)
+    
+    -- Dann wird für jede Zeile in der ChatTab-Tabelle ...
+    for _,v in pairs(avalonUI.chats[channel]) do
+
+      -- ... erstmal das Datum extrahiert. (Aus dem Timestamp am Anfang der Zeile.)
+      date = string.gsub(v, "^%[(%d+%.%d+%.%d+) %- %d+:%d+:%d+%.%d+%]: .*$", "%1", 1)
+      --content = ""
+      
+      -- Wenn der Tab noch leer ist, wird erstmal das Datum des ersten Eintrags ausgegeben.
+      -- Und dann wieder bei jedem Datumswechsel. Dabei wird zusätzlich noch ein Leerzeichen
+      -- eingefügt.
+      if lastdate ~= date then
+        if lastdate ~= "" then content = "\n" end
+        content = content .. "\n~~~~~~~~~~~~~~~~~~~~ " .. date .. " ~~~~~~~~~~~~~~~~~~~~\n\n"
+        lastdate = date
+      end
+      
+      -- Die eigentliche Zeile besteht nur aus dem Zeitstempel und dem eigentlichen Text
+      line = string.gsub(v, "^%[%d+%.%d+%.%d+ %- (%d+:%d+:%d+)%.%d+%]: (.*)$", "%1: %2", 1)
+      content = content .. line .. "\n"
+
+      -- Seit Mudlet 4.8 kann "echo()" nur noch 10k Zeichen auf einmal ausgeben. Hier wird
+      -- deshalb nach 8k Zeichen der Content einmal ausgegeben (und dann geleert).
+      if #content &gt; 8000 then
+        avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(content)
+        content = ""
+      end
+    end
+    -- Zum Schluss wird noch der Rest vom Content ausgegeben, also alles unter 8k Zeichen.
+    if content ~= "" then
+      avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(content)
+    end
+  -- Wenn die Nachricht, die eingeht, NICHT für den aktuell angezeigten Tab ist, dann wird
+  -- einfach nur der entsprechende Tab farbig markiert. Damit der User sieht, dass da noch
+  -- ungelesene Nachrichten sind.
+	else
+    avalonUI.markTab(channel)
+	end
+end
+registerAnonymousEventHandler("RefreshTabElement", "avalonUI.onRefreshTabElement")
+</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>createCounterModel</name>
+				<packageName></packageName>
+				<script>--createCounterModel
+
+avalonUI.counter = avalonUI.counter or {}
+
+avalonUI.counter = {
+  {["Name"]="Session-EP", ["Groesse"]="EP", ["Basis"] = "Session"},
+  {["Name"]="Arkanschild", ["Groesse"]="EP", ["Basis"] = "Arkanschild"},
+  {["Name"]="Kampfdauer", ["Groesse"]="Zeit", ["Basis"] = "Kampf"},
+  {["Name"]="EP-Verdoppelung", ["Groesse"]="EP", ["Basis"] = "EP-Verdoppelung"},
+  {["Name"]="EP/Stunde", ["Groesse"]="EP", ["Basis"] = "Stunde"},
+}
+
+local schutzzauber = schutzzauber or {}
+schutzzauber = {"Arkanschild", "Schild", "Kampfbeschwoerung", ""}
+
+function avalonUI.createCounterModel()
+  avalonUI.listOfCounter = avalonUI.listOfCounter or {}
+  avalonUI.listOfCounter = {
+  [1] = {["Name"]="Session-EP", ["Groesse"]="EP", ["Basis"] = "Session", ["Basiswert"] = 0},
+  }
+  
+end
+
+
+function avalonUI.recreateCounter()
+	--debugc("func initCounter()")
+  
+  -- Alle Counter unsichtbar machen und Beschriftung löschen. Es gibt
+  -- 6 Label-Elemente für Counter auf der Oberfläche, also (max) 6 Timer:
+  for k = 1, 6, 1 do
+    avalonUI["Counter"..k]:hide()
+    avalonUI["Counter"..k]:echo("")
+  end
+
+  -- Counter-Anzeige neu aufbauen:
+  avalonUI.refreshCounter()
+end --function initCounter()
+
+
+function avalonUI.refreshCounter()
+	--debugc("function refreshCounter")
+  
+  for k, v in pairs(avalonUI.listOfCounter) do
+    avalonUI["Counter"..k]:show()
+    avalonUI["Counter"..k]:echo("&lt;b&gt;&amp;nbsp;"..v["Name"]..": " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "&lt;/b&gt;")
+  end
+end
+
+-- Das Problem mit dem SessionEP-Zähler ist, dass es im Grunde keine Möglichkeit gibt,
+-- ein echtes "Login", also den Session-Start, zu erkennen. Man kann ein "reconnect"
+-- an Hand des Strings "Verwende alten Koerper..." erkennen (und dann nur hoffen, dass
+-- das immer zuverlässig ist), aber um einen echten login davon unterscheiden zu können,
+-- müsste man zuverlässigere Daten haben. (ODER?)
+-- Naja, man könnte bei sysConnection ein Flag "isLogin = true" setzen, und durch den Trigger auf
+-- "Verwende alten Koerper..." könnte man das Flag auf "false" setzen. Das funktioniert vermutlich,
+-- wenn WIRKLICH der Char-Name nicht vorher per ATCP kommt. Sollte gehen. TODO.
+-- "\nSession-EP: " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n"
+
+-- event == "AvalonEP"
+function avalonUI.updateSessionEP(_, arg)
+  debugc("Update SessionEP-Zaehler!")
+  --cecho("&lt;magenta&gt;\nupdate Session-EP\n")
+  avalonUI["Counter1"]:echo("&lt;b&gt;&amp;nbsp;Session-EP: " .. tostring(tonumber(arg) - tonumber(player.sessionEP)) .. "&lt;/b&gt;")
+end
+registerAnonymousEventHandler("AvalonEP", "avalonUI.updateSessionEP")</script>
 				<eventHandlerList />
 			</Script>
 			<Script isActive="yes" isFolder="no">
@@ -2626,210 +2932,19 @@ function avalonUI.onRefreshInfobox(event, args)
 -- Diese Funktion kann aufgerufen werden, obwohl noch
 -- kein Player-Objekt besteht. (Also obwohl der Player-Name noch nicht
 -- per ATCP eingetroffen ist. Workaround: auf player.name testen.)
-	if player.name ~= "" then
-    
-		writeDataToFS(characterFilePath, player, "w")
-		avalonUI.updateInfoBox()
-		--avalonUI.infobox:echo(args)
-		avalonUI.infobox:echo(GUIModel.infobox)
-	--avalonUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "&lt;b&gt;" .. args[1] .. "/" .. args[2] .. "&lt;/b&gt;")
-	end
+  if player.name ~= "" then
+    -- Ich hab vergessen, warum ich das hier für nötig hielt... Auskommentiert deshalb      
+    --writeDataToFS(characterFilePath, player, "w")
+    avalonUI.updateInfoBox()
+    --avalonUI.infobox:echo(args)
+    avalonUI.infobox:echo(GUIModel.infobox)
+    --avalonUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "&lt;b&gt;" .. args[1] .. "/" .. args[2] .. "&lt;/b&gt;")
+  end
 end
 registerAnonymousEventHandler("RefreshInfobox", "avalonUI.onRefreshInfobox")
 --raiseEvent("RefreshCharacterVollername", ???)
 
 </script>
-				<eventHandlerList />
-			</Script>
-			<Script isActive="yes" isFolder="no">
-				<name>createChatModel</name>
-				<packageName></packageName>
-				<script>-- createChatModel
-
---------------------------------------------
---- Tabs-Element rechts unten
--------------------------------------------
-function avalonUI.createChatModel()
-  -- Generelle Variablen für das Tab-Element
-  GUIModel.tabElement = GUIModel.tabElement or {
-    tabs = {"Reden", "Sagen", "Laber", "Gruppe", "Volk", "Gilde", "Schwafel"},
-  }
-  -- Speichert das aktuell ausgewählte Element:
-  GUIModel.tabElement.currentTab = GUIModel.tabElement.currentTab or GUIModel.tabElement.tabs[1]
-  
-  for k,v in pairs(GUIModel.tabElement.tabs) do
-  
-    avalonUI.chats[v] = {}
-    
-  end
-
-end
-
-
-
--- In der per ATCP empfangenen Kommunikation gibt es Formatierungsanweisungen,
--- die hier rausgefiltert werden.
-local clearMessage = function(str)
-  local message = str
-  message = string.gsub(message, "%%%^ITALIC%%%^", "")
-  message = string.gsub(message, "%%%^NO_ITALIC%%%^", "")
-  message = string.gsub(message, "%%%^NC_html_begin_colour%(%#[A-Za-z0-9]+%)%%%^", "")
-  message = string.gsub(message, "%%%^NC_html_end_colour%%%^", "")
-  
-  return message
-end
-
-
-
--- Hier wird die Kommunikation verarbeitet, die über die Comm-Kanäle per ATCP eingehen.
--- Eine erste Verarbeitung fand schon beim Eingang der Nachricht statt, also bei
--- ATCP --&gt; atcp (Trennung von channel und message nämlich, aber auch die Zuordnung von
--- einzelnen Kanälen zu Sammelbegriffen, bspswse "vr" zu "Volk".
-function avalonUI.processMessage(channel, message)
-
-  -- Die Nachricht kann Steuercode enthalten, beispielsweise für farbigen Text.
-  -- Der wird hier rausgefiltert.
-  message = clearMessage(message)
-  
-  local logfilename = ""
-  if player.name ~= nil and player.name ~= "" then
-    logfilename = string.title(player.name) .. channel
-  else
-    logfilename = channel
-  end
-  
-  Logger:Log(logfilename, message, {"timestamp", split = 4000})
-
-  local timestamp = getTime(true, "'['dd'.'MM'.'yyyy' - 'hh':'mm':'ss'.'zzz]: ")
-
-  local line = ""
-
-  -- Hier können auch Comm-Nachrichten landen, für die es keinen Tab gibt. Also:
-  if avalonUI.chats[channel] ~= nil then
-    -- Die Tabelle der einzelnen Chat-Tabs wird auf 500 Elemente begrenzt.
-    -- Um Speicher zu sparen. Die Zahl kann sich noch ändern, aber 500 schien
-    -- mir erstmal ausreichend zu sein. Wenn die Tabelle länger ist, wird
-    -- hier jeweils das erste Element entfernt.
-    while #avalonUI.chats[channel] &gt;= 500 do
-      table.remove(avalonUI.chats[channel], 1)
-    end
-
-    -- Timestamp vor die Zeile und ab damit in die Tabelle:
-    line = timestamp .. message --.. "\n"
-    table.insert(avalonUI.chats[channel], line)
-
-    -- Aufbereitet wird die Anzeige bei der Ausgabe. Dafür sorgt:
-    raiseEvent("RefreshTabElement", channel)
-  end  
-end
-
-
--- Teilweise gab es Anzeigeprobleme im Tab - die neuen Zeilen wurden
--- ausgegeben, aber der Fokus rutschte nicht weiter runter, so dass
--- die neuen Zeilen unterhalb des unteren Randes standen. Und andere
--- (weniger eindeutige) Merkwürdigkeiten. Dabei fand das löschen des
--- Tabs nur mit "clearWindow()" statt. Mit der zusätzlichen Ausgabe
--- eines Leerzeichens scheint sich das Problem erledigt zu haben.
-local clearTab = function(channel)
-  debugc("&lt;magenta&gt;clearWindow: ".. channel .. "\n")    
-  clearWindow(channel)
-  avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(" ")
-end
-
-
-
--- Wird ausgeführt, wenn per ATCP eine neue Kommunikation eingeht
--- und diese in die ChatTab-Tabelle geschrieben wurde (siehe oben).
-function avalonUI.onRefreshTabElement(_, channel)
-
-  local content = ""
-  local lastdate = ""
-  local date = ""
-  local line = ""
-  -- Wenn für den aktuell angezeigten Tab eine neue Nachricht eingeht ...
-  if GUIModel.tabElement.currentTab == channel then
-    debugc("Der TAB " .. channel .. " wird aktualisiert.")
-
-    --... wird erstmal der alte Inhalt gelöscht.
-    clearTab(channel)
-    
-    -- Dann wird für jede Zeile in der ChatTab-Tabelle ...
-    for _,v in pairs(avalonUI.chats[channel]) do
-
-      -- ... erstmal das Datum extrahiert. (Aus dem Timestamp am Anfang der Zeile.)
-      date = string.gsub(v, "^%[(%d+%.%d+%.%d+) %- %d+:%d+:%d+%.%d+%]: .*$", "%1", 1)
-      --content = ""
-      
-      -- Wenn der Tab noch leer ist, wird erstmal das Datum des ersten Eintrags ausgegeben.
-      -- Und dann wieder bei jedem Datumswechsel. Dabei wird zusätzlich noch ein Leerzeichen
-      -- eingefügt.
-      if lastdate ~= date then
-        if lastdate ~= "" then content = "\n" end
-        content = content .. "\n~~~~~~~~~~~~~~~~~~~~ " .. date .. " ~~~~~~~~~~~~~~~~~~~~\n\n"
-        lastdate = date
-      end
-      
-      -- Die eigentliche Zeile besteht nur aus dem Zeitstempel und dem eigentlichen Text
-      line = string.gsub(v, "^%[%d+%.%d+%.%d+ %- (%d+:%d+:%d+)%.%d+%]: (.*)$", "%1: %2", 1)
-      content = content .. line .. "\n"
-
-      -- Seit Mudlet 4.8 kann "echo()" nur noch 10k Zeichen auf einmal ausgeben. Hier wird
-      -- deshalb nach 8k Zeichen der Content einmal ausgegeben (und dann geleert).
-      if #content &gt; 8000 then
-        avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(content)
-        content = ""
-      end
-    end
-    -- Zum Schluss wird noch der Rest vom Content ausgegeben, also alles unter 8k Zeichen.
-    if content ~= "" then
-      avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab.."console"]:echo(content)
-    end
-  -- Wenn die Nachricht, die eingeht, NICHT für den aktuell angezeigten Tab ist, dann wird
-  -- einfach nur der entsprechende Tab farbig markiert. Damit der User sieht, dass da noch
-  -- ungelesene Nachrichten sind.
-	else
-    avalonUI.markTab(channel)
-	end
-end
-registerAnonymousEventHandler("RefreshTabElement", "avalonUI.onRefreshTabElement")
-</script>
-				<eventHandlerList />
-			</Script>
-			<Script isActive="yes" isFolder="no">
-				<name>createTopMenuModel</name>
-				<packageName></packageName>
-				<script>-- TopMenu: Das Menü oberhalb des Hauptfensters
-
--- function avalonUI.createTopMenuModel()
--- Erzeugt die Daten, die dann als Menü oberhalb des Hauptfensters angezeigt werden.
--- Das Zahnrad (für das Einstellungen-Menü) wird (zur Zeit noch) in der View hinzugefügt.
-function avalonUI.createTopMenuModel()
-  -- Menü-Label dürfen nicht in einem Container sein, deshalb sind die 
-  -- Top-Level-Einträge direkt auf der Oberfläche positioniert.
-  GUIModel.TopMenuEntries = {}
-  --cecho("&lt;magenta&gt;TopMenuEntries\n")
-  function addTopMenuEntry(label, position, childs)
-  	--TODO: validierung der Parameter (insbesondere der childs)
-  	table.insert(GUIModel.TopMenuEntries,position,{label,childs})
-  end
-  
-  -- Dummy-Menü:
-  --addTopMenuEntry("Top1", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3","luafun",{"a31", "a32", "a33"}}})
-  --addTopMenuEntry("Top2", 2, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3", "luafun",{"a31", "a32", "a33"}}})
-  --addTopMenuEntry("Top1a", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3", "luafun",{"a31", "a32", "a33"}}})
-  
-  -- Muster zum Hinzufügen eines Menüs:
-  --addTopMenuEntry(
-  --	"Top1", 
-  --	1, 
-  --	{
-  --		{"childName1", 1, "childBeschriftung1", "luafun", {"a1","a2","a3"}}, 
-  --		{"childName2", 2, "childBeschriftung2", "luafun", {"a1","a2","a3"}}, 
-  --		{"childName1a", 1, "childBeschriftung1a", "luafun", {"a1","a2","a3"}}
-  --	}
-  --)
-
-end -- function avalonUI.createTopMenuModel()</script>
 				<eventHandlerList />
 			</Script>
 			<Script isActive="yes" isFolder="no">
@@ -3098,6 +3213,43 @@ registerAnonymousEventHandler("RecreateTimerView", "avalonUI.onRecreateTimerView
 				<eventHandlerList />
 			</Script>
 			<Script isActive="yes" isFolder="no">
+				<name>createTopMenuModel</name>
+				<packageName></packageName>
+				<script>-- TopMenu: Das Menü oberhalb des Hauptfensters
+
+-- function avalonUI.createTopMenuModel()
+-- Erzeugt die Daten, die dann als Menü oberhalb des Hauptfensters angezeigt werden.
+-- Das Zahnrad (für das Einstellungen-Menü) wird (zur Zeit noch) in der View hinzugefügt.
+function avalonUI.createTopMenuModel()
+  -- Menü-Label dürfen nicht in einem Container sein, deshalb sind die 
+  -- Top-Level-Einträge direkt auf der Oberfläche positioniert.
+  GUIModel.TopMenuEntries = {}
+  --cecho("&lt;magenta&gt;TopMenuEntries\n")
+  function addTopMenuEntry(label, position, childs)
+  	--TODO: validierung der Parameter (insbesondere der childs)
+  	table.insert(GUIModel.TopMenuEntries,position,{label,childs})
+  end
+  
+  -- Dummy-Menü:
+  --addTopMenuEntry("Top1", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3","luafun",{"a31", "a32", "a33"}}})
+  --addTopMenuEntry("Top2", 2, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3", "luafun",{"a31", "a32", "a33"}}})
+  --addTopMenuEntry("Top1a", 1, {{"Child1", 1, "label1", "luafun", {"a1","a2","a3"}}, {"Child2", 2, "label2", "luafun",{"a12","a22","a32"}},{"Child3", 1, "label3", "luafun",{"a31", "a32", "a33"}}})
+  
+  -- Muster zum Hinzufügen eines Menüs:
+  --addTopMenuEntry(
+  --	"Top1", 
+  --	1, 
+  --	{
+  --		{"childName1", 1, "childBeschriftung1", "luafun", {"a1","a2","a3"}}, 
+  --		{"childName2", 2, "childBeschriftung2", "luafun", {"a1","a2","a3"}}, 
+  --		{"childName1a", 1, "childBeschriftung1a", "luafun", {"a1","a2","a3"}}
+  --	}
+  --)
+
+end -- function avalonUI.createTopMenuModel()</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
 				<name>createGaugeModel</name>
 				<packageName></packageName>
 				<script>--createGaugeModel()
@@ -3216,85 +3368,22 @@ registerAnonymousEventHandler("RefreshManaBar", "avalonUI.onRefreshManaBar")
 </script>
 				<eventHandlerList />
 			</Script>
-			<Script isActive="yes" isFolder="no">
-				<name>settings</name>
-				<packageName></packageName>
-				<script>--Benutzerdefinierte Einstellungen
-
-avalonUI.settings = avalonUI.settings or {}
-
--- Einstellungen der Höhe/Breite der Fensterbereiche
-avalonUI.settings.configGUIframe_leftStartWidth = nil
-avalonUI.settings.configGUIframe_leftStartHeight = nil
-avalonUI.settings.configGUIframe_rightStartWidth = nil
-avalonUI.settings.configGUIframe_rightStartHeight = nil
-
-
-</script>
-				<eventHandlerList />
-			</Script>
 		</ScriptGroup>
-		<Script isActive="yes" isFolder="no">
-			<name>GUIFrame defaults</name>
-			<packageName></packageName>
-			<script>local mainW, mainH = getMainWindowSize()
-local tabSheet = table.deepcopy(avalonUI.CSS.base)
-tabSheet.stylesheet.margin = nil
---tabSheet:set("margin-right", "1px")
---tabSheet:set("margin-left", "1px")
---tabSheet:set("border-width", "2px")
-----tabSheet:set("display", "none")
-----tabSheet:set("visibility", "hidden")
-
---	background-color: rgba(0,0,0,100);
---	border-style: solid;
---	border-width: 1px;
---	border-radius: 10px;
---	border-color: white;
---	font: TypeWriter;
---	margin: 10px;
-tabSheet:set("background-color", "rgba(0,0,0,100)")
-tabSheet:set("border-style", "solid")
-tabSheet:set("border-width", "1px")
-tabSheet:set("border-radius", "10px")
-tabSheet:set("border-color", "white")
-tabSheet:set("font", "TypeWriter")
-tabSheet:set("margin-left", "10px")
-tabSheet:set("margin-right", "10px")
-tabSheet:set("width", "98%")
-tabSheet:set("height", "20px")
-
-
-GUIframe.configs = {
-    tabHeight = 20,
-    tabStyle = tabSheet:getCSS(),
-    tabEchoStyle = '&lt;center&gt;&lt;p style="font-size:13px; color:LightYellow"&gt;',
-    leftStartWidth = math.floor(mainW * 0.16),       --math.floor(mainW / 6.8),
-    leftStartHeight = math.floor(mainH / 2.5),        --math.floor(mainH / 3),
-    rightStartWidth = math.floor(mainW * 0.35),        --math.floor(mainW / 3),
-    rightStartHeight = math.floor(mainH / 2),    --math.floor(mainH * 0.42),
-    topStartHeight = 60,   --30
-    bottomStartHeight = 0, --65
-    resizeHoverImage = "/AvalonUI/blue_arrows.png",
-    resizeRestImage = "/AvalonUI/blue_arrows_20t.png",
-    borderOffset = 0,
-}</script>
-			<eventHandlerList />
-		</Script>
 		<ScriptGroup isActive="yes" isFolder="yes">
-			<name>UI functions</name>
+			<name>View</name>
 			<packageName></packageName>
 			<script></script>
 			<eventHandlerList />
 			<Script isActive="yes" isFolder="no">
-				<name>Build UI</name>
+				<name>buildUI</name>
 				<packageName></packageName>
 				<script>function avalonUI.buildUI()
   --avalonUI.buildBoxes()
   avalonUI.buildInfoScreen()
   avalonUI.buildChat()
   avalonUI.buildTopBar()
-  avalonUI.buildMapper()
+  --avalonUI.buildMapper()
+  avalonUI.buildCounter()
   avalonUI.buildTimer()
   
   GUIframe.disable("top")
@@ -3338,6 +3427,7 @@ function avalonUI.UIInstalled(_, name)
     avalonUI.createTopMenuModel()
     --avalonUI.createMapperModel()
     avalonUI.createTimerModel()
+    avalonUI.createCounterModel()
     avalonUI.createGaugeModel()  
     
     avalonUI.buildUI()
@@ -3351,7 +3441,7 @@ registerAnonymousEventHandler("sysInstall", "avalonUI.UIInstalled")
 				<eventHandlerList />
 			</Script>
 			<Script isActive="yes" isFolder="no">
-				<name>Build Boxes</name>
+				<name>buildBoxes</name>
 				<packageName></packageName>
 				<script>----------------------------------------
 -- Boxes
@@ -3383,46 +3473,7 @@ end
 				<eventHandlerList />
 			</Script>
 			<Script isActive="yes" isFolder="no">
-				<name>Build infoScreen</name>
-				<packageName></packageName>
-				<script>-----------------------------------------------------
--- Charakter-Informationen rechts oben
------------------------------------------------------
-function avalonUI.buildInfoScreen()
-
-  -- Box1 ist das Element rechts oben, in dem die Charakterinformationen ausgegeben werden.
-  avalonUI.Box1 = Geyser.Label:new({
-  	name = "avalonUI.Box1",
-  	x = 0, y = 0,
-  	width = "100%",
-  	height = "50%",
-  })
-  avalonUI.Box1:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
-  --avalonUI.Box1:echo("&lt;center&gt;avalonUI.Box1")
-  GUIframe.addWindow(avalonUI.Box1, "Info-Screen", "topright")
-    
-  avalonUI.infobox = Geyser.MiniConsole:new({
-    name="Infobox",
-    x="3%", y="3%",
-    width = "94%",
-    height = "94%",
-    autoWrap = true,
-    color = "black",
-    scrollBar = false,
-    fontSize = avalonUI.infoBoxFontSize,
-  }, avalonUI.Box1)
-  avalonUI.infobox:setColor("black") -- give it a nice black background
-  avalonUI.infobox:setFont("Bitstream Vera Sans Mono")
-  setWindowWrap("Infobox", 60)
-  clearWindow("Infobox")
-  --avalonUI.infobox:echo(GUIModel.infobox)
-  --avalonUI.infobox:echo("initialisiert")
-
-end</script>
-				<eventHandlerList />
-			</Script>
-			<Script isActive="yes" isFolder="no">
-				<name>Build chat</name>
+				<name>buildChat</name>
 				<packageName></packageName>
 				<script>--------------------------------------------
 --- Tabs-Element rechts unten
@@ -3459,7 +3510,7 @@ function avalonUI.buildChat()
 
 
   -- Der Körper des Tab-Elements, also da wo der Inhalt steht.
-  -- Der Container für jeden TAb-Inhalt
+  -- Der Container für jeden Tab-Inhalt
   avalonUI.tabElement.Footer = Geyser.Label:new({
     name = "avalonUI.tabElement.Footer",
     x = 0, y = "10%",
@@ -3538,7 +3589,7 @@ function avalonUI.buildChat()
 				fontSize = avalonUI.chatFontSize,
 			}, avalonUI.tabElement.tabs[v.."center"])
 			debugc("&lt;magenta&gt;Consolen-Name: "..string.title(v).."\n")
-			setWindowWrap(string.title(v), 60)
+			setWindowWrap(string.title(v), 58)
 			--avalonUI.infobox:setColor("black") -- give it a nice black background
 			--avalonUI.infobox:setFont("Bitstream Vera Sans Mono")
 			--clearWindow("avalonUI.tabElement.tabs." .. v .. "console")
@@ -3595,13 +3646,282 @@ end
 				<eventHandlerList />
 			</Script>
 			<Script isActive="yes" isFolder="no">
-				<name>Build top menu</name>
+				<name>buildCounter</name>
 				<packageName></packageName>
-				<script>-------------------------------------------------------------
---- Top-Menü
+				<script>function avalonUI.buildCounter()
+
+  -- Box5 enthält die Fortschrittsbalken, mit denen die Timer angezeigt werden. Links in 
+  -- der Mitte. Box5 ist kein Label-Element, sondern ein Container, und die sind unsichtbar(?)
+  -- Deshalb geht das hier mit dem weißen Rahmen nicht. Lösung ist, hier noch ein Label
+  -- zu nehmen, dort dann den Container drin, und in dem dann die Gauges.
+  avalonUI.Box4a = Geyser.Container:new({
+  	name = "avalonUI.Box4a",
+  	x = "0%", y = "0%",
+  	width = "100%",
+  	height = "50%",
+  })--, avalonUI.Box5a)
+  GUIframe.addWindow(avalonUI.Box4a, "Zaehler", "topleft")  
+
+
+  avalonUI.Box4 = Geyser.Label:new({
+    name = "avalonUI.Box4",
+    x = "0%", y = "0%",
+    width = "100%",
+    height = "100%",
+  }, avalonUI.Box4a)
+  avalonUI.Box4:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
+  --GUIframe.addWindow(avalonUI.Box4, "Zaehler", "topleft")
+
+---------------------------------------------------------------------------
+  -- Gauges für die Timer
+  -- Hier werden (derzeit) 9 Gauge-Elemente für die Timer erzeugt und positioniert.
+  -- in der Funktion "recreateTimer" werden die Timer dann alle unsichtbar und
+  -- nur die benötigten werden wieder sichtbar und mit Werten beschrieben.
+  -- Eigentlich war geplant, die Timer dynamischer zu gestalten, so dass es auch
+  -- mehr als neun werden könnten. (Der Rest sollte dann etwas zusammen rücken.)
+  -- Aber es scheint nicht möglich zu sein, einmal erzeugte Gauge-Elemente wieder
+  -- zu löschen. (Auf nil setzen wirkt jedenfalls nicht.) Deshalb die statische
+  -- Lösung und das unsichtbar machen.
+  ---------------------------------------------------------------------------
+  
+  for k = 1, 6, 1 do
+    avalonUI["Counter"..k] = Geyser.Label:new({
+      name = "avalonUI.Counter"..k,
+      x = "3%", y = (4 + (k-1)*15).."%",
+      width="94%", height="17%",
+    }, avalonUI.Box4)
+    avalonUI["Counter"..k]:setStyleSheet(avalonUI.CSS.counterCSS:getCSS())
+    avalonUI["Counter"..k]:setFontSize(9)
+    avalonUI["Counter"..k]:hide()
+  end
+
+  --avalonUI["Counter1"]:echo("&lt;b&gt;&amp;nbsp;Session-EP: 782392&amp;nbsp;")
+  --avalonUI["Counter2"]:echo("&lt;b&gt;&amp;nbsp;EP/EP-Verdoppelung: 662958&amp;nbsp;")
+  --avalonUI["Counter3"]:echo("&lt;b&gt;&amp;nbsp;EP letzte Stunde: 731294&amp;nbsp;&lt;/b&gt;")
+  --avalonUI["Counter4"]:echo("&lt;b&gt;&amp;nbsp;EP/Arkanschild: 43392&amp;nbsp;&lt;/b&gt;&lt;\ br&gt;&amp;nbsp;letzter Wert: 41625&amp;nbsp;")
+  --avalonUI["Counter5"]:echo("&lt;b&gt;&amp;nbsp;Kampfdauer: 232s&amp;nbsp;&lt;/b&gt;&lt;\ br&gt;&amp;nbsp;letzter Wert: 376s&amp;nbsp;")
+
+  avalonUI.recreateCounter()
+
+end</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>buildInfoScreen</name>
+				<packageName></packageName>
+				<script>-----------------------------------------------------
+-- Charakter-Informationen rechts oben
+-----------------------------------------------------
+function avalonUI.buildInfoScreen()
+
+  -- Box1 ist das Element rechts oben, in dem die Charakterinformationen ausgegeben werden.
+  avalonUI.Box1 = Geyser.Label:new({
+  	name = "avalonUI.Box1",
+  	x = 0, y = 0,
+  	width = "100%",
+  	height = "50%",
+  })
+  avalonUI.Box1:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
+  --avalonUI.Box1:echo("&lt;center&gt;avalonUI.Box1")
+  GUIframe.addWindow(avalonUI.Box1, "Info-Screen", "topright")
+    
+  avalonUI.infobox = Geyser.MiniConsole:new({
+    name="Infobox",
+    x="3%", y="3%",
+    width = "94%",
+    height = "94%",
+    autoWrap = true,
+    color = "black",
+    scrollBar = false,
+    fontSize = avalonUI.infoBoxFontSize,
+  }, avalonUI.Box1)
+  avalonUI.infobox:setColor("black") -- give it a nice black background
+  avalonUI.infobox:setFont("Bitstream Vera Sans Mono")
+  setWindowWrap("Infobox", 60)
+  clearWindow("Infobox")
+  --avalonUI.infobox:echo(GUIModel.infobox)
+  --avalonUI.infobox:echo("initialisiert")
+
+end</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>buildMapper</name>
+				<packageName></packageName>
+				<script>function avalonUI.buildMapper()
+
+  avalonUI.Box4 = Geyser.Label:new({
+    name = "avalonUI.Box4",
+    x = "0%", y = "0%",
+    width = "100%",
+    height = "50%",
+  })--, avalonUI.Left)
+  avalonUI.Box4:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
+  GUIframe.addWindow(avalonUI.Box4, "Map", "topleft")
+  
+  
+  ----------------------------------------
+  -- Mapper (Karte) links oben
+  ----------------------------------------
+  
+--  avalonUI.Mapper = Geyser.Mapper:new({ 
+--  	name = "Mapper",
+--  	x = "5%", y = "5%", 
+--  	width = "90%", 
+--  	height = "90%"
+--  }, avalonUI.Box4)
+
+end</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>buildTimer</name>
+				<packageName></packageName>
+				<script>function avalonUI.buildTimer()
+  
+  -- Box5 enthält die Fortschrittsbalken, mit denen die Timer angezeigt werden. Links in 
+  -- der Mitte. Box5 ist kein Label-Element, sondern ein Container, und die sind unsichtbar(?)
+  -- Deshalb geht das hier mit dem weißen Rahmen nicht. Lösung ist, hier noch ein Label
+  -- zu nehmen, dort dann den Container drin, und in dem dann die Gauges.
+  avalonUI.Box5c = Geyser.Container:new({
+  	name = "avalonUI.Box5c",
+  	x = "0%", y = "0%",
+  	width = "100%",
+  	height = "100%",
+  })--, avalonUI.Box5a)
+  --avalonUI.Box5:setStyleSheet(avalonUI.CSS.BoxCSS:getCSS())
+  GUIframe.addWindow(avalonUI.Box5c, "Timer", "bottomleft")  
+
+
+
+  avalonUI.Box5a = Geyser.Label:new({
+  	name = "avalonUI.Box5a",
+  	x = "0%", y = "0%",
+  	width = "100%",
+  	height = "70%",
+  }, avalonUI.Box5c)--, avalonUI.Left)
+  avalonUI.Box5a:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
+  --GUIframe.addWindow(avalonUI.Box5a, "Timer", "bottomleft")  
+
+  
+--  avalonUI.Box5 = Geyser.Container:new({
+--  	name = "avalonUI.Box5",
+--  	x = "2%", y = "0%",
+--  	width = "98%",
+--  	height = "100%",
+--  }, avalonUI.Box5a)
+--  --avalonUI.Box5:setStyleSheet(avalonUI.CSS.BoxCSS:getCSS())
+
+  -- Box7 enthält die Fortschrittsbalken, mit denen TP, AP, ZP und Mana angezeigt werden. Links
+  -- unten. Box7 ist auch kein Label-Element, sondern ein Container, deshalb gilt auch hier,
+  -- was oben bei Box5 dokumentiert ist. Auch ein TODO.
+  avalonUI.Box7 = Geyser.Container:new({
+    name = "avalonUI.Box7",
+    x = "0%", y = "70%",
+    width = "100%",
+    height = "30%",
+  }, avalonUI.Box5c)
+  --avalonUI.Box7:setStyleSheet(avalonUI.BoxCSS:getCSS())
+  
+  
+  
+  
+  
+  
+  ---------------------------------------------------------------------------
+  -- Gauges für die Timer
+  -- Hier werden (derzeit) 9 Gauge-Elemente für die Timer erzeugt und positioniert.
+  -- in der Funktion "recreateTimer" werden die Timer dann alle unsichtbar und
+  -- nur die benötigten werden wieder sichtbar und mit Werten beschrieben.
+  -- Eigentlich war geplant, die Timer dynamischer zu gestalten, so dass es auch
+  -- mehr als neun werden könnten. (Der Rest sollte dann etwas zusammen rücken.)
+  -- Aber es scheint nicht möglich zu sein, einmal erzeugte Gauge-Elemente wieder
+  -- zu löschen. (Auf nil setzen wirkt jedenfalls nicht.) Deshalb die statische
+  -- Lösung und das unsichtbar machen.
+  ---------------------------------------------------------------------------
+  
+  for k = 1, 9, 1 do
+  	avalonUI["Timer"..k] = Geyser.Gauge:new({
+  		name = "avalonUI.Timer"..k,
+  		x = "5%", y = (100-(k*10)-5).."%",
+  		width="90%", height="9%",
+  		orientation = avalonUI.timerOrientation, --"goofy"
+  	}, avalonUI.Box5a)
+  	avalonUI["Timer"..k].back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
+  	avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorTimer)
+  	avalonUI["Timer"..k].front:setStyleSheet(avalonUI.CSS.GaugeFrontCSS:getCSS())
+  	avalonUI["Timer"..k]:setValue(600, 600, "")
+  end
+  
+  avalonUI.recreateTimer()
+  
+  
+  -----------------------------------
+  -- Gauges für TP, AP, ZP und Mana
+  -----------------------------------
+  
+  avalonUI.Health = Geyser.Gauge:new({
+    name = "avalonUI.Health",
+    x = "2%", y = "0%",
+    width="30%", height="75%",
+    orientation="vertical",
+  }, avalonUI.Box7)
+  avalonUI.Health.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
+  avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorTP)
+  avalonUI.Health.front:setStyleSheet(avalonUI.CSS.GaugeFrontCSS:getCSS())
+  avalonUI.Health.text:setStyleSheet(avalonUI.CSS.GaugeTextCSS:getCSS())
+  avalonUI.Health.text:setFontSize(9)	
+  avalonUI.Health:setValue(100,100,[[&lt;b&gt;&lt;center&gt;TP&lt;/center&gt;&lt;/b&gt;]])
+
+  
+  avalonUI.Endurance = Geyser.Gauge:new({
+    name = "avalonUI.Endurance",
+    x = "35%", y = "0%",
+    width="30%", height="75%",
+    orientation="vertical",
+  }, avalonUI.Box7)
+  avalonUI.Endurance.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
+  avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorAP)
+  avalonUI.Endurance.front:setStyleSheet(avalonUI.CSS.GaugeFrontCSS:getCSS())
+  avalonUI.Endurance.text:setStyleSheet(avalonUI.CSS.GaugeTextCSS:getCSS())
+  avalonUI.Endurance.text:setFontSize(9)
+  avalonUI.Endurance:setValue(100,100,[[&lt;b&gt;&lt;center&gt;AP&lt;/center&gt;&lt;/b&gt;]])
+  
+  
+  avalonUI.Spellpoints = Geyser.Gauge:new({
+    name = "avalonUI.Spellpoints",
+    x = "68%", y = "0%",
+    width="30%", height="75%",
+    orientation="vertical",
+  }, avalonUI.Box7)
+  avalonUI.Spellpoints.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
+  avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorZP)
+  avalonUI.Spellpoints.front:setStyleSheet(avalonUI.CSS.GaugeFrontCSS:getCSS())
+  avalonUI.Spellpoints.text:setStyleSheet(avalonUI.CSS.GaugeTextCSS:getCSS())
+  avalonUI.Spellpoints.text:setFontSize(9)
+  avalonUI.Spellpoints:setValue(100,100, [[&lt;b&gt;&lt;center&gt;ZP&lt;/center&gt;&lt;/b&gt;]])
+
+  
+  avalonUI.Mana = Geyser.Gauge:new({
+    name = "avalonUI.Mana",
+    x = "2%", y = "78%",
+    width="96%", height="20%",
+  }, avalonUI.Box7)
+  avalonUI.Mana.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
+  avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorMana)
+  avalonUI.Mana.front:setStyleSheet(avalonUI.CSS.GaugeFrontCSS:getCSS())
+  avalonUI.Mana.text:setFontSize(9)
+  avalonUI.Mana:setValue(9999,9999, [[&lt;b&gt;&lt;center&gt;Mana&lt;/center&gt;&lt;/b&gt;]])
+
+end</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>buildTopMenu</name>
+				<packageName></packageName>
+				<script>-- Top-Menü
 -- Menü-Label dürfen nicht in einem Container sein, deshalb sind die 
 -- Top-Level-Einträge direkt auf der Oberfläche positioniert.
--------------------------------------------------------------
 
 function avalonUI.buildTopBar()
 
@@ -3612,17 +3932,9 @@ function avalonUI.buildTopBar()
     height = "7%",
     --nestable = true,
   })
-  --avalonUI.Top:setStyleSheet(avalonUI.BackgroundCSS:getCSS())
   avalonUI.topBar:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
   GUIframe.addWindow(avalonUI.topBar, "TopBar", "top")
 
---end
-
-
---avalonUI.MenuLabelCSS
---TopMenuOptions[i]:setStyleSheet(avalonUI.MenuLabelCSS:getCSS())
-
---function GUItopMenucreateMenu()
 	d = 0
 	for k, v in ipairs(GUIModel.TopMenuEntries) do
 
@@ -3701,177 +4013,6 @@ function avalonUI.buildTopBar()
   avalonUI.TopMenuOptions[i]:setStyleSheet(avalonUI.CSS.MenuLabelCSS:getCSS())
   --setLabelClickCallback( "TopMenuOptions"..i, "ClickTopMenuCallback","tDir[i]","bla bla")
   --setLabelClickCallback(labelName, luaFunctionName, [any arguments])
-
-end</script>
-				<eventHandlerList />
-			</Script>
-			<Script isActive="yes" isFolder="no">
-				<name>Build mapper</name>
-				<packageName></packageName>
-				<script>function avalonUI.buildMapper()
-
-  avalonUI.Box4 = Geyser.Label:new({
-    name = "avalonUI.Box4",
-    x = "0%", y = "0%",
-    width = "100%",
-    height = "50%",
-  })--, avalonUI.Left)
-  avalonUI.Box4:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
-  GUIframe.addWindow(avalonUI.Box4, "Map", "topleft")
-  
-  
-  ----------------------------------------
-  -- Mapper (Karte) links oben
-  ----------------------------------------
-  
---  avalonUI.Mapper = Geyser.Mapper:new({ 
---  	name = "Mapper",
---  	x = "5%", y = "5%", 
---  	width = "90%", 
---  	height = "90%"
---  }, avalonUI.Box4)
-
-end</script>
-				<eventHandlerList />
-			</Script>
-			<Script isActive="yes" isFolder="no">
-				<name>Build timer</name>
-				<packageName></packageName>
-				<script>function avalonUI.buildTimer()
-  
-  -- Box5 enthält die Fortschrittsbalken, mit denen die Timer angezeigt werden. Links in 
-  -- der Mitte. Box5 ist kein Label-Element, sondern ein Container, und die sind unsichtbar(?)
-  -- Deshalb geht das hier mit dem weißen Rahmen nicht. Lösung ist, hier noch ein Label
-  -- zu nehmen, dort dann den Container drin, und in dem dann die Gauges.
-  avalonUI.Box5c = Geyser.Container:new({
-  	name = "avalonUI.Box5c",
-  	x = "0%", y = "0%",
-  	width = "100%",
-  	height = "100%",
-  })--, avalonUI.Box5a)
-  --avalonUI.Box5:setStyleSheet(avalonUI.CSS.BoxCSS:getCSS())
-  GUIframe.addWindow(avalonUI.Box5c, "Timer", "bottomleft")  
-
-
-
-  avalonUI.Box5a = Geyser.Label:new({
-  	name = "avalonUI.Box5a",
-  	x = "0%", y = "0%",
-  	width = "100%",
-  	height = "70%",
-  }, avalonUI.Box5c)--, avalonUI.Left)
-  avalonUI.Box5a:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
-  --GUIframe.addWindow(avalonUI.Box5a, "Timer", "bottomleft")  
-
-  
---  avalonUI.Box5 = Geyser.Container:new({
---  	name = "avalonUI.Box5",
---  	x = "2%", y = "0%",
---  	width = "98%",
---  	height = "100%",
---  }, avalonUI.Box5a)
---  --avalonUI.Box5:setStyleSheet(avalonUI.CSS.BoxCSS:getCSS())
-
-  -- Box7 enthält die Fortschrittsbalken, mit denen TP, AP, ZP und Mana angezeigt werden. Links
-  -- unten. Box7 ist auch kein Label-Element, sondern ein Container, deshalb gilt auch hier,
-  -- was oben bei Box5 dokumentiert ist. Auch ein TODO.
-  avalonUI.Box7 = Geyser.Container:new({
-    name = "avalonUI.Box7",
-    x = "0%", y = "70%",
-    width = "100%",
-    height = "30%",
-  }, avalonUI.Box5c)
-  --avalonUI.Box7:setStyleSheet(avalonUI.BoxCSS:getCSS())
-  
-  
-  
-  
-  
-  
-  ---------------------------------------------------------------------------
-  -- Gauges für die Timer
-  -- Hier werden (derzeit) 9 Gauge-Elemente für die Timer erzeugt und positioniert.
-  -- in der Funktion "recreateTimer" werden die Timer dann alle unsichtbar und
-  -- nur die benötigten werden wieder sichtbar und mit Werten beschrieben.
-  -- Eigentlich war geplant, die Timer dynamischer zu gestalten, so dass es auch
-  -- mehr als neun werden könnten. (Der Rest sollte dann etwas zusammen rücken.)
-  -- Aber es scheint nicht möglich zu sein, einmal erzeugte Gauge-Elemente wieder
-  -- zu löschen. (Auf nil setzen wirkt jedenfalls nicht.) Deshalb die statische
-  -- Lösung und das unsichtbar machen.
-  ---------------------------------------------------------------------------
-  
-  for k = 1, 9, 1 do
-  	avalonUI["Timer"..k] = Geyser.Gauge:new({
-  		name = "avalonUI.Timer"..k,
-  		x = "4%", y = (100-(k*10)-5).."%",
-  		width="90%", height="9%",
-  		orientation = avalonUI.timerOrientation, --"goofy"
-  	}, avalonUI.Box5a)
-  	avalonUI["Timer"..k].back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
-  	avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorTimer)
-  	avalonUI["Timer"..k].front:setStyleSheet(avalonUI.CSS.GaugeFrontCSS:getCSS())
-  	avalonUI["Timer"..k]:setValue(600, 600, "")
-  end
-  
-  avalonUI.recreateTimer()
-  
-  
-  -----------------------------------
-  -- Gauges für TP, AP, ZP und Mana
-  -----------------------------------
-  
-  avalonUI.Health = Geyser.Gauge:new({
-    name = "avalonUI.Health",
-    x = "2%", y = "0%",
-    width="30%", height="75%",
-    orientation="vertical",
-  }, avalonUI.Box7)
-  avalonUI.Health.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
-  avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorTP)
-  avalonUI.Health.front:setStyleSheet(avalonUI.CSS.GaugeFrontCSS:getCSS())
-  avalonUI.Health.text:setStyleSheet(avalonUI.CSS.GaugeTextCSS:getCSS())
-  avalonUI.Health.text:setFontSize(9)	
-  avalonUI.Health:setValue(100,100,[[&lt;b&gt;&lt;center&gt;TP&lt;/center&gt;&lt;/b&gt;]])
-
-  
-  avalonUI.Endurance = Geyser.Gauge:new({
-    name = "avalonUI.Endurance",
-    x = "35%", y = "0%",
-    width="30%", height="75%",
-    orientation="vertical",
-  }, avalonUI.Box7)
-  avalonUI.Endurance.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
-  avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorAP)
-  avalonUI.Endurance.front:setStyleSheet(avalonUI.CSS.GaugeFrontCSS:getCSS())
-  avalonUI.Endurance.text:setStyleSheet(avalonUI.CSS.GaugeTextCSS:getCSS())
-  avalonUI.Endurance.text:setFontSize(9)
-  avalonUI.Endurance:setValue(100,100,[[&lt;b&gt;&lt;center&gt;AP&lt;/center&gt;&lt;/b&gt;]])
-  
-  
-  avalonUI.Spellpoints = Geyser.Gauge:new({
-    name = "avalonUI.Spellpoints",
-    x = "68%", y = "0%",
-    width="30%", height="75%",
-    orientation="vertical",
-  }, avalonUI.Box7)
-  avalonUI.Spellpoints.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
-  avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorZP)
-  avalonUI.Spellpoints.front:setStyleSheet(avalonUI.CSS.GaugeFrontCSS:getCSS())
-  avalonUI.Spellpoints.text:setStyleSheet(avalonUI.CSS.GaugeTextCSS:getCSS())
-  avalonUI.Spellpoints.text:setFontSize(9)
-  avalonUI.Spellpoints:setValue(100,100, [[&lt;b&gt;&lt;center&gt;ZP&lt;/center&gt;&lt;/b&gt;]])
-
-  
-  avalonUI.Mana = Geyser.Gauge:new({
-    name = "avalonUI.Mana",
-    x = "2%", y = "78%",
-    width="96%", height="20%",
-  }, avalonUI.Box7)
-  avalonUI.Mana.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
-  avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorMana)
-  avalonUI.Mana.front:setStyleSheet(avalonUI.CSS.GaugeFrontCSS:getCSS())
-  avalonUI.Mana.text:setFontSize(9)
-  avalonUI.Mana:setValue(9999,9999, [[&lt;b&gt;&lt;center&gt;Mana&lt;/center&gt;&lt;/b&gt;]])
 
 end</script>
 				<eventHandlerList />
