@@ -287,6 +287,11 @@ function avalonUI.onSysConnectionEvent()
 	debugc("&lt;red&gt;sysConnectionEventHandler() running at this point.\n")
 	--echo("onConnect...\n")
 	-- Die ganzen "sendATCP" funktionieren hier noch nicht
+  
+  -- Manchmal hat der TriggerTimer einen Neustart überlebt, war also noch aktiv.
+  -- Die Timer-Liste ist dann allerdings leer.
+--  disableTimer("avaletTimersTimer")
+  
 end
 registerAnonymousEventHandler("sysConnectionEvent", "avalonUI.onSysConnectionEvent")
 
@@ -3177,12 +3182,18 @@ end --function recreateTimer()
 -- wird "recreateTimer()" ausgeführt (und von dort dann diese Funktion).
 function avalonUI.refreshTimer()
 	--debugc("func refreshTimer\n")
+
+  -- gleich wieder aussteigen, wenn es gar keine Timer gibt:
+  cecho("&lt;magenta&gt;\n#avalonUI.listOfTimers: " .. tostring(#avalonUI.listOfTimers) .. "\n")
+  if #avalonUI.listOfTimers == nil or #avalonUI.listOfTimers == 0 then
+      disableTimer("avaletTimersTimer")
+  end
   
   -- Erstmal die Timer-Liste sortieren lassen:
 	local sortedListOfTimers = avalonUI.sortListOfTimers()
 
 	local timerSchriftfarbe = "white"
-
+  
   for k, v in pairs(sortedListOfTimers) do
     showWindow("avalonUI.Timer"..k.."_front")
     showWindow("avalonUI.Timer"..k.."_back")		
