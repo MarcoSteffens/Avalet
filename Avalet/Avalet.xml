@@ -241,12 +241,16 @@ end -- function loadVersionInformation()
 
 -- function initPlayer(name)
 -- Wenn nach dem Start von Mudlet der Name des angemeldeten Charakters per ATCP
--- erstmals übertragen wird, kann dieses Modul die Charakter-abhängigen Teile
+-- ERSTMALS übertragen wird, kann dieses Modul die Charakter-abhängigen Teile
 -- initialisieren. Also im Grunde alles außer das, was Avalet selbst betrifft.
 -- Diese Funktion wird sowohl nach einem echten login als auch nach einem
 -- reconnect ausgeführt!
 function avalonUI.initPlayer(name)
   debugc("Funktion initPlayer aufgerufen mit Parameter: " .. name)
+
+  --cecho("&lt;magenta&gt;\nhier will ich wissen, ob es ein reconnect oder ein echter login ist\n")
+  --debugc("hier will ich wissen, ob es ein reconnect oder ein echter login ist")
+
   -- Settings des Chars laden
   avalonUI.loadCharacterSettingsFromDisk(name)
   -- Charakterdaten laden
@@ -283,6 +287,11 @@ function avalonUI.onSysConnectionEvent()
 	debugc("&lt;red&gt;sysConnectionEventHandler() running at this point.\n")
 	--echo("onConnect...\n")
 	-- Die ganzen "sendATCP" funktionieren hier noch nicht
+  
+  -- Manchmal hat der TriggerTimer einen Neustart überlebt, war also noch aktiv.
+  -- Die Timer-Liste ist dann allerdings leer.
+--  disableTimer("avaletTimersTimer")
+  
 end
 registerAnonymousEventHandler("sysConnectionEvent", "avalonUI.onSysConnectionEvent")
 
@@ -304,6 +313,12 @@ registerAnonymousEventHandler("sysExitEvent", "avalonUI.onSysExitEvent")
 function avalonUI.onSysDisconnectionEvent()
 	debugc("&lt;red&gt;onSysDisconnectionEvent()\n")
 	--echo("Schreibe Character in Datei...\n")
+
+  -- der nächste Login wird vielleicht kein "richtiger" login sein, sondern
+  -- ein reconnect. Aber irgendwann muss ich den wert ja mal setzen... und
+  -- hier erwische ich noch den "player", bevor er gedumpt wird.
+  player.loginIsReconnect = false
+
 	writeDataToFS(characterFilePath, player, "w")
  writeDataToFS(characterChatsPath, avalonUI.chats, "w")
 end
@@ -318,6 +333,9 @@ function avalonUI.onLogoutEvent()
 	debugc("&lt;red&gt;onLogoutEvent()\n")
   --echo("\nVon Avalet gemessene Session-EP: " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n\n")
   player.sessionEP = tonumber(player.ep)
+  
+  -- der nächste Login wird zwangsläufig ein "richtiger" login sein, kein reconnect
+  player.loginIsReconnect = false
 
   -- Bei einem richtigen logout werden die ChatTab-Verläufe gelöscht:
   -- TODO: evtl. konfigurierbar machen, die Beschränkung auf (derzeit) 500 Zeilen
@@ -336,7 +354,10 @@ registerAnonymousEventHandler("logoutEvent", "avalonUI.onLogoutEvent")
 -- afterReconnectEvent wird durch einen Trigger auf "Verwende alten Koerper..." ausgelöst.
 -- Das ist notwendig, da das MUD bei einem Reconnect die ATCP-Daten nicht erneut schickt.
 function avalonUI.afterReconnectEvent()
-  debugc("&lt;red&gt;afterReconnectEvent()\n")
+  debugc("afterReconnectEvent()")
+  --cecho("&lt;magenta&gt;\nab jetzt ist es ein reconnect\n")
+  --debugc("ab jetzt ist es ein reconnect")
+  player.loginIsReconnect = true
   -- "sendATCP" gibt "true" zurück, und das wird unter Umständen im Hauptfenster
   -- ausgegeben. Außer man speichert es in einer Variable wie zum Beispiel "_".
   _ = sendATCP("ava_req_update")
@@ -1923,6 +1944,7 @@ avalonUI.chatTabFontSize = 9
 avalonUI.timerOrientation = "goofy"      -- fancy! Rückschrittsbalken!
 --avalonUI.timerOrientation = "horizontal" -- doofe Fortschrittsbalken
 
+--avalonUI.CounterColor = "gold"  -- geht so nicht, wird im css festgelegt
 avalonUI.GaugeFrontColorTimer = "purple"
 avalonUI.GaugeFrontColorTP = "darkred"
 avalonUI.GaugeFrontColorAP = "darkgoldenrod"
@@ -2057,12 +2079,14 @@ avalonUI.CSS.MenuLabelCSS = CSSMan.new([[
 
 -- CSS Counter -------------------------------------------------
 
+--background-color: rgb(50,0,50);
+--background-color: rgb(98,119,0);
 avalonUI.CSS.counterCSS = CSSMan.new([[
-	background-color: rgb(50,0,50);
+	background-color: black;
 	border-style: solid;
 	border-width: 1px;
 	border-radius: 10px;
-	border-color: white;
+	border-color: black;
 	font: TypeWriter;
 	margin: 5px;
 ]])
@@ -2161,6 +2185,8 @@ function avalonUI.initCharacter()
   character.ep_speicher = ""
   
   character.sessionEP = 0
+  
+  character.loginIsReconnect = false
   
   return character
 end
@@ -2763,6 +2789,8 @@ function avalonUI.refreshCounter()
   
   for k, v in pairs(avalonUI.listOfCounter) do
     avalonUI["Counter"..k]:show()
+    -- mylabel:echo(string.format("&lt;span style='color: rgb(0,0,0)'&gt;Hello World&lt;/span&gt;", redv, greenv, bluev))
+    --avalonUI["Counter"..k]:echo("&lt;span style='color: rgb(0,0,0)'&gt;&lt;b&gt;&amp;nbsp;"..v["Name"]..": " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "&lt;/b&gt;&lt;/span&gt;")
     avalonUI["Counter"..k]:echo("&lt;b&gt;&amp;nbsp;"..v["Name"]..": " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "&lt;/b&gt;")
   end
 end
@@ -3154,12 +3182,18 @@ end --function recreateTimer()
 -- wird "recreateTimer()" ausgeführt (und von dort dann diese Funktion).
 function avalonUI.refreshTimer()
 	--debugc("func refreshTimer\n")
+
+  -- gleich wieder aussteigen, wenn es gar keine Timer gibt:
+  cecho("&lt;magenta&gt;\n#avalonUI.listOfTimers: " .. tostring(#avalonUI.listOfTimers) .. "\n")
+  if #avalonUI.listOfTimers == nil or #avalonUI.listOfTimers == 0 then
+      disableTimer("avaletTimersTimer")
+  end
   
   -- Erstmal die Timer-Liste sortieren lassen:
 	local sortedListOfTimers = avalonUI.sortListOfTimers()
 
 	local timerSchriftfarbe = "white"
-
+  
   for k, v in pairs(sortedListOfTimers) do
     showWindow("avalonUI.Timer"..k.."_front")
     showWindow("avalonUI.Timer"..k.."_back")		
@@ -3691,7 +3725,7 @@ end
       width="94%", height="17%",
     }, avalonUI.Box4)
     avalonUI["Counter"..k]:setStyleSheet(avalonUI.CSS.counterCSS:getCSS())
-    avalonUI["Counter"..k]:setFontSize(9)
+    avalonUI["Counter"..k]:setFontSize(10)
     avalonUI["Counter"..k]:hide()
   end
 
