@@ -250,6 +250,9 @@ function avalonUI.initPlayer(name)
 
   --cecho("&lt;magenta&gt;\nhier will ich wissen, ob es ein reconnect oder ein echter login ist\n")
   --debugc("hier will ich wissen, ob es ein reconnect oder ein echter login ist")
+  if not player.loginIsReconnect then
+    player.sessionEP = tonumber(player.ep)
+  end
 
   -- Settings des Chars laden
   avalonUI.loadCharacterSettingsFromDisk(name)
@@ -3184,7 +3187,12 @@ function avalonUI.refreshTimer()
 	--debugc("func refreshTimer\n")
 
   -- gleich wieder aussteigen, wenn es gar keine Timer gibt:
-  cecho("&lt;magenta&gt;\n#avalonUI.listOfTimers: " .. tostring(#avalonUI.listOfTimers) .. "\n")
+  -- Hintergrund: bei einem Disconnect ist manchmal der TriggerTimer aktiv
+  -- geblieben. Nach dem reconnect ist allerdings die Timer-Liste leer,
+  -- so dass der Timer läuft, aber nichts angezeigt wird. Besser wäre
+  -- vermutlich, die Timer vernünftig zu inititalisieren, also ggf. auch
+  -- Timer weiterlaufen zu lassen. (EP-Verdoppelung war es hier, vielleicht
+  -- weil der Timer nicht durch einen Trigger beendet wird.) TODO
   if #avalonUI.listOfTimers == nil or #avalonUI.listOfTimers == 0 then
       disableTimer("avaletTimersTimer")
   end
