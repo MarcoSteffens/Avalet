@@ -169,7 +169,12 @@ function avalonUI.loadCharacterFileFromDisk(charName)
   if io.exists(characterFilePath) then
     -- Die Tabelle der geladenen Daten wird mit der Player-Tabelle gemerged
     subset = readFileFromFS(characterFilePath, "r")
-    for k,v in pairs(subset) do player[k] = v end
+    for k,v in pairs(subset) do
+      if k ~= "loginIsReconnect" then
+        --cecho("&lt;magenta&gt;k: " .. tostring(k) .. "\n")
+        player[k] = v 
+      end
+    end
   else
     --cecho("&lt;magenta&gt;Charakter-Datei nicht gefunden für: " .. charName .. "\n")
     writeDataToFS(characterFilePath, player, "w")
@@ -232,7 +237,7 @@ end
 
 -- function loadVersionInformation()
 function avalonUI.loadVersionInformation()
-  
+  --local versionFilePath = getMudletHomeDir().. .."/Avalet/version"
   -- TODO
   return
 
@@ -248,18 +253,26 @@ end -- function loadVersionInformation()
 function avalonUI.initPlayer(name)
   debugc("Funktion initPlayer aufgerufen mit Parameter: " .. name)
 
-  --cecho("&lt;magenta&gt;\nhier will ich wissen, ob es ein reconnect oder ein echter login ist\n")
-  --debugc("hier will ich wissen, ob es ein reconnect oder ein echter login ist")
+  -- Settings des Chars laden
+  avalonUI.loadCharacterSettingsFromDisk(name)
+
+  -- Charakterdaten laden
+  avalonUI.loadCharacterFileFromDisk(name)
+  -- Unterscheiden zwischen einem reconnect und einem echten login:
+  -- (Den echten Login zu erkennen geht leider nicht. Was bei einem
+  -- echten login vorhanden sein soll, muss man beim echten logout
+  -- weiter unten setzen.)
   if not player.loginIsReconnect then
+    --cecho("&lt;magenta&gt;\nes ist _kein_ reconnect: "..tostring(player.ep).."\n")
     player.sessionEP = tonumber(player.ep)
   end
 
-  -- Settings des Chars laden
-  avalonUI.loadCharacterSettingsFromDisk(name)
-  -- Charakterdaten laden
-  avalonUI.loadCharacterFileFromDisk(name)
   -- Chat-Verläufe laden
   avalonUI.loadCharacterChatsFromDisk(name)
+  -- Nachdem die Inhalte der Chat-Tabs geladen wurden, muss das aktuelle
+  -- Tab-Element noch aktualisiert werden.
+  --cecho("&lt;magenta&gt;\nAktualisierung des aktuellen Chat-Tabs?\n")
+  raiseEvent("RefreshTabElement", GUIModel.tabElement.currentTab)
 end --function initPlayer(name)
 
 
@@ -286,44 +299,48 @@ end --function onKeyPadEvent
 registerAnonymousEventHandler("keyPadEvent", "avalonUI.onKeyPadEvent")
 
 
+
+-- Der "sysConnectionEvent" ist ein Standard-Event von Mudlet.
+-- Er wird ausgelöst, wenn eine Verbindung zum MUD besteht. Aber davon
+-- abgesehen kann man hier noch nicht viel machen: ATCP funktioniert
+-- hier noch nicht, ein Charakter ist noch nicht verfügbar (noch nicht
+-- angemeldet), ...
 function avalonUI.onSysConnectionEvent()
-	debugc("&lt;red&gt;sysConnectionEventHandler() running at this point.\n")
-	--echo("onConnect...\n")
-	-- Die ganzen "sendATCP" funktionieren hier noch nicht
-  
-  -- Manchmal hat der TriggerTimer einen Neustart überlebt, war also noch aktiv.
-  -- Die Timer-Liste ist dann allerdings leer.
---  disableTimer("avaletTimersTimer")
-  
+  debugc("function onSysConnectionEvent()")
+  return  
 end
 registerAnonymousEventHandler("sysConnectionEvent", "avalonUI.onSysConnectionEvent")
 
 
--- Raised when Mudlet is shutting down the profile - a good event to hook
--- onto for saving all of your data.
+-- Der "sysExitEvent" ist ein Standard-Event von Mudlet.
+-- Er wird ausgelöst, wenn Mudlet das Profil schließt.
 function avalonUI.onSysExitEvent()
-	debugc("&lt;red&gt;onSysExitEvent\n")
-	--echo("Schreibe Character in Datei...\n")
-	if player.name ~= "" then
-		writeDataToFS(characterFilePath, player, "w")
-   --writeDataToFS(characterChatsPath, avalonUI.chats, "w")
-	end
+	debugc("onSysExitEvent")
+
+  -- Sichere Charakter-Daten. Das ist hier vielleicht überflüssig,
+  -- weil es durch den "sysDisconnectionEvent" schon geschieht.
+  -- Deshalb testweise auskommentiert.
+  if player.name ~= "" then
+    --writeDataToFS(characterFilePath, player, "w")
+  end
 end
 registerAnonymousEventHandler("sysExitEvent", "avalonUI.onSysExitEvent")
 
 
-
+-- Der Event "sysDisconnectionEvent" ist ein Standard-Event von Mudlet.
+-- Er wird ausgelöst, wenn die Verbindung zum MUD abreisst. Das kann sowohl
+-- durch ein logout geschehen als auch durch jeden anderen Verbindungs-
+-- abbruch.
 function avalonUI.onSysDisconnectionEvent()
-	debugc("&lt;red&gt;onSysDisconnectionEvent()\n")
-	--echo("Schreibe Character in Datei...\n")
-
-  -- der nächste Login wird vielleicht kein "richtiger" login sein, sondern
-  -- ein reconnect. Aber irgendwann muss ich den wert ja mal setzen... und
-  -- hier erwische ich noch den "player", bevor er gedumpt wird.
+  debugc("onSysDisconnectionEvent()")
+  
+  -- Hier wird vorsorglich der Wert gesetzt, der bei der nächsten Verbindungs-
+  -- aufnahme ausgewertet wird. VOR dieser Auswertung wird der Wert aber noch-
+  -- mal überschrieben, wenn diese Verbindungsaufnahme ein "reconnect" ist.
   player.loginIsReconnect = false
-
-	writeDataToFS(characterFilePath, player, "w")
- writeDataToFS(characterChatsPath, avalonUI.chats, "w")
+  
+  writeDataToFS(characterFilePath, player, "w")
+  writeDataToFS(characterChatsPath, avalonUI.chats, "w")
 end
 registerAnonymousEventHandler("sysDisconnectionEvent", "avalonUI.onSysDisconnectionEvent")
 
@@ -333,9 +350,14 @@ registerAnonymousEventHandler("sysDisconnectionEvent", "avalonUI.onSysDisconnect
 -- die Befehle, mit denen das Ausloggen möglich ist. Außer ich hab einen vergessen.
 -- Derzeit: ^(ende|ende hier|einschlafen|schlaf ein|schlafe ein)$
 function avalonUI.onLogoutEvent()
-	debugc("&lt;red&gt;onLogoutEvent()\n")
-  --echo("\nVon Avalet gemessene Session-EP: " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n\n")
-  player.sessionEP = tonumber(player.ep)
+	debugc("onLogoutEvent()")
+
+  -- Die Basis, auf der die Session-EP berechnet werden, wird hier schon mal für die
+  -- nächste Session gesetzt.
+  -- Das geschieht neuerdings beim Login nochmal, und damit die Anzeige im UI nach dem
+  -- logout noch den Wert der dann grade beendeten Session zeigt, ist das hier erstmal
+  -- auskommentiert. Testweise. TODO
+  --player.sessionEP = tonumber(player.ep)
   
   -- der nächste Login wird zwangsläufig ein "richtiger" login sein, kein reconnect
   player.loginIsReconnect = false
@@ -373,7 +395,7 @@ registerAnonymousEventHandler("afterReconnectEvent", "avalonUI.afterReconnectEve
 -- Ich hab versucht, hier auch auf "GMCP" zu prüfen und eine
 -- Warnung auszugeben. Aber offenbar wird GMCP nicht wie die
 -- anderen Protokolle aktiviert, ich hatte jedenfalls keinen
--- Auslöser des "elseif", trotz aktiviertem GMCP.
+-- Auslöser des "elseif", trotz aktiviertem GMCP. TODO
 function avalonUI.onSysProtocolEnabled(event,arg)
 	debugc("&lt;red&gt;onSysProtocolEnabled() running at this point.\n")
 	if arg =="ATCP" then
@@ -448,7 +470,7 @@ end -- function onSysUninstall(_, name)
 registerAnonymousEventHandler("sysUninstall", "avalonUI.onSysUninstall")
 
 
--- sysInstallPackage
+-- sysInstallPackage - Standard-Event von Mudlet
 -- Avalet funktioniert nicht, wenn es als Paket installiert wird - nur als Modul!
 -- Deshalb hier die Fehlermeldung
 function avalonUI.onSysInstallPackage(_, name)
@@ -1957,6 +1979,15 @@ avalonUI.MiniConsoleCenterFontSize = 9
 avalonUI.MiniConsoleTabsFontSize = 9
 
 
+avalonUI.settings = avalonUI.settings or {}
+avalonUI.settingsSettings = settingsSettings or {
+  tabs = {"Diverses","Chats-Tabs","Farben","Über Avalet"},
+  width = 800, -- auch möglich: "20%"
+  height = 600,
+  current = nil,
+}
+  
+
 
 
 avalonUI.CSS = {}
@@ -2280,6 +2311,7 @@ function avalonUI.initTimer()
     {["name"]="Kernschild", ["start"]="Das Glitzern legt sich als schuetzendes Schild ueber Dich\\.", ["stop"]="Dein Kernschild loest sich auf\\.", ["duration"]="600"},
     {["name"]="Knochenschild", ["start"]="Du erhebst Dich wieder, der wirbelnde Schild aus Knochen umgibt Dich", ["stop"]="Deine schuetzende Knochenwolke loest sich auf\\.", ["duration"]="600"},
     {["name"]="Lebensaura", ["start"]="Du oeffnest die Augen, aber der Schutz der Bluetenblaetter umgibt Dich", ["stop"]="Deine Lebensaura loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Lebenssegen", ["start"]="Du wirst von einem inneren Leuchten erfuellt\\.", ["stop"]="Dein inneres Leuchten erlischt wieder\\.", ["duration"]="600"},
     {["name"]="Licht I", ["start"]="Du erzeugst Dir eine kleine Feuerkugel\\.", ["stop"]="Deine Feuerkugel erlischt\\.", ["duration"]="240"},
     {["name"]="Licht II", ["start"]="Du erzeugst Dir eine kleine Leuchtflamme\\.",["stop"]="Deine Leuchtflamme erlischt\\.", ["duration"]="600"},
     {["name"]="Licht III", ["start"]="Ein grosser Lichtbogen breitet sich ueber Deinem Kopf aus\\.", ["stop"]="Dein Lichtbogen verschwindet\\.", ["duration"]="1200"},
@@ -2288,6 +2320,7 @@ function avalonUI.initTimer()
     {["name"]="Magiertrance", ["start"]="^Die Welt um Dich herum verliert an Bedeutung. Nur noch Deine Zauber sind$",["stop"]="Du erwachst aus Deiner Trance\\.", ["duration"]="600"},
     {["name"]="Manarausch", ["start"]="Dichte Manawolken bilden nun einen gewaltigen Schutz um Dich herum\\.",["stop"]="Dein Manarausch laesst wieder nach\\."},
     {["name"]="Pflanzenblick", ["start"]="Du siehst die Pflanzen um Dich herum jetzt viel klarer\\.", ["stop"]="Dein besonderer Blick fuer die Pflanzen an Deinem Weg verschwindet wieder\\.", ["duration"]="600"},
+    {["name"]="Regenerationssegen", ["start"]="Du wirst von einem warmen Leuchten umgeben\\.", ["stop"]="Das Dich umgebende Leuchten erlischt wieder\\.", ["duration"]="600"},
     {["name"]="Schild", ["start"]="Du wirst von einem magischen Schild umgeben\\.",["stop"]="Dein magischer Schild loest sich auf\\.", ["duration"]="600"},
     {["name"]="Schwarzschild", ["start"]="Du wirst von einem magischen Schild umgeben, der Dich besser parieren",["stop"]="Dein Schwarzschild loest sich auf\\.", ["duration"]="600"},
     {["name"]="Segen", ["start"]="^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-Za-z\\s]+) beginnt\\, schwach zu( leuchten\\.)?", ["stop"]="(Dein|Deine)([a-z ,]*)([A-z\\s]+) verliert .* magische Kraft.", ["duration"]="600"},
@@ -2526,6 +2559,13 @@ avalonUI.settings.character = {
   ["backgroundColor"] = "black",
 }
 
+-- Reden, Sagen, Laber, Neuling, Gruppe, Volk, Gilde, Zuenfte, Schwafel, Tod, Sammeltab (außerdem: Monster, Gebruell, Logout, Raetsel, Spiele, Statue)
+avalonUI.settings.chatTabs = {
+  ["name"] = "Reden",
+  ["position"] = 1,
+  ["aktiv"] = true,
+}
+
 
 -- Einstellungen der Höhe/Breite der Fensterbereiche
 avalonUI.settings.GUIframe = {
@@ -2580,8 +2620,8 @@ GUIframe.configs = {
     rightStartHeight = math.floor(mainH / 2),    --math.floor(mainH * 0.42),
     topStartHeight = 60,   --30
     bottomStartHeight = 0, --65
-    resizeHoverImage = "/AvalonUI/blue_arrows.png",
-    resizeRestImage = "/AvalonUI/blue_arrows_20t.png",
+    resizeHoverImage = "/imgs/blue_arrows.png",
+    resizeRestImage = "/imgs/blue_arrows_20t.png",
     borderOffset = 0,
 }</script>
 			<eventHandlerList />
@@ -3057,11 +3097,9 @@ function avalonUI.sortListOfTimers()
       -- Wenn der aktuelle Timer abgelaufen ist, dann ist der Schleifendurchlauf damit ja auch beendet. 
       if remaining &lt;= -30 then
         avalonUI.removeTimer(v["name"])
-        break
+      else
+        table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = remaining, ["duration"] = v["duration"]})
       end
-
-      table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = remaining, ["duration"] = v["duration"]})
-
     end
   end
 
@@ -3410,6 +3448,31 @@ registerAnonymousEventHandler("RefreshManaBar", "avalonUI.onRefreshManaBar")
 </script>
 				<eventHandlerList />
 			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>createSettingsModel</name>
+				<packageName></packageName>
+				<script>--createSettingsModel
+
+function avalonUI.createSettingsModel()
+
+  
+  return
+
+end
+
+
+
+function avalonUI.createSettingsAboutTab()
+
+  local str = ""
+  
+  str = str .. "&lt;center&gt;Ueber Avalet&lt;/center&gt;\n\n"
+  str = str .. "bla"
+
+  return str
+end</script>
+				<eventHandlerList />
+			</Script>
 		</ScriptGroup>
 		<ScriptGroup isActive="yes" isFolder="yes">
 			<name>View</name>
@@ -3427,6 +3490,8 @@ registerAnonymousEventHandler("RefreshManaBar", "avalonUI.onRefreshManaBar")
   --avalonUI.buildMapper()
   avalonUI.buildCounter()
   avalonUI.buildTimer()
+  
+  avalonUI.buildSettings()
   
   GUIframe.disable("top")
   GUIframe.disable("bottom")
@@ -3471,6 +3536,8 @@ function avalonUI.UIInstalled(_, name)
     avalonUI.createTimerModel()
     avalonUI.createCounterModel()
     avalonUI.createGaugeModel()  
+
+    avalonUI.createSettingsModel()  
     
     avalonUI.buildUI()
     --tempTimer(0, [[avalonUI.updateChar()]])
@@ -4038,25 +4105,573 @@ function avalonUI.buildTopBar()
   })
   avalonUI.TopMenuOptions:setStyleSheet(avalonUI.CSS.MenuLabelCSS:getCSS())
   avalonUI.TopMenuOptions:setFontSize(12)
+--  avalonUI.TopMenuOptions:setCursor("PointingHand")
   avalonUI.TopMenuOptions:echo([[&amp;#9881;]])
   --avalonUI.TopMenuOptions:echo([[&lt;p style="font-size:22px"&gt;&lt;b&gt;&lt;font color="white"&gt;&amp;#9881;]])
   --setLabelClickCallback( "TopMenuOptions", "ClickTopMenuPreferences")
+--  setLabelClickCallback( "TopMenuOptions", "avalonUI.showSettings")
   --setLabelClickCallback(labelName, luaFunctionName, [any arguments])
   
-  i = 1
-  avalonUI.TopMenuOptions[i] = avalonUI.TopMenuOptions:addChild({
-  	name = "TopMenuOptions"..i,
-  	height = 50,
-  	width = 100, 
-  	flyOut=true,
-  	layoutDir="BV", 
-  	message="comming soon"
-  })
-  avalonUI.TopMenuOptions[i]:setStyleSheet(avalonUI.CSS.MenuLabelCSS:getCSS())
-  --setLabelClickCallback( "TopMenuOptions"..i, "ClickTopMenuCallback","tDir[i]","bla bla")
-  --setLabelClickCallback(labelName, luaFunctionName, [any arguments])
+  --i = 1
+  --avalonUI.TopMenuOptions[i] = avalonUI.TopMenuOptions:addChild({
+  --	name = "TopMenuOptions"..i,
+  --	height = 50,
+  --	width = 100, 
+  --	flyOut=true,
+  --	layoutDir="BV", 
+  --	message="comming soon"
+  --})
+  --avalonUI.TopMenuOptions[i]:setStyleSheet(avalonUI.CSS.MenuLabelCSS:getCSS())
+  ----setLabelClickCallback( "TopMenuOptions"..i, "ClickTopMenuCallback","tDir[i]","bla bla")
+  ----setLabelClickCallback(labelName, luaFunctionName, [any arguments])
 
 end</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>buildSettings</name>
+				<packageName></packageName>
+				<script>-- buildSettings
+-- Also das UI für die Settings zu machen war wirklich kein Spaß. Die Elemente, die
+-- Mudlet dafür bereit stellt, sind mehr als dürftig. Kann aber auch sein, dass ich
+-- einfach eine falsche Vorstellung entwickelt hab, wie das aussehen soll. Statt mehr
+-- über Mudlet zu wissen und das dann einfach so zu machen, wie es vllt. gedacht ist.
+-- Jedenfalls tuts mir für jede/n leid, die/der sich hier einarbeiten muss.
+-- Ach ja: möglicherweise wäre eine bessere Lösung gewesen, eine Miniconsole zu verwenden,
+-- und das Menü dann irgendwie mit anklickbarem Text zu machen. Die Anleitung dafür hab
+-- ich wohl gesehen. Aber ich bin mit den Formatierungsmöglichkeiten nicht zurecht gekommen.
+-- Also mit den anscheinend nicht vorhandenen Formatierungsmöglichkeiten. Und weil auch
+-- keine Unicode-Zeichen dargestellt wurden, hab ich das nicht weiter verfolgt. Das 
+-- wäre aber vielleicht ein vielversprechender Ansatz. 
+
+
+-- Die Tabs, zu denen hinzugefügt werden muss:
+-- avalonUI.settings.Diversescenter
+-- avalonUI.settings.Chats-Tabscenter
+-- avalonUI.settings.Farbencenter
+-- avalonUI.settings.Über Avaletcenter
+
+
+avalonUI.settingsDialog = avalonUI.settingsDialog or {}
+
+--avalonUI.settingsSettings = settingsSettings or {
+--  tabs = {"Diverses","Chats-Tabs","Farben","Über Avalet"},
+--  width = 800, -- auch möglich: "20%"
+--  height = 600,
+--  current = nil,
+--}  
+
+function testSettings()
+  mainWidth, mainHeight = getMainWindowSize()
+  
+  posX = 0
+  posX = mainWidth/2 - avalonUI.settingsSettings.width/2
+  posY = 0
+  posY = mainHeight/2 - avalonUI.settingsSettings.height/2
+  
+  avalonUI.settingsWindow = avalonUI.settingsWindow or Geyser.UserWindow:new({
+    name = "avalonUI.settingsWindow",
+    titleText ="Einstellungen", -- only available since Mudlet 4.8+
+    x = posX, y= posY, width = avalonUI.settingsSettings.width, height = avalonUI.settingsSettings.height
+  })
+  avalonUI.settingsWindow:disableAutoDock()
+
+end
+
+
+function avalonUI.buildSettings()
+
+  avalonUI.settingsSettings.current = avalonUI.settingsSettings.current or avalonUI.settingsSettings.tabs[1]
+
+  mainWidth, mainHeight = getMainWindowSize()
+  
+  posX = 0
+  posX = mainWidth/2 - avalonUI.settingsSettings.width/2
+  posY = 0
+  posY = mainHeight/2 - avalonUI.settingsSettings.height/2
+  
+  avalonUI.settingsWindow = avalonUI.settingsWindow or Adjustable.Container:new({name="avalonUI.settingsWindow"})
+  --avalonUI.settingsWindow:setTitle("Einstellungen") -- title "Test" is standard green
+  avalonUI.settingsWindow:setTitle("Einstellungen","white") -- tilte "Test" is red
+  avalonUI.settingsWindow:resize(avalonUI.settingsSettings.width, avalonUI.settingsSettings.height)
+  avalonUI.settingsWindow:move(posX, posY)
+  avalonUI.settingsWindow:setFontSize(14)
+
+  avalonUI.settings.createTabbedLayer()
+  avalonUI.settings.addTabs()
+
+-- avalonUI.settings.Diversescenter
+-- avalonUI.settings.Chats-Tabscenter
+-- avalonUI.settings.Farbencenter
+-- avalonUI.settings.Über Avaletcenter
+
+  --cecho("&lt;magenta&gt;\n1\n")
+--  avalonUI.createSettingsTabs()
+  --cecho("&lt;magenta&gt;\n2\n")
+  avalonUI.buildGeneralSettings()
+  --cecho("&lt;magenta&gt;\n3\n")
+--  avalonUI.buildChatTabSettings()
+  --cecho("&lt;magenta&gt;\n4\n")
+--  avalonUI.buildColorSettings()
+  --cecho("&lt;magenta&gt;\n5\n")
+--  avalonUI.buildAboutSettings()
+  --cecho("&lt;magenta&gt;\n6\n")
+  
+  --avalonUI.settings[v]:hide()
+
+end
+
+function avalonUI.settings.createTabbedLayer()
+
+  avalonUI.settingsHeader = Geyser.HBox:new({
+    name = "avalonUI.settingsHeader",
+    x = "1%", y = "2%",
+    width = "98%",
+    height = "8%",
+  }, avalonUI.settingsWindow)
+
+  
+  avalonUI.settingsFooter = avalonUI.settingsFooter or Geyser.Label:new({
+    name = "avalonUI.settingsFooter",
+    x = "1%", y = "10%",
+    width = "98%",
+    height = "90%",
+    color = "red"
+  }, avalonUI.settingsWindow)
+  --avalonUI.tabElement.Footer:setStyleSheet(avalonUI.CSS.tabElementFooterCSS:getCSS())
+  avalonUI.settingsFooter:setStyleSheet(avalonUI.CSS.tabElementFooterCSS:getCSS())
+
+end
+
+
+function avalonUI.settings.addTabs()
+
+  for k,v in pairs(avalonUI.settingsSettings.tabs) do
+
+    -- Hier werden die einzelnen Tabs erzeugt. ...
+    avalonUI.settings[v.."tab"] = avalonUI.settings[v.."tab"] or Geyser.Label:new({
+      name = "avalonUI.settings."..v.."tab",
+    })
+    avalonUI.settingsHeader:add(avalonUI.settings[v.."tab"])
+    avalonUI.settings[v.."tab"]:setFontSize(avalonUI.chatTabFontSize)	  
+    avalonUI.settings[v.."tab"]:setStyleSheet(avalonUI.CSS.MenuTabCSS:getCSS())
+    avalonUI.settings[v.."tab"]:echo("&lt;center&gt;"..v)
+    avalonUI.settings[v.."tab"]:setCursor("PointingHand")
+    avalonUI.settings[v.."tab"]:setClickCallback("avalonUI.settingsClick",v)
+    
+    -- ... Und zu jedem Tab noch ein Label für den Inhalt.  
+    avalonUI.settings[v] = avalonUI.settings[v] or Geyser.Label:new({
+      name = "avalonUI.settings."..v,
+      x = 0, y = 0, width = "100%", height = "100%",
+    }, avalonUI.settingsFooter)
+    avalonUI.settings[v]:setStyleSheet(avalonUI.CSS.tabElementAtopCSS:getCSS())
+
+  end
+  --avalonUI.settingsHeader:show() 
+end
+
+
+
+function avalonUI.buildGeneralSettings()
+
+--  titleLabel = Geyser.Label:new({
+--    x=0, y=15, height=30, width="100%", 
+--    color="red", 
+--    message="&lt;b&gt;&lt;center&gt;Aenderungen werden erst nach Neustart von Mudlet uebernommen!&lt;/center&gt;&lt;/b&gt;"
+--  }, avalonUI.settings["Diverses"])
+--  titleLabel:setFontSize(12)
+----  titleLabel:echo("&lt;b&gt;&lt;center&gt;Änderungen werden erst nach Neustart von Mudlet übernommen!&lt;/center&gt;&lt;/b&gt;")
+  
+  contentGeneralSettings = Geyser.VBox:new({x="2%", y="2%", height=300, width="96%", color="white"}, avalonUI.settings["Diverses"])
+  
+  titleTimer = Geyser.Label:new({height="60%", width="100%", color="black", message="&lt;b&gt;Timer&lt;/b&gt;"}, contentGeneralSettings)-- avalonUI.settings["Diverses"])
+  titleTimer:setFontSize(12)
+
+  textTimer = Geyser.Label:new({height=10, width="100%", color="black", message = "Aenderungen werden erst durch einen Neustart von Mudlet wirksam."}, contentGeneralSettings)
+  textTimer:setFontSize(11)
+
+  choiceFancyTimer = Geyser.Label:new({height = 20, width = "100%", color = "black", message = [[&amp;#9678;]] .. "&amp;nbsp;&lt;i&gt;fancy Rückschritts&lt;/i&gt;balken ODER"}, contentGeneralSettings)-- avalonUI.settings["Diverses"])
+  choiceFancyTimer:setFontSize(11)
+  choiceFancyTimer:setCursor("PointingHand")
+  --choiceFancyTimer:setClickCallback("avalonUI.settingsClick",v)
+  choiceUnfancyTimer = Geyser.Label:new({height = 20, width = "100%", color = "black", message = [[&amp;#9711;]] .. " langweiliger Fortschrittsbalken"}, contentGeneralSettings)-- avalonUI.settings["Diverses"])
+  choiceUnfancyTimer:setFontSize(11)
+  choiceUnfancyTimer:setCursor("PointingHand")
+  --choiceUnfancyTimer:setClickCallback("avalonUI.settingsClick",v)
+
+  spacer = Geyser.Label:new({height=10, width="100%", color="black"}, contentGeneralSettings)
+
+  titleLockUI = Geyser.Label:new({height=40, width="100%", color="black", message="&lt;b&gt;Oberfläche sperren&lt;/b&gt;"}, contentGeneralSettings)-- avalonUI.settings["Diverses"])
+  titleLockUI:setFontSize(12)
+
+  textLockUI = Geyser.Label:new({height=10, width="100%", color="black", message = "Aenderungen werden durch einen Neustart zurückgesetzt."}, contentGeneralSettings)
+  textLockUI:setFontSize(11)
+
+  checkboxLockUI = Geyser.Label:new({height = 20, width = "100%", color = "black", message = [[&amp;#9745;]] .. "&amp;nbsp;Seitenbereich der Oberfläche sperren."}, contentGeneralSettings)-- avalonUI.settings["Diverses"])
+  checkboxLockUI:setFontSize(11)
+  checkboxLockUI:setCursor("PointingHand")
+  --checkboxLockUI:setClickCallback("avalonUI.settingsClick",v)
+
+
+--  generalLabel = Geyser.Label:new({x=0, y=400, height=100, width="100%", color="white"}, avalonUI.settings["Diverses"])
+--  generalLabel:setFontSize(11)
+--  local settings = ""
+--  settings = settings .. "&lt;center&gt;&lt;b&gt;Änderungen machen einen Neustart von Mudlet notwendig!&lt;/b&gt;&lt;/center&gt;&lt;br&gt;"
+--  --settings = settings .. [[&amp;#9744;]] .. " leere Checkbox&lt;br&gt;"
+--  --settings = settings .. [[&amp;#9745;]] .. " Checkbox mit Haken&lt;br&gt;"
+--  --settings = settings .. [[&amp;#9746;]] .. " Checkbox mit Kreuz&lt;br&gt;&lt;br&gt;"
+--  settings = settings .. "&lt;br&gt;&lt;b&gt;Timer&lt;/b&gt;&lt;br&gt;"
+--  settings = settings .. [[&amp;#9678;]] .. " &lt;i&gt;fancy Rückschritts&lt;/i&gt;balken ODER&lt;br&gt;"
+--  settings = settings .. [[&amp;#9711;]] .. " langweiliger Fortschrittsbalken&lt;br&gt;"
+-- settings = settings .. "&lt;br&gt;&lt;b&gt;Diverses&lt;/b&gt;&lt;br&gt;"
+--  settings = settings .. [[&amp;#128306;]] .. "Lock/unlock UI" .. [[&amp;#128307;]] .. "&lt;br&gt;"
+--  --testLabel:echo([[&amp;#9745;]] .. " Timer mit &lt;i&gt;fancy Rückschritts&lt;/i&gt;balken")
+--  generalLabel:echo(settings)
+end
+
+
+
+
+-- OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+
+
+
+
+function avalonUI.createSettingsTabs()
+
+  if avalonUI.settingsHeader then
+    avalonUI.settingsHeader:hide()
+  end
+  avalonUI.settingsHeader = Geyser.HBox:new({
+    name = "avalonUI.settingsHeader",
+    x = "1%", y = "2%",
+    width = "98%",
+    height = "8%",
+  }, avalonUI.settingsContainer)
+
+  
+  avalonUI.settingsFooter = avalonUI.settingsFooter or Geyser.Label:new({
+    name = "avalonUI.settingsFooter",
+    x = "1%", y = "10%",
+    width = "98%",
+    height = "90%",
+    color = "red"
+  }, avalonUI.settingsContainer)
+  --avalonUI.tabElement.Footer:setStyleSheet(avalonUI.CSS.tabElementFooterCSS:getCSS())
+  avalonUI.settingsFooter:setStyleSheet(avalonUI.CSS.tabElementFooterCSS:getCSS())
+
+  avalonUI.settingsCenter = avalonUI.settingsCenter or Geyser.Label:new({
+    name = "avalonUI.settingsCenter",
+    x = 0, y = 0,
+    width = "100%",
+    height = "100%",
+  }, avalonUI.settingsFooter)
+  --avalonUI.tabElement.Center:setStyleSheet(avalonUI.CSS.tabElementCenterCSS:getCSS())
+  avalonUI.settingsCenter:setStyleSheet(avalonUI.CSS.tabElementCenterCSS:getCSS())
+  
+  for k,v in pairs(settingsSettings.tabs) do
+    avalonUI.settings[v.."tab"] = avalonUI.settings[v.."tab"] or Geyser.Label:new({
+      name = "avalonUI.settings."..v.."tab",
+    })
+    avalonUI.settingsHeader:add(avalonUI.settings[v.."tab"])
+    
+    --avalonUI.tabElement.tabs[v.."tab"]:setFontSize(avalonUI.chatTabFontSize)	  
+    --avalonUI.tabElement.tabs[v.."tab"]:setStyleSheet(avalonUI.CSS.MenuTabCSS:getCSS())
+    --avalonUI.tabElement.tabs[v.."tab"]:echo("&lt;center&gt;"..v)
+    
+    avalonUI.settings[v.."tab"]:setFontSize(avalonUI.chatTabFontSize)	  
+    avalonUI.settings[v.."tab"]:setStyleSheet(avalonUI.CSS.MenuTabCSS:getCSS())
+    avalonUI.settings[v.."tab"]:echo("&lt;center&gt;"..v)
+    
+    avalonUI.settings[v.."tab"]:echo("&lt;center&gt;"..v)
+    
+    avalonUI.settings[v.."tab"]:setClickCallback("avalonUI.settingsClick",v)
+    
+    avalonUI.settings[v] = avalonUI.settings[v] or Geyser.Label:new({
+    name = "avalonUI.settings."..v,
+      x = 0, y = 0,
+      width = "100%",
+      height = "100%",
+    }, avalonUI.settingsFooter)
+    --avalonUI.tabElement.tabs[v]:setStyleSheet(avalonUI.CSS.tabElementAtopCSS:getCSS())
+    avalonUI.settings[v]:setStyleSheet(avalonUI.CSS.tabElementAtopCSS:getCSS())
+    
+    avalonUI.settings[v.."center"] = avalonUI.settings[v.."center"] or Geyser.Label:new({
+    name = "avalonUI.settings."..v.."center",
+      x = 0, y = 0,
+      width = "100%",
+      height = "100%",
+    }, avalonUI.settings[v])
+    --avalonUI.tabElement.tabs[v.."center"]:setStyleSheet(avalonUI.CSS.tabElementCenterTabCSS:getCSS())
+    avalonUI.settings[v.."center"]:setStyleSheet(avalonUI.CSS.tabElementCenterTabCSS:getCSS())
+    cecho("&lt;magenta&gt;\navalonUI.settings."..v.."center\n")
+    avalonUI.settings[v]:hide()
+  end
+  --avalonUI.settingsHeader:show() 
+end
+
+
+-- avalonUI.settings.Diversescenter
+-- avalonUI.settings.Chats-Tabscenter
+-- avalonUI.settings.Farbencenter
+-- avalonUI.settings.Über Avaletcenter
+function avalonUI.buildGeneralSettingsOLD()
+  generalLabel = Geyser.Label:new({x=0, y=0, height="100%", width="100%", color="red"}, avalonUI.settings["Diversescenter"])
+  generalLabel:setFontSize(11)
+  local settings = ""
+  settings = settings .. "&lt;center&gt;&lt;b&gt;Änderungen machen einen Neustart von Mudlet notwendig!&lt;/b&gt;&lt;/center&gt;&lt;br&gt;"
+  --settings = settings .. [[&amp;#9744;]] .. " leere Checkbox&lt;br&gt;"
+  --settings = settings .. [[&amp;#9745;]] .. " Checkbox mit Haken&lt;br&gt;"
+  --settings = settings .. [[&amp;#9746;]] .. " Checkbox mit Kreuz&lt;br&gt;&lt;br&gt;"
+  settings = settings .. "&lt;br&gt;&lt;b&gt;Timer&lt;/b&gt;&lt;br&gt;"
+  settings = settings .. [[&amp;#9678;]] .. " &lt;i&gt;fancy Rückschritts&lt;/i&gt;balken ODER&lt;br&gt;"
+  settings = settings .. [[&amp;#9711;]] .. " langweiliger Fortschrittsbalken&lt;br&gt;"
+  settings = settings .. "&lt;br&gt;&lt;b&gt;Diverses&lt;/b&gt;&lt;br&gt;"
+  settings = settings .. [[&amp;#128306;]] .. "Lock/unlock UI" .. [[&amp;#128307;]] .. "&lt;br&gt;"
+  --testLabel:echo([[&amp;#9745;]] .. " Timer mit &lt;i&gt;fancy Rückschritts&lt;/i&gt;balken")
+  generalLabel:echo(settings)
+end
+
+
+
+-- avalonUI.settings.Diversescenter
+-- avalonUI.settings.Chats-Tabscenter
+-- avalonUI.settings.Farbencenter
+-- avalonUI.settings.Über Avaletcenter
+function avalonUI.buildChatTabSettings()
+
+  avalonUI.chatTabContainer = avalonUI.chatTabContainer or Geyser.Container:new({
+    name = "avalonUI.chatTabContainer",
+    x = 0, y = 0,
+    width = "100%",
+    height = "100%",
+  }, avalonUI.settings["Chats-Tabscenter"])
+  -- der muss noch irgendwo hinzugefügt werden
+
+  avalonUI.chatTabHeader = Geyser.Label:new({
+    name = "avalonUI.chatTabHeader",
+    x = "0%", y = "0%", width = "100%", height = "10%",
+  }, avalonUI.chatTabContainer)
+  avalonUI.chatTabHeader:echo("ChatTab-Konfiguratione")
+
+  avalonUI.chatTabContent = Geyser.Container:new({
+    name = "avalonUI.chatTabContent",
+    x = "0%", y = "10%", width = "100%", height = "90%",
+  }, avalonUI.chatTabContainer)
+  avalonUI.chatTabContentRowCheckbox = Geyser.VBox:new({
+    name = "avalonUI.chatTabContentRowCheckbox",
+    x = 0, y = 0, width = 20, height = "100%",
+  }, avalonUI.chatTabContent)
+  avalonUI.chatTabContentRowOneDown = Geyser.VBox:new({
+    name = "avalonUI.chatTabContentRowOneDown",
+    x = 25, y = 0, width = 20, height = "100%",
+  }, avalonUI.chatTabContent)
+  avalonUI.chatTabContentRowOneUp = Geyser.VBox:new({
+    name = "avalonUI.chatTabContentRowOneUp",
+    x = 45, y = 0, width = 20, height = "100%",
+  }, avalonUI.chatTabContent)
+  avalonUI.chatTabContentName = Geyser.VBox:new({
+    name = "avalonUI.chatTabContentName",
+    x = 70, y = 0, width = 450, height = "100%",
+  }, avalonUI.chatTabContent)
+  
+  --Reden, Sagen, Laber, Neuling, Gruppe, Volk, Gilde, Zuenfte, Schwafel, Tod, Sammeltab (außerdem: Monster, Gebruell, Logout, Raetsel, Spiele, Statue)
+  local test = test or {"Reden", "Sagen", "Laber", "Neuling", "Gruppe", "Volk", "Gilde", "Zuenfte", "Schwafel", "Tod", "Sammeltab", "Monster", "Gebruell", "Logout", "Raetsel", "Spiele", "Statue"}
+--  local test = test or {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}
+  
+  local fontsize = 12
+  
+  for k,v in pairs(test) do
+
+    avalonUI["test"..k.."Checkbox"] = Geyser.Label:new({
+      name = "avalonUI.test"..k.."Checkbox",
+      x = 0, y = ((k-1)*10), width = 10, height = 10,
+      fgColor="white",
+      color="black",
+      message=[[&amp;#9745;]]
+    }, avalonUI.chatTabContentRowCheckbox)
+    avalonUI["test"..k.."Checkbox"]:setFontSize(fontsize)
+    avalonUI["test"..k.."Checkbox"]:setCursor("PointingHand")
+    avalonUI["test"..k.."OneDown"] = Geyser.Label:new({
+      name = "avalonUI.test"..k.."OneDown",
+      x = 20, y = ((k-1)*10), width = 10, height = 10,
+      fgColor="white",
+      color="black",
+      message=[[&lt;b&gt;&amp;#9661;&lt;/b&gt;]]
+    }, avalonUI.chatTabContentRowOneDown)
+    avalonUI["test"..k.."OneDown"]:setFontSize(fontsize)
+    avalonUI["test"..k.."OneDown"]:setCursor("PointingHand")
+    avalonUI["test"..k.."OneUp"] = Geyser.Label:new({
+      name = "avalonUI.test"..k.."OneUp",
+      x = 40, y = ((k-1)*10), width = 10, height = 10,
+      fgColor="white",
+      color="black",
+      message=[[&lt;b&gt;&amp;#9651;&lt;/b&gt;]]
+    }, avalonUI.chatTabContentRowOneUp)
+    avalonUI["test"..k.."OneUp"]:setFontSize(fontsize)
+    avalonUI["test"..k.."OneUp"]:setCursor("PointingHand")
+    avalonUI["test"..k.."Label"] = Geyser.Label:new({
+      name = "avalonUI.test"..k.."Label",
+      x = 60, y = ((k-1)*10), width = "90%", height = 10,
+      fgColor="white",
+      color="black",
+      message="&amp;nbsp;Reden &amp;#127760;"
+    }, avalonUI.chatTabContentName)
+    avalonUI["test"..k.."Label"]:setFontSize(fontsize)
+    --avalonUI["test"..k.."Label"]:setCursor("PointingHand")
+  
+  end
+  
+  avalonUI.chatTabFooter = Geyser.Label:new({
+    name = "avalonUI.chatTabFooter",
+    x = "0%", y = "90%",
+    width = "100%",
+    height = "10%",
+  }, avalonUI.chatTabContainer)
+  avalonUI.chatTabFooter:echo("Änderungen werden erst nach Neustart von Mudlet übernommen!")
+
+end
+
+-- avalonUI.settings.Diversescenter
+-- avalonUI.settings.Chats-Tabscenter
+-- avalonUI.settings.Farbencenter
+-- avalonUI.settings.Über Avaletcenter
+function avalonUI.buildColorSettings()
+
+  local colors = colors or {
+    [1] = "rgba(56,44,30,nil)", -- sepiabraun
+    [2] = "rgba(64,34,37,nil)", -- schwarzrot
+    [3] = "rgba(66,70,50,nil)", -- olivgrün
+    [4] = "rgba(68,61,31,nil)", -- khakigrau
+    [5] = "rgba(32,33,79,nil)", -- ultramarinblau
+    [6] = "rgba(0,0,8,nil)",    -- tiefschwarz
+    [7] = "rgba(67,67,67,nil)", -- fels
+    [8] = "rgba(94,48,32,nil)"  -- perlkupfer
+  }
+
+  colorLabel = Geyser.Label:new({x=0, y=0, height="100%", width="100%", color="black"}, avalonUI.settings["Farbencenter"])
+  colorLabel:setFontSize(11)
+  
+--  colorHobbit = rgb(20,0,20)
+--  colorDelf   = rgb(20,0,20)
+--  colorElf    = rgb(20,0,20)
+--  colorExxe   = rgb(20,0,20)
+--  colorAmphib = rgb(20,0,20)
+--  colorChaos  = rgb(20,0,20)
+--  colorZwerg  = rgb(20,0,20)
+--  colorMensch = rgb(20,0,20)
+  
+  colorLabela = Geyser.Label:new({x=10, y=10, height=55, width=255, message=[[&amp;#9711; Sepiabraun]]}, colorLabel)
+  colorLabela:setColor(56,44,30,nil) -- sepiabraun
+  colorLabela:setFontSize(14)
+  colorLabela:setCursor("PointingHand")
+
+  colorLabelb = Geyser.Label:new({x=10, y=70, height=55, width=255, message=[[&amp;#9711; Schwarzrot]]}, colorLabel)
+  colorLabelb:setColor(64,34,37,nil) -- schwarzrot
+  colorLabelb:setFontSize(14)
+  colorLabelb:setCursor("PointingHand")
+
+  colorLabelc = Geyser.Label:new({x=10, y=130, height=55, width=255, message=[[&amp;#9711; Olivgruen]]}, colorLabel)
+  colorLabelc:setColor(66,70,50,nil) -- olivgrün
+  colorLabelc:setFontSize(14)
+  colorLabelc:setCursor("PointingHand")
+
+  colorLabeld = Geyser.Label:new({x=10, y=190, height=55, width=255, message=[[&amp;#9711; Khakigrau]]}, colorLabel)
+  colorLabeld:setColor(68,61,31,nil) -- khakigrau, dunker
+  colorLabeld:setFontSize(14)
+  colorLabeld:setCursor("PointingHand")
+
+  
+  colorLabele = Geyser.Label:new({x=270, y=10, height=55, width=255, message=[[&amp;#9711; Ultramarinblau]]}, colorLabel)
+  colorLabele:setColor(32,33,79,nil) -- ultramarinblau
+  colorLabele:setFontSize(14)
+  colorLabele:setCursor("PointingHand")
+
+  colorLabelf = Geyser.Label:new({x=270, y=70, height=55, width=255, message=[[&amp;#9678; Tiefschwarz]]}, colorLabel)
+  colorLabelf:setColor(0,0,8,nil)  -- tiefschwarz
+  colorLabelf:setFontSize(14)
+  colorLabelf:setCursor("PointingHand")
+
+  colorLabelg = Geyser.Label:new({x=270, y=130, height=55, width=255, message=[[&amp;#9711; Felsgrau]]}, colorLabel)
+  colorLabelg:setColor(67,67,67,nil)  -- fels dunkler
+  colorLabelg:setFontSize(14)
+  colorLabelg:setCursor("PointingHand")
+
+  colorLabelh = Geyser.Label:new({x=270, y=190, height=55, width=255, message=[[&amp;#9711; Perlkupfer]]}, colorLabel)
+  colorLabelh:setColor(94,48,32,nil)  -- perlkupfer 118 60 40, dunkler
+  colorLabelh:setFontSize(14)
+  colorLabelh:setCursor("PointingHand")
+
+
+end
+
+-- avalonUI.settings.Diversescenter
+-- avalonUI.settings.Chats-Tabscenter
+-- avalonUI.settings.Farbencenter
+-- avalonUI.settings.Über Avaletcenter
+function avalonUI.buildAboutSettings() 
+
+  avalonUI.settings.about = Geyser.MiniConsole:new({
+    name="about",
+    x=0, y=0,
+    width = "100%",
+    height = "100%",
+    autoWrap = true,
+    color = "black",
+    scrollBar = true,--false,
+    fontSize = 12,
+  }, avalonUI.settings["Über Avaletcenter"])
+  setWindowWrap("about", 60)
+  --avalonUI.infobox:setColor("black") -- give it a nice black background
+  --avalonUI.infobox:setFont("Bitstream Vera Sans Mono")
+  --clearWindow("avalonUI.tabElement.tabs." .. v .. "console")
+  --	avalonUI.tabElement.tabs[v.."console"]:echo(GUIModel.tabElement["chat"..v])
+  
+  about = ""
+  about = about .. "Avalet Version xyz vom tt.mm.yyyy\n"
+  about = about .. "\n"
+  about = about .. "Projektseite bei Github: https://bit.ly/3bo1zAY\n"
+  about = about .. "\n"
+  about = about .. "Avalet ist ein etwas grafischeres User-Interface fuer das MUD Avalon.\n"
+  about = about .. "\n"
+  about = about .. "Avalet ist das Projekt von Rofhessa (Discord: Rofhessa#1552).\n"
+  about = about .. "\n"
+  about = about .. "Avalet wuerde ganz anders aussehen ohne die Hilfe und Unterstuetzung von Twrx, Dubhe Grinwald, Edru Ginsterbusch, Xtian und Harald.\n"
+  
+  avalonUI.settings.about:echo(about)
+
+  return 
+end
+
+
+
+
+
+-- Macht das Settings-Fenster sichtbar
+function avalonUI.showSettings(_)
+
+  --Adjustable.Container:showAll()
+  avalonUI.settingsWindow:restore()
+  avalonUI.settingsWindow:show()
+  --return
+end
+
+
+function avalonUI.hideSettings()
+
+  avalonUI.settingsWindow:hide()
+
+end
+
+
+function avalonUI.settingsClick(tab)
+  avalonUI.settings[avalonUI.settingsSettings.current]:hide()
+  --settingsSettings.current:hide()
+  avalonUI.settingsSettings.current = tab
+  --settingsSettings.current:show()
+  avalonUI.settings[avalonUI.settingsSettings.current]:show()
+end
+</script>
 				<eventHandlerList />
 			</Script>
 		</ScriptGroup>
@@ -4568,7 +5183,8 @@ function onATCPEventAvalonChannel(event, arg)
   --message = clearMessage(message)
   
   -- Die Channelnamen hängen davon ab, in welcher Gilde, Zunft, in welchem Volk etc. der Char ist.
-  -- Auf der Oberfläche sollen die Kanalnamen aber "Volk" und "Gilde" etc. heißen. 
+  -- Auf der Oberfläche sollen die Kanalnamen aber "Volk" und "Gilde" etc. heißen. Zünfte sollen
+  -- außerdem zusammengefasst werden, das wird ja sonst viel zu viele Tabs. 
   -- Um an die "echten" Channelnamen zu kommen, plündere ich mal das Skript von Twrx. Sollte da
   -- nicht alles richtig ankommen, melden sich hoffentlich die Spieler.
   if channel == "Hyraskrieger" then channel = "Gilde" end
@@ -4580,6 +5196,10 @@ function onATCPEventAvalonChannel(event, arg)
   if channel == "Druiden" then channel = "Gilde" end
   if channel == "Nekromanten" then channel = "Gilde" end
   if channel == "Magier" then channel = "Gilde" end
+
+  if channel == "Schneider" then channel = "Zuenfte" end
+  if channel == "Orkjaeger" then channel = "Zuenfte" end
+  if channel == "Koeche" then channel = "Zuenfte" end
   
   if channel == "Mensch" then channel = "Volk" end
   if channel == "Hobbit" then channel = "Volk" end
@@ -4835,6 +5455,7 @@ registerAnonymousEventHandler("AvalonDunkel", "onATCPEventAvalonDunkel")
 -- event == "AvalonRoomID"
 function onATCPEventAvalonRoomID(event, arg)
 	debugc("AvalonRoomID = " .. tostring(arg) .. "\n")
+  --cecho("\n&lt;magenta&gt;"..tostring(arg).."\n")
 
 --	-- tMapper.roomID gibt es nicht, bei bedarf anlegen	
 --	if tMapper.roomID ~= arg then
