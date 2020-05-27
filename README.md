@@ -1,5 +1,7 @@
 # Avalet
 
+> **Die _nächste_ Version von Avalet wird zwingend [Mudlet in der Version 4.8.2](https://www.mudlet.org/download/) voraussetzen. Weil brandneue Technik zum Einsatz kommt! Updaten also bitte nicht vergessen.**
+
 > **Avalet wird grade sehr aktiv von mir entwickelt und ändert sich deshalb ständig. Das es noch kein automatisches Update (oder sowas) gibt, lohnt es sich, hier häufiger nach einer neuen Version zu schauen. Wenn du einen Fehler findest oder einen Feature-Wunsch hast - schreib mir. Ich bin Rofhessa in Avalon.**
 
 Avalet ist ein Module für das [MUD Avalon](https://avalon.mud.de/) und den Mud-Client [Mudlet](https://www.mudlet.org/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
