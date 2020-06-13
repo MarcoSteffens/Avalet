@@ -83,8 +83,12 @@ Für eine **Aktualisierung** einfach die neuere Version downloaden und die alte 
 
 ### Bekannte Fehlerquellen bei der Installation
 
-- Es ist notwendig, den Charakter richtig auszuloggen, um Avalet zu installieren oderum ein updaten zu machen. Und Mudlet nach der Installation auch richtig zu schließen und wieder zu öffnen. Es mag auch mal ohne gehen, aber eine Garantie gibt es dafür nicht.
-- Wenn man im Modul-Manager das Häkchen bei "Synchronisieren" setzt, passieren komische Dinge. Das Modul deinstalliert sich beispielsweise selbst. Mudlet kann *nicht* in gepackte Module (.mpackage, .zip) schreiben! Und damit dann aber offenbar auch nicht richtig umgehen. Wenn du das Modul selber verändern willst, musst du es entpacken und dann die entpackte Version ("Avalet.xml") als *Modul* laden. Dann mit Häkchen bei Synch. (Aber deine Änderungen sind natürlich weg, wenn du dann die nächste Version von Avalet installierst.)
+- Avalet MUSS als MODUL mit dem MODUL-Manager installiert sein. NICHT als Paket mit dem Paket-Manager.
+- Im Modul-Manager auf KEINEN Fall das Häkchen bei "Synchronisieren" setzen! Praktisch alles kann dann passieren.
+- Nach der Installation AUSLOGGEN mit "schlafe ein" oder "einschlafen", außerdem Mudlet einmal richtig SCHLIESSEN und NEU STARTEN.
+- Das Häkchen bei "Enable GMCP" ENTFERNEN. ("Settings", Tab "General", Abschnitt "Game protocols")
+
+Alles gemacht? Alles nochmal überprüft? Trotzdem ein Problem? Sprich mich an! Am besten in Avalon, aber per Mail geht auch.
 
 ```
             __________________________________________________________
