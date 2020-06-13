@@ -1,6 +1,6 @@
 # Avalet
 
-> **Die _nächste_ Version von Avalet wird zwingend [Mudlet in der Version 4.8.2](https://www.mudlet.org/download/) voraussetzen. Weil brandneue Technik zum Einsatz kommt! Updaten also bitte nicht vergessen.**
+> **Die letzte Version von Avalet hatte einen etwas nervigen Fehler, den ich leider so nicht beheben kann. Wenn ihr also die Archive (Avalet.mpackage oder Avalet.zip) verwendet, dann müsst ihr Avalet leider einmal über den MODUL-Manager deinstallieren. Und die aktuelle Version neu installieren. Entschuldigt bitte die Umstände.**
 
 > **Avalet wird grade sehr aktiv von mir entwickelt und ändert sich deshalb ständig. Das es noch kein automatisches Update (oder sowas) gibt, lohnt es sich, hier häufiger nach einer neuen Version zu schauen. Wenn du einen Fehler findest oder einen Feature-Wunsch hast - schreib mir. Ich bin Rofhessa in Avalon.**
 
