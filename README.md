@@ -1,8 +1,6 @@
 # Avalet
 
-> **Die letzte Version von Avalet hatte einen etwas nervigen Fehler, den ich leider so nicht beheben kann. Wenn ihr also die Archive (Avalet.mpackage oder Avalet.zip) verwendet, dann müsst ihr Avalet leider einmal über den MODUL-Manager deinstallieren. Und die aktuelle Version neu installieren. Entschuldigt bitte die Umstände.**
-
-> **Avalet wird grade sehr aktiv von mir entwickelt und ändert sich deshalb ständig. Das es noch kein automatisches Update (oder sowas) gibt, lohnt es sich, hier häufiger nach einer neuen Version zu schauen. Wenn du einen Fehler findest oder einen Feature-Wunsch hast - schreib mir. Ich bin Rofhessa in Avalon.**
+> **Avalet wird aktiv von mir entwickelt und ändert sich deshalb ständig. Das es noch kein automatisches Update (oder sowas) gibt, lohnt es sich, hier häufiger nach einer neuen Version zu schauen. Wenn du einen Fehler findest oder einen Feature-Wunsch hast - schreib mir. Ich bin Rofhessa in Avalon.**
 
 Avalet ist ein Module für das [MUD Avalon](https://avalon.mud.de/) und den Mud-Client [Mudlet](https://www.mudlet.org/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
 
