@@ -182,19 +182,22 @@ function avalonUI.loadCharacterFileFromDisk(charName)
 end
 
 -- function loadCharacterSettingsFromDisk(charName)
+--[[Eigentlich würde ich hier "Profil-Settings" behandeln. Aber da gibt es ja noch den User-Wunsch, mehrere Chars
+    im gleichen Profil spielen zu können. Also muss es innerhalb eines Profils die Möglichkeit geben, verschiedene
+    Chars auch verschieden zu konfigurieren. (Beispiel: unterschiedliche Hintergrundfarben)]]
 characterSettingsPath = characterSettingsPath or ""
 avaletCharacterSettingsPrefix = "AvaletCharacterSettings"
 function avalonUI.loadCharacterSettingsFromDisk(charName)
   debugc("function loadCharacterSettingsFromDisk(charName): " .. charName)
   
---	if string.char(getMudletHomeDir():byte()) == "/" then _sep = "/" else  _sep = "\\" end
+	if string.char(getMudletHomeDir():byte()) == "/" then _sep = "/" else  _sep = "\\" end
   
---  characterSettingsPath = getMudletHomeDir() .. _sep .. avaletCharacterSetingsPrefix .. string.title(charName) .. ".json"
+  characterSettingsPath = getMudletHomeDir() .. _sep .. avaletCharacterSettingsPrefix .. string.title(charName) .. ".json"
   
   -- Das hier ist der Versuch, ein Problem mit Leerzeichen im Pfad unter Linux zu lösen.
   -- Indem das Leerzeichen mit einem "\" maskiert wird. Alternativ müsste man das mit 
   -- Anführungszeichen um den Pfad rum lösen.
---  if _sep == "/" then string.gsub(characterFilePath, " ", "\ ") end
+  if _sep == "/" then string.gsub(characterFilePath, " ", "\ ") end
   
 --	if io.exists(characterFilePath) then
 		--cecho("&lt;magenta&gt;Charakter-Datei ist vorhanden, versuche Datei zu laden:\n" .. characterFilePath .. "\n")
@@ -1956,11 +1959,16 @@ end</script>
 			<name>CONFIG</name>
 			<packageName></packageName>
 			<script>avalonUI = avalonUI or {}
--- Font size for the People Here window
-avalonUI.infoBoxFontSize = 9
 
+--[[Schriftart für die Seiten-Bereiche. "main" bedeutet, dass die Schriftart
+des Hauptfensters verwendet wird. (Diese ist einstellbar unter "Settings" --&gt; "Main display".)
+Eine Liste der hier einstellbaren Schriftarten wird mit dem Befehl "lua display(getAvailableFonts())"
+angezeigt.]]
+avalonUI.font = "main"
+--avalonUI.font = "Bitstream Vera Sans Mono"
 
-avalonUI.chatFontSize = 9
+avalonUI.infoBoxFontSize = 10
+avalonUI.chatFontSize = 10
 avalonUI.chatTabFontSize = 9
 
 
@@ -1970,11 +1978,21 @@ avalonUI.timerOrientation = "goofy"      -- fancy! Rückschrittsbalken!
 --avalonUI.timerOrientation = "horizontal" -- doofe Fortschrittsbalken
 
 --avalonUI.CounterColor = "gold"  -- geht so nicht, wird im css festgelegt
-avalonUI.GaugeFrontColorTimer = "green"
+--avalonUI.GaugeFrontColorTimer = "green"
+--avalonUI.GaugeFrontColorTimer = "#254b50" --So eine Art Silvergrey
+--angeblich harmonisches Farbset:
+avalonUI.GaugeFrontColorTimer = "#00575d" --Blue Stone
+--avalonUI.GaugeFrontColorTimer = "#00929c" --Persian Green
+--avalonUI.GaugeFrontColorTimer = "#66f5ff" --Aquamarine
+--avalonUI.GaugeFrontColorTimer = "#993f00" --Brown
+--avalonUI.GaugeFrontColorTimer = "#ff6900" --Orange
+--avalonUI.GaugeFrontColorTimer = "#ffa566" --Atomic Tangerine
+
 avalonUI.GaugeFrontColorTP = "darkred"
-avalonUI.GaugeFrontColorAP = "darkgoldenrod"
-avalonUI.GaugeFrontColorZP = "blue"
-avalonUI.GaugeFrontColorMana = "purple"
+--avalonUI.GaugeFrontColorAP = "darkgoldenrod"
+avalonUI.GaugeFrontColorAP = "#a35a00"
+avalonUI.GaugeFrontColorZP = "darkblue"
+avalonUI.GaugeFrontColorMana = "#4b0082" --"purple"
 avalonUI.MiniConsoleCenterFontSize = 9
 avalonUI.MiniConsoleTabsFontSize = 9
 
@@ -2991,12 +3009,10 @@ function avalonUI.updateInfoBox()
     if player.schutz ~= nil then
       GUIModel.infobox = GUIModel.infobox .. "\nSchutz: " .. player.schutz .. "\n"
     end
-    if player.sessionEP ~= nil then
-      if player.istDunkel == "1" then
-        GUIModel.infobox = GUIModel.infobox .. "\nAufenthaltsort: &lt;zu dunkel&gt;\n"
-      else
-        GUIModel.infobox = GUIModel.infobox .. "\nAufenthaltsort: " .. player.avalonRoomID .. "\n"
-      end
+    if player.istDunkel == "1" then
+      GUIModel.infobox = GUIModel.infobox .. "\nAufenthaltsort: &lt;zu dunkel&gt;\n"
+    else
+      GUIModel.infobox = GUIModel.infobox .. "\nAufenthaltsort: " .. player.avalonRoomID .. "\n"
     end
 	else
 		debugc("\nKeine Player-Daten vorhanden!\n")
@@ -3099,7 +3115,7 @@ function avalonUI.sortListOfTimers()
       -- ist und der Beenden-Trigger deshalb nicht gegriffen hat. Oder ein connection lost oder was auch
       -- immer. Einen konkreten Grund gab es nicht, das ist eine Vorsichtsmaßnahme.
       -- Ein temporärer Timer (mit einer Laufzeit) wird also gelöscht, wenn er 30 Sekunden oder mehr über
-      -- seine Laufzeit ist. Unter sehr ungünstigen Umständen (starkes lag) kann es sein, dass 30 Sekunden
+      -- seine Laufzeit ist. Unter sehr ungünstigen Umständen (starke lags) kann es sein, dass 30 Sekunden
       -- nicht reichen. Aber ich glaube, dass das nur extrem selten passieren kann.
       -- Wenn der aktuelle Timer abgelaufen ist, dann ist der Schleifendurchlauf damit ja auch beendet. 
       if remaining &lt;= -30 then
@@ -3704,9 +3720,14 @@ function avalonUI.buildChat()
 				fontSize = avalonUI.chatFontSize,
 			}, avalonUI.tabElement.tabs[v.."center"])
 			debugc("&lt;magenta&gt;Consolen-Name: "..string.title(v).."\n")
-			setWindowWrap(string.title(v), 58)
+			setWindowWrap(string.title(v), 56)
 			--avalonUI.infobox:setColor("black") -- give it a nice black background
 			--avalonUI.infobox:setFont("Bitstream Vera Sans Mono")
+      if avalonUI.font ~= "main" then
+        avalonUI.tabElement.tabs[v.."console"]:setFont(avalonUI.font)
+      else
+        avalonUI.tabElement.tabs[v.."console"]:setFont(getFont("main"))
+      end      
 			--clearWindow("avalonUI.tabElement.tabs." .. v .. "console")
 		--	avalonUI.tabElement.tabs[v.."console"]:echo(GUIModel.tabElement["chat"..v])
 			avalonUI.tabElement.tabs[v.."console"]:echo(v)
@@ -3851,7 +3872,13 @@ function avalonUI.buildInfoScreen()
     fontSize = avalonUI.infoBoxFontSize,
   }, avalonUI.Box1)
   avalonUI.infobox:setColor("black") -- give it a nice black background
-  avalonUI.infobox:setFont("Bitstream Vera Sans Mono")
+  --avalonUI.infobox:setFont("Bitstream Vera Sans Mono")
+  if avalonUI.font ~= "main" then
+    avalonUI.infobox:setFont(avalonUI.font)
+  else
+    avalonUI.infobox:setFont(getFont("main"))
+  end
+  
   setWindowWrap("Infobox", 60)
   clearWindow("Infobox")
   --avalonUI.infobox:echo(GUIModel.infobox)
