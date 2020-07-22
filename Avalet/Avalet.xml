@@ -2,27 +2,6 @@
 <!DOCTYPE MudletPackage>
 <MudletPackage version="1.001">
 	<TriggerPackage>
-		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-			<name>AvaletTriggerFuerTimer</name>
-			<script>-- Timer-Trigger
--- In dieser Trigger-Group stehen normalerweise die Trigger, die Timer erzeugen sollen.
--- Diese Timer-Trigger werden möglicherweise grade als "temporäre Trigger" erzeugt und sind dann
--- hier im Code(-Editor) nicht sichtbar. Das hatte Vorteile beim Entwickeln.
--- Letztlich sollen sie aber irgendwann hier sichtbar sein, also dann als "permanente Trigger".
--- Einstellbar ist das dort, wo die Timer gesammelt bzw. definiert werden.</script>
-			<triggerType>0</triggerType>
-			<conditonLineDelta>0</conditonLineDelta>
-			<mStayOpen>0</mStayOpen>
-			<mCommand></mCommand>
-			<packageName></packageName>
-			<mFgColor>#ff0000</mFgColor>
-			<mBgColor>#ffff00</mBgColor>
-			<mSoundFile></mSoundFile>
-			<colorTriggerFgColor>#000000</colorTriggerFgColor>
-			<colorTriggerBgColor>#000000</colorTriggerBgColor>
-			<regexCodeList />
-			<regexCodePropertyList />
-		</TriggerGroup>
 		<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 			<name>OnReconnect</name>
 			<script>-- reconnect
@@ -46,6 +25,22 @@ raiseEvent("afterReconnectEvent")</script>
 				<integer>1</integer>
 			</regexCodePropertyList>
 		</Trigger>
+		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>AvaletTriggerFuerTimer</name>
+			<script></script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList />
+			<regexCodePropertyList />
+		</TriggerGroup>
 	</TriggerPackage>
 	<TimerPackage>
 		<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
@@ -108,8 +103,7 @@ send(matches[1])
 			<packageName></packageName>
 			<script>-- init
 -- Das Modul Avalet wird im Wesentlichen über eine Funktion initialisiert, die durch den 
--- "sysInstall"-Event aufgerufen wird. Diese Funktion findet sich unter "UI functions" --&gt; 
--- "Build UI".
+-- "sysInstall"-Event aufgerufen wird. Diese Funktion findet sich unter "View --&gt; buildUI".
 -- Eine zweite Funktion, die dann ausgeführt wird, findet sich hier weiter unten.
 
 --cecho("&lt;magenta&gt;Avalet init ...\n")
@@ -1963,7 +1957,7 @@ end</script>
 --[[Schriftart für die Seiten-Bereiche. "main" bedeutet, dass die Schriftart
 des Hauptfensters verwendet wird. (Diese ist einstellbar unter "Settings" --&gt; "Main display".)
 Eine Liste der hier einstellbaren Schriftarten wird mit dem Befehl "lua display(getAvailableFonts())"
-angezeigt.]]
+angezeigt. Änderungen erfordern Neustart von Mudlet.]]
 avalonUI.font = "main"
 --avalonUI.font = "Bitstream Vera Sans Mono"
 
@@ -1992,7 +1986,7 @@ avalonUI.GaugeFrontColorTP = "darkred"
 --avalonUI.GaugeFrontColorAP = "darkgoldenrod"
 avalonUI.GaugeFrontColorAP = "#a35a00"
 avalonUI.GaugeFrontColorZP = "darkblue"
-avalonUI.GaugeFrontColorMana = "#4b0082" --"purple"
+avalonUI.GaugeFrontColorMana = "#4b0082" --war: "purple"
 avalonUI.MiniConsoleCenterFontSize = 9
 avalonUI.MiniConsoleTabsFontSize = 9
 
@@ -2257,7 +2251,8 @@ end
 			<script>-- Timer (und Trigger für Timer)
 --
 -- HINWEIS: Hier geht es um Timer und Trigger. Wenn hier von TRIGGERN geschrieben
--- wird, dann sind die normalen Mudlet-Trigger gemeint. Wenn hier von TIMERN 
+-- wird, dann sind die normalen Mudlet-Trigger gemeint. (Die man sich als Spieler
+-- anlegt, um nicht immer alles selber tippen zu müssen.) Wenn hier von TIMERN 
 -- geschrieben wird, dann sind normalerweise die Timer gemeint, die auf der 
 -- Oberfläche von Avalet angezeigt werden! Die die Laufzeit beispielsweise von 
 -- Schutzzaubersprüchen anzeigen. Es sind NICHT die Mudlet-Timer gemeint!
@@ -2570,6 +2565,7 @@ avalonUI.settings = avalonUI.settings or {}
 avalonUI.settings.GUIframe  = avalonUI.settings.GUIframe or {}
 avalonUI.settings.avalet    = avalonUI.settings.avalet or {}
 avalonUI.settings.character = avalonUI.settings.character or {}
+avalonUI.settings.chatTabs  = avalonUI.settings.chatTabs or {}
 
 
 avalonUI.settings.avalet = {
@@ -2583,10 +2579,22 @@ avalonUI.settings.character = {
   ["backgroundColor"] = "black",
 }
 
--- Reden, Sagen, Laber, Neuling, Gruppe, Volk, Gilde, Zuenfte, Schwafel, Tod, Sammeltab (außerdem: Monster, Gebruell, Logout, Raetsel, Spiele, Statue)
+--[[Tabs im Chat-Bereich
+    Die Liste hier legt fest, welche Tabs angezeigt werden sollen. Der hier verwendete "Name" wird intern verwendet, um
+    den Namen des Kanals zu finden. Das heisst, der Name hier muss exakt so geschrieben werden, wie er hier steht. Und 
+    kann nicht verwendet werden, um den Tab kreativ zu beschriften. Mögliche Kanäle sind:
+    Reden, Sagen, Laber, Neuling, Gruppe, Volk, Gilde, Zuenfte, Schwafel, Tod, Monster, Gebruell, Logout, Raetsel, Spiele,
+    Statue
+    Geplant aber noch nicht möglich: ein Sammeltab]]
 avalonUI.settings.chatTabs = {
   {["name"] = "Reden", ["position"] = 1, ["aktiv"] = true},
   {["name"] = "Sagen", ["position"] = 2, ["aktiv"] = true},
+  {["name"] = "Laber", ["position"] = 3, ["aktiv"] = true},
+  {["name"] = "Neuling", ["position"] = 4, ["aktiv"] = true},
+  {["name"] = "Gruppe", ["position"] = 5, ["aktiv"] = true},
+  {["name"] = "Volk", ["position"] = 6, ["aktiv"] = true},
+  {["name"] = "Gilde", ["position"] = 7, ["aktiv"] = true},
+  --{["name"] = "Schwafel", ["position"] = 8, ["aktiv"] = true},
 }
 
 
@@ -3141,10 +3149,16 @@ end --function sortListOfTimers()
 -- Funktion nil zurück.
 function avalonUI.findTimerByName(name)
 	--debugc("findTimerByName\n")
-    for k, v in pairs(avalonUI.listOfTimers) do
-        if v["name"] == name then return k end
-    end
-    return nil
+
+  --[[Wenn der Name bspswse "Erdaura" lautet, dann muss gefunden werden:
+  "Erdaura I", "Erdaura II", "Erdaura III".
+  Analog dazu die anderen Auren.]]
+
+  for k, v in pairs(avalonUI.listOfTimers) do
+      --if v["name"] == name then return k end
+      if string.find(v["name"], name) then return k end
+  end
+  return nil
 end -- function findTimerByName(name)
 
 
@@ -3160,6 +3174,17 @@ function avalonUI.registerTimer(name, duration, param)
   end
   if duration == false or duration == nil then
     duration = "false"
+  end
+  
+  if name == "Erdaura" or name == "Feueraura" or name == "Lebensaura" or name == "Todesaura" or name == "Luftaura" or name == "Wasseraura" then
+    if string.find(player.schutz, name .. " III") then
+      name = name .. " III"
+      duration = "1200"
+    elseif string.find(player.schutz, name .. " II") then
+      name = name .. " II"
+    elseif string.find(player.schutz, name .. " I") then
+      name = name .. " I"
+    end
   end
 
   table.insert(avalonUI.listOfTimers, {["name"] = name, ["starttime"] = os.time(), ["duration"] = duration})
@@ -3191,7 +3216,7 @@ end
 -- erhören, bekommt Avalet hoffentlich künftig den Zauber per ATCP. Aber erstmal ist es jetzt so.
 function avalonUI.removeTimer(name)
   -- debugc("removeTimer\n")
-  
+
   key = avalonUI.findTimerByName(name)
   if key ~= nil then
     table.remove(avalonUI.listOfTimers, key)
@@ -3209,6 +3234,7 @@ function avalonUI.deregisterTimer(name, param)
   if param ~= nil then
     name = name .. " " .. param
   end
+
   avalonUI.removeTimer(name)
   raiseEvent("RecreateTimerView")
 end
