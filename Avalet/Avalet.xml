@@ -43,7 +43,7 @@ raiseEvent("afterReconnectEvent")</script>
 		</TriggerGroup>
 	</TriggerPackage>
 	<TimerPackage>
-		<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+		<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
 			<name>avaletTimersTimer</name>
 			<script>-- Timer-Timer
 -- Dieser Mudlet-Timer sorgt dafür, dass die Anzeige der Avalet-Timer
@@ -3153,10 +3153,29 @@ function avalonUI.findTimerByName(name)
   --[[Wenn der Name bspswse "Erdaura" lautet, dann muss gefunden werden:
   "Erdaura I", "Erdaura II", "Erdaura III".
   Analog dazu die anderen Auren.]]
-
+  
+  --https://stackoverflow.com/questions/29072601/lua-string-gsub-with-a-hyphen
+  --[[
+  local function replace(str, what, with)
+    what = string.gsub(what, "[%(%)%.%+%-%*%?%[%]%^%$%%]", "%%%1") -- escape pattern
+    with = string.gsub(with, "[%%]", "%%%%") -- escape replacement
+    return string.gsub(str, what, with)
+  end
+  
+  result = replace(data, value_1, value_2)
+  result = replace(date, "-", "%-")
+  
+  s = string.gsub("Lua is cute", "cute", "great")
+  
+  lua if string.find("EP-Verdoppelung", "EP%-Verdoppelung") then echo("true") else echo("false") end
+  ]]
+  --[[string.find funktioniert nicht mit Zeichen wie dem Bindestrich. Das führte zu Problemen bei dem 
+  Timer für "EP-Verdoppelung".]]
   for k, v in pairs(avalonUI.listOfTimers) do
-      --if v["name"] == name then return k end
-      if string.find(v["name"], name) then return k end
+      ----if v["name"] == name then return k end
+      --if string.find(v["name"], name) then return k end
+      if string.find(v["name"], string.gsub(name, "%-", "%%-")) then return k end
+      
   end
   return nil
 end -- function findTimerByName(name)
@@ -4736,21 +4755,6 @@ end
 registerAnonymousEventHandler("AvalonDurst", "onATCPEventAvalonDurst")
 
 
-
--- event == "AvalonDurst"
--- Die Texte für Hunger und für Durst haben am Ende ein Leerzeichen zu viel.
-function onATCPEventAvalonDurst(event, arg)
-	debugc("&lt;magenta&gt;AvalonDurst per ATCP empfangen!\n")
-	arg = string.trim(arg)
-	if player.durst ~= arg then
-		player.durst = arg
-		raiseEvent("RefreshInfobox", arg)
-	end
-end
-registerAnonymousEventHandler("AvalonDurst", "onATCPEventAvalonDurst")
-
-
-
 -- event == "AvalonHoehe"
 function onATCPEventAvalonHoehe(event, arg)
 	debugc("&lt;magenta&gt;AvalonHoehe per ATCP empfangen!\n")
@@ -4759,10 +4763,6 @@ function onATCPEventAvalonHoehe(event, arg)
 		player.hoehe = arg
 		-- raiseEvent("RefreshInfobox", arg)
 	end
---	channel = "ATCP"
---	message = "AvalonHoehe = " .. arg .. "\n"
---	Logger:Log(channel, message, {"timestamp"})
---	raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonHoehe", "onATCPEventAvalonHoehe")
 
@@ -4776,10 +4776,6 @@ function onATCPEventAvalonFlucht(event, arg)
 		player.flucht = arg
 		-- raiseEvent("RefreshInfobox", arg)
 	end
---	channel = "ATCP"
---	message = "AvalonFlucht = " .. arg .. "\n"
---	Logger:Log(channel, message, {"timestamp"})
---	raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonFlucht", "onATCPEventAvalonFlucht")
 
@@ -4798,10 +4794,6 @@ function onATCPEventAvalonSchutz(event, arg)
     --sendATCP("ava_req_update")
 		-- raiseEvent("RefreshInfobox", arg)
 	end
---	channel = "ATCP"
---	message = "AvalonSchutz = " .. arg .. "\n"
---	Logger:Log(channel, message, {"timestamp"})
---	raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonSchutz", "onATCPEventAvalonSchutz")
 
@@ -4815,10 +4807,6 @@ function onATCPEventAvalonGruppe(event, arg)
 		player.gruppenname = arg
 		-- raiseEvent("RefreshInfobox", arg)
 	end
---	channel = "ATCP"
---	message = "AvalonGruppe = " .. arg .. "\n"
---	Logger:Log(channel, message, {"timestamp"})
---	raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonGruppe", "onATCPEventAvalonGruppe")
 
@@ -4832,10 +4820,6 @@ function onATCPEventAvalonZaubern(event, arg)
 		player.zaubern = arg
 		-- raiseEvent("RefreshInfobox", arg)
 	end
---	channel = "ATCP"
---	message = "AvalonZaubern = " .. arg .. "\n"
---	Logger:Log(channel, message, {"timestamp"})
---	raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonZaubern", "onATCPEventAvalonZaubern")
 
@@ -4850,10 +4834,6 @@ function onATCPEventAvalonKampf(event, arg)
 		player.kampf = arg
 		-- raiseEvent("RefreshInfobox", arg)
 	end
---	channel = "ATCP"
---	message = "AvalonKampf = " .. arg .. "\n"
---	Logger:Log(channel, message, {"timestamp"})
---	raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonKampf", "onATCPEventAvalonKampf")
 
@@ -4867,10 +4847,6 @@ function onATCPEventAvalonAngegriffen(event, arg)
 		player.angegriffen = arg
 		-- raiseEvent("RefreshInfobox", arg)
 	end
---	channel = "ATCP"
---	message = "AvalonAngegriffen = " .. arg .. "\n"
---	Logger:Log(channel, message, {"timestamp"})
---	raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonAngegriffen", "onATCPEventAvalonAngegriffen")
 
@@ -4884,10 +4860,6 @@ function onATCPEventAvalonGetoetet(event, arg)
 		player.getoetet = arg
 		-- raiseEvent("RefreshInfobox", arg)
 	end
---	channel = "ATCP"
---	message = "AvalonGetoetet = " .. arg .. "\n"
---	Logger:Log(channel, message, {"timestamp"})
---	raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonGetoetet", "onATCPEventAvalonGetoetet")
 
@@ -4901,10 +4873,6 @@ function onATCPEventAvalonGruppeGetoetet(event, arg)
 		player.gruppeGetoetet = arg
 		-- raiseEvent("RefreshInfobox", arg)
 	end
---	channel = "ATCP"
---	message = "AvalonGruppeGetoetet = " .. arg .. "\n"
---	Logger:Log(channel, message, {"timestamp"})
---	raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonGruppeGetoetet", "onATCPEventAvalonGruppeGetoetet")
 
@@ -4918,10 +4886,6 @@ function onATCPEventAvalonAllyGetoetet(event, arg)
 		player.allyGetoetet = arg
 		-- raiseEvent("RefreshInfobox", arg)
 	end
---	channel = "ATCP"
---	message = "AvalonAllyGetoetet = " .. arg .. "\n"
---	Logger:Log(channel, message, {"timestamp"})
---	raiseEvent("RefreshTabElement", channel)
 end
 registerAnonymousEventHandler("AvalonAllyGetoetet", "onATCPEventAvalonAllyGetoetet")
 
