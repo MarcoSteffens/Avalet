@@ -43,7 +43,7 @@ raiseEvent("afterReconnectEvent")</script>
 		</TriggerGroup>
 	</TriggerPackage>
 	<TimerPackage>
-		<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+		<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
 			<name>avaletTimersTimer</name>
 			<script>-- Timer-Timer
 -- Dieser Mudlet-Timer sorgt dafür, dass die Anzeige der Avalet-Timer
@@ -3152,7 +3152,7 @@ function avalonUI.findTimerByName(name)
 
   --[[Wenn der Name bspswse "Erdaura" lautet, dann muss gefunden werden:
   "Erdaura I", "Erdaura II", "Erdaura III".
-  Analog dazu die anderen Auren.]]
+  Analog dazu die anderen Auren. Und Schild I bis V]]
   
   --https://stackoverflow.com/questions/29072601/lua-string-gsub-with-a-hyphen
   --[[
@@ -3193,6 +3193,28 @@ function avalonUI.registerTimer(name, duration, param)
   end
   if duration == false or duration == nil then
     duration = "false"
+  end
+  
+  if name == "Schild" then
+    if string.find(player.schutz, name .. " V") then
+      name = name .. " V"
+    elseif string.find(player.schutz, name .. " IV") then
+      name = name .. " IV"
+    elseif string.find(player.schutz, name .. " III") then
+      name = name .. " III"
+    elseif string.find(player.schutz, name .. " II") then
+      name = name .. " II"
+    elseif string.find(player.schutz, name .. " I") then
+      name = name .. " I"
+    end
+  end
+  
+  if name == "Weissschild" or name == "Schwarzschild" then
+    if string.find(player.schutz, name .. " II") then
+      name = name .. " II"
+    elseif string.find(player.schutz, name .. " I") then
+      name = name .. " I"
+    end
   end
   
   if name == "Erdaura" or name == "Feueraura" or name == "Lebensaura" or name == "Todesaura" or name == "Luftaura" or name == "Wasseraura" then
