@@ -41,6 +41,339 @@ raiseEvent("afterReconnectEvent")</script>
 			<regexCodeList />
 			<regexCodePropertyList />
 		</TriggerGroup>
+		<TriggerGroup isActive="no" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>Raetsel</name>
+			<script></script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList />
+			<regexCodePropertyList />
+			<TriggerGroup isActive="no" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>Foersterquest</name>
+				<script>--[[
+
+alias suche tue b boden, u boden, b laub, u laub, b gras, u gras, b nadeln, u nadeln, b unterholz, u unterholz
+
+Treteisen:
+untersuche nadeln
+Fallgrube:
+untersuche gras
+Giftpfeil:
+untersuche unterholz
+Drahtschlinge:
+untersuche nadeln
+Stolperdraht:
+untersuche boden/untersuche erde
+Fangnetz:
+b gras  (NOCH TESTEN!)
+Schlinge:
+untersuche laub
+]]</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList />
+				<regexCodePropertyList />
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>Treteisen</name>
+					<script>-- gefunden durch: untersuche nadeln
+sendAll("tue b erhebung, u erhebung, b erde, u erde, b metall, b zacken, z zacken, b treteisen, u treteisen, entschaerfe treteisen")
+--sendAll("b erhebung", "u erhebung", "b erde", "u erde", "b metall", "b zacken", "z zacken", "b treteisen", "u treteisen", "entschaerfe treteisen")
+</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>2</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>Ueberall auf dem Boden und um einige der Baumstaemme herum siehst Du</string>
+						<string>Tannennadeln liegen. An einer Erhebung liegen etwas mehr Nadeln.</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>3</integer>
+						<integer>3</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>Fallgrube</name>
+					<script>-- wird gefunden durch: untersuche grass
+send("tue b abdeckung, u abdeckung, b fallgrube, u fallgrube, zerstoere fallgrube")
+</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>2</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>Ein paar der Bueschel sind so angeordnet, als waeren sie eine Abdeckung</string>
+						<string>fuer irgendetwas.</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>3</integer>
+						<integer>3</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>Giftpfeil</name>
+					<script>-- wird gefunden durch: untersuche unterholz
+send("ute b efeuranke, u efeuranke, b faden, u faden, b vorrichtung, entschaerfe vorrichtung")
+</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>2</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>Du untersuchst das Unterholz etwas genauer und dabei faellt Dir eine</string>
+						<string>Efeuranke auf, die bestimmt nicht normal gewachsen ist.</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>3</integer>
+						<integer>3</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>Drahtschlinge</name>
+					<script>-- wird gefunden durch: untersuche nadeln
+-- Messer muss vorhanden sein!
+send("tue denk messer vorhanden?, b baumstamm, u baumstamm, b draht, u draht, b schlinge, zerschneide schlinge")
+</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>2</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>Bei genauerer Betrachtung der Tannennadeln faellt Dir auf, dass an einem</string>
+						<string>Baumstamm recht viele Nadeln liegen.</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>3</integer>
+						<integer>3</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>Stolperdraht</name>
+					<script>-- wird gefunden durch: untersuche boden/untersuche erde
+-- Klingenwaffe muss vorhanden sein.
+send("tue denk messer vorhanden?, b efeuranke, u efeuranke, b draht, u draht, zerschneide draht")</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>2</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>Bei genauerer Untersuchung des Bodens faellt Dir eine Efeuranke auf, die</string>
+						<string>besonders gerade ueber den Boden waechst.</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>3</integer>
+						<integer>3</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>Fangnetz TEST</name>
+					<script>-- wird gefunden durch: b gras
+send("denk hier ist das fangnetz, da bin ich bisher reingefallen. viel glueck!")
+</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>3</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>transparent</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>Kleine Grasbueschel, die hier und da auf dem Waldboden wachsen, hier sogar</string>
+						<string>kreisfoermig. Anscheinend fressen die scheuen Tiere des Waldes nicht immer</string>
+						<string>das ganze Gras, was hier waechst.</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>3</integer>
+						<integer>3</integer>
+						<integer>3</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>Schlinge</name>
+					<script>-- wird gefunden durch: u laub
+send("tue denk Schlinge! Messer wird benoetigt., b haufen, u haufen, b fasern, u fasern, b schlinge, zerschneide schlinge")
+</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>2</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>Ueberall auf dem Boden liegt Laub herum, aber an einer Stelle auf dem Boden</string>
+						<string>siehst Du etwas mehr davon auf einem kleinen Haufen liegen.</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>3</integer>
+						<integer>3</integer>
+					</regexCodePropertyList>
+				</Trigger>
+			</TriggerGroup>
+		</TriggerGroup>
+		<TriggerGroup isActive="no" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>Spiele</name>
+			<script></script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList />
+			<regexCodePropertyList />
+			<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>Murmelspiel</name>
+				<script></script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList />
+				<regexCodePropertyList />
+			</TriggerGroup>
+		</TriggerGroup>
+		<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>Alkohol</name>
+			<script>--[[Da der Alkohol-Zustand des Chars nicht per ATCP übertragen wird,
+    versuche ich es mal auf die umständliche Weise: per Trigger.]]
+    
+--[[
+Reihenfolge von stark zu schwach:
+Du hast einen maechtigen Rausch.
+Du bist betrunken.
+Du hast einen Schwips.
+Du bist angeheitert.
+Du fuehlst eine leichte Klarheit im Kopf. (--&gt; nüchtern)
+Du verspuerst ploetzlich furchtbare Kopfschmerzen.
+Du bist wieder nuechtern.
+]]
+    
+str = matches[1]
+if player.alk == nil then player.alk = "Du bist nuechtern." end
+
+player.alk = "Du bist nuechtern."
+
+if str == "Die Welt dreht sich um Dich." then
+  player.alk = str
+elseif str == "Du bist sternhagelvoll." then
+  player.alk = str
+elseif str == "Du hast einen maechtigen Rausch." then
+  player.alk = str
+elseif str == "Du bist betrunken." then
+  player.alk = str
+elseif str == "Du hast einen Schwips." then
+  player.alk = str
+elseif str == "Du bist angeheitert." then
+  player.alk = str
+elseif str == "Du bist wieder nuechtern." then
+  player.alk = "Du bist wieder nuechtern."
+elseif str == "Du fuehlst eine leichte Klarheit im Kopf." then
+  player.alk = "Du bist nuechtern."
+elseif str == "Deine Kopfschmerzen verschwinden." then
+  player.alk = "Du bist nuechtern."
+else
+  --cecho("\nUnbehandelt im Avalet-Trigger Alkohol" .. matches[1].. "\n")
+end</script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#55007f</mFgColor>
+			<mBgColor>#55ff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList>
+				<string>Die Welt dreht sich um Dich.</string>
+				<string>Du bist sternhagelvoll.</string>
+				<string>Du hast einen maechtigen Rausch.</string>
+				<string>Du bist betrunken.</string>
+				<string>Du hast einen Schwips.</string>
+				<string>Du bist angeheitert.</string>
+				<string>Du bist wieder nuechtern.</string>
+				<string>Du fuehlst eine leichte Klarheit im Kopf.</string>
+				<string>Du verspuerst ploetzlich furchtbare Kopfschmerzen.</string>
+				<string>Furchtbare Schmerzen jagen durch Deinen Kopf.</string>
+				<string>Deine Kopfschmerzen verschwinden.</string>
+			</regexCodeList>
+			<regexCodePropertyList>
+				<integer>3</integer>
+				<integer>3</integer>
+				<integer>3</integer>
+				<integer>3</integer>
+				<integer>3</integer>
+				<integer>3</integer>
+				<integer>3</integer>
+				<integer>3</integer>
+				<integer>3</integer>
+				<integer>3</integer>
+				<integer>3</integer>
+			</regexCodePropertyList>
+		</Trigger>
 	</TriggerPackage>
 	<TimerPackage>
 		<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
@@ -1945,6 +2278,13 @@ end</script>
 --	file:close()
 --	return true
 --end
+
+-- Formats numbers with german thousands seperator
+-- Code originally written by Richard Warburton http://richard.warburton.it
+function thousands(n)
+  local left,num,right = string.match(n,'^([^%d]*%d)(%d*)(.-)$')
+  return left..(num:reverse():gsub('(%d%d%d)','%1\.'):reverse())..right
+end
 </script>
 				<eventHandlerList />
 			</Script>
@@ -2196,6 +2536,8 @@ function avalonUI.initCharacter()
   character.portfolio = ""      -- ATCP: AvalonPortfolio
   character.hunger = ""         -- ATCP: AvalonHunger
   character.durst = ""          -- ATCP: AvalonDurst
+
+  character.alk = ""          -- wird leider nicht übertragen
   --
   character.hoehe = ""          -- ATCP: AvalonHoehe
   character.flucht = ""         -- ATCP: AvalonFlucht
@@ -2327,7 +2669,7 @@ function avalonUI.initTimer()
     {["name"]="Kampfbeschwoerung", ["start"]="Du wirst von einer heiligen Aura umgeben\\.",["stop"]="Deine heilige Aura loest sich auf\\.", ["duration"]="600"},
     {["name"]="Kampfeslust", ["start"]="Du bekommst so langsam richtig Lust auf ein kleines Kraeftemessen\\.", ["stop"]="Du fuehlst Dich wieder ruhiger, besonnener\\.", ["duration"]="600"},
     {["name"]="Kampfsegen", ["start"]="Du bist motiviert und willig zu kaempfen\\.", ["stop"]="Deine Motivation und Dein Kampfeswille schwinden\\.", ["duration"]="600"},
-    {["name"]="Kernschild", ["start"]="Das Glitzern legt sich als schuetzendes Schild ueber Dich\\.", ["stop"]="Dein Kernschild loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Kernschild", ["start"]="Das Glitzern legt sich als schuetzendes Schild ueber Dich\\.", ["stop"]="Dein Kernschild loest sich auf\\.", ["duration"]="1000"},
     {["name"]="Knochenschild", ["start"]="Du erhebst Dich wieder, der wirbelnde Schild aus Knochen umgibt Dich", ["stop"]="Deine schuetzende Knochenwolke loest sich auf\\.", ["duration"]="600"},
     {["name"]="Lebensaura", ["start"]="Du oeffnest die Augen, aber der Schutz der Bluetenblaetter umgibt Dich", ["stop"]="Deine Lebensaura loest sich auf\\.", ["duration"]="600"},
     {["name"]="Lebenssegen", ["start"]="Du wirst von einem inneren Leuchten erfuellt\\.", ["stop"]="Dein inneres Leuchten erlischt wieder\\.", ["duration"]="600"},
@@ -2352,6 +2694,7 @@ function avalonUI.initTimer()
     {["name"]="Wasseraura", ["start"]="Es regnet aus der Wolke auf Dich herab.*",["stop"]="Dein Wasserschleier loest sich auf\\.", ["duration"]="600"},
     {["name"]="Weissschild", ["start"]="Du wirst von einem magischen Schild umgeben, der Dich Deinen Gegner .*", ["stop"]="Dein Weissschild loest sich auf\\.", ["duration"]="600"},
     {["name"]="Windhaut", ["start"]="Du bist nun vollkommen in eine Windhaut eingehuellt\\.",["stop"]="Du befreist Dich von Deiner Windhaut\\.|Deine Windhaut loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Zauberwaffe", ["start"]="Du uebertraegst die Energie auf (Dein|Deine|Deinen|den)([a-z ,]*)([A-Za-z\\s]+)\\.",["stop"]="(Der|Die|Das|Dein|Deine) ([a-z ,]*)([A-Za-z\\s]+) verliert [a-z]* Energie\\.", ["duration"]="600"},
     {["name"]="Zorn", ["start"]="Du wirst von kuehlen Winden umgeben\\.", ["stop"]="Die kuehlen Winde, welche Dich umgeben, verschwinden\\.", ["duration"]="600"},
   }
  
@@ -2388,6 +2731,7 @@ function avalonUI.createTempTimer(timerStrings)
     -- Namen für den Timer zu bauen. Hier wird der dafür notwendige Parameter gesetzt.
     -- (Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.)
     if v["name"] == "Segen" then param = ", matches[4]" end
+    if v["name"] == "Zauberwaffe" then param = ", matches[4]" end
 
     -- START-Trigger:
     luaCode = [[avalonUI.registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[)]]
@@ -2427,6 +2771,7 @@ function avalonUI.createImprovedTempTimer(timerStrings)
       -- weil die anders nicht zu unterscheiden sind. Hier wird der dafür notwendige Parameter gesetzt.
       -- (Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.)
     if v["name"] == "Segen" then param = ", matches[4]" end
+    if v["name"] == "Zauberwaffe" then param = ", matches[4]" end
     
     -- Wenn eine Stop-RegExpr existiert, wird beim Auslösen des Triggers ein temporärer One-Time-Stop-Trigger gesetzt.
     -- Da ich das folgende schon vor mehr als 20 Minuten geschrieben habe, verstehe ich es jetzt selber nicht mehr.
@@ -2482,6 +2827,7 @@ function avalonUI.createPermTimer(timerStrings)
       -- weil die anders nicht zu unterscheiden sind. Hier wird der dafür notwendige Parameter gesetzt.
       -- (Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.)
       if v["name"] == "Segen" then param = ", matches[4]" end
+      if v["name"] == "Zauberwaffe" then param = ", matches[4]" end
       
       -- Zusammenbau und Erzeugen des START-Triggers als permanter Trigger:
       luaCode = [[avalonUI.registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[)]]
@@ -2536,6 +2882,7 @@ function avalonUI.createMixedTimer(timerStrings)
       -- weil die anders nicht zu unterscheiden sind. Hier wird der dafür notwendige Parameter gesetzt.
       -- (Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.)
       if v["name"] == "Segen" then param = ", matches[4]" end
+      if v["name"] == "Zauberwaffe" then param = ", matches[4]" end
       
       -- Wenn eine Stop-RegExpr existiert, wird beim Auslösen des Triggers ein temporärer One-Time-Stop-Trigger gesetzt.
       -- Da ich das folgende schon vor mehr als 20 Minuten geschrieben habe, verstehe ich es jetzt selber nicht mehr.
@@ -2655,6 +3002,73 @@ GUIframe.configs = {
     resizeRestImage = "/imgs/blue_arrows_20t.png",
     borderOffset = 0,
 }</script>
+			<eventHandlerList />
+		</Script>
+		<Script isActive="yes" isFolder="no">
+			<name>AvalonTime</name>
+			<packageName></packageName>
+			<script>function avalonUI.getAvalonTime()
+
+  timeStr = ""
+
+  local sec = os.time(os.date("*t"))-808437600
+  --cecho("&lt;magenta&gt;\n"..sec.."\n")
+  local jahr = math.floor(sec/31536000*13)
+  sec = sec-(jahr*31536000/13)
+  local tag = math.floor(sec/86400*13+1)
+  sec = sec-((tag-1)*86400/13)
+  local stunde = math.floor(sec/3600*13)
+  if (stunde &lt;=9) then stunde ="0"..stunde;end 
+  sec = sec-(stunde*3600/13)
+  local minute = math.floor(sec/60*13)
+  if (minute &lt;=9) then minute ="0"..minute;end 
+  wtage={"Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"}
+  if (tag&lt;=365) then monat=12;atag=tag-334;end
+  if (tag&lt;=334) then monat=11;atag=tag-304;end
+  if (tag&lt;=304) then monat=10;atag=tag-273;end
+  if (tag&lt;=273) then monat=9;atag=tag-243;end 
+  if (tag&lt;=243) then monat=8;atag=tag-212;end
+  if (tag&lt;=212) then monat=7;atag=tag-181;end
+  if (tag&lt;=181) then monat=6;atag=tag-151;end
+  if (tag&lt;=151) then monat=5;atag=tag-120;end
+  if (tag&lt;=120) then monat=4;atag=tag-90;end
+  if (tag&lt;=90) then monat=3;atag=tag-59;end
+  if (tag&lt;=59) then monat=2;atag=tag-31;end
+  if (tag&lt;=31) then monat=1;atag=tag;end
+  season = "-"
+  if tag &gt;=0 and tag &lt;=76 then season = "Winter";end
+  if tag &gt;=77 and tag &lt;= 132 then season = "Fruehling";end
+  if tag &gt;=133 and tag &lt;= 256 then season = "Sommer";end
+  if tag &gt;=257 and tag &lt;= 322 then season = "Herbst";end
+  if tag &gt;=323 then season = "W";end
+  datum = {}
+  datum.monat = monat
+  datum.jahr = jahr
+  datum.wtag = atag
+  datum.wtagdesc = wtage[((tag+(jahr*365)+3)%7)+1]
+  datum.stunde = stunde
+  datum.minute = minute
+  datum.season = season
+  --ClockBox:echo([[&amp;lt;p style="font-size:12px"&amp;gt;&amp;lt;b&amp;gt;&amp;lt;font color="white"&amp;gt;]]..wtage[((tag+(jahr*365)+3)%7)+1]..", "..atag.."."..monat.."."..jahr.." "..stunde..":"..minute.." ("..season..")")
+--[[
+]]
+
+  timeStr = wtage[((tag+(jahr*365)+3)%7)+1]..", "..atag.."."..monat.."."..jahr.." "..stunde..":"..minute.." ("..season..")"
+
+  return timeStr
+
+end
+
+
+function avalonUI.getSimplifiedAvalonTime()
+
+  simplAvaTime = nil
+  
+  return simplAvaTime
+  
+end
+
+</script>
 			<eventHandlerList />
 		</Script>
 		<ScriptGroup isActive="yes" isFolder="yes">
@@ -2837,7 +3251,8 @@ schutzzauber = {"Arkanschild", "Schild", "Kampfbeschwoerung", ""}
 function avalonUI.createCounterModel()
   avalonUI.listOfCounter = avalonUI.listOfCounter or {}
   avalonUI.listOfCounter = {
-  [1] = {["Name"]="Session-EP", ["Groesse"]="EP", ["Basis"] = "Session", ["Basiswert"] = 0},
+    [1] = {["Name"]="EP", ["Groesse"]="EP", ["Basis"] = "EP", ["Basiswert"] = 0},
+    [2] = {["Name"]="Session-EP", ["Groesse"]="EP", ["Basis"] = "Session", ["Basiswert"] = 0},
   }
   
 end
@@ -2863,9 +3278,11 @@ function avalonUI.refreshCounter()
   
   for k, v in pairs(avalonUI.listOfCounter) do
     avalonUI["Counter"..k]:show()
-    -- mylabel:echo(string.format("&lt;span style='color: rgb(0,0,0)'&gt;Hello World&lt;/span&gt;", redv, greenv, bluev))
-    --avalonUI["Counter"..k]:echo("&lt;span style='color: rgb(0,0,0)'&gt;&lt;b&gt;&amp;nbsp;"..v["Name"]..": " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "&lt;/b&gt;&lt;/span&gt;")
-    avalonUI["Counter"..k]:echo("&lt;b&gt;&amp;nbsp;"..v["Name"]..": " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "&lt;/b&gt;")
+    ---- mylabel:echo(string.format("&lt;span style='color: rgb(0,0,0)'&gt;Hello World&lt;/span&gt;", redv, greenv, bluev))
+    ----avalonUI["Counter"..k]:echo("&lt;span style='color: rgb(0,0,0)'&gt;&lt;b&gt;&amp;nbsp;"..v["Name"]..": " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "&lt;/b&gt;&lt;/span&gt;")
+    --avalonUI["Counter"..k]:echo("&lt;b&gt;&amp;nbsp;"..v["Name"]..": " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "&lt;/b&gt;")
+    if k == 1 then avalonUI["Counter"..k]:echo("&lt;b&gt;" .. v["Name"] ..":&lt;/b&gt;        " .. thousands(tonumber(player.ep))) end
+    if k == 2 then avalonUI["Counter"..k]:echo("&lt;b&gt;".. v["Name"] ..":&lt;/b&gt; " .. thousands(tonumber(player.ep) - tonumber(player.sessionEP))) end
   end
 end
 
@@ -2883,7 +3300,9 @@ end
 function avalonUI.updateSessionEP(_, arg)
   debugc("Update SessionEP-Zaehler!")
   --cecho("&lt;magenta&gt;\nupdate Session-EP\n")
-  avalonUI["Counter1"]:echo("&lt;b&gt;&amp;nbsp;Session-EP: " .. tostring(tonumber(arg) - tonumber(player.sessionEP)) .. "&lt;/b&gt;")
+  --avalonUI["Counter1"]:echo("&lt;b&gt;&amp;nbsp;Session-EP: " .. tostring(tonumber(arg) - tonumber(player.sessionEP)) .. "&lt;/b&gt;")
+  avalonUI["Counter1"]:echo("&lt;b&gt;EP:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/b&gt;" .. thousands(player.ep))
+  avalonUI["Counter2"]:echo("&lt;b&gt;Session-EP:&amp;nbsp;&lt;/b&gt;" .. thousands(tonumber(arg) - tonumber(player.sessionEP)))
 end
 registerAnonymousEventHandler("AvalonEP", "avalonUI.updateSessionEP")</script>
 				<eventHandlerList />
@@ -2933,7 +3352,7 @@ function avalonUI.updateInfoBox()
 			end			
 			str = ""
 			for k,v in pairs(zuenfte) do
-				if k == #zuenfte then
+				if k == #zuenfte and k &gt; 1 then
 					str = str .. " und "
 				end
 				str = str .. v
@@ -3002,11 +3421,11 @@ function avalonUI.updateInfoBox()
 		if string.len(player.level) ~= 0 then
 			GUIModel.infobox = GUIModel.infobox .. "Du bist Level " .. player.level .. "\n"
 		end
-		if string.len(player.ep) ~= 0 then
-			GUIModel.infobox = GUIModel.infobox .. "Dafür hast du bisher " .. player.ep .. " Erfahrungspunkte gesammelt.\n\n"
-		end
+--		if string.len(player.ep) ~= 0 then
+--			GUIModel.infobox = GUIModel.infobox .. "Dafür hast du bisher " .. player.ep .. " Erfahrungspunkte gesammelt.\n\n"
+--		end
 		if string.len(player.gesinnung) ~= 0 then
-			GUIModel.infobox = GUIModel.infobox .. "Deine Gesinnung ist " .. player.gesinnung .. ".\n"
+			GUIModel.infobox = GUIModel.infobox .. "\nDeine Gesinnung ist " .. player.gesinnung .. ".\n"
 		end
 		if string.len(player.hunger) ~= 0 then
 			GUIModel.infobox = GUIModel.infobox .. "Hunger: " .. player.hunger .. "\n"
@@ -3014,14 +3433,18 @@ function avalonUI.updateInfoBox()
 		if string.len(player.durst) ~= 0 then
 			GUIModel.infobox = GUIModel.infobox .. "Durst: " .. player.durst .. "\n"
 		end
-    if player.schutz ~= nil then
-      GUIModel.infobox = GUIModel.infobox .. "\nSchutz: " .. player.schutz .. "\n"
-    end
+		if string.len(player.durst) ~= 0 then
+			GUIModel.infobox = GUIModel.infobox .. "Alkohol: " .. player.alk .. "\n"
+		end
+--    if player.schutz ~= nil then
+--      GUIModel.infobox = GUIModel.infobox .. "\nSchutz: " .. player.schutz .. "\n"
+--    end
     if player.istDunkel == "1" then
       GUIModel.infobox = GUIModel.infobox .. "\nAufenthaltsort: &lt;zu dunkel&gt;\n"
     else
       GUIModel.infobox = GUIModel.infobox .. "\nAufenthaltsort: " .. player.avalonRoomID .. "\n"
     end
+    GUIModel.infobox = GUIModel.infobox .. "\nAvalon-Zeit: " .. avalonUI.getAvalonTime() .. "\n"
 	else
 		debugc("\nKeine Player-Daten vorhanden!\n")
 		GUIModel.infobox = "\nWarte auf Daten...\n"
@@ -5607,6 +6030,86 @@ raiseEvent("keyPadEvent",5)
 				<command></command>
 				<keyCode>42</keyCode>
 				<keyModifier>536870912</keyModifier>
+			</Key>
+		</KeyGroup>
+		<KeyGroup isActive="yes" isFolder="yes">
+			<name>Fernrohr</name>
+			<packageName></packageName>
+			<script></script>
+			<command></command>
+			<keyCode>-1</keyCode>
+			<keyModifier>-1</keyModifier>
+			<Key isActive="yes" isFolder="no">
+				<name>Ctrl+Keypad-1</name>
+				<packageName></packageName>
+				<script></script>
+				<command>spaehe sw</command>
+				<keyCode>49</keyCode>
+				<keyModifier>603979776</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Ctrl+Keypad-2</name>
+				<packageName></packageName>
+				<script></script>
+				<command>spaehe s</command>
+				<keyCode>50</keyCode>
+				<keyModifier>603979776</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Ctrl+Keypad-3</name>
+				<packageName></packageName>
+				<script></script>
+				<command>spaehe so</command>
+				<keyCode>51</keyCode>
+				<keyModifier>603979776</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Ctrl+Keypad-4</name>
+				<packageName></packageName>
+				<script></script>
+				<command>spaehe w</command>
+				<keyCode>52</keyCode>
+				<keyModifier>603979776</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Ctrl+Keypad-5</name>
+				<packageName></packageName>
+				<script></script>
+				<command>schau</command>
+				<keyCode>53</keyCode>
+				<keyModifier>603979776</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Ctrl+Keypad-6</name>
+				<packageName></packageName>
+				<script></script>
+				<command>spaehe o</command>
+				<keyCode>54</keyCode>
+				<keyModifier>603979776</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Ctrl+Keypad-7</name>
+				<packageName></packageName>
+				<script></script>
+				<command>spaehe nw</command>
+				<keyCode>55</keyCode>
+				<keyModifier>603979776</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Ctrl+Keypad-8</name>
+				<packageName></packageName>
+				<script></script>
+				<command>spaehe n</command>
+				<keyCode>56</keyCode>
+				<keyModifier>603979776</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Ctrl+Keypad-9</name>
+				<packageName></packageName>
+				<script></script>
+				<command>spaehe no</command>
+				<keyCode>57</keyCode>
+				<keyModifier>603979776</keyModifier>
 			</Key>
 		</KeyGroup>
 	</KeyPackage>
