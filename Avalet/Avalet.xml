@@ -295,7 +295,7 @@ send("tue denk Schlinge! Messer wird benoetigt., b haufen, u haufen, b fasern, u
 				<regexCodePropertyList />
 			</TriggerGroup>
 		</TriggerGroup>
-		<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+		<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 			<name>Alkohol</name>
 			<script>--[[Da der Alkohol-Zustand des Chars nicht per ATCP übertragen wird,
     versuche ich es mal auf die umständliche Weise: per Trigger.]]
@@ -376,7 +376,7 @@ end</script>
 		</Trigger>
 	</TriggerPackage>
 	<TimerPackage>
-		<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+		<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
 			<name>avaletTimersTimer</name>
 			<script>-- Timer-Timer
 -- Dieser Mudlet-Timer sorgt dafür, dass die Anzeige der Avalet-Timer
@@ -3281,7 +3281,7 @@ function avalonUI.refreshCounter()
     ---- mylabel:echo(string.format("&lt;span style='color: rgb(0,0,0)'&gt;Hello World&lt;/span&gt;", redv, greenv, bluev))
     ----avalonUI["Counter"..k]:echo("&lt;span style='color: rgb(0,0,0)'&gt;&lt;b&gt;&amp;nbsp;"..v["Name"]..": " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "&lt;/b&gt;&lt;/span&gt;")
     --avalonUI["Counter"..k]:echo("&lt;b&gt;&amp;nbsp;"..v["Name"]..": " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "&lt;/b&gt;")
-    if k == 1 then avalonUI["Counter"..k]:echo("&lt;b&gt;" .. v["Name"] ..":&lt;/b&gt;        " .. thousands(tonumber(player.ep))) end
+    if k == 1 then avalonUI["Counter"..k]:echo("&lt;b&gt;" .. v["Name"] ..":&lt;/b&gt;" .. thousands(tonumber(player.ep))) end
     if k == 2 then avalonUI["Counter"..k]:echo("&lt;b&gt;".. v["Name"] ..":&lt;/b&gt; " .. thousands(tonumber(player.ep) - tonumber(player.sessionEP))) end
   end
 end
@@ -3301,7 +3301,7 @@ function avalonUI.updateSessionEP(_, arg)
   debugc("Update SessionEP-Zaehler!")
   --cecho("&lt;magenta&gt;\nupdate Session-EP\n")
   --avalonUI["Counter1"]:echo("&lt;b&gt;&amp;nbsp;Session-EP: " .. tostring(tonumber(arg) - tonumber(player.sessionEP)) .. "&lt;/b&gt;")
-  avalonUI["Counter1"]:echo("&lt;b&gt;EP:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/b&gt;" .. thousands(player.ep))
+  avalonUI["Counter1"]:echo("&lt;b&gt;EP:&amp;nbsp;&lt;/b&gt;" .. thousands(player.ep))
   avalonUI["Counter2"]:echo("&lt;b&gt;Session-EP:&amp;nbsp;&lt;/b&gt;" .. thousands(tonumber(arg) - tonumber(player.sessionEP)))
 end
 registerAnonymousEventHandler("AvalonEP", "avalonUI.updateSessionEP")</script>
