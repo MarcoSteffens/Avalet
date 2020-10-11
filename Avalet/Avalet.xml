@@ -701,7 +701,11 @@ function avalonUI.onKeyPadEvent(eventName,key)--,tDirections)
   player.lastMove = tDirections[key]
   --tPlayer.sLastMoveDirection=tDirections[key]
   
-  str = string.trim(player.motion .. " " .. player.lastMove)
+  if key &gt; 0 and key &lt; 10 and key ~= 5 then
+    str = string.trim(player.motion .. " " .. player.lastMove)
+  else
+    str = player.lastMove
+  end
   send(str, false)
 
 end --function onKeyPadEvent
