@@ -374,9 +374,90 @@ end</script>
 				<integer>3</integer>
 			</regexCodePropertyList>
 		</Trigger>
+		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>Runenschmiede</name>
+			<script></script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList />
+			<regexCodePropertyList />
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>runtersuche</name>
+				<script></script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>bba</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>0</integer>
+				</regexCodePropertyList>
+			</Trigger>
+		</TriggerGroup>
+		<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>Motion</name>
+			<script>--deleteLine()
+
+if player.motion == nil then player.motion = "" end
+
+str = matches[3]
+
+if str == "klettern" then
+  player.motion = "kletter"
+  --echo("Du beginnst automatisch zu klettern.")
+elseif str == "schwimmen" then
+  player.motion = "schwimme"
+  --echo("Du beginnst automatisch zu schwimmen.")
+elseif str == "nicht" then 
+  player.motion = ""
+  --echo("Du hoerst auf zu klettern/schwimmen.")
+end
+
+str = string.trim(player.motion .. " " .. player.lastMove)
+send(str, false)
+</script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList>
+				<string>^(Du musst hier schon (schwimmen), um weiterzukommen!)$</string>
+				<string>^(Dort musst Du (nicht) mehr schwimmen\.)$</string>
+				<string>^(Du musst hier schon (klettern), um weiterzukommen!)$</string>
+				<string>^(Dort musst Du (nicht) mehr klettern\.)$</string>
+			</regexCodeList>
+			<regexCodePropertyList>
+				<integer>1</integer>
+				<integer>1</integer>
+				<integer>1</integer>
+				<integer>1</integer>
+			</regexCodePropertyList>
+		</Trigger>
 	</TriggerPackage>
 	<TimerPackage>
-		<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+		<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
 			<name>avaletTimersTimer</name>
 			<script>-- Timer-Timer
 -- Dieser Mudlet-Timer sorgt dafür, dass die Anzeige der Avalet-Timer
@@ -613,18 +694,16 @@ end --function initPlayer(name)
 -- und fuer das automatische Schwimmen/ Klettern
 -- Dieser Event wird jedesmal ausgelöst, wenn eine Taste des Ziffernblocks verwendet wird.
 -- Das ist unter "Keybindings" bzw. "Tasten" so definiert.
-function avalonUI.onKeyPadEvent(eventName,key,tDirections)
+-- Hier kommt eine ZAHL an als key, und diese Zahl wird dann über den Index des Arrays
+-- in eine Richtung umgewandelt!
+function avalonUI.onKeyPadEvent(eventName,key)--,tDirections)
   tDirections = {"sw","s","so","w","sc","o","nw","n","no","h","r","rein","raus"}
   player.lastMove = tDirections[key]
   --tPlayer.sLastMoveDirection=tDirections[key]
-  send(tDirections[key],false)
---	if bAutoSchwimmen == true then
---		send("schwimm "..tDirections[key],false)
---		--send("b karte")
---	else
---		send(tDirections[key],false)
---		--send("b pflanzen")
---	end
+  
+  str = string.trim(player.motion .. " " .. player.lastMove)
+  send(str, false)
+
 end --function onKeyPadEvent
 registerAnonymousEventHandler("keyPadEvent", "avalonUI.onKeyPadEvent")
 
@@ -2581,6 +2660,8 @@ function avalonUI.initCharacter()
   character.avalonRoomHash = ""
   character.istDunkel = ""
   
+  character.motion = ""
+  
   return character
 end
 
@@ -3040,7 +3121,7 @@ GUIframe.configs = {
   if tag &gt;=77 and tag &lt;= 132 then season = "Fruehling";end
   if tag &gt;=133 and tag &lt;= 256 then season = "Sommer";end
   if tag &gt;=257 and tag &lt;= 322 then season = "Herbst";end
-  if tag &gt;=323 then season = "W";end
+  if tag &gt;=323 then season = "Winter";end
   datum = {}
   datum.monat = monat
   datum.jahr = jahr
