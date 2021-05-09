@@ -41,260 +41,6 @@ raiseEvent("afterReconnectEvent")</script>
 			<regexCodeList />
 			<regexCodePropertyList />
 		</TriggerGroup>
-		<TriggerGroup isActive="no" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-			<name>Raetsel</name>
-			<script></script>
-			<triggerType>0</triggerType>
-			<conditonLineDelta>0</conditonLineDelta>
-			<mStayOpen>0</mStayOpen>
-			<mCommand></mCommand>
-			<packageName></packageName>
-			<mFgColor>#ff0000</mFgColor>
-			<mBgColor>#ffff00</mBgColor>
-			<mSoundFile></mSoundFile>
-			<colorTriggerFgColor>#000000</colorTriggerFgColor>
-			<colorTriggerBgColor>#000000</colorTriggerBgColor>
-			<regexCodeList />
-			<regexCodePropertyList />
-			<TriggerGroup isActive="no" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-				<name>Foersterquest</name>
-				<script>--[[
-
-alias suche tue b boden, u boden, b laub, u laub, b gras, u gras, b nadeln, u nadeln, b unterholz, u unterholz
-
-Treteisen:
-untersuche nadeln
-Fallgrube:
-untersuche gras
-Giftpfeil:
-untersuche unterholz
-Drahtschlinge:
-untersuche nadeln
-Stolperdraht:
-untersuche boden/untersuche erde
-Fangnetz:
-b gras  (NOCH TESTEN!)
-Schlinge:
-untersuche laub
-]]</script>
-				<triggerType>0</triggerType>
-				<conditonLineDelta>0</conditonLineDelta>
-				<mStayOpen>0</mStayOpen>
-				<mCommand></mCommand>
-				<packageName></packageName>
-				<mFgColor>#ff0000</mFgColor>
-				<mBgColor>#ffff00</mBgColor>
-				<mSoundFile></mSoundFile>
-				<colorTriggerFgColor>#000000</colorTriggerFgColor>
-				<colorTriggerBgColor>#000000</colorTriggerBgColor>
-				<regexCodeList />
-				<regexCodePropertyList />
-				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-					<name>Treteisen</name>
-					<script>-- gefunden durch: untersuche nadeln
-sendAll("tue b erhebung, u erhebung, b erde, u erde, b metall, b zacken, z zacken, b treteisen, u treteisen, entschaerfe treteisen")
---sendAll("b erhebung", "u erhebung", "b erde", "u erde", "b metall", "b zacken", "z zacken", "b treteisen", "u treteisen", "entschaerfe treteisen")
-</script>
-					<triggerType>0</triggerType>
-					<conditonLineDelta>2</conditonLineDelta>
-					<mStayOpen>0</mStayOpen>
-					<mCommand></mCommand>
-					<packageName></packageName>
-					<mFgColor>#ff0000</mFgColor>
-					<mBgColor>#ffff00</mBgColor>
-					<mSoundFile></mSoundFile>
-					<colorTriggerFgColor>#000000</colorTriggerFgColor>
-					<colorTriggerBgColor>#000000</colorTriggerBgColor>
-					<regexCodeList>
-						<string>Ueberall auf dem Boden und um einige der Baumstaemme herum siehst Du</string>
-						<string>Tannennadeln liegen. An einer Erhebung liegen etwas mehr Nadeln.</string>
-					</regexCodeList>
-					<regexCodePropertyList>
-						<integer>3</integer>
-						<integer>3</integer>
-					</regexCodePropertyList>
-				</Trigger>
-				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-					<name>Fallgrube</name>
-					<script>-- wird gefunden durch: untersuche grass
-send("tue b abdeckung, u abdeckung, b fallgrube, u fallgrube, zerstoere fallgrube")
-</script>
-					<triggerType>0</triggerType>
-					<conditonLineDelta>2</conditonLineDelta>
-					<mStayOpen>0</mStayOpen>
-					<mCommand></mCommand>
-					<packageName></packageName>
-					<mFgColor>#ff0000</mFgColor>
-					<mBgColor>#ffff00</mBgColor>
-					<mSoundFile></mSoundFile>
-					<colorTriggerFgColor>#000000</colorTriggerFgColor>
-					<colorTriggerBgColor>#000000</colorTriggerBgColor>
-					<regexCodeList>
-						<string>Ein paar der Bueschel sind so angeordnet, als waeren sie eine Abdeckung</string>
-						<string>fuer irgendetwas.</string>
-					</regexCodeList>
-					<regexCodePropertyList>
-						<integer>3</integer>
-						<integer>3</integer>
-					</regexCodePropertyList>
-				</Trigger>
-				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-					<name>Giftpfeil</name>
-					<script>-- wird gefunden durch: untersuche unterholz
-send("ute b efeuranke, u efeuranke, b faden, u faden, b vorrichtung, entschaerfe vorrichtung")
-</script>
-					<triggerType>0</triggerType>
-					<conditonLineDelta>2</conditonLineDelta>
-					<mStayOpen>0</mStayOpen>
-					<mCommand></mCommand>
-					<packageName></packageName>
-					<mFgColor>#ff0000</mFgColor>
-					<mBgColor>#ffff00</mBgColor>
-					<mSoundFile></mSoundFile>
-					<colorTriggerFgColor>#000000</colorTriggerFgColor>
-					<colorTriggerBgColor>#000000</colorTriggerBgColor>
-					<regexCodeList>
-						<string>Du untersuchst das Unterholz etwas genauer und dabei faellt Dir eine</string>
-						<string>Efeuranke auf, die bestimmt nicht normal gewachsen ist.</string>
-					</regexCodeList>
-					<regexCodePropertyList>
-						<integer>3</integer>
-						<integer>3</integer>
-					</regexCodePropertyList>
-				</Trigger>
-				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-					<name>Drahtschlinge</name>
-					<script>-- wird gefunden durch: untersuche nadeln
--- Messer muss vorhanden sein!
-send("tue denk messer vorhanden?, b baumstamm, u baumstamm, b draht, u draht, b schlinge, zerschneide schlinge")
-</script>
-					<triggerType>0</triggerType>
-					<conditonLineDelta>2</conditonLineDelta>
-					<mStayOpen>0</mStayOpen>
-					<mCommand></mCommand>
-					<packageName></packageName>
-					<mFgColor>#ff0000</mFgColor>
-					<mBgColor>#ffff00</mBgColor>
-					<mSoundFile></mSoundFile>
-					<colorTriggerFgColor>#000000</colorTriggerFgColor>
-					<colorTriggerBgColor>#000000</colorTriggerBgColor>
-					<regexCodeList>
-						<string>Bei genauerer Betrachtung der Tannennadeln faellt Dir auf, dass an einem</string>
-						<string>Baumstamm recht viele Nadeln liegen.</string>
-					</regexCodeList>
-					<regexCodePropertyList>
-						<integer>3</integer>
-						<integer>3</integer>
-					</regexCodePropertyList>
-				</Trigger>
-				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-					<name>Stolperdraht</name>
-					<script>-- wird gefunden durch: untersuche boden/untersuche erde
--- Klingenwaffe muss vorhanden sein.
-send("tue denk messer vorhanden?, b efeuranke, u efeuranke, b draht, u draht, zerschneide draht")</script>
-					<triggerType>0</triggerType>
-					<conditonLineDelta>2</conditonLineDelta>
-					<mStayOpen>0</mStayOpen>
-					<mCommand></mCommand>
-					<packageName></packageName>
-					<mFgColor>#ff0000</mFgColor>
-					<mBgColor>#ffff00</mBgColor>
-					<mSoundFile></mSoundFile>
-					<colorTriggerFgColor>#000000</colorTriggerFgColor>
-					<colorTriggerBgColor>#000000</colorTriggerBgColor>
-					<regexCodeList>
-						<string>Bei genauerer Untersuchung des Bodens faellt Dir eine Efeuranke auf, die</string>
-						<string>besonders gerade ueber den Boden waechst.</string>
-					</regexCodeList>
-					<regexCodePropertyList>
-						<integer>3</integer>
-						<integer>3</integer>
-					</regexCodePropertyList>
-				</Trigger>
-				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-					<name>Fangnetz TEST</name>
-					<script>-- wird gefunden durch: b gras
-send("denk hier ist das fangnetz, da bin ich bisher reingefallen. viel glueck!")
-</script>
-					<triggerType>0</triggerType>
-					<conditonLineDelta>3</conditonLineDelta>
-					<mStayOpen>0</mStayOpen>
-					<mCommand></mCommand>
-					<packageName></packageName>
-					<mFgColor>transparent</mFgColor>
-					<mBgColor>#ffff00</mBgColor>
-					<mSoundFile></mSoundFile>
-					<colorTriggerFgColor>#000000</colorTriggerFgColor>
-					<colorTriggerBgColor>#000000</colorTriggerBgColor>
-					<regexCodeList>
-						<string>Kleine Grasbueschel, die hier und da auf dem Waldboden wachsen, hier sogar</string>
-						<string>kreisfoermig. Anscheinend fressen die scheuen Tiere des Waldes nicht immer</string>
-						<string>das ganze Gras, was hier waechst.</string>
-					</regexCodeList>
-					<regexCodePropertyList>
-						<integer>3</integer>
-						<integer>3</integer>
-						<integer>3</integer>
-					</regexCodePropertyList>
-				</Trigger>
-				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-					<name>Schlinge</name>
-					<script>-- wird gefunden durch: u laub
-send("tue denk Schlinge! Messer wird benoetigt., b haufen, u haufen, b fasern, u fasern, b schlinge, zerschneide schlinge")
-</script>
-					<triggerType>0</triggerType>
-					<conditonLineDelta>2</conditonLineDelta>
-					<mStayOpen>0</mStayOpen>
-					<mCommand></mCommand>
-					<packageName></packageName>
-					<mFgColor>#ff0000</mFgColor>
-					<mBgColor>#ffff00</mBgColor>
-					<mSoundFile></mSoundFile>
-					<colorTriggerFgColor>#000000</colorTriggerFgColor>
-					<colorTriggerBgColor>#000000</colorTriggerBgColor>
-					<regexCodeList>
-						<string>Ueberall auf dem Boden liegt Laub herum, aber an einer Stelle auf dem Boden</string>
-						<string>siehst Du etwas mehr davon auf einem kleinen Haufen liegen.</string>
-					</regexCodeList>
-					<regexCodePropertyList>
-						<integer>3</integer>
-						<integer>3</integer>
-					</regexCodePropertyList>
-				</Trigger>
-			</TriggerGroup>
-		</TriggerGroup>
-		<TriggerGroup isActive="no" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-			<name>Spiele</name>
-			<script></script>
-			<triggerType>0</triggerType>
-			<conditonLineDelta>0</conditonLineDelta>
-			<mStayOpen>0</mStayOpen>
-			<mCommand></mCommand>
-			<packageName></packageName>
-			<mFgColor>#ff0000</mFgColor>
-			<mBgColor>#ffff00</mBgColor>
-			<mSoundFile></mSoundFile>
-			<colorTriggerFgColor>#000000</colorTriggerFgColor>
-			<colorTriggerBgColor>#000000</colorTriggerBgColor>
-			<regexCodeList />
-			<regexCodePropertyList />
-			<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-				<name>Murmelspiel</name>
-				<script></script>
-				<triggerType>0</triggerType>
-				<conditonLineDelta>0</conditonLineDelta>
-				<mStayOpen>0</mStayOpen>
-				<mCommand></mCommand>
-				<packageName></packageName>
-				<mFgColor>#ff0000</mFgColor>
-				<mBgColor>#ffff00</mBgColor>
-				<mSoundFile></mSoundFile>
-				<colorTriggerFgColor>#000000</colorTriggerFgColor>
-				<colorTriggerBgColor>#000000</colorTriggerBgColor>
-				<regexCodeList />
-				<regexCodePropertyList />
-			</TriggerGroup>
-		</TriggerGroup>
 		<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 			<name>Alkohol</name>
 			<script>--[[Da der Alkohol-Zustand des Chars nicht per ATCP übertragen wird,
@@ -336,7 +82,10 @@ elseif str == "Deine Kopfschmerzen verschwinden." then
   player.alk = "Du bist nuechtern."
 else
   --cecho("\nUnbehandelt im Avalet-Trigger Alkohol" .. matches[1].. "\n")
-end</script>
+end
+
+raiseEvent("RefreshHDA")
+</script>
 			<triggerType>0</triggerType>
 			<conditonLineDelta>0</conditonLineDelta>
 			<mStayOpen>0</mStayOpen>
@@ -374,6 +123,41 @@ end</script>
 				<integer>3</integer>
 			</regexCodePropertyList>
 		</Trigger>
+		<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>Hangover</name>
+			<script>--[[vielleicht wäre es hier gut, noch einen timer einzubauen, der die kopfschmerzanzeige irgendwann
+zurücksetzt. Falls der trigger mal den schluss-string verpasst.]]
+
+if matches[1] == "Du verspuerst ploetzlich furchtbare Kopfschmerzen." then
+  player.hangover = true
+elseif matches[1] == "Furchtbare Schmerzen jagen durch Deinen Kopf." then
+  player.hangover = true
+elseif matches[1] == "Deine Kopfschmerzen verschwinden." then
+  player.hangover = false
+end
+
+raiseEvent("RefreshHDA")</script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList>
+				<string>Du verspuerst ploetzlich furchtbare Kopfschmerzen.</string>
+				<string>Furchtbare Schmerzen jagen durch Deinen Kopf.</string>
+				<string>Deine Kopfschmerzen verschwinden.</string>
+			</regexCodeList>
+			<regexCodePropertyList>
+				<integer>0</integer>
+				<integer>0</integer>
+				<integer>0</integer>
+			</regexCodePropertyList>
+		</Trigger>
 		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 			<name>Runenschmiede</name>
 			<script></script>
@@ -389,9 +173,51 @@ end</script>
 			<colorTriggerBgColor>#000000</colorTriggerBgColor>
 			<regexCodeList />
 			<regexCodePropertyList />
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>Schmiedehammer</name>
+				<script>--echo("yo! "..multimatches[2])
+--showMultimatches()
+
+
+if multimatches[3][2] == "blau" then
+  echo("blau")
+  avalonUI.runiInfoBoxModel.HammerCharge = CHARGE_POSITIVE
+elseif multimatches[3][2] == "rot" then
+  echo("rot")
+  avalonUI.runiInfoBoxModel.HammerCharge = CHARGE_NEGATIVE
+end</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>3</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>Mit diesem Schmiedehammer kannst Du Deine Schmiedekunst ausueben. Die</string>
+					<string>Symbole darauf weisen Dich als (Runenmeister|Runenforscher|Grossmeister) in der Runenschmiede aus und</string>
+					<string>glimmen (blau|rot)\.</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>0</integer>
+					<integer>1</integer>
+					<integer>1</integer>
+				</regexCodePropertyList>
+			</Trigger>
 			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-				<name>runtersuche</name>
-				<script></script>
+				<name>Ladungsumkehr</name>
+				<script>if avalonUI.runiInfoBoxModel.HammerCharge == "negativ" then
+  echo("negativ, jetzt postitiv")
+  avalonUI.runiInfoBoxModel.HammerCharge = "positiv"
+  
+else 
+  echo("jetzt negativ")
+  avalonUI.runiInfoBoxModel.HammerCharge = "negativ"
+  
+end</script>
 				<triggerType>0</triggerType>
 				<conditonLineDelta>0</conditonLineDelta>
 				<mStayOpen>0</mStayOpen>
@@ -403,7 +229,7 @@ end</script>
 				<colorTriggerFgColor>#000000</colorTriggerFgColor>
 				<colorTriggerBgColor>#000000</colorTriggerBgColor>
 				<regexCodeList>
-					<string>bba</string>
+					<string>Die Ladung des Schmiedehammers hat sich geaendert.</string>
 				</regexCodeList>
 				<regexCodePropertyList>
 					<integer>0</integer>
@@ -458,6 +284,764 @@ tempTimer(0.2, [[ send(move, true) ]])
 				<integer>1</integer>
 			</regexCodePropertyList>
 		</Trigger>
+		<Trigger isActive="no" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>Prompt</name>
+			<script>echo("prompt gefunden")</script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList>
+				<string></string>
+			</regexCodeList>
+			<regexCodePropertyList>
+				<integer>7</integer>
+			</regexCodePropertyList>
+		</Trigger>
+		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>Infobox</name>
+			<script></script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList />
+			<regexCodePropertyList />
+			<Trigger isActive="no" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>Spielstand</name>
+				<script>--echo("\nGruppenübersicht")</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>^(\+---------------------------------------------------------------------------\+)$</string>
+					<string>^(\+[-+]*\+)$</string>
+					<string>^\|.*\|$</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>1</integer>
+					<integer>1</integer>
+					<integer>1</integer>
+				</regexCodePropertyList>
+			</Trigger>
+			<Trigger isActive="no" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>Gruppenübersicht</name>
+				<script>--echo("\nGruppenübersicht")</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>^(\+---------------------------------------------------------------------------\+)$</string>
+					<string>^(\+[-+]*\+)$</string>
+					<string>^\|.*\|$</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>1</integer>
+					<integer>1</integer>
+					<integer>1</integer>
+				</regexCodePropertyList>
+			</Trigger>
+			<Trigger isActive="no" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>Inventar</name>
+				<script>-- Diese Trigger-Chain versucht das Inventar (i, ausr, inventar, ausruestung) zu finden. Da das Inventar
+-- immer mal wieder anders aussieht, ist das mit einem spezifischeren Trigger kaum zu mache. Deshalb wird
+-- hier ganz simpel einfach alles genommen, was in der Ausgabe erscheint. Aktiviert wird diese Trigger-
+-- Chain durch ein Alias auf die entsprechenden Befehle. Beendet wird die Chain durch den Prompt. Alles
+-- zwischen dem Befehl und dem Prompt sollte somit erfasst werden.
+-- So ein "catch all" kann natürlich auch für praktisch alles andere verwendet werden, und übergangsweise
+-- mache ich das auch. Hier wird also zur Zeit genau so der Spielstand und die Gruppenübersicht getriggert.
+-- Der so erfasste Text wird dann in der InfoBox der Oberfläche ausgegeben.
+--
+--echo("\nInventar")
+-- if not isPrompt() then echo("\n"..getLines(getLineNumber()-1, getLineNumber())[1].."\n") end
+-- if not isPrompt() then addToInfoBoxBuffer(getLines(getLineNumber()-1, getLineNumber())[1]) end
+-- if not isPrompt() then infoBoxBuffer = infoBoxBuffer..(getLines(getLineNumber()-1, getLineNumber())[1]).."\n" end
+
+setTriggerStayOpen("Inventar", 60)
+
+GUIModel.infoBoxBuffer = GUIModel.infoBoxBuffer or ""
+
+if not isPrompt() then
+  GUIModel.infoBoxBuffer = GUIModel.infoBoxBuffer..(getLines(getLineNumber()-1, getLineNumber())[1]).."\n"
+  --infoBoxBuffer = infoBoxBuffer..(getLines(getLineNumber()-1, getLineNumber())[1]).."\n"
+end
+</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>60</conditonLineDelta>
+				<mStayOpen>60</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>^.*$</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>1</integer>
+				</regexCodePropertyList>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>InventarEnde</name>
+					<script>disableTrigger("Inventar")
+--echo(GUIModel.infoBoxBuffer)
+raiseEvent("FlushInfoboxBuffer")
+GUIModel.infoBoxBuffer = ""</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string></string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>7</integer>
+					</regexCodePropertyList>
+				</Trigger>
+			</Trigger>
+		</TriggerGroup>
+		<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>map capture</name>
+			<script>-- ^(\+---*\+)
+-- Kartengröße max laut Spielerbuch 33x17, default 17x9, minimum vielleicht 9x5 (default-kartengröße für kurzmodus)
+if mapCapture and line:sub(1,1) == '|' and line:sub(mapCaptureLen,mapCaptureLen) == '|' then
+  --table.insert(mapCapture, line:sub(1, mapCaptureLen))
+  selectCurrentLine()
+  copy()
+  smallMap:appendBuffer()
+elseif mapCapture and line:sub(1,1) == '+' and line:sub(mapCaptureLen,mapCaptureLen) == '+' then
+  --table.insert(mapCapture, line:sub(1, mapCaptureLen))
+  selectCurrentLine()
+  copy()
+  smallMap:appendBuffer()
+  mapCaptureLen = nil
+  mapCapture = nil
+elseif not mapCapture and matches[2] ~= nil and matches[2]:len() &gt; 10 and matches[2]:len() &lt; 21 then  -- otherwise it will also trigger on sp etc.
+  mapCaptureLen = matches[2]:len()
+  mapCapture = true
+  smallMap = nil
+  smallMap = Geyser.MiniConsole:new({
+      name = "smallMap", 
+      --x="50%-"..tostring(3*mapCaptureLen).."c", y="50%", 
+      x="15%", y="14%", 
+      width = tostring(mapCaptureLen).."c", height = "11c"
+    },
+    avalonUI.Box41)
+  smallMap:setColor("black")
+  smallMap:setFontSize(10)
+  smallMap:clear()
+  selectCurrentLine()
+  copy()
+  smallMap:appendBuffer()
+end
+--[[
+if mapCaptureLines and mapCaptureLines &gt; 30 then
+  --print("case 1")
+  mapCapture = nil
+  mapCaptureLines = nil
+  mapCaptureLen = nil
+elseif mapCapture and line:sub(1,1) == '|' and line:sub(mapCaptureLen,mapCaptureLen) == '|' then
+  --print("case 2")
+  mapCaptureLines = mapCaptureLines + 1
+  selectCurrentLine()
+  copy()
+  smallMap:appendBuffer()
+elseif mapCapture and line:sub(1,1) == '+' and line:sub(mapCaptureLen,mapCaptureLen) == '+'  then
+  --print("case 3")
+  mapCaptureLines = nil
+  selectCurrentLine()
+  copy()
+  smallMap:appendBuffer()
+  mapCaptureLen = nil
+  mapCapture = nil
+elseif not mapCapture and matches[2]:len() &gt; 10 and matches[2]:len() &lt; 21 then  -- otherwise it will also trigger on sp etc.
+  --print("case 4")
+  mapCaptureLines = 1
+  mapCaptureLen = matches[2]:len()
+  mapCapture = true
+  smallMap = Geyser.MiniConsole:new({
+      name = "smallMap", 
+      x="10%", y="30%", 
+      width = tostring(mapCaptureLen).."c", height = "13c"
+    },
+    avalonUI.Box4a)
+  smallMap:setFontSize(11)
+  smallMap:setColor("black")
+  smallMap:clear()
+  selectCurrentLine()
+  copy()
+  smallMap:appendBuffer()
+end
+--]]</script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList>
+				<string>^(\+---*\+)</string>
+				<string>|</string>
+			</regexCodeList>
+			<regexCodePropertyList>
+				<integer>1</integer>
+				<integer>2</integer>
+			</regexCodePropertyList>
+		</Trigger>
+		<TriggerGroup isActive="no" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>Krankheiten-Vergiftungen-Flüche</name>
+			<script></script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList />
+			<regexCodePropertyList />
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>KrankheitenOneLiner</name>
+				<script>--[[
+Hier einzeilige Texte, die eine Krankheit bzw. einen Fluch auslösen oder anzeigen.
+Mehrzeilige Texte, die innerhalb einer Textzeile eindeutig sind, können hier auch
+rein. Dann halt die eindeutige Zeile nehmen, den Rest nicht. 
+
+Zu viel Maalkraut:
+Uiii, da geht etwas herum in Deinem Bauch. Vielleicht solltest Du nicht so
+viele Pflanzen auf einmal essen.
+
+Dein Bauch fuehlt sich ganz hart und steif an.
+Du spuerst, wie Gase schmerzhaft von einer Darmwindung zur naechsten
+kriechen.
+Dein Bauch fuehlt sich hohl und aufgeblasen an.
+
+Urgs, sind das Magenkraempfe?
+
+]]
+</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#000000</mFgColor>
+				<mBgColor>#ffaa00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>Uiii, da geht etwas herum in Deinem Bauch. Vielleicht solltest Du nicht so</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>0</integer>
+				</regexCodePropertyList>
+			</Trigger>
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>VergiftungenOneLiner</name>
+				<script>--[[
+Hier einzeilige Texte, die eine Krankheit bzw. einen Fluch auslösen oder anzeigen.
+Mehrzeilige Texte, die innerhalb einer Textzeile eindeutig sind, können hier auch
+rein. Dann halt die eindeutige Zeile nehmen, den Rest nicht. Beispiel Skorpion:
+Der Skorpion schnellt seinen Stachel nach vorn und rammt ihn Dir tief ins
+Fleisch.
+
+Du hast das Gefuehl, als wenn Du Dich zersetzen wuerdest. Zum Glueck ist
+dem nicht so, aber Dein Herz rast trotzdem.
+
+]]</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#000000</mFgColor>
+				<mBgColor>#ffaa00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>Dicke Schweissperlen bilden sich auf Deiner Stirn.</string>
+					<string>Heftige Hitzewellen durchdringen Deinen Koerper.</string>
+					<string>Irgendwie bist Du krank.</string>
+					<string>Der Skorpion schnellt seinen Stachel nach vorn und rammt ihn Dir tief ins</string>
+					<string>Du hast das Gefuehl, als wenn Du Dich zersetzen wuerdest. Zum Glueck ist</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>0</integer>
+					<integer>0</integer>
+					<integer>0</integer>
+					<integer>0</integer>
+					<integer>0</integer>
+				</regexCodePropertyList>
+			</Trigger>
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>FlücheOneLiner</name>
+				<script>--[[
+Hier einzeilige Texte, die eine Krankheit bzw. einen Fluch auslösen oder anzeigen.
+Mehrzeilige Texte, die innerhalb einer Textzeile eindeutig sind, können hier auch
+rein. Dann halt die eindeutige Zeile nehmen, den Rest nicht. Beispiel Skorpion:
+Der Skorpion schnellt seinen Stachel nach vorn und rammt ihn Dir tief ins
+Fleisch.
+
+Du hast das Gefuehl, als wenn Du Dich zersetzen wuerdest. Zum Glueck ist
+dem nicht so, aber Dein Herz rast trotzdem.
+
+Müllberg Miobaas:
+Du hast auf einmal Visionen von riesigen Muellbergen, die Dich zu
+verschuetten drohen.
+
+]]</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#000000</mFgColor>
+				<mBgColor>#ffaa00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>Dicke Schweissperlen bilden sich auf Deiner Stirn.</string>
+					<string>Heftige Hitzewellen durchdringen Deinen Koerper.</string>
+					<string>Irgendwie bist Du krank.</string>
+					<string>Der Skorpion schnellt seinen Stachel nach vorn und rammt ihn Dir tief ins</string>
+					<string>Du hast das Gefuehl, als wenn Du Dich zersetzen wuerdest. Zum Glueck ist</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>0</integer>
+					<integer>0</integer>
+					<integer>0</integer>
+					<integer>0</integer>
+					<integer>0</integer>
+				</regexCodePropertyList>
+			</Trigger>
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>RecoveryOneLiner</name>
+				<script>--[[
+Hier einzeilige Texte, die das Ende eines Fluches oder einer Krankheit anzeigen.
+Wenn innerhalb von zweit- bzw. mehrzeiligen Texten eine Zeile sehr eindeutig ist,
+dann kann das hier auch rein. Dann halt nur die eindeutige Zeile hier aufnehmen,
+den Rest nicht.
+]]</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>Der Fluch scheint von Dir gewichen zu sein.</string>
+					<string>hat Dich entflucht.</string>
+					<string>Du spuerst, wie eine grosse Last von Dir faellt.</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>0</integer>
+					<integer>0</integer>
+					<integer>0</integer>
+				</regexCodePropertyList>
+			</Trigger>
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>QuellwasserAbgefülltFluch</name>
+				<script></script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>2</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>^Puuuah, das Wasser schmeckt unangenehm schal und brackig. Ein unangenehmes$</string>
+					<string>^Gefuehl ueberkommt Dich \.\.\.$</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>1</integer>
+					<integer>1</integer>
+				</regexCodePropertyList>
+			</Trigger>
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>HeilungQuelleKrankheit</name>
+				<script>--[[
+Das Quellwasser scheint wirkliche Wunder vollbringen zu koennen, Dein Fluch
+ist voellig verschwunden!
+Das Quellwasser scheint wirkliche Wunder vollbringen zu koennen, Deine
+Krankheit ist voellig verschwunden!
+
+]]</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>2</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>Das Quellwasser scheint wirkliche Wunder vollbringen zu koennen, Deine</string>
+					<string>Krankheit ist voellig verschwunden!</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>0</integer>
+					<integer>0</integer>
+				</regexCodePropertyList>
+			</Trigger>
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>HeilungQuelleVergiftung</name>
+				<script>--[[
+Das Quellwasser scheint wirkliche Wunder vollbringen zu koennen, Dein Fluch
+ist voellig verschwunden!
+
+
+]]</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>2</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>Das Quellwasser scheint wirkliche Wunder vollbringen zu koennen, Deine</string>
+					<string>Vergiftung ist voellig verschwunden!</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>0</integer>
+					<integer>0</integer>
+				</regexCodePropertyList>
+			</Trigger>
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>HeilungQuelleFluch</name>
+				<script></script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>2</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>Das Quellwasser scheint wirkliche Wunder vollbringen zu koennen, Dein Fluch</string>
+					<string>ist voellig verschwunden!</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>0</integer>
+					<integer>0</integer>
+				</regexCodePropertyList>
+			</Trigger>
+		</TriggerGroup>
+		<Trigger isActive="no" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>IngameMapStart</name>
+			<script>-- ^(\+---*\+)
+-- ^(\+[-]{9,33}\+)
+--[[
+   Shalabar redet zu Dir:  probier mal den Regex: ^(\| ?.+\|)( .+)?&amp; in dem
+        hast du in der ersten Gruppe die Map und die 2. Gruppe ist optional
+        und matched bis zum Ende
+   Shalabar redet zu Dir:  probier mal den Regex: ^(\|.+\|)( .+)?&amp; ... sorry
+        ... der ist kuerzer
+           Shalabar redet zu Dir:  fuer die erste Zeile wuerde ich den hier nehmen:
+        ^(\+-+\+)(.+)?&amp;
+        
+   Shalabar redet zu Dir: twx ich fasse nochmal zusammen fuer die erste und
+        letzte zeile:  ^(\+-+\+)(.+)?Dollarzeichen und fuer die anderen:
+        ^(\|.+\|)(.+)?Dollarzeichen. Vielleicht hat TWX ja noch einen besseren
+        Vorschlag
+   Shalabar redet zu Dir: ich fasse nochmal zusammen fuer die erste und letzte
+        zeile:  ^(\+-+\+)(.+)?Dollarzeichen und fuer die anderen:
+        ^(\|.+\|)(.+)?Dollarzeichen. Vielleicht hat TWX ja noch einen besseren
+        Vorschlag
+ 
+]]
+
+-- Kartengröße max laut Spielerbuch 33x17, default 17x9, minimum vielleicht 9x5 (default-kartengröße für kurzmodus)
+setTriggerStayOpen("IngameMapStart", 10)
+
+-- ^(\+---*\+)
+-- Kartengröße max laut Spielerbuch 33x17, default 17x9, minimum vielleicht 9x5 (default-kartengröße für kurzmodus)
+if mapCapture and line:sub(1,1) == '|' and line:sub(mapCaptureLen,mapCaptureLen) == '|' then
+  --table.insert(mapCapture, line:sub(1, mapCaptureLen))
+  selectCurrentLine()
+  copy()
+  smallMap:appendBuffer()
+elseif mapCapture and line:sub(1,1) == '+' and line:sub(mapCaptureLen,mapCaptureLen) == '+' then
+  --table.insert(mapCapture, line:sub(1, mapCaptureLen))
+  selectCurrentLine()
+  copy()
+  smallMap:appendBuffer()
+  mapCaptureLen = nil
+  mapCapture = nil
+elseif not mapCapture and matches[2]:len() &gt; 10 and matches[2]:len() &lt; 21 then  -- otherwise it will also trigger on sp etc.
+  mapCaptureLen = matches[2]:len()
+  mapCapture = true
+  smallMap = Geyser.MiniConsole:new({
+      name = "smallMap", 
+      --x="50%-"..tostring(3*mapCaptureLen).."c", y="50%", 
+      x="10%", y="10%", 
+      width = tostring(mapCaptureLen).."c", height = "12c"
+    },
+    avalonUI.Box41)
+  smallMap:setColor("black")
+  smallMap:setFontSize(11)
+  smallMap:clear()
+  selectCurrentLine()
+  copy()
+  smallMap:appendBuffer()
+end
+--[[
+if mapCaptureLines and mapCaptureLines &gt; 30 then
+  --print("case 1")
+  mapCapture = nil
+  mapCaptureLines = nil
+  mapCaptureLen = nil
+elseif mapCapture and line:sub(1,1) == '|' and line:sub(mapCaptureLen,mapCaptureLen) == '|' then
+  --print("case 2")
+  mapCaptureLines = mapCaptureLines + 1
+  selectCurrentLine()
+  copy()
+  smallMap:appendBuffer()
+elseif mapCapture and line:sub(1,1) == '+' and line:sub(mapCaptureLen,mapCaptureLen) == '+'  then
+  --print("case 3")
+  mapCaptureLines = nil
+  selectCurrentLine()
+  copy()
+  smallMap:appendBuffer()
+  mapCaptureLen = nil
+  mapCapture = nil
+elseif not mapCapture and matches[2]:len() &gt; 10 and matches[2]:len() &lt; 21 then  -- otherwise it will also trigger on sp etc.
+  --print("case 4")
+  mapCaptureLines = 1
+  mapCaptureLen = matches[2]:len()
+  mapCapture = true
+  smallMap = Geyser.MiniConsole:new({
+      name = "smallMap", 
+      x="10%", y="30%", 
+      width = tostring(mapCaptureLen).."c", height = "13c"
+    },
+    avalonUI.Box4a)
+  smallMap:setFontSize(11)
+  smallMap:setColor("black")
+  smallMap:clear()
+  selectCurrentLine()
+  copy()
+  smallMap:appendBuffer()
+end
+--]]</script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>2</conditonLineDelta>
+			<mStayOpen>9</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList>
+				<string>^(\+[-]{9,33}\+)</string>
+			</regexCodeList>
+			<regexCodePropertyList>
+				<integer>1</integer>
+			</regexCodePropertyList>
+			<Trigger isActive="no" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>IngameMapKarte</name>
+				<script>--^\|.*\|[^\|]{0,}$
+
+-- ^(\+---*\+)
+-- Kartengröße max laut Spielerbuch 33x17, default 17x9, minimum vielleicht 9x5 (default-kartengröße für kurzmodus)
+if mapCapture and line:sub(1,1) == '|' and line:sub(mapCaptureLen,mapCaptureLen) == '|' then
+  --table.insert(mapCapture, line:sub(1, mapCaptureLen))
+  selectCurrentLine()
+  copy()
+  smallMap:appendBuffer()
+elseif mapCapture and line:sub(1,1) == '+' and line:sub(mapCaptureLen,mapCaptureLen) == '+' then
+  --table.insert(mapCapture, line:sub(1, mapCaptureLen))
+  selectCurrentLine()
+  copy()
+  smallMap:appendBuffer()
+  mapCaptureLen = nil
+  mapCapture = nil
+elseif not mapCapture and matches[2]:len() &gt; 10 and matches[2]:len() &lt; 21 then  -- otherwise it will also trigger on sp etc.
+  mapCaptureLen = matches[2]:len()
+  mapCapture = true
+  smallMap = Geyser.MiniConsole:new({
+      name = "smallMap", 
+      --x="50%-"..tostring(3*mapCaptureLen).."c", y="50%", 
+      x="10%", y="10%", 
+      width = tostring(mapCaptureLen).."c", height = "12c"
+    },
+    avalonUI.Box41)
+  smallMap:setColor("black")
+  smallMap:setFontSize(11)
+  smallMap:clear()
+  selectCurrentLine()
+  copy()
+  smallMap:appendBuffer()
+end
+--[[
+if mapCaptureLines and mapCaptureLines &gt; 30 then
+  --print("case 1")
+  mapCapture = nil
+  mapCaptureLines = nil
+  mapCaptureLen = nil
+elseif mapCapture and line:sub(1,1) == '|' and line:sub(mapCaptureLen,mapCaptureLen) == '|' then
+  --print("case 2")
+  mapCaptureLines = mapCaptureLines + 1
+  selectCurrentLine()
+  copy()
+  smallMap:appendBuffer()
+elseif mapCapture and line:sub(1,1) == '+' and line:sub(mapCaptureLen,mapCaptureLen) == '+'  then
+  --print("case 3")
+  mapCaptureLines = nil
+  selectCurrentLine()
+  copy()
+  smallMap:appendBuffer()
+  mapCaptureLen = nil
+  mapCapture = nil
+elseif not mapCapture and matches[2]:len() &gt; 10 and matches[2]:len() &lt; 21 then  -- otherwise it will also trigger on sp etc.
+  --print("case 4")
+  mapCaptureLines = 1
+  mapCaptureLen = matches[2]:len()
+  mapCapture = true
+  smallMap = Geyser.MiniConsole:new({
+      name = "smallMap", 
+      x="10%", y="30%", 
+      width = tostring(mapCaptureLen).."c", height = "13c"
+    },
+    avalonUI.Box4a)
+  smallMap:setFontSize(11)
+  smallMap:setColor("black")
+  smallMap:clear()
+  selectCurrentLine()
+  copy()
+  smallMap:appendBuffer()
+end
+--]]</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>^\|[^\|]{9,33}\|</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>1</integer>
+				</regexCodePropertyList>
+			</Trigger>
+		</Trigger>
+		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>Statistics</name>
+			<script></script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList />
+			<regexCodePropertyList />
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>BonusStundenEPZaehler</name>
+				<script>if matches[1] == "Du bekommst nun eine Zeit lang erhoehte Erfahrung." then
+
+  player.bonusEP = 0
+  avalonUI.refreshCounter()
+
+elseif matches[2] == "ausserordentliche" then
+
+  local ep = nil
+  
+  ep = tonumber(matches[3])
+  player.bonusEP = tonumber(player.bonusEP) + ep
+  avalonUI.refreshCounter()
+end
+</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>Du bekommst nun eine Zeit lang erhoehte Erfahrung.</string>
+					<string>Du erhaeltst (ausserordentliche) ([0-9]+) Erfahrungspunkte\.</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>0</integer>
+					<integer>1</integer>
+				</regexCodePropertyList>
+			</Trigger>
+		</TriggerGroup>
 	</TriggerPackage>
 	<TimerPackage>
 		<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
@@ -473,20 +1057,55 @@ avalonUI.refreshTimer()</script>
 			<time>00:00:01.000</time>
 		</Timer>
 		<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+			<name>DateTime</name>
+			<script>--avalonUI.getAvalonTime()
+avalonUI.Box42:echo(avalonUI.getAvalonTime())</script>
+			<command></command>
+			<packageName></packageName>
+			<time>00:00:01.000</time>
+		</Timer>
+		<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
 			<name>ATCP-Update</name>
 			<script>-- ATCP-Update
 -- Manche Informationen werden von ATCP nicht automatisch verschickt. Beispielsweise
 -- werden der Hunger- und der Durst-Status nicht aktualisiert, wenn der Char isst
 -- oder trinkt. Und die Anzeige des Alters auf der Oberfläche ist natürlich auch nicht
--- aktuell. Ich setz hier deshalb mal alle 15 Sekunden eine manuelle aktualisierung. 
+-- aktuell. Ich setz hier deshalb mal alle 5 Sekunden eine manuelle Aktualisierung. 
 -- Mal sehen, ob sich das bewährt.
 _ = sendATCP("ava_req_update")</script>
 			<command></command>
 			<packageName></packageName>
-			<time>00:00:15.000</time>
+			<time>00:00:05.000</time>
 		</Timer>
 	</TimerPackage>
 	<AliasPackage>
+		<Alias isActive="no" isFolder="no">
+			<name>Umlauts</name>
+			<script>--[[
+-- Hier werden Umlaute und sz in der Benutzereingabe durch die
+-- entsprechende Umschreibung ersetzt.
+-- Credits to Heiko im Mudlet-Forum
+-- https://forums.mudlet.org/viewtopic.php?t=234
+
+command = string.gsub(command, 'ü', 'ue' );
+command = string.gsub(command, 'ö', 'oe' );
+command = string.gsub(command, 'ä', 'ae' );
+command = string.gsub(command, 'Ä', 'Ae' );
+command = string.gsub(command, 'Ö', 'Oe' );
+command = string.gsub(command, 'Ü', 'Ue' );
+command = string.gsub(command, 'ß', 'ss' );
+
+--send( command );
+-- Hier wird noch geprüft, ob die Eingabe nach dem Umbau vielleicht
+-- auf irgendeine anderes Alias passt. Wenn nicht, wird command an
+-- das Mud geschickt. Wenn doch, übernimmt das andere Alias.
+expandAlias(command,false)
+
+]]</script>
+			<command></command>
+			<packageName></packageName>
+			<regex>ü|ö|ä|Ü|Ö|Ä|ß</regex>
+		</Alias>
 		<Alias isActive="yes" isFolder="no">
 			<name>ausloggen</name>
 			<script>-- logout
@@ -494,7 +1113,7 @@ _ = sendATCP("ava_req_update")</script>
 -- Charakter richtig ausloggt. Aber NICHT, wenn er Statue wird.
 -- Der hier ausgelöste Event räumt dann hauptsächlich Daten ab, damit
 -- die nächste Session sauber beginnt. (Session-EP, Chat-Tabs)
-send(matches[1])
+send(matches[1],false)
 raiseEvent("logoutEvent")
 </script>
 			<command></command>
@@ -506,11 +1125,112 @@ raiseEvent("logoutEvent")
 			<script>-- Laufrichtung
 -- Hier wollte ich sicherlich dafür sorgen, dass die Laufrichtung auch dann erfasst wird,
 -- wenn der Spieler tatsächlich das Laufen richtig austippt. TODO
-send(matches[1])
+mapCapture=nil
+send(matches[1],false)
 </script>
 			<command></command>
 			<packageName></packageName>
-			<regex>^(norden|sueden|osten|westen|nordost|suedost|suedwest|nordwest|nordosten|suedosten|suedwesten|nordwesten)$</regex>
+			<regex>^(n|norden|s|sueden|o|osten|w|westen|no|nordost|so|suedost|sw|suedwest|nw|nordwest|no|nordosten|so|suedosten|sw|suedwesten|nw|nordwesten)$</regex>
+		</Alias>
+		<AliasGroup isActive="yes" isFolder="yes">
+			<name>Infobox</name>
+			<script></script>
+			<command></command>
+			<packageName></packageName>
+			<regex></regex>
+			<Alias isActive="yes" isFolder="no">
+				<name>TEST ruebersicht</name>
+				<script>-- TODO: Das hier ist nur zum testen gewesen und sollte gar nicht in einem Release auftauchen.
+if player.name == "rofhessa" then
+  avalonUI.ruebersichtTEST()
+else
+  send("ruebersicht")
+end</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^ruebersicht$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>InfoboxDefault</name>
+				<script>--Infobox auf Default stellen
+if GUIModel.infoBoxTempTimerID ~= nil then killTimer(GUIModel.infoBoxTempTimerID) end
+GUIModel.infoBoxTempTimerID=nil
+raiseEvent("RefreshInfobox")
+</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^cinfo$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Gruppenübersicht</name>
+				<script>--tempTrigger auf ^+---------------...-------------+$, und dann bis zum Prompt
+--ausleiten in info-bereich (gruppeninformation)
+--^(g|gruppe) (info|gesundheit|tp|einst|einstellungen|sonst|sonstiges)
+
+enableTrigger("Inventar")
+
+--setTriggerStayOpen("Parent trigger name", 0)
+
+send(matches[1],false)
+</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(g(ruppe)?( (info|gesundheit|tp|einst|einstellungen|sonst|sonstiges))?)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Spielstand</name>
+				<script>--tempTrigger auf ^+---------------...-------------+$, und dann bis zum Prompt
+--ausleiten in info-bereich (gruppeninformation)
+
+enableTrigger("Inventar")
+
+--setTriggerStayOpen("Parent trigger name", 0)
+
+send(matches[1],false)
+</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(sp|spielstand|info)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Ausruestung</name>
+				<script>--tempTrigger auf ^+---------------...-------------+$, und dann bis zum Prompt
+--ausleiten in info-bereich (gruppeninformation)
+
+enableTrigger("Inventar")
+
+--setTriggerStayOpen("Parent trigger name", 0)
+
+send(matches[1],false)
+</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(inventar|ausruestung|ausr|i|inv)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Kampfaufbau</name>
+				<script>--tempTrigger auf ^+---------------...-------------+$, und dann bis zum Prompt
+--ausleiten in info-bereich (gruppeninformation)
+
+enableTrigger("Inventar")
+
+--setTriggerStayOpen("Parent trigger name", 0)
+
+send(matches[1],false)
+</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^(kampfaufbau)$</regex>
+			</Alias>
+		</AliasGroup>
+		<Alias isActive="yes" isFolder="no">
+			<name>schau</name>
+			<script>sendATCP("ava_req_iid", "hier")
+send(matches[1],false)
+</script>
+			<command></command>
+			<packageName></packageName>
+			<regex>^(b|betrachte|betrachten|schau)$</regex>
 		</Alias>
 	</AliasPackage>
 	<ActionPackage />
@@ -574,7 +1294,7 @@ function avalonUI.loadCharacterFileFromDisk(charName)
   
   -- Hier werden Leerzeichen im Pfad mit einem "\" maskiert, um Probleme unter
   -- Linux zu beheben. Scheint zu funktionieren. Alternativ müsste man das mit
-  -- Anführungszeichen um den Pfad rum lösen.
+  -- Anführungszeichen um den Pfad rum loesen.
   if _sep == "/" then string.gsub(characterFilePath, " ", "\ ") end
   
   if io.exists(characterFilePath) then
@@ -703,7 +1423,7 @@ function avalonUI.onKeyPadEvent(eventName,key)--,tDirections)
   tDirections = {"sw","s","so","w","sc","o","nw","n","no","h","r","rein","raus"}
   player.lastMove = tDirections[key]
   --tPlayer.sLastMoveDirection=tDirections[key]
-  
+  mapCapture=nil
   local str = ""
   if key &gt; 0 and key &lt; 10 and key ~= 5 then
     str = string.trim(player.motion .. " " .. player.lastMove)
@@ -724,7 +1444,15 @@ registerAnonymousEventHandler("keyPadEvent", "avalonUI.onKeyPadEvent")
 -- angemeldet), ...
 function avalonUI.onSysConnectionEvent()
   debugc("function onSysConnectionEvent()")
-  return  
+
+  -- check if UTF-8 is available:
+  if table.contains(getServerEncodingsList(), "UTF-8") then
+    if getServerEncoding() == "ASCII" then
+      setServerEncoding("UTF-8")
+      print("ServerEncoding auf UTF-8 gesetzt!")
+    end
+  end
+  
 end
 registerAnonymousEventHandler("sysConnectionEvent", "avalonUI.onSysConnectionEvent")
 
@@ -889,7 +1617,8 @@ registerAnonymousEventHandler("sysUninstall", "avalonUI.onSysUninstall")
 
 -- sysInstallPackage - Standard-Event von Mudlet
 -- Avalet funktioniert nicht, wenn es als Paket installiert wird - nur als Modul!
--- Deshalb hier die Fehlermeldung
+-- Deshalb hier die Fehlermeldung. Aus gutem Grund nenne ich diesen Dialog den
+-- "Dubhe-Dialog".
 function avalonUI.onSysInstallPackage(_, name)
   debugc("function onSysInstallPackage()")
   -- Erstmal prüfen, ob es Avalet ist, was da installiert wurde:
@@ -972,8 +1701,8 @@ GUIframe.defaults =
     bottomStartHeight = 50,
     resizeHeight = 30,
     resizeWidth = 30,
-    resizeHoverImage = "/imgs/blue_arrows.png",
-    resizeRestImage = "/imgs/blue_arrows_20t.png",
+    resizeHoverImage = "/Avalet/imgs/blue_arrows.png",
+    resizeRestImage = "/Avalet/imgs/blue_arrows_20t.png",
     borderOffset = 5,
   }
 GUIframe.windows = GUIframe.windows or {}
@@ -1213,6 +1942,7 @@ local function config()
     not (io.exists(path .. configs.resizeHoverImage) and io.exists(path .. configs.resizeRestImage))
   then
     debugc("GUIframe: config: resize image(s) not found")
+    echo("GUIframe: config: resize image(s) not found".."\n"..path.."\n"..configs.resizeRestImage.."\n")
     path = "255,20,147,"
     style = "background-color: rgba(%s%s);"
     no_image = true
@@ -2372,6 +3102,15 @@ function thousands(n)
   local left,num,right = string.match(n,'^([^%d]*%d)(%d*)(.-)$')
   return left..(num:reverse():gsub('(%d%d%d)','%1\.'):reverse())..right
 end
+
+function resizeEvent( event, x, y )
+  echo("RESIZE EVENT: event="..event.." x="..x.." y="..y.."\n")
+end
+
+function resizeEvent( event, x, y, windowname )
+  echo("RESIZE EVENT: event="..event.." x="..x.." y="..y.." windowname="..windowname.."\n")
+end
+
 </script>
 				<eventHandlerList />
 			</Script>
@@ -2453,6 +3192,13 @@ avalonUI.CSS.base = CSSMan.new([[
   
 ]])
   
+avalonUI.CSS.frameworkTabs = CSSMan.new([[
+  display:none;
+  visibility: hidden;
+  margin: 0pt;
+  
+]])
+  
  -- CSS Boxes
 avalonUI.CSS.boxCSS = CSSMan.new([[
 	background-color: rgba(0,0,0,100);
@@ -2491,8 +3237,9 @@ avalonUI.CSS.tabElementCenterCSS = CSSMan.new([[
 ]])
 
 -- Now we create the windows that appear when each tab is clicked. Each window has two labels, one atop the other. The first, which we'll create here, has rounded edges on its bottom. 
+--	background-color: rgb(20,0,20);
 avalonUI.CSS.tabElementAtopCSS = CSSMan.new([[
-	background-color: rgb(20,0,20);
+	background-color: rgb(0,0,0);
 	border-bottom-left-radius: 10px;
 	border-bottom-right-radius: 10px;
 ]])
@@ -2510,37 +3257,28 @@ avalonUI.CSS.tabElementCenterTabCSS = CSSMan.new([[
 --background-color: ]]..menu.color1..[[;
 --background-color: rgb(20,0,20);
 avalonUI.CSS.MenuTabCSS = CSSMan.new([[
-	background-color: rgb(20,0,20);
-	border-style: solid;
-	border-width: 1px;
-	border-radius: 10px;
-	border-color: white;
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
+	background-color: rgb(0,0,0);
+  border: 1px solid white;
+  border-radius: 10px;
 	margin-right: 1px;
 	margin-left: 1px;
 ]])
-
+--purple
+--	border-radius: 10px;
 avalonUI.CSS.MenuTabCurrentCSS = CSSMan.new([[
-	background-color: purple;
-	border-style: solid;
-	border-width: 1px;
-	border-radius: 10px;
-	border-color: white;
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
+	background-color: rgba(52,128,23,255);
+  color: black;
+  font: bold;
+  border: 2px solid white;
+  border-radius: 10px;
 	margin-right: 1px;
 	margin-left: 1px;
 ]])
-
+--rgb(50,0,50);
 avalonUI.CSS.MenuTabMarkedCSS = CSSMan.new([[
-	background-color: rgb(50,0,50);
-	border-style: solid;
-	border-width: 1px;
-	border-radius: 10px;
-	border-color: white;
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
+	background-color: rgba(52,128,23,120);
+  border: 1px solid white;
+  border-radius: 10px;
 	margin-right: 1px;
 	margin-left: 1px;
 ]])
@@ -2574,6 +3312,64 @@ avalonUI.CSS.counterCSS = CSSMan.new([[
 	border-color: black;
 	font: TypeWriter;
 	margin: 5px;
+]])
+
+-- CSS Hunger-/Durst-/Alk-Anzeige ------------------------------
+
+avalonUI.CSS.HDACSS = CSSMan.new([[
+	background-color: rgb(0,0,0);
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 2px;
+	border-color: white;
+	margin-right: 1px;
+	margin-left: 1px;
+]])
+
+avalonUI.CSS.HDAGreenCSS = CSSMan.new([[
+	background-color: rgb(0,255,0);
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 10px;
+	border-color: white;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	margin-right: 1px;
+	margin-left: 1px;
+]])
+
+avalonUI.CSS.HDAYellowCSS = CSSMan.new([[
+	background-color: rgb(255,255,0);
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 10px;
+	border-color: white;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	margin-right: 1px;
+	margin-left: 1px;
+]])
+
+avalonUI.CSS.HDARedCSS = CSSMan.new([[
+	background-color: rgb(255,0,0);
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 10px;
+	border-color: white;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	margin-right: 1px;
+	margin-left: 1px;
+]])
+
+avalonUI.CSS.HDABlankCSS = CSSMan.new([[
+	background-color: rgb(0,0,0);
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 2px;
+	border-color: white;
+	margin-right: 1px;
+	margin-left: 1px;
 ]])
 
 -- CSS Gauges --------------------------------------------------
@@ -2625,6 +3421,7 @@ function avalonUI.initCharacter()
   
   character.name = ""           -- ATCP: AvalonName
   character.vollername = ""     -- ATCP: AvalonVollName
+  character.nation = ""           -- wird zwar nicht direkt per atcp übertragen, lässt sich aber aus den kanälen ermitteln
   character.alter = ""          -- ATCP: AvalonAlter
   character.gilde = ""          -- ATCP: AvalonGilde
   character.zuenfte = ""        -- ATCP: AvalonZuenfte
@@ -2636,13 +3433,17 @@ function avalonUI.initCharacter()
   character.durst = ""          -- ATCP: AvalonDurst
 
   character.alk = ""          -- wird leider nicht übertragen
+  character.hangover = false
+  character.fluch = 0          -- wird leider nicht übertragen
+  character.krankheit = 0          -- wird leider nicht übertragen
+  character.vergiftung = 0          -- wird leider nicht übertragen
   --
   character.hoehe = ""          -- ATCP: AvalonHoehe
   character.flucht = ""         -- ATCP: AvalonFlucht
   character.schutz = ""         -- ATCP: AvalonSchutz
   character.gruppenname = ""    -- ATCP: AvalonGruppe
   character.zaubern = 0         -- ATCP: AvalonZaubern
-  character.kampf = 0           -- ATCP: AvalonKampf
+  character.kampf = "0"           -- ATCP: AvalonKampf
   character.angegriffen = ""    -- ATCP: AvalonAngegriffen
   character.getoetet = ""       -- ATCP: AvalonGetoetet
   character.gruppeGetoetet = "" -- ATCP: AvalonGruppeGetoetet
@@ -2672,6 +3473,10 @@ function avalonUI.initCharacter()
   character.ep_speicher = ""
   
   character.sessionEP = 0
+  
+  character.bonusEP = 0
+  
+  character.schildEP = 0
   
   character.loginIsReconnect = false
   
@@ -2760,6 +3565,7 @@ function avalonUI.initTimer()
     {["name"]="Blaetterhaut", ["start"]="Deine Haut ist nun mit Blaettern bedeckt, die Dir ein angenehmes Klima|Deine Holzhaut ist nun mit Blaettern bedeckt, die Dir ein angenehmes Klima", ["stop"]="Deine Blaetterhaut loest sich auf\\.", ["duration"]="600"},  
     {["name"]="Blutrausch", ["start"]="Du laesst einen fuerchterlichen Urschrei von Dir. Es scheint so, als .*", ["stop"]="Die roetlichen Manawolken loesen sich auf\\.", ["duration"]="600"},
     {["name"]="Daemonenhaut", ["start"]="Du bist nun vollkommen in eine Daemonenhaut eingehuellt\\.", ["stop"]="Deine Daemonenhaut loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Daemonenschwert", ["start"]="Vorsichtig streifst Du mit Deiner Hand ueber \\w+ \\w+\\.", ["stop"]="Dein \\w+ verliert seine magische Kraft\\.", ["duration"]="600"},
     {["name"]="Erdaura", ["start"]="Du hebst Deine Haende, beschreibst einen Halbkreis.*|Die Partikel verdichten sich um Dich\\.", ["stop"]="Dein Staubschleier loest sich auf\\.", ["duration"]="600"},
     {["name"]="EP-Verdoppelung", ["start"]="^Du bekommst nun eine Zeit lang erhoehte Erfahrung\\.$", ["stop"]="", ["duration"]="3600"},
     {["name"]="Feueraura", ["start"]="Du senkst Deine Haende, aber der Schutz der Manawolken.*", ["stop"]="Deine Feueraura loest sich auf\\.", ["duration"]="600"},
@@ -2785,7 +3591,7 @@ function avalonUI.initTimer()
     {["name"]="Schild", ["start"]="Du wirst von einem magischen Schild umgeben\\.",["stop"]="Dein magischer Schild loest sich auf\\.", ["duration"]="600"},
     {["name"]="Schwarzschild", ["start"]="Du wirst von einem magischen Schild umgeben, der Dich besser parieren",["stop"]="Dein Schwarzschild loest sich auf\\.", ["duration"]="600"},
     {["name"]="Segen", ["start"]="^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-Za-z\\s]+) beginnt\\, schwach zu( leuchten\\.)?", ["stop"]="(Dein|Deine)([a-z ,]*)([A-z\\s]+) verliert .* magische Kraft.", ["duration"]="600"},
-    {["name"]="Steinhaut", ["start"]="Du bist nun vollkommen in eine Steinhaut eingehuellt, .*",["stop"]=".*Du befreist Dich von Deiner Steinhaut.*|.*Deine Steinhaut loest sich auf.*|Das hat Deiner Steinhaut den letzten Rest gegeben, sie loest sich auf\\."},
+    {["name"]="Steinhaut", ["start"]="Du bist nun vollkommen in eine Steinhaut eingehuellt, .*",["stop"]=".*Du befreist Dich von Deiner Steinhaut.*|.*Deine Steinhaut loest sich auf.*|Das hat Deiner Steinhaut den letzten Rest gegeben, sie loest sich auf\\.", ["duration"]="1800"},
     {["name"]="Sternenstaub", ["start"]="Du wirst von Sternenstaub umgeben\\.",["stop"]="Dein Sternenstaub loest sich auf\\.", ["duration"]="600"},
     {["name"]="Todesaura", ["start"]="Du senkst Deine Haende, aber der Schutz der schwarzen Schleier.*|Die schwarzen Schleier verdichten sich um Dich\\.",["stop"]="Deine Todesaura loest sich auf\\.", ["duration"]="600"},
     {["name"]="Todkonvertieren", ["start"]="Du wirst von einem heiligen Schutz umgeben\\.", ["stop"]="Dein heiliger Schutz loest sich auf\\.", ["duration"]="600"},
@@ -3066,46 +3872,54 @@ avalonUI.settings.GUIframe = {
 			<packageName></packageName>
 			<script>local mainW, mainH = getMainWindowSize()
 local tabSheet = table.deepcopy(avalonUI.CSS.base)
-tabSheet.stylesheet.margin = nil
---tabSheet:set("margin-right", "1px")
---tabSheet:set("margin-left", "1px")
---tabSheet:set("border-width", "2px")
-----tabSheet:set("display", "none")
-----tabSheet:set("visibility", "hidden")
 
---	background-color: rgba(0,0,0,100);
---	border-style: solid;
---	border-width: 1px;
---	border-radius: 10px;
---	border-color: white;
---	font: TypeWriter;
---	margin: 10px;
-tabSheet:set("background-color", "rgba(0,0,0,100)")
-tabSheet:set("border-style", "solid")
-tabSheet:set("border-width", "1px")
-tabSheet:set("border-radius", "10px")
-tabSheet:set("border-color", "white")
-tabSheet:set("font", "TypeWriter")
-tabSheet:set("margin-left", "10px")
-tabSheet:set("margin-right", "10px")
-tabSheet:set("width", "98%")
-tabSheet:set("height", "20px")
-
+--tabSheet.stylesheet.margin = nil
+--tabSheet:set("background-color", "rgba(0,0,0,100)")
+--tabSheet:set("border-style", "solid")
+--tabSheet:set("border-width", "1px")
+--tabSheet:set("border-radius", "10px")
+--tabSheet:set("border-color", "white")
+--tabSheet:set("font", "TypeWriter")
+--tabSheet:set("margin-left", "10px")
+--tabSheet:set("margin-right", "10px")
+--tabSheet:set("width", "98%")
+--tabSheet:set("height", "20px")
 
 GUIframe.configs = {
-    tabHeight = 20,
+    tabHeight = 0,--20,
     tabStyle = tabSheet:getCSS(),
     tabEchoStyle = '&lt;center&gt;&lt;p style="font-size:13px; color:LightYellow"&gt;',
     leftStartWidth = math.floor(mainW * 0.16),       --math.floor(mainW / 6.8),
-    leftStartHeight = math.floor(mainH / 2.5),        --math.floor(mainH / 3),
-    rightStartWidth = math.floor(mainW * 0.35),        --math.floor(mainW / 3),
+    leftStartHeight = math.floor(mainH / 2.0),        --math.floor(mainH / 3),2.5
+    rightStartWidth = math.floor(mainW * 0.38),        --math.floor(mainW / 3),
     rightStartHeight = math.floor(mainH / 2),    --math.floor(mainH * 0.42),
     topStartHeight = 60,   --30
     bottomStartHeight = 0, --65
-    resizeHoverImage = "/imgs/blue_arrows.png",
-    resizeRestImage = "/imgs/blue_arrows_20t.png",
+    resizeHoverImage = "/Avalet/imgs/blue_arrows.png",
+    resizeRestImage = "/Avalet/imgs/blue_arrows_20t.png",
     borderOffset = 0,
 }</script>
+			<eventHandlerList />
+		</Script>
+		<Script isActive="yes" isFolder="no">
+			<name>LagCoefficient</name>
+			<packageName></packageName>
+			<script>-- Avalet misst an verschiedenen Stellen die Antwortzeiten vom Mud
+-- und errechnet daraus den "Lag-Koeffizienten".
+-- Das ist nur so mittel ernst gemeint. Aber wer weiss, vielleicht
+-- taugt es ja. Irgendwann.
+
+--[[
+Die Idee ist, an unterschiedlichen Stellen Antwortzeiten vom MUD zu messen. Und
+dann die Werte der einzelnen Stellen zu verdichten und auszuwerten. 
+Derzeitiger Plan: Der Mittelwert aus den fünf(?) kleinsten Werten bildet die Basis.
+Und die letzen 50(?) Werte werden dann für den Koeffizienten herangezogen. 
+Dabei müsste dann noch unterschieden werden, wie die Situation über eine gewisse Zeit
+ist. Meint: Kommen immer mehrere gute Werte und dann aber ein oder zwei schlechte?
+Oder sind die Werte insgesamt alle nicht so super? Oder immer abwechselnd oder so?
+Man muss da also auch irgendwie die Verteilung über die Zeit sehen.
+Heisst aber auch: es muss zu jedem Messwert ein Zeitwert gespeichert sein.
+]]</script>
 			<eventHandlerList />
 		</Script>
 		<Script isActive="yes" isFolder="no">
@@ -3357,6 +4171,8 @@ function avalonUI.createCounterModel()
   avalonUI.listOfCounter = {
     [1] = {["Name"]="EP", ["Groesse"]="EP", ["Basis"] = "EP", ["Basiswert"] = 0},
     [2] = {["Name"]="Session-EP", ["Groesse"]="EP", ["Basis"] = "Session", ["Basiswert"] = 0},
+    [3] = {["Name"]="Bonusstunden-EP", ["Groesse"]="EP", ["Basis"] = "Bonusstunde", ["Basiswert"] = 0},
+    [4] = {["Name"]="Schildzauber", ["Groesse"]="EP", ["Basis"] = "Schildzauber", ["Basiswert"] = 0},
   }
   
 end
@@ -3367,7 +4183,7 @@ function avalonUI.recreateCounter()
   
   -- Alle Counter unsichtbar machen und Beschriftung löschen. Es gibt
   -- 6 Label-Elemente für Counter auf der Oberfläche, also (max) 6 Timer:
-  for k = 1, 6, 1 do
+  for k = 1, 4, 1 do
     avalonUI["Counter"..k]:hide()
     avalonUI["Counter"..k]:echo("")
   end
@@ -3387,6 +4203,8 @@ function avalonUI.refreshCounter()
     --avalonUI["Counter"..k]:echo("&lt;b&gt;&amp;nbsp;"..v["Name"]..": " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "&lt;/b&gt;")
     if k == 1 then avalonUI["Counter"..k]:echo("&lt;b&gt;" .. v["Name"] ..":&lt;/b&gt;" .. thousands(tonumber(player.ep))) end
     if k == 2 then avalonUI["Counter"..k]:echo("&lt;b&gt;".. v["Name"] ..":&lt;/b&gt; " .. thousands(tonumber(player.ep) - tonumber(player.sessionEP))) end
+    if k == 3 then avalonUI["Counter"..k]:echo("&lt;b&gt;".. v["Name"] ..":&lt;/b&gt; " .. thousands(tonumber(player.bonusEP))) end
+    if k == 4 then avalonUI["Counter"..k]:echo("&lt;b&gt;".. v["Name"] ..":&lt;/b&gt; " .. thousands(tonumber(player.schildEP))) end
   end
 end
 
@@ -3415,40 +4233,79 @@ registerAnonymousEventHandler("AvalonEP", "avalonUI.updateSessionEP")</script>
 				<name>createInfoScreenModel</name>
 				<packageName></packageName>
 				<script>-----------------------------------------------------
--- Charakter-Informationen rechts oben (Infobox)
+-- Infobox rechts oben
 -----------------------------------------------------
+--[[
+Die Infobox ist für Informationen, die der Spieler sich vielleicht etwas länger ansehen will als das im
+(Kampf-)Scroll möglich ist. Dazu gehören zunächst Spielstand, Inventar und die Gruppeninformationen, außerdem
+die Ausgabe von "ruebersicht" der Runenschmiede. Weiter sind natürlich denkbar und könnten dann auch
+leicht hinzugefügt werden.
+Die Default-Anzeige mit den Charakterinformationen war ursprünglich nur eine Übergangslösung, bis der
+Info-Bereich richtig Implementiert ist. Die Werte in dieser Default-Anzeige haben allerdings die Eigenschaft,
+dass sie per ATCP gesendet werden und deshalb aktualisierbar sind. Im Gegensatz zum Spielstand beispielsweise,
+der eben nur eine Momentaufnahme ist und dann altert.
+
+
+In der Infobox werden Informationen angezeigt, die wichtig sind und nicht im Scroll untergehen sollen.
+Dazu gehören Spielstand, Inventar, Gruppeninformationen und die Ausgabe von "ruebersicht" der Runenschmiede.
+Die Idee ist, dass das Spiel ja weiterhin im Hauptfenster stattfindet. Und das diese ganzen Informationen
+ja auch altern. Es bringt also nichts, beispielsweise den Spielstand längere Zeit im Info-Bereich anzuzeigen.
+Jedenfalls nicht, wenn die dort gezeigten Informationen nicht auch (automatisch) aktualisiert werden können.
+Der Spieler muss also immer wieder diese Informationen abrufen und sollte auch nicht den Eindruck gewinnen,
+dass Avalet ihm einen aktuellen Zustand anzeigen kann. (Also außer eben in dem Moment, wo die Information durch
+den Spieler von Server abgerufen wird.) Deshalb werden die Informationen nur eine Zeit lang angezeigt. Und 
+nach Ablauf dieser Zeit wieder durch den Default-Text ersetzt. Außer der Spieler ruft in dieser Zeit andere
+Informationen ab, die in der Infobox angezeigt werden. Dann werden diese an die alten Daten angehängt und der
+Timer, der auf die Default-Anzeige zurückschaltet, wird zurückgesetzt.
+
+]]
+
 
 function avalonUI.createInfoScreenModel()
   GUIModel.infobox = "\nWarte auf Daten..."
+  GUIModel.infoBoxDefault = ""
+  GUIModel.infoBoxBuffer = ""
+  GUIModel.infoBoxTempTimerID = nil
 end
 
 
 
-function avalonUI.updateInfoBox()
-	GUIModel.infobox = "\n"
-	if avalonUI ~= nil then 
-		clearWindow("Infobox") 
-	end
+function avalonUI.writeBufferToInfoBox(text)
+
+end --avalonUI.writeBufferToInfoBox(text)
+
+
+function avalonUI.updateInfoBoxDefault()
+
+  local content = ""
+	GUIModel.infoBoxDefault = "\n"
+--	if avalonUI ~= nil then 
+--		clearWindow("Infobox") 
+--	end
 	if player.vollername == nil then 
 		return
 	end
 	if string.len(player.vollername) ~= 0 then
-		GUIModel.infobox = GUIModel.infobox .. "In Avalon bist Du bekannt als\n\n" .. player.vollername .. "\n\n"
+		content = content .. "&lt;b&gt;&lt;white&gt;In Avalon bist Du bekannt als\n\n" .. player.vollername .. "&lt;/b&gt;\n\n"
+    if player.nation ~= nil and player.nation ~= "" then
+ 				content = content .. "Du stammst aus dem Volk der "..player.nation..".\n"
+    end
+
 		if string.len(player.gilde) ~= 0 then
 			if player.gilde == "keine" then
-				GUIModel.infobox = GUIModel.infobox .. "Du bist noch in keiner Gilde.\n"
+				content = content .. "Du bist noch in keiner Gilde.\n"
 			else
 				if player.gilde == "Druiden" then
-					GUIModel.infobox = GUIModel.infobox .. "Du bist in der " .. player.gilde .. "gilde.\n"
+					content = content .. "Du bist in der " .. player.gilde .. "gilde.\n"
 				elseif player.gilde == "Magier" then
-					GUIModel.infobox = GUIModel.infobox .. "Du bist in der " .. player.gilde .. "gilde.\n"
+					content = content .. "Du bist in der " .. player.gilde .. "gilde.\n"
 				else
-					GUIModel.infobox = GUIModel.infobox .. "Du bist in der Gilde der " .. player.gilde .. ".\n"
+					content = content .. "Du bist in der Gilde der " .. player.gilde .. ".\n"
 				end
 			end
 		end
 		if string.len(player.zuenfte) == 0 then
-			GUIModel.infobox = GUIModel.infobox .. "Du uebst noch keine Berufe aus.\n"
+			content = content .. "Du uebst noch keine Berufe aus.\n"
 		else
 			local zuenfte = {}
 			for i in string.gmatch(player.zuenfte, "%w+") do
@@ -3465,7 +4322,7 @@ function avalonUI.updateInfoBox()
 				end
 			end
 			
-			GUIModel.infobox = GUIModel.infobox .. "Du gehoerst den Zuenften " .. str .. " an.\n"
+			content = content .. "Du gehoerst den Zuenften " .. str .. " an.\n"
 			--GUIModel.infobox = GUIModel.infobox .. "Deine Berufe sind: " .. player.zuenfte .. ".\n"
 		end
   if string.len(player.alter) ~= 0 then
@@ -3510,69 +4367,452 @@ function avalonUI.updateInfoBox()
     
     str = tage .. " " .. stunden .. " und " .. minuten
     
-    GUIModel.infobox = GUIModel.infobox .. "Du bist etwa " .. str .. " alt.\n"
+    content = content .. "Du bist etwa " .. str .. " alt.\n"
     --GUIModel.infobox = GUIModel.infobox .. "Du bist " .. player.alter .. " alt\n"
   end
 		if string.len(player.portfolio) ~= 0 then
 			if (player.portfolio ~= "keines") then
 				if player.portfolio == player.name then
-					GUIModel.infobox = GUIModel.infobox .. "Du bist Erstie in Deinem Portfolio.\n\n"
+					content = content .. "Du bist Erstie in Deinem Portfolio.\n\n"
 				else
-					GUIModel.infobox = GUIModel.infobox .. "Du bist Zweitie im Portfolio von " .. string.title(player.portfolio) .. ".\n\n"
+					content = content .. "Du bist Zweitie im Portfolio von " .. string.title(player.portfolio) .. ".\n\n"
 				end
 			end
 		end
 		if string.len(player.level) ~= 0 then
-			GUIModel.infobox = GUIModel.infobox .. "Du bist Level " .. player.level .. "\n"
+			content = content .. "Du bist Level " .. player.level .. "\n"
 		end
 --		if string.len(player.ep) ~= 0 then
 --			GUIModel.infobox = GUIModel.infobox .. "Dafür hast du bisher " .. player.ep .. " Erfahrungspunkte gesammelt.\n\n"
 --		end
 		if string.len(player.gesinnung) ~= 0 then
-			GUIModel.infobox = GUIModel.infobox .. "\nDeine Gesinnung ist " .. player.gesinnung .. ".\n"
+			content = content .. "\nDeine Gesinnung ist " .. player.gesinnung .. ".\n\n"
 		end
-		if string.len(player.hunger) ~= 0 then
-			GUIModel.infobox = GUIModel.infobox .. "Hunger: " .. player.hunger .. "\n"
-		end
-		if string.len(player.durst) ~= 0 then
-			GUIModel.infobox = GUIModel.infobox .. "Durst: " .. player.durst .. "\n"
-		end
-		if string.len(player.durst) ~= 0 then
-			GUIModel.infobox = GUIModel.infobox .. "Alkohol: " .. player.alk .. "\n"
-		end
+--		if string.len(player.hunger) ~= 0 then
+--			content = content .. "Hunger:  " .. player.hunger .. "\n"
+--		end
+--		if string.len(player.durst) ~= 0 then
+--			content = content .. "Durst:   " .. player.durst .. "\n"
+--		end
+--		if string.len(player.durst) ~= 0 then
+--			content = content .. "Alkohol: " .. player.alk .. "\n"
+--		end
 --    if player.schutz ~= nil then
 --      GUIModel.infobox = GUIModel.infobox .. "\nSchutz: " .. player.schutz .. "\n"
 --    end
-    if player.istDunkel == "1" then
-      GUIModel.infobox = GUIModel.infobox .. "\nAufenthaltsort: &lt;zu dunkel&gt;\n"
-    else
-      GUIModel.infobox = GUIModel.infobox .. "\nAufenthaltsort: " .. player.avalonRoomID .. "\n"
+--    if player.istDunkel == "1" then
+--      GUIModel.infobox = GUIModel.infobox .. "\nAufenthaltsort: &lt;zu dunkel&gt;\n"
+--    else
+--      GUIModel.infobox = GUIModel.infobox .. "\nAufenthaltsort: " .. player.avalonRoomID .. "\n"
+--    end
+    --GUIModel.infobox = GUIModel.infobox .. "\nAvalon-Zeit: " .. avalonUI.getAvalonTime() .. "\n"
+    
+    
+   -- content = content .. "-- \n\n"
+    
+    
+    if avalonUI.counter ~= nil then 
+
+      for k, v in pairs(avalonUI.listOfCounter) do
+
+        if k == 1 then content = content .. "&lt;b&gt;" .. v["Name"] ..":&lt;/b&gt;              " .. thousands(tonumber(player.ep)) .. "\n" end
+        if k == 2 then content = content .. "&lt;b&gt;" .. v["Name"] ..":&lt;/b&gt;      " .. thousands(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n" end
+        if k == 3 then content = content .. "&lt;b&gt;" .. v["Name"] ..":&lt;/b&gt; " .. thousands(tonumber(player.bonusEP)) .. "\n" end
+        --if k == 4 then content = content .. "&lt;b&gt;" .. v["Name"] ..":&lt;/b&gt;    " .. thousands(tonumber(player.schildEP)) .. "\n" end
+        if k == 4 then content = content .. "&lt;b&gt;" .. v["Name"] ..":&lt;/b&gt;    n/a\n" end
+      end
     end
-    GUIModel.infobox = GUIModel.infobox .. "\nAvalon-Zeit: " .. avalonUI.getAvalonTime() .. "\n"
+    
+    content = content .. "&lt;b&gt;Lag-Koeffizient:&lt;/b&gt; n/a\n"
+    
+    content = content .. "\n(Diese Anzeige aufrufen mit 'cinfo')"
+    
 	else
 		debugc("\nKeine Player-Daten vorhanden!\n")
-		GUIModel.infobox = "\nWarte auf Daten...\n"
+		content = "\nWarte auf Daten...\n"
 	end
-end -- function avalonUI.updateInfoBox()
+  
+  GUIModel.infoBoxDefault = content
+  
+end -- function avalonUI.updateInfoBoxDefault()
 
 
-
+-- Diese Funktion wird immer ausgeführt, wenn per ATCP Daten eintreffen, die in der Infobox
+-- im Defaulttext angezeigt werden.
 function avalonUI.onRefreshInfobox(event, args)
--- Diese Funktion kann aufgerufen werden, obwohl noch
+-- Es kann passieren, dass diese Funktion aufgerufen wird, obwohl noch
 -- kein Player-Objekt besteht. (Also obwohl der Player-Name noch nicht
 -- per ATCP eingetroffen ist. Workaround: auf player.name testen.)
   if player.name ~= "" then
     -- Ich hab vergessen, warum ich das hier für nötig hielt... Auskommentiert deshalb      
     --writeDataToFS(characterFilePath, player, "w")
-    avalonUI.updateInfoBox()
-    --avalonUI.infobox:echo(args)
-    avalonUI.infobox:echo(GUIModel.infobox)
+    -- Hier wird der Text für die Info-Box auf den aktuellen Stand gebracht:
+    avalonUI.updateInfoBoxDefault()
+
+    --avalonUI.infoScreen:echo(args)
+    if GUIModel.infoBoxTempTimerID == nil then
+      clearWindow("Infobox") 
+      showWindow("Infobox")
+      if avalonUI.runiInfoBox then
+        avalonUI.runiInfoBox:hide()
+      end
+      avalonUI.infoScreen:cecho(GUIModel.infoBoxDefault)
+    end
     --avalonUI.Health:setValue(tonumber(args[1]), tonumber(args[2]), "&lt;b&gt;" .. args[1] .. "/" .. args[2] .. "&lt;/b&gt;")
   end
 end
 registerAnonymousEventHandler("RefreshInfobox", "avalonUI.onRefreshInfobox")
---raiseEvent("RefreshCharacterVollername", ???)
+--raiseEvent("RefreshInfobox", ???)
 
+function avalonUI.onFlushInfoboxBuffer(event, args)
+
+  -- Buffer in die Info-Box schreiben
+  clearWindow("Infobox")
+    showWindow("Infobox")
+    if avalonUI.runiInfoBox ~= nil then
+      avalonUI.runiInfoBox:hide()
+    end
+  avalonUI.infoScreen:cecho("&lt;white&gt;"..GUIModel.infoBoxBuffer.."\n")
+  -- Buffer leeren
+  GUIModel.infoBoxBuffer = ""
+  -- Timer setzen, der nach 15 Sekunden wieder default herstellt
+  -- Timer muss zurückgesetzt werden, wenn vor Ablauf dieser Zeit der Buffer wieder in die InfoBox geschrieben wird
+  if GUIModel.infoBoxTempTimerID ~= nil then
+    killTimer(GUIModel.infoBoxTempTimerID)
+    --GUIModel.infoBoxTempTimerID=nil;
+  end
+  GUIModel.infoBoxTempTimerID = tempTimer(15, function() GUIModel.infoBoxTempTimerID=nil; raiseEvent("RefreshInfobox") end, false)
+
+end
+registerAnonymousEventHandler("FlushInfoboxBuffer", "avalonUI.onFlushInfoboxBuffer")
+--raiseEvent("FlushInfoboxBuffer", ???)
+
+function avalonUI.showInfoBoxDefault()
+
+end
+
+function avalonUI.showInfoBoxRuni()
+
+end
+
+function avalonUI.showInfoBoxInfo()
+
+end
+
+</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>createGuildInfoBoxModel</name>
+				<packageName></packageName>
+				<script>function avalonUI.createGuildInfoBoxModel()
+
+  GUIModel.guildInfoBoxModel = GUIModel.guildInfoBoxModel or {}
+  
+  avalonUI.infoScreenVisibility = infoScreenVisibility or true
+
+
+  --if player.gilde == "Runenschmiede" then
+    --avalonUI.createRuniInfoBoxModel()
+  --  avalonUI.test()
+  --else
+  --  
+  --end
+
+end
+
+function avalonUI.ruebersichtTEST()
+
+  local ITEM = { "Langschwert", "Grossschild", "Helm", "Panzer", "Handschuhe", "Stiefel" }
+  local RUNE_STATE = { "noch sehr gut", "noch gut", "noch ganz gut", "noch ausreichend", "kaum noch" }
+  local ITEM_STATE = { "nicht", "sehr leicht", "leicht", "recht", "schwer", "sehr schwer" }
+  local RUNE_CHARGE = { "positiv", "negativ", "neutral" } --Reihenfolge nicht verändern!
+--math.random(1,6)
+
+  local function getRunes()
+    local str = ""
+
+    str = str .. '"Rune1":{"zustand":"'.. RUNE_STATE[math.random(1,5)] ..'","ladung":"'.. RUNE_CHARGE[math.random(1,3)] ..'","name":"Rune1"}, '
+    str = str .. '"Rune2":{"zustand":"'.. RUNE_STATE[math.random(1,5)] ..'","ladung":"'.. RUNE_CHARGE[math.random(1,3)] ..'","name":"Rune2"}, '
+    str = str .. '"Rune3":{"zustand":"'.. RUNE_STATE[math.random(1,5)] ..'","ladung":"'.. RUNE_CHARGE[math.random(1,3)] ..'","name":"Rune3"}, '
+    str = str .. '"Rune4":{"zustand":"'.. RUNE_STATE[math.random(1,5)] ..'","ladung":"'.. RUNE_CHARGE[math.random(1,3)] ..'","name":"Rune4"}, '
+    str = str .. '"Rune5":{"zustand":"'.. RUNE_STATE[math.random(1,5)] ..'","ladung":"'.. RUNE_CHARGE[math.random(1,3)] ..'","name":"Rune5"}, '
+    str = str .. '"Rune6":{"zustand":"'.. RUNE_STATE[math.random(1,5)] ..'","ladung":"'.. RUNE_CHARGE[math.random(1,3)] ..'","name":"Rune6"}, '
+    str = str .. '"Rune7":{"zustand":"'.. RUNE_STATE[math.random(1,5)] ..'","ladung":"'.. RUNE_CHARGE[math.random(1,3)] ..'","name":"Rune7"}, '
+    str = str .. '"Rune8":{"zustand":"'.. RUNE_STATE[math.random(1,5)] ..'","ladung":"'.. RUNE_CHARGE[math.random(1,3)] ..'","name":"Rune8"}'
+
+    return str
+  end
+
+  ----jsonFormattedGuildInfo = '[{"typ":["Waffe"],"zustand":"nicht","runen":{"Zielrune":{"zustand":"noch sehr gut","ladung":"negativ","name":"Zielrune"},"Paraderune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Paraderune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Machtrune":{"zustand":"noch sehr gut","ladung":"negativ","name":"Machtrune"},"Kampfrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Kampfrune"}},"item":"Langschwert"},{"typ":["Waffe"],"zustand":"nicht","runen":{"Zielrune":{"zustand":"noch sehr gut","ladung":"negativ","name":"Zielrune"},"Paraderune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Paraderune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Machtrune":{"zustand":"noch sehr gut","ladung":"negativ","name":"Machtrune"},"Kampfrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Kampfrune"}},"item":"Grossschild"},{"typ":["Koerper"],"zustand":"nicht","runen":{"Schlangenrune":{"zustand":"noch sehr gut","ladung":"negativ","name":"Schlangenrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Panzerrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Panzerrune"},"Sturmrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Sturmrune"}},"item":"Silberpanzer"},{"typ":["Kopf"],"zustand":"nicht","runen":{"Staubrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Staubrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Panzerrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Panzerrune"}},"item":"Helm"},{"typ":["Bein"],"zustand":"nicht","runen":{"Staubrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Staubrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Panzerrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Panzerrune"}},"item":"Paar Stiefel"},{"typ":["Arm"],"zustand":"nicht","runen":{"Staubrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Staubrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Panzerrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Panzerrune"}},"item":"Paar Handschuhe"}]'
+
+  jsonFormattedGuildInfo = ''
+  jsonFormattedGuildInfo = jsonFormattedGuildInfo .. '{"items": ['
+  jsonFormattedGuildInfo = jsonFormattedGuildInfo .. '{"typ":["Waffe"],"zustand":"'.. ITEM_STATE[math.random(1,6)] ..'","runen":{'..getRunes()..'},"item":"Langschwert"}, '
+  jsonFormattedGuildInfo = jsonFormattedGuildInfo .. '{"typ":["Waffe"],"zustand":"'.. ITEM_STATE[math.random(1,6)] ..'","runen":{'..getRunes()..'},"item":"Grossschild"}, '
+  jsonFormattedGuildInfo = jsonFormattedGuildInfo .. '{"typ":["Koerper"],"zustand":"'.. ITEM_STATE[math.random(1,6)] ..'","runen":{'..getRunes()..'},"item":"Silberpanzer"}, '
+  jsonFormattedGuildInfo = jsonFormattedGuildInfo .. '{"typ":["Kopf"],"zustand":"'.. ITEM_STATE[math.random(1,6)] ..'","runen":{'..getRunes()..'},"item":"Helm"}, '
+  jsonFormattedGuildInfo = jsonFormattedGuildInfo .. '{"typ":["Bein"],"zustand":"'.. ITEM_STATE[math.random(1,6)] ..'","runen":{'..getRunes()..'},"item":"Paar Stiefel"}, '
+  jsonFormattedGuildInfo = jsonFormattedGuildInfo .. '{"typ":["Arm"],"zustand":"'.. ITEM_STATE[math.random(1,6)] ..'","runen":{'..getRunes()..'},"item":"Paar Handschuhe"}],'
+  jsonFormattedGuildInfo = jsonFormattedGuildInfo .. '"ladung": "'..RUNE_CHARGE[math.random(1,2)]..'"}'
+
+  --DIESE TESTDATEN ENTSPRECHEN NICHT DEM AKTUELLEN SCHEMA!
+  --jsonFormattedGuildInfo = '[{"typ":["Waffe"],"zustand":"nicht","runen":{"Zielrune":{"zustand":"noch sehr gut","ladung":"negativ","name":"Zielrune"},"Paraderune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Paraderune"},"Todesrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Todesrune"},"Machtrune":{"zustand":"noch sehr gut","ladung":"negativ","name":"Machtrune"},"Kampfrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Kampfrune"}},"item":"Mithrilzweihaender"},{"typ":["Koerper"],"zustand":"nicht","runen":{"Schlangenrune":{"zustand":"noch sehr gut","ladung":"negativ","name":"Schlangenrune"},"Panzerrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Panzerrune"},"Sturmrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Sturmrune"}},"item":"Silberpanzer"},{"typ":["Kopf"],"zustand":"nicht","runen":{"Staubrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Staubrune"},"Panzerrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Panzerrune"}},"item":"Helm"},{"typ":["Bein"],"zustand":"nicht","runen":{"Staubrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Staubrune"},"Panzerrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Panzerrune"}},"item":"Paar Stiefel"},{"typ":["Arm"],"zustand":"nicht","runen":{"Staubrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Staubrune"},"Panzerrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Panzerrune"}},"item":"Paar Handschuhe"}]'
+  --jsonFormattedGuildInfo = '[{"typ":["Waffe"],"zustand":"sehr leicht","runen":{"Flutrune":{"zustand":"noch gut","ladung":"neutral","name":"Flutrune"},"Eilrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Eilrune"}},"item":"Zwergenaxt"},{"typ":["Waffe"],"zustand":"sehr leicht","runen":{"Koboldrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Koboldrune"},"Eilrune":{"zustand":"noch gut","ladung":"neutral","name":"Eilrune"},"Funkenrune":{"zustand":"noch gut","ladung":"neutral","name":"Funkenrune"}},"item":"Zwergenaxt"},{"typ":["Kopf"],"zustand":"sehr leicht","runen":{},"item":"Bergwerkshelm"},{"typ":["Arm","Koerper"],"zustand":"sehr leicht","runen":{"Panzerrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Panzerrune"},"Eisrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Eisrune"}},"item":"Kettenmantel"},{"typ":["Bein"],"zustand":"sehr leicht","runen":{"Staubrune":{"zustand":"noch gut","ladung":"neutral","name":"Staubrune"},"Panzerrune":{"zustand":"noch gut","ladung":"neutral","name":"Panzerrune"}},"item":"Paar Stiefel"}]'
+  --jsonFormattedGuildInfo = '[{"typ":["Waffe"],"zustand":"nicht","runen":{"Schlachtrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Schlachtrune"},"Eilrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Eilrune"}},"item":"Daemonenschwinge"},{"typ":["Arm"],"zustand":"sehr leicht","runen":{"Staubrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Staubrune"},"Panzerrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Panzerrune"}},"item":"Daemonenfaeuste"},{"typ":["Koerper"],"zustand":"sehr leicht","runen":{"Panzerrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Panzerrune"},"Staubrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Staubrune"},"Federrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Federrune"}},"item":"Daemonenpanzer"},{"typ":["Bein"],"zustand":"leicht","runen":{"Staubrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Staubrune"},"Panzerrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Panzerrune"}},"item":"Daemonenstiefel"},{"typ":["Kopf"],"zustand":"sehr leicht","runen":{"Staubrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Staubrune"},"Panzerrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Panzerrune"}},"item":"Daemonenhelm"}]'
+  --jsonFormattedGuildInfo = '[{"typ":["Waffe"],"zustand":"sehr schwer","runen":{"Schlachtrune":{"zustand":"kaum noch","ladung":"neutral","name":"Schlachtrune"},"Eilrune":{"zustand":"noch ausreichend","ladung":"neutral","name":"Eilrune"}},"item":"Daemonenschwinge"},{"typ":["Arm"],"zustand":"schwer","runen":{"Staubrune":{"zustand":"noch ganz gut","ladung":"neutral","name":"Staubrune"},"Panzerrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Panzerrune"}},"item":"Daemonenfaeuste"},{"typ":["Koerper"],"zustand":"recht","runen":{"Panzerrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Panzerrune"},"Staubrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Staubrune"},"Federrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Federrune"}},"item":"Daemonenpanzer"},{"typ":["Bein"],"zustand":"leicht","runen":{"Staubrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Staubrune"},"Panzerrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Panzerrune"}},"item":"Daemonenstiefel"},{"typ":["Kopf"],"zustand":"sehr leicht","runen":{"Staubrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Staubrune"},"Panzerrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Panzerrune"}},"item":"Daemonenhelm"}]'
+  --jsonFormattedGuildInfo = '[{"typ":["Schild"],"zustand":"sehr leicht","runen":{},"item":"Rundschild"},{"typ":["Waffe"],"zustand":"sehr leicht","runen":{"Flutrune":{"zustand":"noch gut","ladung":"neutral","name":"Flutrune"},"Eilrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Eilrune"}},"item":"Zwergenaxt"},{"typ":["Koerper"],"zustand":"sehr leicht","runen":{"Schlangenrune":{"zustand":"noch sehr gut","ladung":"negativ","name":"Schlangenrune"},"Panzerrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Panzerrune"},"Eisrune":{"zustand":"noch sehr gut","ladung":"positiv","name":"Eisrune"}},"item":"Silberharnisch"},{"typ":["Kopf"],"zustand":"sehr leicht","runen":{"Wallrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Wallrune"},"Nebelrune":{"zustand":"noch sehr gut","ladung":"neutral","name":"Nebelrune"}},"item":"Helm"},{"typ":["Bein"],"zustand":"sehr leicht","runen":{"Staubrune":{"zustand":"noch gut","ladung":"neutral","name":"Staubrune"},"Panzerrune":{"zustand":"noch gut","ladung":"neutral","name":"Panzerrune"}},"item":"Paar Stiefel"}]'
+
+  --avalonGildenInfo = {}
+  --avalonGildenInfo = yajl.to_value(jsonFormattedGuildInfo)
+  --avalonUI.createRuniInfoBoxModel(avalonGildenInfo)
+
+  raiseEvent("AvalonGildenInfo", jsonFormattedGuildInfo)
+
+end
+
+-- Hier wird zwischen der Anzeige der "ruebersicht"-Ausgabe und der
+-- normalen InfoBox hin und her geschaltet.
+function avalonUI.toggleInfoScreen()
+
+  if avalonUI.infoScreenVisibility == true then
+
+    avalonUI.infoScreenVisibility = false
+    hideWindow("Infobox")
+    avalonUI.runiInfoBox:show()
+
+  elseif avalonUI.infoScreenVisibility == false then
+
+    avalonUI.infoScreenVisibility = true
+    showWindow("Infobox")
+    avalonUI.runiInfoBox:hide()
+
+  end
+
+end
+
+function avalonUI.showGuildInfoScreen(guildInfoScreenName)
+
+    hideWindow("Infobox")
+    avalonUI.runiInfoBox:show()
+
+end --avalonUI.showGuildInfoScreen(guildInfoScreenName)
+
+function avalonUI.processGuildInfo(arg)
+
+  local avalonGildenInfo = {}
+  local guildInfoScreenName = nil
+  
+  local jsonFormattedGuildInfo = arg
+
+  if (player.gilde == "Runenschmiede") or (player.name == "rofhessa") or (player.name == "groundsel") then
+
+    avalonGildenInfo = yajl.to_value(jsonFormattedGuildInfo)
+    avalonUI.createRuniInfoBoxModel(avalonGildenInfo)
+    GUIModel.runiInfoBoxModel = GUIModel.runiInfoBoxModel or avalonUI.buildRuniInfoScreen()
+    guildInfoScreenName = "GUIModel.runiInfoScreenView"
+
+  else
+    cecho("&lt;magenta&gt;FEHLER: avalonGildenInfo per ATCP erhalten.\n")
+  end
+  
+  --avalonUI.toggleInfoScreen()
+  avalonUI.showGuildInfoScreen(guildInfoScreenName)
+
+  if GUIModel.infoBoxTempTimerID ~= nil then
+  --echo("kill timerID: "..GUIModel.infoBoxTempTimerID.."\n")
+    killTimer(GUIModel.infoBoxTempTimerID)
+    --GUIModel.infoBoxTempTimerID=nil;
+  end
+  GUIModel.infoBoxTempTimerID = tempTimer(30, function() GUIModel.infoBoxTempTimerID=nil; raiseEvent("RefreshInfobox") end, false)
+
+end
+registerAnonymousEventHandler("ProcessGuildInfo", "avalonUI.processGuildInfo")
+
+--createRuniInfoBoxModel
+function avalonUI.createRuniInfoBoxModel(avalonGildenInfo)
+
+  local runiGuildInfo = avalonGildenInfo
+
+  avalonUI.runiInfoBoxModel = avalonUI.runiInfoBoxModel or {}
+
+  local RUNE_NOCH_SEHR_GUT = "noch sehr gut"
+  local RUNE_NOCH_GUT = "noch gut"
+  local RUNE_NOCH_GANZ_GUT = "noch ganz gut"
+  local RUNE_NOCH_AUSREICHEND = "noch ausreichend"
+  local RUNE_KAUM_NOCH = "kaum noch"
+  
+  local RUNE_COLOR = {
+    [RUNE_NOCH_SEHR_GUT]    = "#00ff00",
+    [RUNE_NOCH_GUT]         = "#00ff00",
+    [RUNE_NOCH_GANZ_GUT]    = "#00b300",
+    [RUNE_NOCH_AUSREICHEND] = "#ff3300",
+    [RUNE_KAUM_NOCH]        = "#800000"
+  }
+  
+  local BESCHAEDIGT_NICHT = "nicht"
+  local BESCHAEDIGT_SEHR_LEICHT = "sehr leicht"
+  local BESCHAEDIGT_LEICHT = "leicht"
+  local BESCHAEDIGT_RECHT = "recht"
+  local BESCHAEDIGT_SCHWER = "schwer"
+  local BESCHAEDIGT_SEHR_SCHWER = "sehr schwer"
+  --local BESCHAEDIGT_ZERBROCHEN = ""
+  
+  local ITEM_COLOR = {
+    [BESCHAEDIGT_NICHT]       = "#00ff00",
+    [BESCHAEDIGT_SEHR_LEICHT] = "#00ff00",
+    [BESCHAEDIGT_LEICHT]      = "#00b300",
+    [BESCHAEDIGT_RECHT]       = "#00b300",
+    [BESCHAEDIGT_SCHWER]      = "#ff3300",
+    [BESCHAEDIGT_SEHR_SCHWER] = "#800000"
+  }
+  
+  local ITEM_TYPE_WEAPON = "Waffe"
+  local ITEM_TYPE_SHIELD = "Schild"
+  local ITEM_TYPE_HEAD = "Kopf"
+  local ITEM_TYPE_BODY = "Koerper"
+  local ITEM_TYPE_LEGS = "Bein"
+  local ITEM_TYPE_ARMS = "Arm"
+  
+  local CHARGE_POSITIVE = "positiv"
+  local CHARGE_NEGATIVE = "negativ"
+  local CHARGE_NONE = "neutral"
+  
+  local CHARGE_SYMBOL = {
+    [CHARGE_POSITIVE] = "&amp;#91;&amp;#x2002;&amp;#43;&amp;nbsp;&amp;#93;&amp;nbsp;",   --[ + ]
+    [CHARGE_NEGATIVE] = "&amp;#91;&amp;nbsp;&amp;minus;&amp;nbsp;&amp;#93;&amp;nbsp;",   --[ - ] --&amp;#45;
+    [CHARGE_NONE]     = "&amp;nbsp;"   --"&amp;#91;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#93;&amp;nbsp;"   --[   ]
+  }    
+
+  local objItem = {
+    iName = "",
+    iID = "",
+    iType = "",
+    iState = "",
+    iColor = "",
+    iRunes = {}
+  }
+  
+  local objRune = {
+    rName  = "",
+    rCharge = "",
+    rChargeSymbol = "",
+    rState = "",
+    rColor = ""
+  }
+  
+  GUIModel.guildInfoBoxModel["iWeapon"] = objItem
+  GUIModel.guildInfoBoxModel["iShield"] = objItem
+  GUIModel.guildInfoBoxModel["iHead"]   = objItem
+  GUIModel.guildInfoBoxModel["iBody"]   = objItem
+  GUIModel.guildInfoBoxModel["iLegs"]   = objItem
+  GUIModel.guildInfoBoxModel["iArms"]   = objItem
+
+  avalonUI.runiInfoBoxModel.HammerCharge = avalonUI.runiInfoBoxModel.HammerCharge or CHARGE_POSITIVE
+
+  avalonUI.runiInfoBoxModel.HammerCharge = runiGuildInfo["ladung"]
+
+  local weaponCounter = 0
+  local item = nil
+  local runen = nil
+  local runes_pos = nil
+  local runes_neg = nil
+  local runes_neu = nil
+
+  for _, v in pairs(runiGuildInfo["items"]) do
+
+    for _, w in pairs (v["typ"]) do
+
+      item = {}
+  
+      item.iName = v["item"]
+      item.iID = v["id"]
+      item.iType = w--v["typ"]
+      item.iState = v["zustand"]
+      item.iColor = ITEM_COLOR[v["zustand"]]
+      
+      runen = {}
+      runes_pos = {}
+      runes_neg = {}
+      runes_neu = {}
+
+      for _, x in pairs (v["runen"]) do
+
+        local rune = {}
+        rune.rName = x["name"]
+        rune.rCharge = x["ladung"]
+        rune.rChargeSymbol = CHARGE_SYMBOL[x["ladung"]]
+        rune.rState = x["zustand"]
+        rune.rColor = RUNE_COLOR[x["zustand"]]
+
+        if rune.rCharge == CHARGE_POSITIVE then
+          table.insert(runes_pos, rune)
+        elseif rune.rCharge == CHARGE_NEGATIVE then
+          table.insert(runes_neg, rune)
+        else
+          table.insert(runes_neu, rune)
+        end 
+
+        rune = nil
+        
+      end
+
+      -- Die einzelnen Runen-Listen werden jetzt noch alphabetisch sortiert
+      local sortMyRunes = function(a, b) return a["rName"] &lt; b["rName"] end
+      table.sort(runes_pos, sortMyRunes)
+      table.sort(runes_neg, sortMyRunes)
+      table.sort(runes_neu, sortMyRunes)
+      
+      for _, y in pairs (runes_pos) do
+        table.insert(runen, y)
+      end
+      runes_pos = {}
+      
+      for _, y in pairs (runes_neu) do
+        table.insert(runen, y)
+      end
+      runes_neu = {}
+        
+      for _, y in pairs (runes_neg) do
+        table.insert(runen, y)
+      end
+      runes_neg = {}
+      
+      item.iRunes = runen
+      runen = {}
+
+      if w == ITEM_TYPE_WEAPON then
+
+        if weaponCounter == 0 then
+        
+          GUIModel.guildInfoBoxModel["iWeapon"] = item
+          weaponCounter = 1
+        elseif weaponCounter == 1 then
+          GUIModel.guildInfoBoxModel["iShield"] = item
+          weaponCounter = 2
+        else
+          cecho("&lt;magenta&gt;\nFEHLER in der Funktion avalonUI.createRuniInfoBoxModel() - Waffenzähler ist: "..weaponCounter.."/n")
+        end
+        
+      elseif w == ITEM_TYPE_SHIELD then
+        GUIModel.guildInfoBoxModel["iShield"] = item
+      elseif w == ITEM_TYPE_HEAD then
+        GUIModel.guildInfoBoxModel["iHead"] = item
+      elseif w == ITEM_TYPE_BODY then
+        GUIModel.guildInfoBoxModel["iBody"] = item
+      elseif w == ITEM_TYPE_LEGS then
+        GUIModel.guildInfoBoxModel["iLegs"] = item
+      elseif w == ITEM_TYPE_ARMS then
+        GUIModel.guildInfoBoxModel["iArms"] = item
+      else
+        cecho("&lt;magenta&gt;\nFEHLER in der Funktion avalonUI.createRuniInfoBoxModel() - Gegenstandstyp ist: "..w.."/n")
+      end
+      item = nil
+      item = objItem
+    end
+  end
+ 
+end
 </script>
 				<eventHandlerList />
 			</Script>
@@ -3584,6 +4824,337 @@ registerAnonymousEventHandler("RefreshInfobox", "avalonUI.onRefreshInfobox")
 function avalonUI.createMapperModel()
 
 end
+</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>createAlertsModel</name>
+				<packageName></packageName>
+				<script>-- alertModel
+-- Hier geht es um die Message-Boxen, die halbtransparent über dem Hauptfenster eingeblendet werden.
+-- Diese Boxen sollen wichtige Informationen aus dem Scroll aufnehmen und hervorheben.
+-- Dazu gehören die Informationes-Boxen, die Avalon sendet. Also wenn eine neue Stufe bzw. ein neues
+-- Level erreicht wurde beispielsweise. Dazu gehört aber auch, wenn Ausrüstung kaputt geht oder überhaupt
+-- alle mehr oder weniger dringenden Informationen. Für Runenschmiede werden hier Statusinformationen
+-- zu den Runen hervorgehoben.
+
+-- function avalonUI.createAlertsModel()
+-- Initialisierung von allem hier.
+function avalonUI.createAlertsModel()
+  avalonUI.listOfAlerts = avalonUI.listOfAlerts or {}
+end -- function avalonUI.createAlertModel()
+
+
+function avalonUI.addAlert(name,pic,content,expired)
+  table.insert(avalonUI.listOfAlerts, {["name"] = name, ["pic"] = pic, ["content"] = content, ["starttime"] = os.time(), ["expired"] = expired})
+end
+
+function avalonUI.updateAlert(name,pic,content,expired)
+
+end
+
+
+-- function sortListOfTimers()
+-- Rückgabewert: die sortierte Timer-Liste als Tabelle
+-- Hier wird die Liste mit den Timern vor der Ausgabe nach Laufzeit sortiert. Als erstes kommen dabei die
+-- Timer ohne Laufzeit, also "permantente Timer". Was nicht heißt, dass die länger laufen müssen als die
+-- "temporären Timer". Da die Liste der Timer auf der Oberfläche von UNTEN nach OBEN ausgegeben wird, stehen
+-- die "permanenten Timer" dort also UNTEN!. Auch wenn sie hier die ersten in der sortierten Liste sein werden.
+-- Durch die Sortierung nach Laufzeit ergibt sich bei den temporären Timern manchmal die Situation, dass 
+-- ein weiter oben in der Ansicht stehender Timer (= geringe Restlaufzeit) noch einen längeren Fortschritts-
+-- Balken hat als ein weiter unten stehender (= längere Laufzeit). Beispielsweise wird der Timer für 
+-- "EP-Verdoppelung" mit einer Laufzeit von 1 Stunde und einer Restlaufzeit von 12 Minuten nur noch einen 
+-- sehr kurzen Fortschrittsbalken haben, aber trotzdem noch länger laufen als ein frischer Arkanschild mit 
+-- einer Laufzeit von 10 Minuten maximal. Ich fand das manchmal irritierend und hab überlegt, die Restlaufzeit
+-- mit im Timer anzuzeigen. Aber eigentlich sind mir das zu viele (letztlich überflüssige) Informationen.
+-- Diese Funktion wird jedesmal ausgeführt, wenn das UI-Element für die Timer aktualisiert wird. Also einmal
+-- pro Sekunde derzeit.
+function avalonUI.sortListOfAlerts()
+	-- debugc("func sortListOfTimers()")
+  
+  local sortedListOfTimers = {}
+  local remaining = 0
+  
+  for k, v in pairs(avalonUI.listOfTimers) do
+		
+    -- Wenn die "duration" auf "false" gesetzt ist, dann ist es ein Timer ohne Laufzeit, der die ganze
+    -- Zeit mit vollem Fortschrittsbalken angezeigt wird. Und der durch einen Schluss-Trigger gelöscht
+    -- werden muss. Sonst steht er bis zum Neustart von Mudlet in der Timer-Übersicht. (TODO!)
+    if v["duration"] == "false" then
+      
+      -- Damit das mit dem sortieren der Liste klappt, werden hier etwas willkürlich die Werte für
+      -- remaining und duration gesetzt. Wichtig ist, dass die Zahl größer ist als der am längsten
+      -- laufende temporäre Timer. Das ist im Moment "EP-Verdoppelung" mit 3600 Sekunden.
+      table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = 60000, ["duration"] = 60000})
+
+    -- Wenn "duration" NICHT false ist, ist es ein "temporärer Timer" mit abnehmendem Fortschrittsbalken.
+    else
+      
+      -- Restlaufzeit frisch berechnen
+      remaining = (tonumber(v["duration"]) - ((os.time() - v["starttime"])))
+
+      -- Wenn der Timer aus irgendwelchen Gründen übrig geblieben ist, soll er trotzdem irgendwann 
+      -- gelöscht werden. Gründe könnten sein, dass die Ausgabe des MUDs irgendwie durcheinander geraten
+      -- ist und der Beenden-Trigger deshalb nicht gegriffen hat. Oder ein connection lost oder was auch
+      -- immer. Einen konkreten Grund gab es nicht, das ist eine Vorsichtsmaßnahme.
+      -- Ein temporärer Timer (mit einer Laufzeit) wird also gelöscht, wenn er 30 Sekunden oder mehr über
+      -- seine Laufzeit ist. Unter sehr ungünstigen Umständen (starke lags) kann es sein, dass 30 Sekunden
+      -- nicht reichen. Aber ich glaube, dass das nur extrem selten passieren kann.
+      -- Wenn der aktuelle Timer abgelaufen ist, dann ist der Schleifendurchlauf damit ja auch beendet. 
+      if remaining &lt;= -30 then
+        avalonUI.removeTimer(v["name"])
+      else
+        table.insert(sortedListOfTimers, {["name"] = v["name"], ["remaining"] = remaining, ["duration"] = v["duration"]})
+      end
+    end
+  end
+
+  -- Die fertige Timer-Liste wird jetzt noch nach Laufzeit sortiert
+  local sortMyTimers = function(a, b) return a["remaining"] &gt; b["remaining"] end
+  table.sort(sortedListOfTimers, sortMyTimers)
+
+  return sortedListOfTimers
+
+end --function sortListOfTimers()
+
+
+-- function findTimerByName(name)
+-- Hier wird der KEY des Timers in der Timer-Liste an Hand seines Namens
+-- ermittelt. Wenn kein Timer mit dem Namen zu finden ist, gibt die
+-- Funktion nil zurück.
+function avalonUI.findAlertByName(name)
+	--debugc("findTimerByName\n")
+
+  --[[Wenn der Name bspswse "Erdaura" lautet, dann muss gefunden werden:
+  "Erdaura I", "Erdaura II", "Erdaura III".
+  Analog dazu die anderen Auren. Und Schild I bis V]]
+  
+  --https://stackoverflow.com/questions/29072601/lua-string-gsub-with-a-hyphen
+  --[[
+  local function replace(str, what, with)
+    what = string.gsub(what, "[%(%)%.%+%-%*%?%[%]%^%$%%]", "%%%1") -- escape pattern
+    with = string.gsub(with, "[%%]", "%%%%") -- escape replacement
+    return string.gsub(str, what, with)
+  end
+  
+  result = replace(data, value_1, value_2)
+  result = replace(date, "-", "%-")
+  
+  s = string.gsub("Lua is cute", "cute", "great")
+  
+  lua if string.find("EP-Verdoppelung", "EP%-Verdoppelung") then echo("true") else echo("false") end
+  ]]
+  --[[string.find funktioniert nicht mit Zeichen wie dem Bindestrich. Das führte zu Problemen bei dem 
+  Timer für "EP-Verdoppelung".]]
+  for k, v in pairs(avalonUI.listOfTimers) do
+      ----if v["name"] == name then return k end
+      --if string.find(v["name"], name) then return k end
+      if string.find(v["name"], string.gsub(name, "%-", "%%-")) then return k end
+      
+  end
+  return nil
+end -- function findTimerByName(name)
+
+
+-- Diese Funktion wird von den Triggern verwendet, die einen Timer erzeugen.
+-- Der Timer wird hier der Tabelle "listOfTimer" hinzugefügt, anschließend
+-- wird die Tabelle mit den sortierten Timern neu erzeugt und die Anzeige
+-- auf der Oberfläche aktualisiert.
+function avalonUI.registerAlert(name, duration, param)
+  --debugc("\nregisterTimer\n")
+  param = param or nil
+  if param ~= nil then
+    name = name .. " " .. param
+  end
+  if duration == false or duration == nil then
+    duration = "false"
+  end
+  
+  if name == "Schild" then
+    if string.find(player.schutz, name .. " V") then
+      name = name .. " V"
+    elseif string.find(player.schutz, name .. " IV") then
+      name = name .. " IV"
+    elseif string.find(player.schutz, name .. " III") then
+      name = name .. " III"
+    elseif string.find(player.schutz, name .. " II") then
+      name = name .. " II"
+    elseif string.find(player.schutz, name .. " I") then
+      name = name .. " I"
+      duration = "180"
+    end
+  end
+  
+  if name == "Weissschild" or name == "Schwarzschild" then
+    if string.find(player.schutz, name .. " II") then
+      name = name .. " II"
+    elseif string.find(player.schutz, name .. " I") then
+      name = name .. " I"
+    end
+  end
+  
+  if name == "Erdaura" or name == "Feueraura" or name == "Lebensaura" or name == "Todesaura" or name == "Luftaura" or name == "Wasseraura" then
+    if string.find(player.schutz, name .. " III") then
+      name = name .. " III"
+      duration = "1200"
+    elseif string.find(player.schutz, name .. " II") then
+      name = name .. " II"
+    elseif string.find(player.schutz, name .. " I") then
+      name = name .. " I"
+    end
+  end
+
+  table.insert(avalonUI.listOfTimers, {["name"] = name, ["starttime"] = os.time(), ["duration"] = duration})
+
+  raiseEvent("RecreateTimerView")
+end
+
+
+
+-- function removeTimer("Magiertrance")
+-- Diese Funktion wird aufgerufen, wenn ein Timer gelöscht werden soll. Also wenn er 
+-- abgelaufen ist (bei denen, die von selbst terminieren) oder wenn das Ereignis ausgelöst
+-- wird, das den Timer beendet. (Das ist der häufigere Fall, weil sich die Anzeige da
+-- letztlich nach dem MUD richtet. Wenn das MUD sagt, dass die KB aus ist, dann ist sie aus.
+-- Viele Zauber sind ohnehin nicht sonderlich pünktlich, aber die Laufzeit kann sich auch 
+-- durch lags verlängern. Teilweise ganz erheblich. Das "von selbst terminieren" ist deshalb
+-- eigentlich unglücklich, geht aber manchmal nicht anders. Beispiel dafür ist die 
+-- "EP-Verdoppelung", die vom MUD nicht abgekündigt wird.)
+-- Speziell die Kleriker-Segen machen hier eine Sonderbehandlung notwendig, womit sich der
+-- Parameter "param" begründet. Da diese Segen (Rüstungssegen, Waffensegen und Schildsegen)
+-- die gleichen Texte ausgeben, und der Trigger deshalb nicht erkennen kann, mit welchem 
+-- Zauber er es zu tun hat. Und da aber beim LÖSCHEN des Timers wichtig ist, nicht den falschen
+-- zu löschen. Versucht der Trigger, den GEGENSTAND, auf den Gezaubert wird, aus dem getriggerten
+-- Text auszulesen. Was auch eigentlich ganz gut gelingt, aber nicht immer schick ist. Dieser
+-- Gegenstands-Name wird dann für den Namen des Timers verwendet. Es ergibt sich also sowas wie
+-- "Segen: Langschwert" oder (schlimmstenfalls) "Segen: Paar Echsenlederhandschuhe". Wenn der Timer
+-- dann später gelöscht werden soll, muss das mit diesem Namen geschehen. Und der steht hier im
+-- Parameter "param". Diese Lösung ist nicht schön, und wenn die Götter mein flehentliches Bitten
+-- erhören, bekommt Avalet hoffentlich künftig den Zauber per ATCP. Aber erstmal ist es jetzt so.
+function avalonUI.removeAlert(name)
+  -- debugc("removeTimer\n")
+
+  key = avalonUI.findTimerByName(name)
+  if key ~= nil then
+    table.remove(avalonUI.listOfTimers, key)
+  end
+  
+  -- Die Anzeige auf der Oberfläche erneuern:
+  raiseEvent("RecreateTimerView")
+end --function removeTimer(name)
+
+
+function avalonUI.deregisterAlert(name, param)
+  -- Der Parameter "param" ist optional und wird hier deshalb erstmal zuverlässig gemacht.
+  -- Wenn ein param gegeben ist, wird er zum Teil des Namens.
+  param = param or nil
+  if param ~= nil then
+    name = name .. " " .. param
+  end
+
+  avalonUI.removeTimer(name)
+  raiseEvent("RecreateTimerView")
+end
+
+
+-- function recreateTimer()
+-- Diese Funktion baut die Timer-Anzeige auf der Oberfläche neu auf. Das heißt,
+-- sie macht erstmal alle Timer-Gauges unsichtbar, bevor sie die Funktion aufruft,
+-- die neue Timer macht ("refreshTimer()"). Der Sinn ist, dass nicht bei jeder
+-- Aktualisierung der Timer-Gauges diese erstmal unsichtbar gemacht werden. Nötig
+-- ist das ja nur, wenn sich die Anzahl der Timer verändert.
+function avalonUI.recreateAlerts()
+	--debugc("func recreateTimer\n")
+  
+  -- Alle Timer unsichtbar machen und Beschriftung löschen. Es gibt
+  -- 9 Gauge-Elemente auf der Oberfläche, also (max) 9 Timer:
+  for k = 1, 9, 1 do
+    hideWindow("avalonUI.Timer"..k.."_front")
+    hideWindow("avalonUI.Timer"..k.."_back")	
+    avalonUI["Timer"..k]:setText ("")
+  end
+
+  -- Timer-Anzeige neu aufbauen:
+  avalonUI.refreshTimer()
+end --function recreateTimer()
+
+
+-- function refreshTimer()
+-- Wird durch den Sekunden-Timer direkt aufgerufen
+-- Wird bei anderen Gelegenheiten indirekt über "recreateTimer()" aufgerufen.
+-- Diese Funktion aktualisiert die Anzeige der Timer auf der Oberfläche bzw.
+-- sie sorgt überhaupt für eine Anzeige von Timern auf der Oberfläche.
+-- Wenn sich die Anzahl der anzuzeigenden Timer nicht ändernt, müssen die Gauge-
+-- Elemente vorher nicht unsichtbar gemacht werden. Wenn sich die Anzahl ändert,
+-- wird "recreateTimer()" ausgeführt (und von dort dann diese Funktion).
+function avalonUI.refreshAlerts()
+	--debugc("func refreshTimer\n")
+
+  -- gleich wieder aussteigen, wenn es gar keine Timer gibt:
+  -- Hintergrund: bei einem Disconnect ist manchmal der TriggerTimer aktiv
+  -- geblieben. Nach dem reconnect ist allerdings die Timer-Liste leer,
+  -- so dass der Timer läuft, aber nichts angezeigt wird. Besser wäre
+  -- vermutlich, die Timer vernünftig zu inititalisieren, also ggf. auch
+  -- Timer weiterlaufen zu lassen. (EP-Verdoppelung war es hier, vielleicht
+  -- weil der Timer nicht durch einen Trigger beendet wird.) TODO
+  if #avalonUI.listOfTimers == nil or #avalonUI.listOfTimers == 0 then
+      disableTimer("avaletTimersTimer")
+  end
+  
+  -- Erstmal die Timer-Liste sortieren lassen:
+	local sortedListOfTimers = avalonUI.sortListOfTimers()
+
+	local timerSchriftfarbe = "white"
+  
+  for k, v in pairs(sortedListOfTimers) do
+    showWindow("avalonUI.Timer"..k.."_front")
+    showWindow("avalonUI.Timer"..k.."_back")		
+    -- Der Wert des Gauge-Elements, das die Restzeit anzeigt, darf
+    -- nicht kleiner als 1 werden, sonst kommt die Anzeige durcheinander.
+    -- Außerdem wird die Schriftfarbe verändert:
+    -- "fuchsia" für 0 Sekunden Restlaufzeit und alles drüber hinaus.
+    -- "rot" für 30 bis 1 Sekunde Restlaufzeit.
+    -- "gelb" für 60 bis 30 Sekunden Restlaufzeit.
+    -- "weiß" immer sonst
+    if v["remaining"] &lt; 1 then
+      v["remaining"] = 1
+      timerSchriftfarbe="fuchsia"
+    elseif v["remaining"] &lt; 30 then
+      timerSchriftfarbe="red"
+    elseif v["remaining"] &lt; 60 then
+      timerSchriftfarbe="yellow"
+    else
+      timerSchriftfarbe="white"
+    end
+    -- Wert des Timers setzen:
+    avalonUI["Timer"..k]:setValue(tonumber(v["remaining"]), tonumber(v["duration"]), [[&lt;b&gt;&lt;font color="]]..timerSchriftfarbe..[["&gt;&amp;nbsp;]] .. v["name"] .. [[&lt;/b&gt;&lt;/font&gt;]])
+  end
+end
+
+
+-- Hier wird der Sekunden-Timer, der die Timer jeweils neu
+-- berechnen lässt, aktiviert bzw. deaktiviert.
+function avalonUI.onRecreateAlertsView(event, args)
+	--debugc("onRecreateTimerView\n")
+
+  -- Warum auch immer die Anzahl der Elemente in listOfTimers = nil sein sollte...
+  if #avalonUI.listOfTimers ~= nil then
+    -- Wenn es Timer in der listOfTimers gibt...
+    if #avalonUI.listOfTimers &gt; 0 then
+      -- ... muss auch der Timer laufen, der einmal pro Sekunde die Timer-Anzeige
+      -- auf der Oberfläche aktualisiert.
+      enableTimer("avaletTimersTimer")
+    else
+      -- Ohne anzuzeigende Timer in der Liste kann der Aktualisierungs-Timer Pause machen
+      disableTimer("avaletTimersTimer")
+    end
+  else
+    disableTimer("avaletTimersTimer")
+  end
+  -- Schließlich wird noch die Oberfläche aktualisiert.
+  avalonUI.recreateTimer()
+end
+--registerAnonymousEventHandler("RecreateTimerView", "avalonUI.onRecreateTimerView")
 </script>
 				<eventHandlerList />
 			</Script>
@@ -3911,6 +5482,172 @@ registerAnonymousEventHandler("RecreateTimerView", "avalonUI.onRecreateTimerView
 				<eventHandlerList />
 			</Script>
 			<Script isActive="yes" isFolder="no">
+				<name>createHDAModel</name>
+				<packageName></packageName>
+				<script>-- Hunger-/Durst-/Alkohol-Anzeige (HDA)
+-- Die meisten Völker haben 7 unterschiedliche Hunger-Meldungen. Oger und Hobbits haben 13.
+-- Die Meldung mit dem Index 1, das ist die "ist völlig gesättigt"-Meldung, soll auf der
+-- Oberfläche nicht extra angezeigt werden. Die restlichen Meldungen müssen in den auf der
+-- Oberfläche zu sehenden 6 Kästchen angezeigt werden. (Später gibts vielleicht  mal
+-- halbe Kästchen, aber erstmal noch nicht.)
+-- Zuordnung also:
+-- Index Oger/Hobbits | Index andere | Kästchen
+--        1                   1           keins
+--        2- 3                2           1 (grün)
+--        4- 5                3           2 (gelb)
+--        6- 7                4           3 (gelb)
+--        8- 9                5           4 (gelb)(?)
+--       10-11                6           5 (rot)
+--       12-13                7           6 (rot)
+-- Formel also für Oger und Hobbits: math.ceil((Index + 1) / 2)
+
+
+local HUNGER_TEXT = {
+  "Du hast ein unangenehmes Voellegefuehl.",
+  "Du hast ausreichend gegessen.",
+  "Dein Magen knurrt.",
+  "Du verspuerst Hunger.",
+  "Dir wird fast schlecht vor Hunger.",
+  "Deine Gedanken kreisen nur noch um Deinen Hunger.",
+  "Wenn Du jetzt nicht bald was zwischen die Zaehne bekommst ..."
+}
+
+-- Hunger-Meldungen für Hobbits.
+-- Im MUD ist einer mehrzeilig, und zwar der hier:
+-- "Wenn Du nicht langsam etwas isst, wirst Du Deine Vorfahren begruessen"
+-- "koennen."
+local HUNGER_HOBBIT_TEXT = {
+  "Dein Bauch steht dick und rund von Dir ab.",
+  "Ein Exxe waere jetzt schon explodiert, aber Du bist gerade mal satt.",
+  "Dein Bauch ist schon recht prall.",
+  "Du bist schon ein bisschen satt.",
+  "Ein Mensch waere jetzt zwar satt, aber Du kannst noch 'ne Menge vertragen.",
+  "Du hast gerade mal ausreichend gegessen.",
+  "Dein Magen verlangt nach einer Zwischenmahlzeit.",
+  "Du koenntest jetzt schon gut etwas zu beissen vertragen.",
+  "Du hast das Gefuehl, das letzte Essen waere bereits eine Woche her.",
+  "Du kannst Dich kaum auf den Beinen halten vor Hunger.",
+  "Ein gefuellter Ochse waere jetzt noch zu wenig zum Essen.",
+  "Du hast das Gefuehl, ein riesiges Loch im Bauch zu haben.",
+  "Wenn Du nicht langsam etwas isst, wirst Du Deine Vorfahren begruessen koennen."
+}
+
+
+-- Hungermeldungen Oger
+-- Texte mit Umbruch:
+-- "Dein prall gefuellter, riesiger Ogerbauch ist Dein ganzer Stolz."
+-- "Du fuehlst Dich satt und gluecklich, ganz so wie Fleissig-"
+-- "Oger es verdient."
+-- "Ein wenig Platz ist in Deinem Bauch schon noch, aber "
+-- "dieses seltsame Knurren ist verschwunden. Fressen aus Leidenschaft "
+-- "ist nun angesagt."
+-- "Mit ausreichend vollem Magen kannst Du Dich wieder auf "
+-- "andere Dinge als die Nahrungsbeschaffung konzentrieren - auf "
+-- "das Toeten aus Spass zum Beispiel.
+-- "Ein wenig Lust auf Naschen haettest Du ja schon, ob Du irgendwo "
+-- "ein leichtes Opfer findest? Das schwarze Buch ist eine gute "
+-- "Speisekarte."
+-- "Wirklich Hunger hast Du nicht mehr, aber so ein paar kleine "
+-- "Orks wuerden Dir noch munden."
+-- "Langsam wird es wieder Zeit fuer einen kleinen Snack wie "
+-- "zum Beispiel eine Kuh oder ein Schaf - sonst faellst Du noch "
+-- "vom Fleisch!"
+-- "Dein Magen knurrt in regelmaessigen Abstaenden, sehr zur "
+-- "Beunruhigung Deiner Umgebung."
+-- "Dein Bauch fuehlt sich leer und hungrig an. Jetzt wird es "
+-- "langsam Zeit fuer eine kleinere Zwischenmahlzeit. Ein Elefant "
+-- "waere jetzt lecker?"
+-- "So hungrig faellt Dir das Denken schwer. Noch schwerer, "
+-- "als ohnehin schon."
+-- "Wenn Du jetzt nicht bald ein Orkdorf leernaschst..."
+-- "So hungrig wie Du bist, wirst Du zur ernsten Gefahr "
+-- "fuer Deine Umgebung."
+-- "Kurz vor dem Verhungern treibt Dich nur noch ein "
+-- "Gedanke an, die Suche nach Fressen!"
+
+local HUNGER_OGER_TEXT = {
+	"Dein prall gefuellter, riesiger Ogerbauch ist Dein ganzer Stolz.",
+	"Du fuehlst Dich satt und gluecklich, ganz so wie Fleissig-Oger es verdient.",
+	"Ein wenig Platz ist in Deinem Bauch schon noch, aber dieses seltsame Knurren ist verschwunden. Fressen aus Leidenschaft ist nun angesagt.",
+	"Mit ausreichend vollem Magen kannst Du Dich wieder auf andere Dinge als die Nahrungsbeschaffung konzentrieren - auf das Toeten aus Spass zum Beispiel.",
+	"Ein wenig Lust auf Naschen haettest Du ja schon, ob Du irgendwo ein leichtes Opfer findest? Das schwarze Buch ist eine gute Speisekarte.",
+	"Wirklich Hunger hast Du nicht mehr, aber so ein paar kleine Orks wuerden Dir noch munden.",
+	"Langsam wird es wieder Zeit fuer einen kleinen Snack wie zum Beispiel eine Kuh oder ein Schaf - sonst faellst Du noch vom Fleisch!",
+	"Dein Magen knurrt in regelmaessigen Abstaenden, sehr zur Beunruhigung Deiner Umgebung.",
+	"Dein Bauch fuehlt sich leer und hungrig an. Jetzt wird es langsam Zeit fuer eine kleinere Zwischenmahlzeit. Ein Elefant waere jetzt lecker?",
+	"So hungrig faellt Dir das Denken schwer. Noch schwerer, als ohnehin schon.",
+	"Wenn Du jetzt nicht bald ein Orkdorf leernaschst...",
+	"So hungrig wie Du bist, wirst Du zur ernsten Gefahr fuer Deine Umgebung.",
+	"Kurz vor dem Verhungern treibt Dich nur noch ein Gedanke an, die Suche nach Fressen!",
+}
+
+
+
+local DURST_TEXT = {
+  "Es schwappt und gluckert in Deinem Bauch.",
+  "Du hast ausreichend getrunken.",
+  "Du hast ein trockenes Gefuehl in der Kehle.", 
+  "Du bist durstig.", 
+  "Deine Zunge klebt Dir am Gaumen.",       
+  "Du kannst vor Durst kaum noch klar denken.",
+  "Wenn Du Dir jetzt nicht bald was zwischen die Kiemen kippst ..."
+}
+
+local ALKOHOL_TEXT = {
+  "Du bist nuechtern.",
+  "Du bist wieder nuechtern.",
+  "Du bist angeheitert.",
+  "Du hast einen Schwips.", 
+  "Du bist betrunken.", 
+  "Du hast einen maechtigen Rausch.",
+  "Du bist sternhagelvoll.",
+  "Die Welt dreht sich um Dich."
+}
+
+local function getIndexOf(t,val)
+  for k,v in ipairs(t) do 
+      if v == val then return k end
+  end
+  return 0
+end
+
+
+function avalonUI.createHDAModel()
+  
+  avalonUI.hungerIndex = 0
+  avalonUI.durstIndex = 0
+  avalonUI.alkIndex = 0
+  
+  --avalonUI.hungerIndex = getIndexOf(HUNGER_TEXT, player.hunger)
+  --avalonUI.durstIndex = getIndexOf(DURST_TEXT, player.durst)
+  --avalonUI.alkIndex = getIndexOf(ALKOHOL_TEXT, player.alk)
+  
+  raiseEvent("RefreshHDA")
+  
+end
+
+function avalonUI.onRefreshHDA()
+  
+  avalonUI.hungerIndex = getIndexOf(HUNGER_TEXT, player.hunger)
+  if avalonUI.hungerIndex == 0 then
+    avalonUI.hungerIndex = getIndexOf(HUNGER_HOBBIT_TEXT, player.hunger)
+    if avalonUI.hungerIndex ~= 0 then avalonUI.hungerIndex = math.ceil((avalonUI.hungerIndex + 1) / 2) end
+  end
+  if avalonUI.hungerIndex == 0 then
+    avalonUI.hungerIndex = getIndexOf(HUNGER_OGER_TEXT, player.hunger)
+    if avalonUI.hungerIndex ~= 0 then avalonUI.hungerIndex = math.ceil((avalonUI.hungerIndex + 1) / 2) end
+  end
+  avalonUI.durstIndex = getIndexOf(DURST_TEXT, player.durst)
+  avalonUI.alkIndex = getIndexOf(ALKOHOL_TEXT, player.alk)
+  
+  avalonUI.buildHDA()
+
+end
+registerAnonymousEventHandler("RefreshHDA", "avalonUI.onRefreshHDA")
+--raiseEvent("RefreshHDA", ???)</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
 				<name>createTopMenuModel</name>
 				<packageName></packageName>
 				<script>-- TopMenu: Das Menü oberhalb des Hauptfensters
@@ -4063,7 +5800,14 @@ function avalonUI.onRefreshManaBar(event, args)
 	avalonUI.Mana:setValue(tonumber(currentValue), tonumber(args[2]), "&lt;b&gt;&lt;center&gt;" .. args[1] .. "/" .. args[2] .. " Mana ("..percent.."%)&lt;/center&gt;&lt;/b&gt;")
 end
 registerAnonymousEventHandler("RefreshManaBar", "avalonUI.onRefreshManaBar")
-</script>
+
+
+-- Der Tick-Timer
+-- ... versucht anzuzeigen, wann es wieder einen Schub TP, ZP und AP gibt. Das ist alle 42 Sekunden der Fall.
+-- Da es aber auch aus anderen Gründen diese Punkte geben kann - Tränke, Honig -, muss  irgendwie sicher gestellt
+-- sein, dass der Tick-Timer dadurch nicht durcheinander gerät. Schwierigkeit ist auch, dass es diese Punkte
+-- natürlich nur gibt, wenn Punkte fehlen.
+-- Vielleicht den Tick-Timer nur laufen lassen, wenn die Punkte nicht alle auf MAX stehen.</script>
 				<eventHandlerList />
 			</Script>
 			<Script isActive="yes" isFolder="no">
@@ -4091,17 +5835,155 @@ end</script>
 				<eventHandlerList />
 			</Script>
 			<Script isActive="yes" isFolder="no">
-				<name>createRuniInfoBoxModel</name>
+				<name>createIGMapModel</name>
 				<packageName></packageName>
-				<script>--createRuniInfoBoxModel
+				<script>
 
-function avalonUI.createRuniInfoBoxModel()
+avalonUI.IGMapModel = avalonUI.IGMapModel or {}
+
+function avalonUI.createIGMapModel()
+
+  avalonUI.IGMapModel.room = ""
+  
+  avalonUI.IGMapModel.igmap = ""
+  
+  avalonUI.IGMapModel.avalonRoomInv = ""
+
+end
+
+function avalonUI.refreshIGMapModel(room, igmap, inv)
+
+  if room then avalonUI.IGMapModel.room = room end
+  if igmap then avalonUI.IGMapModel.igmap = igmap end
+  if inv then avalonUI.IGMapModel.avalonRoomInv = inv end
+
+  
+
+end
 
 
+-- Diese Funktion wird immer ausgeführt, wenn per ATCP Daten eintreffen, die in der Infobox
+-- im Defaulttext angezeigt werden.
+function avalonUI.onRefreshIngameMap(event, args)
+  
+  avalonUI.IGMapModel.room = avalonUI.IGMapModel.room or ""
+  avalonUI.IGMapModel.avalonRoomInv = avalonUI.IGMapModel.avalonRoomInv or ""
 
+  avalonUI.Box41a:echo("&lt;center&gt;"..avalonUI.IGMapModel.room.."&lt;/center&gt;")
+  avalonUI.Box41c:echo("&lt;center&gt;"..avalonUI.IGMapModel.avalonRoomInv.."&lt;/center&gt;")
+--[[  
+  if player.istDunkel == "1" then
+    GUIModel.infobox = GUIModel.infobox .. "\nAufenthaltsort: &lt;zu dunkel&gt;\n"
+  else
+    GUIModel.infobox = GUIModel.infobox .. "\nAufenthaltsort: " .. player.avalonRoomID .. "\n"
+  end
+]]
+
+end
+registerAnonymousEventHandler("RefreshIngameMap", "avalonUI.onRefreshIngameMap")
+
+--  raiseEvent("RefreshIngameMap", arg)
+
+
+-- Der ATCP-Wert "avalon.inv" enthält den Rauminhalt. Dazu gehören Spieler ebenso wie
+-- Gegner, Möbel und anderes. Dieser Wert wird nicht automatisch gesendet sondern muss
+-- aktiv angefragt werden. Hier wird der Wert dann verarbeitet.
+function avalonUI.onProcessAvalonInv(event, args)
+  --[[Bespielwert:  
+  hier avalon/spieler/rofhessa "Ruad Rofhessa", avalon/wesen/cb2c195b91d1addd4ea6d40422e12ef7 "Putzteufelchen", avalon/objekt/21d7dc3e612dc0c3547cceebb151e889 "Briefkasten"
+  
+  komma-separiert, nur am ende ist kein komma
+  
+  vorgehen:
+  "hier " entfernen
+  rest am komma zerlegen
+  jede einheit einzelnd verarbeiten
+]]
+
+  local arg = args
+  local objs = {}
+  local objType
+  local objIID
+  local objName
+
+  -- erstmal das führende "hier " abtrennen
+  arg = string.gsub(arg, "hier (.*)", "%1")
+
+  -- den Rest in die einzelnen Objekte zerlegen
+  for i in string.gmatch(arg, "[^,]+") do
+
+    for objIID, objName in string.gmatch(i, '([^"]+)["]([^"]+)["]') do
+      --echo("\nName: "..name)
+      
+      objType = string.gsub(objIID, "avalon/([^/]+)/.+", "%1")
+      
+      table.insert(objs, {["Type"]=objType, ["IID"]=objIID, ["Name"]=objName})
+      
+    end
+
+  end
+--[[  
+table.fixed {table-layout:fixed; width:90px;}/*Setting the table width is important!*/
+table.fixed td {overflow:hidden;}/*Hide text outside the cell.*/
+table.fixed td:nth-of-type(1) {width:20px;}/*Setting the width of column 1.*/
+table.fixed td:nth-of-type(2) {width:30px;}/*Setting the width of column 2.*/
+ ]] 
+  local str = "&lt;div style='vertical-align: top; text-align: left'&gt;&lt;table style='table-layout:fixed;width:90%'&gt;&lt;tr&gt;"
+  local word
+  
+  local strSpieler = ""
+  local strWesen = ""
+  local strObject = ""
+  local strSonstiges = ""
+  
+  for k,v in pairs(objs) do
+    if v["Type"] == "spieler" then
+      strSpieler = strSpieler..v["Name"].."&lt;br&gt;"
+    elseif v["Type"] == "wesen" then
+      strWesen = strWesen..v["Name"].."&lt;br&gt;"
+    elseif v["Type"] == "objekt" then
+      strObject = strObject..v["Name"].."&lt;br&gt;"
+    else
+      strSonstiges = strSonstiges..v["Name"].."&lt;br&gt;"
+    end
+  end
+  
+  str = str .. "&lt;td style='overflow:hidden;width:40%;padding-right:15px;'&gt;" .. strSpieler .. strWesen .. "&lt;/td&gt;"
+  str = str .. "&lt;td style='overflow:hidden;width:40%'&gt;" .. strObject .. strSonstiges .. "&lt;/td&gt;"
+  
+--  str = str .. "&lt;td style='max-width: 20pt; padding-right: 15px;table-layout:fixed;overflow:hidden;'&gt;" .. strSpieler .. strWesen .. "&lt;/td&gt;"
+--  str = str .. "&lt;td style='width: 20%table-layout:fixed;overflow:hidden;'&gt;" .. strObject .. strSonstiges .. "&lt;/td&gt;"
+  --[[
+  &lt;table style="width:100%"&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Firstname&lt;/th&gt;
+    &lt;th&gt;Lastname&lt;/th&gt;
+    &lt;th&gt;Age&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Jill&lt;/td&gt;
+    &lt;td&gt;Smith&lt;/td&gt;
+    &lt;td&gt;50&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Eve&lt;/td&gt;
+    &lt;td&gt;Jackson&lt;/td&gt;
+    &lt;td&gt;94&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+]]
+  --for word in string.gmatch(arg, '%s["]([^"]+)["]') do str = str .. word .. "&lt;br&gt;" end
+  str = str .."&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;"
+  
+  avalonUI.IGMapModel.avalonRoomInv = str
+
+  raiseEvent("RefreshIngameMap", arg)
 
 
 end
+registerAnonymousEventHandler("ProcessAvalonInv", "avalonUI.onProcessAvalonInv")
+
+
 </script>
 				<eventHandlerList />
 			</Script>
@@ -4117,14 +5999,17 @@ end
 				<script>function avalonUI.buildUI()
   --avalonUI.buildBoxes()
   avalonUI.buildInfoScreen()
+  --avalonUI.buildGuildInfo()
   --avalonUI.buildMapper()
   avalonUI.buildChat()
   avalonUI.buildTopBar()
   avalonUI.buildCounter()
   avalonUI.buildTimer()
+  avalonUI.buildHDA()
+  raiseEvent("RefreshHDA")
   
   --Hier wird der "Info-Bereich" wieder nach vorn gestellt, damit er die Karte überlagert
-  --GUIframe.activate("Charakter")
+  GUIframe.activate("Charakter")
   
   avalonUI.buildSettingsDialog()
   
@@ -4165,10 +6050,13 @@ function avalonUI.UIInstalled(_, name)
     
     GUIModel = GUIModel or {}
     avalonUI.createInfoScreenModel()
+    avalonUI.createGuildInfoBoxModel()
     avalonUI.createChatModel()
     avalonUI.createTopMenuModel()
     --avalonUI.createMapperModel()
     avalonUI.createTimerModel()
+    avalonUI.createHDAModel()
+    avalonUI.createIGMapModel()
     avalonUI.createCounterModel()
     avalonUI.createGaugeModel()  
 
@@ -4232,7 +6120,7 @@ function avalonUI.buildChat()
   	height = "50%",
   })--, avalonUI.Right)
   avalonUI.Box2:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
-  GUIframe.addWindow(avalonUI.Box2, "Chat", "bottomright")
+  GUIframe.addWindow(avalonUI.Box2, "Chat", "bottomright", true)
 
   
   avalonUI.tabElement = {}
@@ -4325,7 +6213,7 @@ function avalonUI.buildChat()
 			avalonUI.tabElement.tabs[v.."console"] = Geyser.MiniConsole:new({
 				name=string.title(v),
 				x="2%", y="2%",
-				width = "96%",
+				width = "98%",
 				height = "96%",
 				autoWrap = true,
 				color = "black",
@@ -4333,9 +6221,10 @@ function avalonUI.buildChat()
 				fontSize = avalonUI.chatFontSize,
 			}, avalonUI.tabElement.tabs[v.."center"])
 			debugc("&lt;magenta&gt;Consolen-Name: "..string.title(v).."\n")
-			setWindowWrap(string.title(v), 56)
-			--avalonUI.infobox:setColor("black") -- give it a nice black background
-			--avalonUI.infobox:setFont("Bitstream Vera Sans Mono")
+			--setWindowWrap(string.title(v), 56) --wirkt nicht wegen "autowrap=true"
+      --setWindowWrapIndent(string.title(v), 3) --wirkte auch ohne autowrap nicht.
+			--avalonUI.infoScreen:setColor("black") -- give it a nice black background
+			--avalonUI.infoScreen:setFont("Bitstream Vera Sans Mono")
       if avalonUI.font ~= "main" then
         avalonUI.tabElement.tabs[v.."console"]:setFont(avalonUI.font)
       else
@@ -4399,10 +6288,11 @@ end
 				<packageName></packageName>
 				<script>function avalonUI.buildCounter()
 
-  -- Box5 enthält die Fortschrittsbalken, mit denen die Timer angezeigt werden. Links in 
-  -- der Mitte. Box5 ist kein Label-Element, sondern ein Container, und die sind unsichtbar(?)
-  -- Deshalb geht das hier mit dem weißen Rahmen nicht. Lösung ist, hier noch ein Label
-  -- zu nehmen, dort dann den Container drin, und in dem dann die Gauges.
+  -- avalonUI.Box4a ist der gesamte Bereich links oben. Er enthält die Uhr und die Ingame-Map.
+  -- Die Namensgebenden "Counter" sind umgezogen und stehen jetzt im Info-Bereich (rechts oben).
+  -- Da ich die Oberfläche ohnehin neu aufbauen will, spare ich mir das umbenennen und so.
+  -- Der gesamte Bereich (also die Box hier) ist ein Container, in dem dann die Unterbereiche
+  -- jeweils ein Label haben. Und darin dann weitere Elemente. 
   avalonUI.Box4a = Geyser.Container:new({
   	name = "avalonUI.Box4a",
   	x = "0%", y = "0%",
@@ -4411,15 +6301,78 @@ end
   })--, avalonUI.Box5a)
   GUIframe.addWindow(avalonUI.Box4a, "Zaehler", "topleft")  
 
-
-  avalonUI.Box4 = Geyser.Label:new({
-    name = "avalonUI.Box4",
+  -- Box für DateTime (?)
+  avalonUI.Box42 = Geyser.Label:new({
+    name = "DateTime",
     x = "0%", y = "0%",
     width = "100%",
-    height = "100%",
+    height = "14%",
+  }, avalonUI.Box4a)
+  avalonUI.Box42:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
+
+  -- Box für Zähler
+  -- Diese Box wird ausgeblendet und mit der Ingame-Map überlagert.
+  -- Ich lasse sie hier drin, weil sie von anderen Programmteilen
+  -- verwendet wird und ich mir im Moment nicht die Arbeit machen
+  -- will, alles zu überarbeiten. TODO: Später entfernen.
+  avalonUI.Box4 = Geyser.Label:new({
+    name = "avalonUI.Box4",
+    x = "0%", y = "10%",
+    width = "100%",
+    height = "30%",
   }, avalonUI.Box4a)
   avalonUI.Box4:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
   --GUIframe.addWindow(avalonUI.Box4, "Zaehler", "topleft")
+  avalonUI.Box4:hide()
+
+  -- Box für Ingame-Map
+  avalonUI.Box41 = Geyser.Label:new({
+    name = "avalonUI.Box41",
+    x = "0%", y = "14%",--40
+    width = "100%",
+    height = "86%",
+  }, avalonUI.Box4a)
+  avalonUI.Box41:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
+
+  -- Ausgabelabel für Position (?)
+  avalonUI.Box41a = Geyser.Label:new({
+    name = "avalonUI.Box41a",
+    x = "6%", y = "6%",
+    width = "90%",
+    height = "7%",
+    color = "black",
+  }, avalonUI.Box41)
+  avalonUI.Box41a:setFontSize(avalonUI.infoBoxFontSize)
+  avalonUI.Box41a:setStyleSheet([[
+    qproperty-alignment: 'AlignHCenter | AlignVCenter';
+  ]])
+  --avalonUI.Box41a:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
+--  avalonUI.Box41a:echo("RoomID")
+--[[  
+  --Bereich für die Map selbst.
+  avalonUI.Box41b = Geyser.MiniConsole:new({
+      name = "IGMap", 
+      --x="50%-"..tostring(3*mapCaptureLen).."c", y="50%", 
+      x="15%", y="14%", 
+      width = "20c", height = "11c"
+    }, avalonUI.Box41)
+  avalonUI.Box41b:clear()
+  avalonUI.Box41b:echo("+------------------+\n|..................|\n|..................|\n|..................|\n|..................|\n|..................|\n|..................|\n|..................|\n|..................|\n|..................|\n+------------------+")
+]]
+  -- Ausgabelabel für Room-Inv
+  avalonUI.Box41c = Geyser.Label:new({
+    name = "avalonUI.Box41c",
+    x = "6%", y = "72%",
+    width = "88%",
+    height = "23%",
+    color = "black",
+  }, avalonUI.Box41)
+  avalonUI.Box41c:setStyleSheet([[
+    qproperty-alignment: 'AlignLeft | AlignTop';
+  ]])
+  avalonUI.Box41c:setFontSize((avalonUI.infoBoxFontSize-1))
+--  avalonUI.Box41c:echo("Room-Inv")
+  --avalonUI.Box41c:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
 
 ---------------------------------------------------------------------------
   -- Gauges für die Timer
@@ -4433,11 +6386,11 @@ end
   -- Lösung und das unsichtbar machen.
   ---------------------------------------------------------------------------
   
-  for k = 1, 6, 1 do
+  for k = 1, 4, 1 do
     avalonUI["Counter"..k] = Geyser.Label:new({
       name = "avalonUI.Counter"..k,
-      x = "3%", y = (4 + (k-1)*15).."%",
-      width="94%", height="17%",
+      x = "3%", y = (4 + (k-1)*20).."%",
+      width="94%", height="25%",
     }, avalonUI.Box4)
     avalonUI["Counter"..k]:setStyleSheet(avalonUI.CSS.counterCSS:getCSS())
     avalonUI["Counter"..k]:setFontSize(10)
@@ -4461,43 +6414,505 @@ end</script>
 				<script>-----------------------------------------------------
 -- Charakter-Informationen rechts oben
 -----------------------------------------------------
+
 function avalonUI.buildInfoScreen()
 
-  -- Box1 ist das Element rechts oben, in dem die Charakterinformationen ausgegeben werden.
-  avalonUI.Box1 = Geyser.Label:new({
-  	name = "avalonUI.Box1",
-  	x = 0, y = 0,
-  	width = "100%",
-  	height = "50%",
+  -- InfoScreenBox ist das Element rechts oben, in dem die Charakterinformationen ausgegeben werden.
+  avalonUI.InfoScreenBox = Geyser.Label:new({
+  	name = "InfoScreenBox",
+  	x=0, y=0, width="100%", height="50%",
   })
-  avalonUI.Box1:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
-  --avalonUI.Box1:echo("&lt;center&gt;avalonUI.Box1")
-  GUIframe.addWindow(avalonUI.Box1, "Charakter", "topright")
-    
-  avalonUI.infobox = Geyser.MiniConsole:new({
+  avalonUI.InfoScreenBox:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
+  GUIframe.addWindow(avalonUI.InfoScreenBox, "Charakter", "topright")
+
+--avalonUI.InfoScreenBoxLabel = Geyser.Label:new({
+--  name = "avalonUI.InfoScreenBoxLabel",
+--  x = "80%", y = "92%",
+--  width = "20%", height = "8%",
+--  fgColor = "black",
+--  color = "SeaGreen",
+--  message = [[&lt;center&gt;Standardansicht: "char"&lt;/center&gt;]]
+--}, avalonUI.InfoScreenBox)
+--avalonUI.InfoScreenBoxLabel:setFontSize(10)
+
+  -- Dieses Element wird für die normale Ausgabe benutzt. Also für Ausgabe
+  -- des Default-Textes und für die Anzeige von Spielstand, Inventar,
+  -- Gruppen-Informationen und ähnlichem Generell ist es das richtige Element
+  -- für alles, was direkt aus dem Hauptfenster übernommen wird. Oder für alles,
+  -- was reiner Text ist. Für die Anzeige der Runenschmiede-Informationen, die
+  -- grafisch (und auch funktional) etwas aufgehübscht wurde, gibt es ein extra
+  -- Element 
+  avalonUI.infoScreen = Geyser.MiniConsole:new({
     name="Infobox",
-    x="3%", y="3%",
-    width = "94%",
-    height = "94%",
-    autoWrap = true,
+    x="3%", y="3%", width="94%", height="94%",
+    autoWrap = false,--true,
     color = "black",
     scrollBar = false,
-    fontSize = avalonUI.infoBoxFontSize,
-  }, avalonUI.Box1)
-  avalonUI.infobox:setColor("black") -- give it a nice black background
+    fontSize = (avalonUI.infoBoxFontSize),
+  }, avalonUI.InfoScreenBox)
+  --avalonUI.infoScreen:setColor("black")
+  --avalonUI.infoScreen:fg("red")
   --avalonUI.infobox:setFont("Bitstream Vera Sans Mono")
   if avalonUI.font ~= "main" then
-    avalonUI.infobox:setFont(avalonUI.font)
+    avalonUI.infoScreen:setFont(avalonUI.font)
   else
-    avalonUI.infobox:setFont(getFont("main"))
+    avalonUI.infoScreen:setFont(getFont("main"))
   end
   
-  setWindowWrap("Infobox", 60)
+  setWindowWrap("Infobox", 79)
   clearWindow("Infobox")
-  --avalonUI.infobox:echo(GUIModel.infobox)
-  --avalonUI.infobox:echo("initialisiert")
+ --[[ 
+  -- Wenn der Spieler schon Runenschmied ist, dann kann
+  -- hier auch gleich die Infobox für "ruebersicht" erzeugt werden.
+  if player.gilde == "Runenschmied" then
+    avalonUI.buildRuniInfoScreen()
+  elseif player.name == "rofhessa" then
+    -- nur für debug, kann später weg
+    avalonUI.buildRuniInfoScreen()
+    --avalonUI.buildGuildRuniInfo()
+  else
+    -- nix  
+  end
+]]
+end
 
-end</script>
+
+
+
+
+-- Hier wird die Box erzeugt, die für die Ausgabe von "ruebersicht" der
+-- Runenschmiede vorgesehen ist. Sie wird nur für Runenschmiede erzeugt
+-- und sofort unsichtbar gemacht. Wenn der Runenschmied "ruebersicht"
+-- eingibt, sendet das MUD per ATCP die Antwort, die Box wird sichtbar
+-- gemacht (und die normale InfoBox unsichtbar) und der Runi-Kram wird
+-- angezeigt. Gibt der Spieler dann seinen nächsten Befehl ein, der zur
+-- Ausgabe von irgendwas in der InfoBox führt, wird dieses Fenster wieder
+-- unsichtbar gemacht, das normale InfoBox-Fenster sichtbar, und die Info
+-- wird da angezeigt.
+function avalonUI.buildRuniInfoScreen()
+
+  GUIModel.runiInfoBoxModel = {}
+
+--  local i = nil --Hilfsvariable für Rüstungsteil bzw.Waffe/Schild&lt;
+  
+  local imageFolderPath = getMudletHomeDir().."/Avalet/imgs/"
+  
+  local placeholder = imageFolderPath.."missingImage.png"
+  
+  local imageHead = imageFolderPath.."head-white.png"
+  local imageBody = imageFolderPath.."body-white.png"
+  local imageArms = imageFolderPath.."arms-white.png"
+  local imageLegs = imageFolderPath.."legs-white.png"
+  local imageWeapon = imageFolderPath.."weapon-white.png"
+  local imageShield = imageFolderPath.."shield-white.png"
+  
+  local ITEM_TYPE_WEAPON = "Weapon"
+  local ITEM_TYPE_SHIELD = "Shield"
+  local ITEM_TYPE_HEAD = "Head"
+  local ITEM_TYPE_BODY = "Body"
+  local ITEM_TYPE_LEGS = "Legs"
+  local ITEM_TYPE_ARMS = "Arms"
+  
+  local xPosLeft = 0
+  local xPosMiddle = "33%"
+  local xPosRight = "66%"
+  local yPosTop = 0
+  local yPosBottom = "45%"
+  
+  local CHARGE_POSITIVE = "positiv"
+  local CHARGE_NEGATIVE = "negativ"
+  local CHARGE_NONE = "neutral"
+  
+  local chargeColor = ""
+  if avalonUI.runiInfoBoxModel.HammerCharge == CHARGE_POSITIVE then
+    chargeColor = "rgba(0,0,255,0.5)"--"blue"
+  elseif avalonUI.runiInfoBoxModel.HammerCharge == CHARGE_NEGATIVE then
+    chargeColor = "rgba(255,0,0,0.5)"--"red"
+  end
+
+--  local dimension = 100 --Ausdehnung des Symbolbildes der Items, jeweils x und y
+
+--  path = imageFolderPath..imageHead
+--  path = path:gsub("[\\/]", "/")
+  placeholder = placeholder:gsub("[\\/]", "/")
+  
+  imageHead = imageHead:gsub("[\\/]", "/")
+  imageBody = imageBody:gsub("[\\/]", "/")
+  imageArms = imageArms:gsub("[\\/]", "/")
+  imageLegs = imageLegs:gsub("[\\/]", "/")
+  imageWeapon = imageWeapon:gsub("[\\/]", "/")
+  imageShield = imageShield:gsub("[\\/]", "/")
+  
+  if not (io.exists(placeholder)) then
+    cecho("&lt;magenta&gt;Fehler in der RuniInfoBox: Platzhalterbild fehlt.\n")
+  else
+    if not (io.exists(imageHead)) then imageHead = placeholder end
+    if not (io.exists(imageBody)) then imageBody  = placeholder end
+    if not (io.exists(imageArms)) then imageArms  = placeholder end
+    if not (io.exists(imageLegs)) then imageLegs  = placeholder end
+    if not (io.exists(imageWeapon)) then imageWeapon  = placeholder end
+    if not (io.exists(imageShield)) then imageShield  = placeholder end
+  end
+
+  -- Die Funktion getItemSymbolLabel erzeugt ein Label, in dem ein Bild des Items liegt.
+  -- Dieses Bild bildet dann den Hintergrund zu dem Text des Items. Derzeit ist das Bild
+  -- nicht an das Item angepasst, sondern nur ein Symbol für Waffe, Schild, Helm, Körper-
+  -- panzer, Handschuhe und Stiefel. Wenn in der Übersicht zwei Waffen auftauchen, dann
+  -- wird die erste hier mit einem Waffensymbol hinterlegt sein, die Zweite mit einem
+  -- Schild.
+  local function getItemSymbolLabel(itemType, image, posX, posY, parent)
+  
+    local symbol = nil
+
+    symbol = Geyser.Label:new({
+        name = "RuniInfobox_"..itemType.."Symbol",
+        x=posX,y=posY,width="33%",height="45%",
+      }, avalonUI.runiInfoBox)
+      --setBackgroundColor("RuniInfobox_"..itemType.."Symbol", 0, 0, 0, 10)
+      symbol:setStyleSheet([[
+            background-image: url("]]..image..[[");
+            background-repeat: no-repeat;
+            background-position: center;
+      ]])
+    
+    return symbol
+    
+  end
+
+  -- Die Funktion getItemTextLabel erzeugt ein Label, in dem der Text des Items steht. 
+  local function getItemTextLabel(itemType, item, posX, posY, parent)
+
+    local label = nil
+    
+    local iType = itemType--item.iType
+    local iName = item.iName
+    local iColor = item.iColor
+    local iRunes = item.iRunes
+    
+    label = Geyser.Label:new({
+      name = "RuniInfobox_"..iType.."Text",
+      x=posX,y=posY,width="33%",height="45%",
+      --vertical-align="top",
+    }, avalonUI.runiInfoBox)
+    setBackgroundColor("RuniInfobox_"..iType.."Text", 0, 0, 0, 220)--210 zu viel, 240 fast nicht zu sehen
+    label:setStyleSheet([[qproperty-alignment: 'AlignTop';padding-left: '20px'; margin: '0px';]])
+
+    local itemText = ""
+    itemText = itemText..[[&lt;p&gt;&lt;div style="font-size:16px;margin-bottom:6px"&gt;&lt;b&gt;&lt;font color="]]..iColor..[["&gt;]]..iName..[[&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;]]
+    itemText = itemText..[[&lt;div style="font-size:14px"&gt;&lt;b&gt;&lt;table&gt;]]
+    if iRunes ~= nil then
+      for _, k in pairs(iRunes) do
+
+        local fontColor = nil
+      
+        if k.rCharge == avalonUI.runiInfoBoxModel.HammerCharge or k.rCharge == CHARGE_NONE then
+          fontRuneColor = k.rColor
+          fontSymbColor = 'white'
+        else
+          fontRuneColor = 'grey'
+          fontSymbColor = 'grey'
+        end
+        
+        itemText = itemText..[[
+          &lt;tr &gt;            
+            &lt;td style="text-align: center; color: ]]..fontSymbColor..[[;"&gt;]]..k.rChargeSymbol..[[&lt;/td&gt;
+            &lt;td style="background-color: ]]         ..fontRuneColor..[[;"&gt;&amp;nbsp;&amp;nbsp;&lt;/td&gt;
+            &lt;td style="text-align: left; color: ]]..fontRuneColor..[[;"&gt;]]..k.rName..[[&lt;/td&gt;
+          &lt;/tr&gt;
+        ]]
+--[==[
+
+      
+        local cellColor = nil
+      
+        if k.rCharge == avalonUI.runiInfoBoxModel.HammerCharge or k.rCharge == CHARGE_NONE then
+          cellColor = ' style="background-color: '..chargeColor..';"'
+        else 
+          cellColor = ''
+        end
+      
+        itemText = itemText..[[&lt;tr&gt;&lt;td style="text-align: center;"]]..cellColor..[[&gt;]]..k.rChargeSymbol..[[&lt;/td&gt;&lt;td&gt;&lt;font color="]]..k.rColor..[["&gt;]]..k.rName..[[&lt;/td&gt;&lt;/tr&gt;&lt;/font&gt;]]
+]==]
+      end --for
+    end --if
+    itemText = itemText..[[&lt;/table&gt;&lt;/b&gt;&lt;/div&gt;&lt;/p&gt;]]
+    label:echo("")
+    label:echo(itemText)
+
+    return label
+  end
+ 
+  -- Die Funktion getItemTextAndImage erzeugt ein Label, in dem der Text zum Item steht und in dem das
+  -- Symbolbild zum Item als Hintergrundbild angelegt ist. Da hier keine Transparenz für das Bild
+  -- erzeugt werden kann, müsste man hier vielleicht ein anderes (von sich aus teil-transparentes) Bild
+  -- hinterlegen. Oder irgendwie sonst den "weisser Adler auf weissem Grund"-Effekt vermeiden. Hab ich
+  -- nicht weiter verfolgt, aber vielleicht in Zukunft mal. Diese Funktion wird also nicht benutzt.
+  local function getItemTextAndImage(itemType, item, posX, posY, image)
+
+    local label = nil
+    
+    local iType = itemType
+    local iName = item.iName
+    local iColor = item.iColor
+    local iRunes = item.iRunes
+
+    label = Geyser.Label:new({
+      name = "RuniInfoBox_"..iType,
+      x=posX,y=posY,width="33%",height="50%",
+      --vertical-align="top",
+    }, avalonUI.runiInfoBox)
+    setBackgroundColor("RuniInfoBox_"..iType, 0, 0, 0, 220)--210 zu viel, 240 fast nicht zu sehen
+    label:setStyleSheet([[
+      qproperty-alignment: 'AlignTop';
+      padding: '20px'; 
+      margin: '0px';
+      background: url("]]..image..[[");
+      background-repeat: no-repeat;
+      background-size: 300px 300px;
+    ]])
+ 
+    local itemText = ""
+    itemText = itemText..[[&lt;p&gt;&lt;div style="font-size:16px;"&gt;&lt;b&gt;&lt;font color="]]..iColor..[["&gt;]]..iName..[[&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;]]
+    itemText = itemText..[[&lt;div style="font-size:14px"&gt;&lt;b&gt;&lt;table bgcolor=#CCFFFF&gt;]]
+    if iRunes ~= nil then
+      for _, k in pairs(iRunes) do
+        itemText = itemText..[[&lt;tr&gt;&lt;td&gt;]]..k.rChargeSymbol..[[&lt;/td&gt;&lt;td&gt;&lt;font color="]]..k.rColor..[["&gt;]]..k.rName..[[&lt;/td&gt;&lt;/tr&gt;&lt;/font&gt;]]
+      end --for
+    end --if
+    itemText = itemText..[[&lt;/table&gt;&lt;/b&gt;&lt;/div&gt;&lt;/p&gt;]]
+    label:echo("")
+    label:echo(itemText)
+
+    return label
+  end
+ 
+  -- Hauptcontainer
+  avalonUI.runiInfoBox = Geyser.Container:new({
+    name = "RuniInfoBox",
+    x="3%", y="3%", width="94%", height="94%",
+  }, avalonUI.InfoScreenBox)
+  avalonUI.runiInfoBox:hide()
+  
+  -- Derzeit werden im Runi-Infoscreen Bilder von den Items im Hintergrund hinter dem Text zu den Items angezeigt.
+  -- Da es keine Möglichkeit gibt, in Background-Image in einem Label transparent zu machen, liegen hier zwei
+  -- Label übereinander. Im hinten liegenden ist das Bild als border-image, im Label davor der Text. So gehts.
+  -- Label für Waffe
+  avalonUI.runiInfoBox_weaponSymbol = getItemSymbolLabel(ITEM_TYPE_WEAPON, imageWeapon, xPosLeft, yPosTop)
+  avalonUI.runiInfoBox_weaponText = getItemTextLabel(ITEM_TYPE_WEAPON, GUIModel.guildInfoBoxModel["iWeapon"], xPosLeft, yPosTop)
+  --avalonUI.runiInfoBox_Weapon = getItemTextAndImage(ITEM_TYPE_WEAPON, GUIModel.guildInfoBoxModel["iWeapon"], xPosLeft, yPosTop, imageWeapon)
+  
+  -- Label für Schild
+  avalonUI.runiInfoBox_shieldSymbol = getItemSymbolLabel(ITEM_TYPE_SHIELD, imageShield, xPosLeft, yPosBottom)
+  avalonUI.runiInfoBox_shieldText = getItemTextLabel(ITEM_TYPE_SHIELD, GUIModel.guildInfoBoxModel["iShield"], xPosLeft, yPosBottom)
+  --avalonUI.runiInfoBox_Shield = getItemTextAndImage(ITEM_TYPE_SHIELD, GUIModel.guildInfoBoxModel["iShield"], xPosLeft, yPosBottom, imageShield)
+
+  -- Label für Helm
+  avalonUI.runiInfoBox_headSymbol = getItemSymbolLabel(ITEM_TYPE_HEAD, imageHead, xPosMiddle, yPosTop)
+  avalonUI.runiInfoBox_headText = getItemTextLabel(ITEM_TYPE_HEAD, GUIModel.guildInfoBoxModel["iHead"], xPosMiddle, yPosTop)
+  --avalonUI.runiInfoBox_Head = getItemTextAndImage(ITEM_TYPE_HEAD, GUIModel.guildInfoBoxModel["iHead"], xPosMiddle, yPosTop, imageHead)
+
+  -- Label für Körperpanzer
+  avalonUI.runiInfoBox_bodySymbol = getItemSymbolLabel(ITEM_TYPE_BODY, imageBody, xPosMiddle, yPosBottom)
+  avalonUI.runiInfoBox_bodyText = getItemTextLabel(ITEM_TYPE_BODY, GUIModel.guildInfoBoxModel["iBody"], xPosMiddle, yPosBottom)
+  --avalonUI.runiInfoBox_Body = getItemTextAndImage(ITEM_TYPE_BODY, GUIModel.guildInfoBoxModel["iBody"], xPosMiddle, yPosBottom, imageBody)
+
+  -- Label für Handschuhe
+  avalonUI.runiGuildBox_armsSymbol = getItemSymbolLabel(ITEM_TYPE_ARMS, imageArms, xPosRight, yPosTop)
+  avalonUI.runiGuildBox_armsText = getItemTextLabel(ITEM_TYPE_ARMS, GUIModel.guildInfoBoxModel["iArms"], xPosRight, yPosTop)
+  --avalonUI.runiInfoBox_Arms = getItemTextAndImage(ITEM_TYPE_ARMS, GUIModel.guildInfoBoxModel["iArms"], xPosRight, yPosTop, imageArms)
+
+  -- Label für Stiefel
+  avalonUI.runiGuildBox_legsSymbol = getItemSymbolLabel(ITEM_TYPE_LEGS, imageLegs, xPosRight, yPosBottom)
+  avalonUI.runiGuildBox_legsText = getItemTextLabel(ITEM_TYPE_LEGS, GUIModel.guildInfoBoxModel["iLegs"], xPosRight, yPosBottom)
+  --avalonUI.runiInfoBox_Leges = getItemTextAndImage(ITEM_TYPE_LEGS, GUIModel.guildInfoBoxModel["iLegs"], xPosRight, yPosBottom, imageLegs)
+
+  -- Label für die Aufladung des Hammers
+  avalonUI.runiGuildBox_Charge = Geyser.Label:new({
+      name = "RuniInfobox_Charge",
+      x=0,y="90%",width="100%",height="10%",
+    }, avalonUI.runiInfoBox)
+    setBackgroundColor("RuniInfobox_Charge", 0, 0, 0, 200)
+    avalonUI.runiGuildBox_Charge:setFontSize(avalonUI.infoBoxFontSize)
+--    avalonUI.runiGuildBox_Charge:setStyleSheet([[  background-color: ]]..chargeColor..[[;]])
+    --avalonUI.runiGuildBox_Charge:setStyleSheet([[  background-color: rgba(255,0,0,0.2);]])
+--    avalonUI.runiGuildBox_Charge:echo("Aktuelle Ladung des Schmiedehammers: "..avalonUI.runiInfoBoxModel.HammerCharge)
+    avalonUI.runiGuildBox_Charge:echo(avalonUI.runiInfoBoxModel.HammerCharge.." geladene Runen sind aktiv")
+    --RuniInfobox_Charge:echo("blablabla")
+
+end --avalonUI.buildRuniInfoScreen()
+
+
+
+
+--[=[
+function avalonUI.buildGuildRuniInfo()  
+  
+  local imageFolderPath = getMudletHomeDir().."/Avalet/"
+  
+  local placeholder = imageFolderPath.."missingImage.png"
+  
+  local imageHead = imageFolderPath.."head-white.png"
+  local imageBody = imageFolderPath.."body-white.png"
+  local imageArms = imageFolderPath.."arms-white.png"
+  local imageLegs = imageFolderPath.."legs-white.png"
+  local imageWeapon = imageFolderPath.."weapon-white.png"
+  local imageShield = imageFolderPath.."shield-white.png"
+  
+  local ITEM_TYPE_WEAPON = "Weapon"
+  local ITEM_TYPE_SHIELD = "Shield"
+  local ITEM_TYPE_HEAD = "Head"
+  local ITEM_TYPE_BODY = "Body"
+  local ITEM_TYPE_LEGS = "Legs"
+  local ITEM_TYPE_ARMS = "Arms"
+  
+  local dimension = 100 --Ausdehnung des Symbolbildes der Items, jeweils x und y
+
+--  path = imageFolderPath..imageHead
+--  path = path:gsub("[\\/]", "/")
+  placeholder = placeholder:gsub("[\\/]", "/")
+  
+  imageHead = imageHead:gsub("[\\/]", "/")
+  imageBody = imageBody:gsub("[\\/]", "/")
+  imageArms = imageArms:gsub("[\\/]", "/")
+  imageLegs = imageLegs:gsub("[\\/]", "/")
+  imageWeapon = imageWeapon:gsub("[\\/]", "/")
+  imageShield = imageShield:gsub("[\\/]", "/")
+  
+  if not (io.exists(placeholder)) then
+    cecho("&lt;magenta&gt;Fehler in der RuniInfoBox: Platzhalterbild fehlt.\n")
+  else
+    if not (io.exists(imageHead)) then imageHead = placeholder end
+    if not (io.exists(imageBody)) then imageBody  = placeholder end
+    if not (io.exists(imageArms)) then imageArms  = placeholder end
+    if not (io.exists(imageLegs)) then imageLegs  = placeholder end
+    if not (io.exists(imageWeapon)) then imageWeapon  = placeholder end
+    if not (io.exists(imageShield)) then imageShield  = placeholder end
+  end
+
+  -- Die Info-Box der Runis besteht aus einem Container, der im oberen Bereich des Hauptfenstes liegt.
+  -- In dem Hauptcontainer gibt es ein Label, damit der Container formatiert werden kann. Insbesondere
+  -- bekommt er auf diesem Weg den halbtransparenten Hintergrund.
+  -- In diesem Haupt-Container gibt es drei weitere Container, die jeweils die ganze Höhe und ein drittel
+  -- der Breite des Haupt-Containers einnehmen.
+  -- Innerhalb dieser Teil-Container liegen Label, die einmal das Item-Symbol enthalten. Und dann auch
+  -- Label, die die Informationen enthalten. Als formatierten Text. Es gibt also dann ZWEI Label für jedes
+  -- Item: Head, Body, Arms, Legs, Weapon, Shield
+
+  -- Hauptcontainer
+  avalonUI.runiGuildBox_mainContainer = Geyser.Container:new({
+    name = "avalonUI.runiGuildBox_mainContainer",
+    x="3%", y="3%", width="94%", height="94%",
+  }, avalonUI.Box14)--14
+  avalonUI.runiGuildBox_mainContainer:hide()
+  
+  local i = nil --Hilfsvariable für Rüstungsteil bzw.Waffe/Schild&lt;
+  
+  -- Der linke Sub-Container:
+  avalonUI.runiGuildBox_innerLeftContainer = Geyser.Container:new({
+    name = "avalonUI.runiGuildBox_innerLeftContainer",
+    x=0, y=0, width="33%", height="100%",
+  }, avalonUI.runiGuildBox_mainContainer)
+
+  -- Der mittlere Sub-Container
+  avalonUI.runiGuildBox_innerCenterContainer = Geyser.Container:new({
+    name = "avalonUI.runiGuildBox_innerCenterContainer",
+    x="33%", y=0, width="33%", height="100%",
+  }, avalonUI.runiGuildBox_mainContainer)
+
+  -- Der rechte Sub-Container
+  avalonUI.runiGuildBox_innerRightContainer = Geyser.Container:new({
+    name = "avalonUI.runiGuildBox_innerRightContainer",
+    x="66%", y=0, width="33%", height="100%",
+  }, avalonUI.runiGuildBox_mainContainer)
+
+--[[
+  local offsetX = "10%"             --default: 0
+  local offsetY_TOP = "10%"         --default: 0
+  local offsetY_BOTTOM = "60%"      --default: "50%"
+  local width = "80%"              --default: "100%" minus zwei mal offsetX
+  local height = "30%"              --default: "50%" minus zwei mal offsetY_TOP
+]]
+
+
+
+  local function itemSymbolLabel(itemType, image, posX, posY, parent)
+  
+    local symbol = nil
+
+    symbol = Geyser.Label:new({
+        name = "avalonUI.runiGuildBox_"..itemType.."Symbol",
+        x=posX,y=posY,width="100%",height="50%",
+      }, avalonUI[parent])
+      --setBackgroundColor("avalonUI.runiGuildBox_"..itemType.."Symbol", 0, 0, 0, 10)
+      symbol:setStyleSheet([[
+        border-image: url("]]..image..[[");
+        padding: '0px';
+        margin: '40px';
+      ]])
+    
+    return symbol
+    
+  end
+
+  local function getItemTextLabel(itemType, item, posX, posY, parent)
+
+    local label = nil
+    
+    local iType = itemType--item.iType
+    local iName = item.iName
+    local iColor = item.iColor
+    local iRunes = item.iRunes
+
+    label = Geyser.Label:new({
+      name = "avalonUI.runiGuildBox_"..iType.."Text",
+      x=posX,y=posY,width="100%",height="50%",
+      --vertical-align="top",
+    }, avalonUI[parent])
+    setBackgroundColor("avalonUI.runiGuildBox_"..iType.."Text", 0, 0, 0, 220)--210 zu viel, 240 fast nicht zu sehen
+    label:setStyleSheet([[qproperty-alignment: 'AlignTop';padding: '20px'; margin: '0px';]])
+
+    local itemText = ""
+    itemText = itemText..[[&lt;p&gt;&lt;div style="font-size:16px;"&gt;&lt;b&gt;&lt;font color="]]..iColor..[["&gt;]]..iName..[[&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;]]
+    itemText = itemText..[[&lt;div style="font-size:14px"&gt;&lt;b&gt;&lt;table&gt;]]
+    if iRunes ~= nil then
+      for _, k in pairs(iRunes) do
+        itemText = itemText..[[&lt;tr&gt;&lt;td&gt;]]..k.rChargeSymbol..[[&lt;/td&gt;&lt;td&gt;&lt;font color="]]..k.rColor..[["&gt;]]..k.rName..[[&lt;/td&gt;&lt;/tr&gt;&lt;/font&gt;]]
+      end --for
+    end --if
+    itemText = itemText..[[&lt;/table&gt;&lt;/b&gt;&lt;/div&gt;&lt;/p&gt;]]
+    label:echo("")
+    label:echo(itemText)
+
+    return label
+  end
+  
+  -- Label für Waffe
+  avalonUI.runiGuildBox_weaponSymbol = itemSymbolLabel(ITEM_TYPE_WEAPON, imageWeapon, 0, 0, "runiGuildBox_innerLeftContainer")
+  avalonUI.runiGuildBox_weaponText = getItemTextLabel(ITEM_TYPE_WEAPON, GUIModel.guildInfoBoxModel["iWeapon"], 0, 0, "runiGuildBox_innerLeftContainer")
+
+  -- Label für Schild
+  avalonUI.runiGuildBox_shieldSymbol = itemSymbolLabel(ITEM_TYPE_SHIELD, imageShield, 0, "50%", "runiGuildBox_innerLeftContainer")
+  avalonUI.runiGuildBox_shieldText = getItemTextLabel(ITEM_TYPE_SHIELD, GUIModel.guildInfoBoxModel["iShield"], 0, "50%", "runiGuildBox_innerLeftContainer")
+
+  -- Label für Helm
+  avalonUI.runiGuildBox_headSymbol = itemSymbolLabel(ITEM_TYPE_HEAD, imageHead, 0, 0, "runiGuildBox_innerCenterContainer")
+  avalonUI.runiGuildBox_headText = getItemTextLabel(ITEM_TYPE_HEAD, GUIModel.guildInfoBoxModel["iHead"], 0, 0, "runiGuildBox_innerCenterContainer")
+
+  -- Label für Körperpanzer
+  avalonUI.runiGuildBox_bodySymbol = itemSymbolLabel(ITEM_TYPE_BODY, imageBody, 0, "50%", "runiGuildBox_innerCenterContainer")
+  avalonUI.runiGuildBox_bodyText = getItemTextLabel(ITEM_TYPE_BODY, GUIModel.guildInfoBoxModel["iBody"], 0, "50%", "runiGuildBox_innerCenterContainer")
+
+  -- Label für Handschuhe
+  avalonUI.runiGuildBox_armsSymbol = itemSymbolLabel(ITEM_TYPE_ARMS, imageArms, 0, 0, "runiGuildBox_innerRightContainer")
+  avalonUI.runiGuildBox_armsText = getItemTextLabel(ITEM_TYPE_ARMS, GUIModel.guildInfoBoxModel["iArms"], 0, 0, "runiGuildBox_innerRightContainer")
+
+  -- Label für Stiefel
+  avalonUI.runiGuildBox_legsSymbol = itemSymbolLabel(ITEM_TYPE_LEGS, imageLegs, 0, "50%", "runiGuildBox_innerRightContainer")
+  avalonUI.runiGuildBox_legsText = getItemTextLabel(ITEM_TYPE_LEGS, GUIModel.guildInfoBoxModel["iLegs"], 0, "50%", "runiGuildBox_innerRightContainer")
+
+end
+]=]
+</script>
 				<eventHandlerList />
 			</Script>
 			<Script isActive="yes" isFolder="no">
@@ -4549,17 +6964,17 @@ end</script>
   GUIframe.addWindow(avalonUI.Box5c, "Timer", "bottomleft")  
 
 
-
+  -- Box für die Timer
   avalonUI.Box5a = Geyser.Label:new({
   	name = "avalonUI.Box5a",
   	x = "0%", y = "0%",
-  	width = "100%",
-  	height = "70%",
+  	width = "85%",
+  	height = "60%",
   }, avalonUI.Box5c)--, avalonUI.Left)
   avalonUI.Box5a:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
   --GUIframe.addWindow(avalonUI.Box5a, "Timer", "bottomleft")  
 
-  
+
 --  avalonUI.Box5 = Geyser.Container:new({
 --  	name = "avalonUI.Box5",
 --  	x = "2%", y = "0%",
@@ -4573,16 +6988,11 @@ end</script>
   -- was oben bei Box5 dokumentiert ist. Auch ein TODO.
   avalonUI.Box7 = Geyser.Container:new({
     name = "avalonUI.Box7",
-    x = "0%", y = "70%",
+    x = "0%", y = "60%",
     width = "100%",
-    height = "30%",
+    height = "40%",
   }, avalonUI.Box5c)
   --avalonUI.Box7:setStyleSheet(avalonUI.BoxCSS:getCSS())
-  
-  
-  
-  
-  
   
   ---------------------------------------------------------------------------
   -- Gauges für die Timer
@@ -4613,13 +7023,26 @@ end</script>
   
   
   -----------------------------------
-  -- Gauges für TP, AP, ZP und Mana
+  -- Gauges für Tick, TP, AP, ZP und Mana
   -----------------------------------
   
+  avalonUI.Tick = Geyser.Gauge:new({
+    name = "avalonUI.Tick",
+    x = "2%", y = "0%",
+    width="96%", height="3%",
+  }, avalonUI.Box7)
+  avalonUI.Tick.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
+  avalonUI.CSS.GaugeFrontCSS:set("background-color", avalonUI.GaugeFrontColorMana)
+  avalonUI.Tick.front:setStyleSheet(avalonUI.CSS.GaugeFrontCSS:getCSS())
+  avalonUI.Tick.text:setFontSize(9)
+  avalonUI.Tick:setValue(9999,9999, [[]])
+  avalonUI.Tick.text:setToolTip("Tick-Timer (comming soon)", "10")
+
+
   avalonUI.Health = Geyser.Gauge:new({
     name = "avalonUI.Health",
-    x = "2%", y = "0%",
-    width="30%", height="75%",
+    x = "2%", y = "6%",
+    width="30%", height="70%",
     orientation="vertical",
   }, avalonUI.Box7)
   avalonUI.Health.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
@@ -4632,8 +7055,8 @@ end</script>
   
   avalonUI.Endurance = Geyser.Gauge:new({
     name = "avalonUI.Endurance",
-    x = "35%", y = "0%",
-    width="30%", height="75%",
+    x = "35%", y = "5%",
+    width="30%", height="70%",
     orientation="vertical",
   }, avalonUI.Box7)
   avalonUI.Endurance.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
@@ -4646,8 +7069,8 @@ end</script>
   
   avalonUI.Spellpoints = Geyser.Gauge:new({
     name = "avalonUI.Spellpoints",
-    x = "68%", y = "0%",
-    width="30%", height="75%",
+    x = "68%", y = "5%",
+    width="30%", height="70%",
     orientation="vertical",
   }, avalonUI.Box7)
   avalonUI.Spellpoints.back:setStyleSheet(avalonUI.CSS.GaugeBackCSS:getCSS())
@@ -4668,6 +7091,221 @@ end</script>
   avalonUI.Mana.front:setStyleSheet(avalonUI.CSS.GaugeFrontCSS:getCSS())
   avalonUI.Mana.text:setFontSize(9)
   avalonUI.Mana:setValue(9999,9999, [[&lt;b&gt;&lt;center&gt;Mana&lt;/center&gt;&lt;/b&gt;]])
+
+end</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>buildHDA</name>
+				<packageName></packageName>
+				<script>function avalonUI.buildHDA()
+
+  -- Box für die Hunger/Durst/Alk/etc-Anzeige
+  avalonUI.Box5b = Geyser.Container:new({
+  	name = "avalonUI.Box5b",
+  	x = "80%", y = "0%",
+  	width = "20%",
+  	height = "60%",
+  }, avalonUI.Box5c)--, avalonUI.Left)
+  --avalonUI.Box5b:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
+
+
+  local imageFolderPath = getMudletHomeDir().."/Avalet/imgs/"
+  
+  local imgFightNone = imageFolderPath.."sword-clash-white.svg"--"under_attack.png"
+  local imgFightUnderAttack = imageFolderPath.."sword-clash-magenta.svg"--"under_attack.png"
+  local imgDisease = imageFolderPath.."poison-bottle-grey.svg"
+  --local imgDiseaseNone = imageFolderPath.."poison-bottle-white.svg"
+  --local imgDiseaseAvoidDeath = imageFolderPath.."poison-bottle-magenta.svg"
+  imgFightNone = imgFightNone:gsub("[\\/]", "/")
+  imgFightUnderAttack = imgFightUnderAttack:gsub("[\\/]", "/")
+  imgDisease = imgDisease:gsub("[\\/]", "/")
+  --imgDiseaseNone = imgDiseaseNone:gsub("[\\/]", "/")
+  --imgDiseaseAvoidDeath = imgDiseaseAvoidDeath:gsub("[\\/]", "/")
+  
+  --if not (io.exists(imgFightNone)) then cecho("&lt;magenta&gt;Bild 1 fehlt: "..imgFightNone.."\n") end
+  --if not (io.exists(imgFightUnderAttack)) then cecho("&lt;magenta&gt;Bild 2 fehlt: "..imgFightUnderAttack.."\n") end
+  --if not (io.exists(imgDisease)) then cecho("&lt;magenta&gt;Bild 3 fehlt: "..imgDisease.."\n") end
+  
+  -- Inhalt der Box für die Hunger/Durst/Alk/etc-Anzeige
+  -- Icon für "im Kampf"
+  avalonUI.Box5b1 = Geyser.Label:new({
+  	name = "avalonUI.Box5b1",
+  	x="20%", y="4%", width="60%",	height="15%",
+  }, avalonUI.Box5b)--, avalonUI.Left)
+  
+  if player.kampf ~= "0" and player.kampf ~= "1" then player.kampf = "0" end
+  
+  if player.kampf == "0" then
+  --echo("kampf ist null")
+    avalonUI.Box5b1:setStyleSheet(avalonUI.CSS.HDABlankCSS:getCSS()..[[;border-image: url("]]..imgFightNone..[[");]])
+  else
+    avalonUI.Box5b1:setStyleSheet(avalonUI.CSS.HDABlankCSS:getCSS()..[[;border-image: url("]]..imgFightUnderAttack..[[");]])
+  end
+ 
+  -- Icon für "Vergiftet/verflucht/erkrankt"
+  avalonUI.Box5b2 = Geyser.Label:new({
+  	name = "avalonUI.Box5b2",
+  	x="20%", y="20%", width="60%",	height="15%",
+  }, avalonUI.Box5b)--, avalonUI.Left)
+  avalonUI.Box5b2:setToolTip("Krankheiten, Gifte, Flüche (funktioniert noch nicht)", "12")
+  avalonUI.Box5b2:setStyleSheet(avalonUI.CSS.HDABlankCSS:getCSS())
+  avalonUI.Box5b2:setStyleSheet("QLabel{"..avalonUI.CSS.HDABlankCSS:getCSS()..[[;border-image: url("]]..imgDisease..[[");} QToolTip{"..avalonUI.CSS.boxCSS:getCSS()..";color:white;}]])
+  
+--  "QLabel{"..avalonUI.CSS.HDACSS:getCSS().."}QToolTip{"..avalonUI.CSS.boxCSS:getCSS()..";color:white;}"
+  
+--  if player.fluch == 0 and player.krankheit == 0 and player.vergiftung == 0 then
+--    avalonUI.Box5b2:setStyleSheet(avalonUI.CSS.HDABlankCSS:getCSS()..[[;border-image: url("]]..imgDiseaseNone..[[");]])
+--  else
+--    avalonUI.Box5b2:setStyleSheet(avalonUI.CSS.HDABlankCSS:getCSS()..[[;border-image: url("]]..imgDiseaseAvoidDeath..[[");]])
+--  end
+ 
+--[[
+  avalonUI.Box5b3 = Geyser.Label:new({
+  	name = "avalonUI.Box5b3",
+  	x="20%", y="30%", width="60%",	height="10%",
+  }, avalonUI.Box5b)--, avalonUI.Left)
+  avalonUI.Box5b3:setStyleSheet(avalonUI.CSS.HDABlankCSS:getCSS())
+]]
+  --Box für die HDA-Anzeige
+  avalonUI.Box5b4 = Geyser.Container:new({
+  	name = "avalonUI.Box5b4",
+  	x="20%", y="37%", width="60%", height="70%",
+  }, avalonUI.Box5b)--, avalonUI.Left)
+  --avalonUI.Box5b3:setStyleSheet(avalonUI.CSS.boxCSS:getCSS())
+
+  avalonUI.Box5b4_11 = Geyser.Label:new({
+  	name = "avalonUI.Box5b4_11",
+  	x="0%", y="0%", width="33%", height="12%",
+    color="black",
+    fgcolor="white",
+    message="&lt;center&gt;&lt;b&gt;H&lt;/b&gt;&lt;/center&gt;",
+  }, avalonUI.Box5b4)--, avalonUI.Left)
+  avalonUI.Box5b4_21 = Geyser.Label:new({
+  	name = "avalonUI.Box5b4_21",
+  	x="33%", y="0%", width="33%", height="12%",
+    color="black",
+    fgcolor="white",
+    message="&lt;center&gt;&lt;b&gt;D&lt;/b&gt;&lt;/center&gt;",
+  }, avalonUI.Box5b4)--, avalonUI.Left)
+  avalonUI.Box5b4_31 = Geyser.Label:new({
+  	name = "avalonUI.Box5b4_31",
+  	x="66%", y="0%", width="33%", height="12%",
+    color="black",
+    fgcolor="white",
+    message="&lt;center&gt;&lt;b&gt;A&lt;/b&gt;&lt;/center&gt;",
+  }, avalonUI.Box5b4)--, avalonUI.Left)
+
+  for k = 1, 6, 1 do
+
+    --Hunger-Anzeige
+    avalonUI["HDA_H"..k] = Geyser.Label:new({
+    	name = "HDA_H"..k,
+    	x="0%", y=(k*12).."%", width="33%", height="12%",
+    }, avalonUI.Box5b4)--, avalonUI.Left)
+    if avalonUI.hungerIndex &lt;= 1 then
+      --avalonUI["HDA_H"..k]:setStyleSheet(avalonUI.CSS.HDABlankCSS:getCSS())
+      avalonUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
+    elseif avalonUI.hungerIndex &gt; k then
+      if avalonUI.hungerIndex &lt;=2 then
+        --avalonUI["HDA_H"..k]:setStyleSheet(avalonUI.CSS.HDAGreenCSS:getCSS())
+        avalonUI.CSS.HDACSS:set("background-color", "rgb(0,255,0)")
+      elseif avalonUI.hungerIndex &lt;= 4 then
+        --avalonUI["HDA_H"..k]:setStyleSheet(avalonUI.CSS.HDAYellowCSS:getCSS())
+        avalonUI.CSS.HDACSS:set("background-color", "rgb(255,255,0)")
+      else
+        --avalonUI["HDA_H"..k]:setStyleSheet(avalonUI.CSS.HDARedCSS:getCSS())
+        avalonUI.CSS.HDACSS:set("background-color", "rgb(255,0,0)")
+      end
+      --avalonUI["HDA_H"..k]:setStyleSheet(avalonUI.CSS.HDARedCSS:getCSS())
+    else   
+      --avalonUI["HDA_H"..k]:setStyleSheet(avalonUI.CSS.HDABlankCSS:getCSS())
+      avalonUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
+    end
+    avalonUI.CSS.HDACSS:set("border-color", "rgb(255,255,255)")
+    avalonUI["HDA_H"..k]:setToolTip("Hunger: "..player.hunger.."\nDurst:    "..player.durst.."\nAlkohol: "..player.alk, "12")
+    avalonUI["HDA_H"..k]:setStyleSheet("QLabel{"..avalonUI.CSS.HDACSS:getCSS().."}QToolTip{"..avalonUI.CSS.boxCSS:getCSS()..";color:white;}")
+
+    --Durst-Anzeige    
+    avalonUI["HDA_D"..k] = Geyser.Label:new({
+    	name = "HDA_D"..k,
+    	x="33%", y=(k*12).."%", width="33%", height="12%",
+    }, avalonUI.Box5b4)
+    if avalonUI.durstIndex &lt;= 1 then
+      --avalonUI["HDA_D"..k]:setStyleSheet(avalonUI.CSS.HDABlankCSS:getCSS())
+      avalonUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
+    elseif avalonUI.durstIndex &gt; k then
+      if avalonUI.durstIndex &lt;=2 then
+        --avalonUI["HDA_D"..k]:setStyleSheet(avalonUI.CSS.HDAGreenCSS:getCSS())
+        avalonUI.CSS.HDACSS:set("background-color", "rgb(0,255,0)")
+      elseif avalonUI.durstIndex &lt;= 4 then
+        --avalonUI["HDA_D"..k]:setStyleSheet(avalonUI.CSS.HDAYellowCSS:getCSS())
+        avalonUI.CSS.HDACSS:set("background-color", "rgb(255,255,0)")
+      else
+        --avalonUI["HDA_D"..k]:setStyleSheet(avalonUI.CSS.HDARedCSS:getCSS())
+        avalonUI.CSS.HDACSS:set("background-color", "rgb(255,0,0)")
+      end
+      --avalonUI["HDA_D"..k]:setStyleSheet(avalonUI.CSS.HDARedCSS:getCSS())
+    else   
+      --avalonUI["HDA_D"..k]:setStyleSheet(avalonUI.CSS.HDABlankCSS:getCSS())
+      avalonUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
+    end
+    avalonUI.CSS.HDACSS:set("border-color", "rgb(255,255,255)")
+    avalonUI["HDA_D"..k]:setToolTip("Hunger: "..player.hunger.."\nDurst:    "..player.durst.."\nAlkohol: "..player.alk, "12")
+    avalonUI["HDA_D"..k]:setStyleSheet("QLabel{"..avalonUI.CSS.HDACSS:getCSS().."} QToolTip{"..avalonUI.CSS.boxCSS:getCSS()..";color:white;}")
+    
+    -- Alkohol-Anzeige:
+    avalonUI["HDA_A"..k] = Geyser.Label:new({
+    	name = "HDA_A"..k,
+    	x="66%", y=(k*12).."%", width="33%", height="12%",
+    }, avalonUI.Box5b4)--, avalonUI.Left)
+    --avalonUI["HDA_A"..k]:setStyleSheet(avalonUI.CSS.HDARedCSS:getCSS())
+    if (avalonUI.alkIndex-1) &lt;= 1 then
+      --avalonUI["HDA_A"..k]:setStyleSheet(avalonUI.CSS.HDABlankCSS:getCSS())
+      avalonUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
+    elseif (avalonUI.alkIndex-1) &gt; k then
+      if (avalonUI.alkIndex-1) &gt;=5 then
+        --avalonUI["HDA_A"..k]:setStyleSheet(avalonUI.CSS.HDARedCSS:getCSS())
+        avalonUI.CSS.HDACSS:set("background-color", "rgb(255,0,0)")
+      elseif (avalonUI.alkIndex-1) &gt;= 2 then
+        --avalonUI["HDA_A"..k]:setStyleSheet(avalonUI.CSS.HDAYellowCSS:getCSS())
+        avalonUI.CSS.HDACSS:set("background-color", "rgb(255,255,0)")
+      else
+        --avalonUI["HDA_A"..k]:setStyleSheet(avalonUI.CSS.HDABlankCSS:getCSS())
+        avalonUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
+      end
+      --avalonUI["HDA_A"..k]:setStyleSheet(avalonUI.CSS.HDAGreenCSS:getCSS())
+    else   
+      --avalonUI["HDA_A"..k]:setStyleSheet(avalonUI.CSS.HDABlankCSS:getCSS())
+      avalonUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
+    end
+    avalonUI["HDA_A"..k]:setToolTip("Hunger: "..player.hunger.."\nDurst:    "..player.durst.."\nAlkohol: "..player.alk, "12")
+    --avalonUI["HDA_A"..k]:setStyleSheet("QToolTip{background: yellow; color: blue; border:none;}")
+    if player.hangover then
+      avalonUI.CSS.HDACSS:set("border-color", "rgb(255,0,255)")
+    else
+      avalonUI.CSS.HDACSS:set("border-color", "rgb(255,255,255)")
+    end
+    --avalonUI["HDA_A"..k]:setStyleSheet(avalonUI.CSS.HDACSS:getCSS())
+    avalonUI["HDA_A"..k]:setStyleSheet("QLabel{"..avalonUI.CSS.HDACSS:getCSS().."}QToolTip{"..avalonUI.CSS.boxCSS:getCSS()..";color:white;}")
+
+  end
+
+end</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>buildAlerts</name>
+				<packageName></packageName>
+				<script>-- Alerts
+-- "Alerts" sind eigentlich eher "Message Boxen", die halbtransparent oben auf dem Hauptfenster erzeugt werden.
+-- Diese Boxen sollen Informationen für den Spieler hervorheben. Zu diesen Informationen zählen auch Level- und
+-- Stufen-UPs. Aber auch Statusinformationen zum Zustand der Ausrüstung. Für Runenschmiede wird hier eine
+-- Box zu jedem Ausrüstungsgegenstand generiert, der beschädigt ist oder der eine beschädigte Rune enthält.
+-- Die Boxen verschwinden durch anklicken oder nach einer festgelegten Zeit.
+-- Messageboxen müssen aktualisiert werdne können. Dazu müssen sie wiederfindbar sein.
+function avalonUI.buildAlerts()
+  
 
 end</script>
 				<eventHandlerList />
@@ -4736,7 +7374,7 @@ function avalonUI.buildTopBar()
 		d = d+1
 	end
     
-  
+--[=[  
   -------------------------
   -- Menü "Options"
   -------------------------
@@ -4758,7 +7396,7 @@ function avalonUI.buildTopBar()
   --setLabelClickCallback( "TopMenuOptions", "ClickTopMenuPreferences")
   setLabelClickCallback( "TopMenuOptions", "avalonUI.showSettingsDialog")
   --setLabelClickCallback(labelName, luaFunctionName, [any arguments])
-  
+]=]  
   --i = 1
   --avalonUI.TopMenuOptions[i] = avalonUI.TopMenuOptions:addChild({
   --	name = "TopMenuOptions"..i,
@@ -5120,117 +7758,6 @@ end</script>
 					<eventHandlerList />
 				</Script>
 			</ScriptGroup>
-			<Script isActive="yes" isFolder="no">
-				<name>buildRuniInfoBox</name>
-				<packageName></packageName>
-				<script>-- this example creates a transparent overlay message box to show a big warning message "You are under attack!" in the middle
--- of the screen. Because the background color has a transparency level of 150 (0-255, with 0 being completely transparent
--- and 255 opaque) the background text can still be read through.
-
---local width, height = getMainWindowSize()
---createLabel("messageBox",(width/2)-300,(height/2)-100,250,150,1)
---resizeWindow("messageBox",500,70)
---moveWindow("messageBox", (width/2)-300,(height/2)-100 )
---setBackgroundColor("messageBox", 255, 204, 0, 200)
---echo("messageBox", [[&lt;p style="font-size:35px"&gt;&lt;b&gt;&lt;center&gt;&lt;font color="red"&gt;You are under attack!&lt;/font&gt;&lt;/center&gt;&lt;/b&gt;&lt;/p&gt;]])
-
-
-function avalonUI.buildRuniInfoBox()
-
---  settingsDialogWindow = Geyser.UserWindow:new({
---    name = "settingsDialogWindow",
---    titleText ="Einstellungen", -- only available since Mudlet 4.8+
---    x = "20%", y="20%",
---    width="30%", height ="40%"
---  })
---  settingsDialogWindow:disableAutoDock()
-
---[[
-  mainWidth, mainHeight = getMainWindowSize()
-  
-  posX = 0
-  posX = mainWidth/2 - avalonUI.settingsSettings.width/2
-  posY = 0
-  posY = mainHeight/2 - avalonUI.settingsSettings.height/2
-  
-  avalonUI.settingsDialogWindow = avalonUI.settingsWindow or Adjustable.Container:new({name="avalonUI.settingsDialogWindow"})
-  --avalonUI.settingsDialogWindow:setTitle("Einstellungen")       -- "Titel" ist per default grün
-  avalonUI.settingsDialogWindow:setTitle("Einstellungen","white") -- Hier ist der Titel weiß
-  avalonUI.settingsDialogWindow:resize(avalonUI.settingsSettings.width, avalonUI.settingsSettings.height)
-  avalonUI.settingsDialogWindow:move(posX, posY)
-  avalonUI.settingsDialogWindow:setFontSize(14)
-
-
-
-  local width, height = getMainWindowSize()
-  createLabel("messageBox",(width/2)-300,(height/2)-100,250,150,1)
-  resizeWindow("messageBox",500,70)
-  moveWindow("messageBox", (width/2)-300,(height/2)-100 )
-  setBackgroundColor("messageBox", 255, 204, 0, 200)
-]]
---  echo("messageBox", [[&lt;p style="font-size:35px"&gt;&lt;b&gt;&lt;center&gt;&lt;font color="red"&gt;You are under attack!&lt;/font&gt;&lt;/center&gt;&lt;/b&gt;&lt;/p&gt;]])
-
-
-  avalonUI.runiInfoBox = Geyser.Label:new({
-    name = "avalonUI.runiInfoBox",
-    x = "16%", y = "5%",
-    fgColor = "white",
-    width = "49%",
-    height = "20%",
-    --nestable = true,
-  })
-  avalonUI.runiInfoBox:setStyleSheet(avalonUI.CSS.overlayCSS:getCSS())
-  --avalonUI.runiInfoBox:setColor(0, 204, 0, 200)
-  if avalonUI.font ~= "main" then
-    avalonUI.runiInfoBox:setFont(avalonUI.font)
-  else
-    avalonUI.runiInfoBox:setFont(getFont("main"))
-  end
-  avalonUI.runiInfoBox:setFontSize(12)
-  --avalonUI.runiInfoBox:setFontSize(avalonUI.chatTabFontSize)      
-  
-
-  --avalonUI.hideRuniInfoBox()
-
-end
-
-
-function avalonUI.buildRuniInfoBox2()
-
-
-  -- this example creates a transparent overlay message box to show a big warning message "You are under attack!" in the middle
-  -- of the screen. Because the background color has a transparency level of 150 (0-255, with 0 being completely transparent
-  -- and 255 opaque) the background text can still be read through.
-  local width, height = getMainWindowSize()
-  createLabel("messageBox",(width/2)-300,(height/2)-100,250,150,1)
-  resizeWindow("messageBox",500,70)
-  moveWindow("messageBox", (width/2)-300,(height/2)-100 )
-  setBackgroundColor("messageBox", 255, 204, 0, 200)
-  echo("messageBox", [[&lt;p style="font-size:35px"&gt;&lt;b&gt;&lt;center&gt;&lt;font color="red"&gt;You are under attack!&lt;/font&gt;&lt;/center&gt;&lt;/b&gt;&lt;/p&gt;]])
-  
-  -- you can also make it react to clicks!
-  mynamespace = {
-    messageBoxClicked = function()
-      echo("hey you've clicked the box!\n")
-    end
-  }
-  
-  setLabelClickCallback("messageBox", "mynamespace.messageBoxClicked")
-
-end
-
-function avalonUI.showRuniInfoBox()
-  --avalonUI.settingsSettings.isSettingsDialogVisible = true
-  avalonUI.runiInfoBox:show()
-end
-
-
-function avalonUI.hideRuniInfoBox()
-  --avalonUI.settingsSettings.isSettingsDialogVisible = false
-  avalonUI.runiInfoBox:hide()
-end</script>
-				<eventHandlerList />
-			</Script>
 		</ScriptGroup>
 		<ScriptGroup isActive="yes" isFolder="yes">
 			<name>ATCP</name>
@@ -5409,28 +7936,35 @@ registerAnonymousEventHandler("AvalonGesinnung", "onATCPEventAvalonGesinnung")
 
 -- event == "AvalonHunger"
 -- Die Texte für Hunger und für Durst hatten am Ende ein Leerzeichen zu viel.
--- Aber ein Trim kann nie schaden.
+-- Das wurde gefixt. Aber ein Trim kann nie schaden.
 function onATCPEventAvalonHunger(event, arg)
 	debugc("&lt;magenta&gt;AvalonHunger per ATCP empfangen!\n")
+	--cecho("&lt;magenta&gt;AvalonHunger per ATCP empfangen!\n")
 	arg = string.trim(arg)
 	if player.hunger ~= arg then 
 		player.hunger = arg
 		raiseEvent("RefreshInfobox", arg)
+    --raiseEvent("RefreshHDA", arg)
 	end
+  raiseEvent("RefreshHDA", arg)
 end
 registerAnonymousEventHandler("AvalonHunger", "onATCPEventAvalonHunger")
 
 
 
 -- event == "AvalonDurst"
--- Die Texte für Hunger und für Durst haben am Ende ein Leerzeichen zu viel.
+-- Die Texte für Hunger und für Durst hatten am Ende ein Leerzeichen zu viel.
+-- Das wurde gefixt. Aber ein Trim kann nie schaden.
 function onATCPEventAvalonDurst(event, arg)
 	debugc("&lt;magenta&gt;AvalonDurst per ATCP empfangen!\n")
+	--cecho("&lt;magenta&gt;AvalonDurst per ATCP empfangen!\n")
 	arg = string.trim(arg)
 	if player.durst ~= arg then
 		player.durst = arg
 		raiseEvent("RefreshInfobox", arg)
+    --raiseEvent("RefreshHDA", arg)
 	end
+  raiseEvent("RefreshHDA", arg)
 end
 registerAnonymousEventHandler("AvalonDurst", "onATCPEventAvalonDurst")
 
@@ -5494,7 +8028,7 @@ registerAnonymousEventHandler("AvalonGruppe", "onATCPEventAvalonGruppe")
 
 -- event == "AvalonZaubern"
 function onATCPEventAvalonZaubern(event, arg)
-	debugc("&lt;magenta&gt;AvalonZaubern per ATCP empfangen!\n")
+	debugc("&lt;magenta&gt;AvalonZaubern per ATCP empfangen!")
 	arg = string.trim(arg)
 	if player.zaubern ~= arg then
 		player.zaubern = arg
@@ -5513,13 +8047,15 @@ function onATCPEventAvalonKampf(event, arg)
 	if player.kampf ~= arg then
 		player.kampf = arg
 		-- raiseEvent("RefreshInfobox", arg)
+    raiseEvent("RefreshHDA", arg)
 	end
 end
 registerAnonymousEventHandler("AvalonKampf", "onATCPEventAvalonKampf")
 
 
 
--- event == "AvalonAngegriffen"
+    -- event == "AvalonAngegriffen"raiseEvent("RefreshHDA", arg)
+
 function onATCPEventAvalonAngegriffen(event, arg)
 	debugc("&lt;magenta&gt;AvalonAngegriffen per ATCP empfangen!\n")
 	arg = string.trim(arg)
@@ -5570,15 +8106,17 @@ end
 registerAnonymousEventHandler("AvalonAllyGetoetet", "onATCPEventAvalonAllyGetoetet")
 
 
+-- Hier stehen die ruebersicht-Daten der Runenschmiede drin.
 function onATCPEventAvalonGildenInfo(event, arg)
 	debugc("&lt;magenta&gt;AvalonGildenInfo per ATCP empfangen!\n")
-	cecho("\n&lt;magenta&gt;AvalonGildenInfo per ATCP empfangen!: "..arg.."\n")
+	--cecho("\n&lt;magenta&gt;AvalonGildenInfo per ATCP empfangen!: "..arg.."\n")
   
 	--arg = string.trim(arg)
 	--if player.allyGetoetet ~= arg then
 		--player.allyGetoetet = arg
 		-- raiseEvent("RefreshInfobox", arg)
 	--end
+  avalonUI.processGuildInfo(arg)
 end
 registerAnonymousEventHandler("AvalonGildenInfo", "onATCPEventAvalonGildenInfo")
 
@@ -5715,7 +8253,77 @@ function onATCPEventAvalonChannel(event, arg)
   if channel == "Schneider" then channel = "Zuenfte" end
   if channel == "Orkjaeger" then channel = "Zuenfte" end
   if channel == "Koeche" then channel = "Zuenfte" end
-  
+  --[[
+  local AVA_CONST_NATIONS = {
+    "Mensch",
+    "Hobbit",
+    "Elf",
+    "Dunkelelf",
+    "Zwerg",
+    "Chaoszentaur",
+    "Amphib",
+    "Exxen",
+    "Oger"
+  }
+  ]]
+  player.nation = player.nation or ""
+
+  if channel == "Mensch" then
+    if player.nation ~= "Menschen" then
+      player.nation = "Menschen"
+      raiseEvent("RefreshInfobox")
+    end
+    channel = "Volk"
+  elseif channel == "Hobbit" then
+    if player.nation ~= "Hobbits" then
+      player.nation = "Hobbits"
+      raiseEvent("RefreshInfobox")
+    end
+    channel = "Volk"
+  elseif channel == "Elf" then
+    if player.nation ~= "Elfen" then
+      player.nation = "Elfen"
+      raiseEvent("RefreshInfobox")
+    end
+    channel = "Volk"
+  elseif channel == "Dunkelelf" then
+    if player.nation ~= "Dunkelelfen" then
+      player.nation = "Dunkelelfen"
+      raiseEvent("RefreshInfobox")
+    end
+    channel = "Volk"
+  elseif channel == "Zwerg" then
+    if player.nation ~= "Zwerge" then
+      player.nation = "Zwerge"
+      raiseEvent("RefreshInfobox")
+    end
+    channel = "Volk"
+  elseif channel == "Chaoszentaur" then
+    if player.nation ~= "Chaoszentauren" then
+      player.nation = "Chaoszentauren"
+      raiseEvent("RefreshInfobox")
+    end
+    channel = "Volk"
+  elseif channel == "Amphib" then
+    if player.nation ~= "Amphiben" then
+      player.nation = "Amphiben"
+      raiseEvent("RefreshInfobox")
+    end
+    channel = "Volk"
+  elseif channel == "Exxen" then
+    if player.nation ~= "Exxen" then
+      player.nation = "Exxen"
+      raiseEvent("RefreshInfobox")
+    end
+    channel = "Volk"
+  elseif channel == "Oger" then   
+    if player.nation ~= "Oger" then 
+      player.nation = "Oger"
+      raiseEvent("RefreshInfobox")
+    end
+    channel = "Volk"
+  end
+  --[[
   if channel == "Mensch" then channel = "Volk" end
   if channel == "Hobbit" then channel = "Volk" end
   if channel == "Elf" then channel = "Volk" end
@@ -5723,7 +8331,9 @@ function onATCPEventAvalonChannel(event, arg)
   if channel == "Zwerg" then channel = "Volk" end
   if channel == "Chaoszentaur" then channel = "Volk" end
   if channel == "Amphib" then channel = "Volk" end
-  
+  if channel == "Exxen" then channel = "Volk" end
+  if channel == "Oger" then channel = "Volk" end
+  ]]
   -- Schließlich wird die Nachricht in das entsprechende Logfile geschrieben.
   -- Diese Dateien liegen im "log"-Verzeichnis im jeweiligen Mudlet-Profil.
   -- Und sie sind nach dem Kanalnamen benannt. ("Sagen.txt")
@@ -5971,19 +8581,59 @@ function onATCPEventAvalonDunkel(event, arg)
 end
 registerAnonymousEventHandler("AvalonDunkel", "onATCPEventAvalonDunkel")
 
+-- ATCP.AvalonInstance kann man anfordern, da steht dann die RoomID drin...
+-- Klingt für mich wie n Bug, mal bei Gelegenheit nachfragen. TODO
+function onATCPEventAvalonInstance(event, arg)
+  debugc("AvalonInstance = " .. tostring(arg) .. "\n")
+  --cecho("\n&lt;magenta&gt;AvalonInstance (= AvalonRoomID): "..tostring(arg).."\n")
+
+  -- Also hier kommt irgendwie eine verbeulte RoomID: sie beginnt mit "hier ", dann kommt die ID
+  -- und dann statt des Namen in Anführungszeichen nur leere Anführungszeichen.
+  
+  -- erstmal das führende "hier " abtrennen
+  arg = string.gsub(arg, "hier (.*)", "%1")
+  
+  -- dann zur Weiterverarbeitung an die Funktion übergeben, die die RoomID sonst auch
+  -- verarbeitet. (Und dort dann den Sonderfall "leere Zeichenkette beim Namen" verarbeiten.
+  raiseEvent("AvalonRoomID", arg)
+  
+end
+registerAnonymousEventHandler("AvalonInstance", "onATCPEventAvalonInstance")
 
 
 -- event == "AvalonRoomID"
 function onATCPEventAvalonRoomID(event, arg)
   debugc("AvalonRoomID = " .. tostring(arg) .. "\n")
-  --cecho("\n&lt;magenta&gt;"..tostring(arg).."\n")
+  --cecho("\n&lt;magenta&gt;AvalonRoomID: "..tostring(arg).."\n")
+
+  -- TODO: hier müsste AvalonInstance noch durchgeschleust werden,
+  -- und zwar um "ava_req_inv hier" zu aktualisieren.
+  -- Dafür muss das aber umgebaut werden.
+  -- Erstmal den RoomHash extrahieren. Dann gucken, ob der Name
+  -- des Raums nur ein leerer String ist. Ist dem so, dann einfach
+  -- den aktuellen Wert beibehalten. Sonst den neuen übernehmen.
+
 
   player.avalonRoomID = ""
   --player.avalonRoomID = tostring(arg)
   str = string.gsub(arg, "^%S*%s+(.+)", "%1", 1)
-  player.avalonRoomID = str
+  if str ~= '""' then 
+    player.avalonRoomID = str
+    avalonUI.IGMapModel.room = str
+  end
   str = string.gsub(arg, "^raum/(%S*)%s+.+", "%1", 1)
   player.avalonRoomHash = str
+  
+  
+  
+  
+  
+  lagStopWatch = lagStopWatch or createStopWatch() -- create, or re-use a stopwatch, and store the watchID in a global variable to access it from anywhere
+
+  -- then you can start the stop watch in some trigger/alias/script with:
+  startStopWatch(lagStopWatch)
+  
+  sendATCP("ava_req_inv hier")
   
   --cecho("&lt;magenta&gt;avalonRoomHash: " .. str .. "\n")
 
@@ -5995,7 +8645,9 @@ function onATCPEventAvalonRoomID(event, arg)
 --	message = "AvalonRoomID = " .. arg .. "\n"
 --	Logger:Log(channel, message, {"timestamp"})
 --	raiseEvent("RefreshTabElement", channel)
-  raiseEvent("RefreshInfobox", arg)
+--  raiseEvent("RefreshInfobox", arg)                                   --TODO: Kann dann weg
+  raiseEvent("RefreshIngameMap", arg)
+  
 end
 registerAnonymousEventHandler("AvalonRoomID", "onATCPEventAvalonRoomID")
 
@@ -6004,6 +8656,7 @@ registerAnonymousEventHandler("AvalonRoomID", "onATCPEventAvalonRoomID")
 -- event == "AvalonRoomBrief"
 function onATCPEventAvalonRoomBrief(event, arg)
 	debugc("AvalonRoomBrief = " .. tostring(arg) .. "\n")
+	--echo("AvalonRoomBrief = " .. tostring(arg) .. "\n")
 
 --	-- tMapper.roomBrief gibt es nicht, bei bedarf anlegen	
 --	if tMapper.roomBrief ~= arg then
@@ -6021,6 +8674,7 @@ registerAnonymousEventHandler("AvalonRoomBrief", "onATCPEventAvalonRoomBrief")
 -- event == "AvalonArea"
 function onATCPEventAvalonArea(event, arg)
 	debugc("AvalonArea = " .. tostring(arg) .. "\n")
+	--echo("AvalonArea = " .. tostring(arg) .. "\n")
 
 --	-- tMapper.area gibt es nicht, bei bedarf anlegen	
 --	if tMapper.area ~= arg then
@@ -6038,15 +8692,17 @@ registerAnonymousEventHandler("AvalonArea", "onATCPEventAvalonArea")
 -- event == "AvalonInv"
 function onATCPEventAvalonInv(event, arg)
 	debugc("AvalonInv = " .. tostring(arg) .. "\n")
+	--echo("AvalonInv = " .. tostring(arg) .. "\n")
+  
+    -- to stop the watch and measure its time in e.g. a trigger script you can write:
+  lagTime = stopStopWatch(lagStopWatch)
+  if lagTime ~= nil then
+    --echo("Antwortzeit INV: " .. lagTime .. " seconds.")
+  end
+  resetStopWatch(lagStopWatch)
 
---	-- tMapper.inv gibt es nicht, bei bedarf anlegen	
---	if tMapper.inv ~= arg then
---		tMapper.inv = arg
---	end
---	channel = "ATCP"
---	message = "AvalonInv = " .. arg .. "\n"
---	Logger:Log(channel, message, {"timestamp"})
---	raiseEvent("RefreshTabElement", channel)
+  raiseEvent("ProcessAvalonInv", arg)
+
 end
 registerAnonymousEventHandler("AvalonInv", "onATCPEventAvalonInv")
 
@@ -6055,6 +8711,7 @@ registerAnonymousEventHandler("AvalonInv", "onATCPEventAvalonInv")
 -- event == "AvalonSite"
 function onATCPEventAvalonSite(event, arg)
 	debugc("AvalonSite = " .. tostring(arg) .. "\n")
+	--echo("AvalonSite = " .. tostring(arg) .. "\n")
 
 --	-- tMapper.site gibt es nicht, bei bedarf anlegen	
 --	if tMapper.site ~= arg then
@@ -6163,6 +8820,39 @@ end
 				<eventHandlerList />
 			</Script>
 		</ScriptGroup>
+		<Script isActive="no" isFolder="no">
+			<name>ReplaceUmlauts</name>
+			<packageName></packageName>
+			<script>-- Hier werden - als letztes in der Verarbeitungskette - eventuelle
+-- Umlaute aus den Strings entfernt, die ans MUD geschickt werden.
+-- Diese Funktion macht im Grunde das, was sie soll. Sie verhindert
+-- aber nicht, dass Mudlet eine Warnung ausgibt, wenn das erste mal
+-- nach dem Start von Mudlet ein Umlaut eingegeben wird. Und diese
+-- Warnung besagt, dass das Mud wohl keine Umlaute versteht. Diese
+-- Warnung möchte ich den Usern nicht zumuten. Und ich weiß nicht,
+-- wie ich sie abstellen kann. Ich sehe keine andere Möglichkeit,
+-- als das Alias "Umlauts" aktiv zu lassen. Auch wenn das bedeutet,
+-- dass eigene Alias' mit Umlauten u.U. mehrfach ausgeführt werden.
+-- Diese Funktion wird dann nicht benötigt.
+--[[
+function replaceUmlauts(event, command)
+
+  if string.match(command, "[äöüÄÖÜß]") then
+    command = string.gsub(command, 'ü', 'ue' );
+    command = string.gsub(command, 'ö', 'oe' );
+    command = string.gsub(command, 'ä', 'ae' );
+    command = string.gsub(command, 'Ä', 'Ae' );
+    command = string.gsub(command, 'Ö', 'Oe' );
+    command = string.gsub(command, 'Ü', 'Ue' );
+    command = string.gsub(command, 'ß', 'ss' );
+  end
+  
+end --function replaceUmlauts
+
+registerAnonymousEventHandler("sysDataSendRequest", "replaceUmlauts")
+]]</script>
+			<eventHandlerList />
+		</Script>
 	</ScriptPackage>
 	<KeyPackage>
 		<KeyGroup isActive="yes" isFolder="yes">
