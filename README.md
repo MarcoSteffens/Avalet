@@ -1,5 +1,3 @@
-{:toc}
-
 # Avalet
 
 Avalet ist ein Module für den Mud-Client [Mudlet](https://www.mudlet.org/) und das [MUD Avalon](https://avalon.mud.de/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
