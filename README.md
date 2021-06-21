@@ -1,6 +1,6 @@
-# Avalet
+{:toc}
 
-> **Wenn du einen Bug findest oder einen Feature-Wunsch hast, der für alle interessant sein könnte - schreib mir. Ich bin Rofhessa in Avalon.**
+# Avalet
 
 Avalet ist ein Module für den Mud-Client [Mudlet](https://www.mudlet.org/) und das [MUD Avalon](https://avalon.mud.de/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
 
@@ -22,7 +22,6 @@ Avalet bietet in erster Linie:
 - Viel mehr *bling-bling* als Plain-Avalon!
 - Noch viel mehr mehr! *(coming soon)*
 - Und noch mehr! *(coming soon)*
-- Enthält Script von Twrx!!!!!
 
 ```
             __________________________________________________________
@@ -37,11 +36,11 @@ Avalet bietet in erster Linie:
 
 ```
 
-### Zum selber machen: MyAvalon, das DIY-Modul
-
-Du hast schon entdeckt, dass viele Aufgaben in Avalon sich durch Trigger sehr erleichtern lassen? Du hast schon ein paar Alias definiert und vielleicht sogar die ersten kleinen Skripte geschrieben? Du möchtest all dies auch bei deinen Zweities verwenden, und nicht jedesmal neu anlegen müssen?
-
-Ann gibt es hier das **MyAvalon**-Modul für Dich! Dieses Modul kannst Du benutzen, um eigene Trigger, Timer etc. in Mudlet zu bauen, und sie in verschiedenen Profilen, also mit verschiedenen Charakteren zu benutzen. Das Modul ist praktisch leer, aber wenn Du Dich nicht selber damit beschäftigen möchtest, dann nimmt es Dir die Arbeit ab, selber so ein Modul zu erstellen. Wie Du das **MyAvalon**-Modul verwenden kannst, habe ich [hier im Wiki](https://github.com/MarcoSteffens/Avalet/wiki/Das-MyAvalon-Modul) etwas ausführlicher beschrieben.
+>### Zum selber machen: MyAvalon, das DIY-Modul
+>
+>Du hast schon entdeckt, dass viele Aufgaben in Avalon sich durch Trigger sehr erleichtern lassen? Du hast schon ein paar Alias definiert und vielleicht sogar die ersten kleinen Skripte geschrieben? Du möchtest all dies auch bei deinen Zweities verwenden, und nicht jedesmal neu anlegen müssen? Und vor allem: Du möchtest gern zu Avalet wechseln, aber Deine ganzen Trigger, Timer etc. mitnehmen?
+>
+>Dann gibt es hier das **MyAvalon**-Modul für Dich! Dieses Modul kannst Du benutzen, um eigene Trigger, Timer etc. in Mudlet zu bauen (oder sie einfach per Drag&Drop hineinziehen). Anschließend kannst Du sie in verschiedenen Profilen (also mit verschiedenen Charakteren) benutzen. Das Modul ist praktisch leer, aber wenn Du Dich nicht selber damit beschäftigen möchtest, dann nimmt es Dir die Arbeit ab, selber so ein Modul zu erstellen. Wie Du das **MyAvalon**-Modul verwenden kannst, habe ich [hier im Wiki](https://github.com/MarcoSteffens/Avalet/wiki/Das-MyAvalon-Modul) etwas ausführlicher beschrieben.
 
 ## Was Avalet ist
 
@@ -124,8 +123,6 @@ Ich freue mich über jede Form von Rückmeldung per "rede" oder Mudmail (Rofhess
 
 Wenn du Lust hast, dich direkt an diesem Projekt zu beteiligen, freue ich mich natürlich auch. Am besten meldest du dich dann und wir besprechen, wie das gehen kann.
 
-**Besonders freuen würde ich mich über Unterstützung beim Design.** Das ist etwas, was ich praktisch überhaupt nicht kann. Wenn du dich da einbringen willst, sprich mich bitte an und lass uns einen Weg finden.
-
 **Beachte bitte, dass Avalet unter einer sehr freien Lizenz steht. Das würde Deinen Beitrag dann einschließen.**
 
 Avalet ist als "Avalon-GUI für jedermensch" gedacht. Die Funktionalität soll entsprechend sein. Also: sinnvolle Unterstützung auch (und grade) für Anfänger. Aber keine Automation für Fortgeschrittene bitte.
@@ -141,7 +138,3 @@ Avalet ist als "Avalon-GUI für jedermensch" gedacht. Die Funktionalität soll e
             \_______________________________________________________\_/
 
 ```
-
-## Shownotes
-
-Es gäbe Avalet nicht ohne Twrx! Und wenn ich hier immer nur "ich" schreibe, dann liegt das daran, dass er so schlau ist, mich die ganze Tipperei erledigen zu lassen. Aber er hat alle meine doofen Fragen beantwortet, Code-Beispiele geliefert und mich überhaupt erst dazu gebracht, dass ich mich mit Mudlet beschäftigt habe. Also: wenn du Avalet doof findest - beschwer dich bei Twrx. ;)
