@@ -1,5 +1,7 @@
 # Avalet
 
+> Derzeit hab ich weder Interesse an Avalon noch an Avalet. Gut vorbereitete *pull requests* bearbeite ich aber durchaus noch. 
+
 Avalet ist ein Module für den Mud-Client [Mudlet](https://www.mudlet.org/) und das [MUD Avalon](https://avalon.mud.de/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
 
 ![aktueller Screenshot](latest_screenshot.png) 
@@ -117,9 +119,7 @@ Alles gemacht? Alles nochmal überprüft? Trotzdem ein Problem? Sprich mich an! 
 
 ## Mitmachen?
 
-Ich freue mich über jede Form von Rückmeldung per "rede" oder Mudmail (Rofhessa), Mail (rofhessa@gmx-topmail.de), Discord (Rofhessa#1552), Brieftaube oder wie auch immer. Wenn du Lob loswerden willst, (konstruktive) Kritik, Hinweise, Ideen, Bugmeldungen, Featurewünsche oder wenn du einfach nur mal "Hallo" sagen willst, bin ich dein Mensch. Du kannst auch hier auf der Seite einen "*Issue*" eintragen, wenn du magst.
-
-Wenn du Lust hast, dich direkt an diesem Projekt zu beteiligen, freue ich mich natürlich auch. Am besten meldest du dich dann und wir besprechen, wie das gehen kann.
+Wenn du Lust hast, dich direkt an diesem Projekt zu beteiligen, gibt es da verschiedene Möglichkeiten. Am einfachsten geht das wohl per *pull request*, jedenfalls bei kleineren Beiträgen. Wenn du dir einen umfangreicheren Beitrag vorstellst, dann meldest du dich am besten und wir besprechen, wie das gehen kann. Du kannst mich zum Beispiel per Email erreichen (rofhessa@gmx-topmail.de).
 
 **Beachte bitte, dass Avalet unter einer sehr freien Lizenz steht. Das würde Deinen Beitrag dann einschließen.**
 
