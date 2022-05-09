@@ -4,7 +4,9 @@
 
 Avalet ist ein Module für den Mud-Client [Mudlet](https://www.mudlet.org/) und das MUD [Avalon](https://avalon.mud.de/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
 
-![aktueller Screenshot](latest_screenshot.png) 
+![aktueller Screenshot](latest_screenshot.png)
+
+<img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%" width="30%"></img> <img src="latest_screenshot.png" width="30%" width="30%"></img> <img src="latest_screenshot.png" width="30%" width="30%"></img> <img src="latest_screenshot.png" width="30%" width="30%"></img>
 
 Funktionen von Avalet:
 - Laufen mit dem Ziffernblock! ([Tastaturbelegung](https://github.com/MarcoSteffens/Avalet/wiki/Tastaturbelegung-f%C3%BCr-den-Ziffernblock))
