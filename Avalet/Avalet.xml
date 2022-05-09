@@ -2376,7 +2376,20 @@ end
 			<name>objFight</name>
 			<packageName></packageName>
 			<script>--[[
-]]
+Hier findet alles statt, was mit einem Kampf zu tun hat. Unter anderem wird
+hier auch die Kampfdauer gemessen. Dazu ein paar Worte:
+Prinzipiell ist das mit der Kampfdauer kein Problem: Beim Angriff eine Stopwatch
+starten, beim Tod des Kampfes die Stopwatch auslesen und die Zeit anzeigen. Wird
+der Kampf unterbrochen, wird auch die Stopuhr gestoppt. Die Stopuhr erhält als
+Bezeichnung ("name") die Gegner-ID, so dass ein begonnener Kampf auch wieder
+fortgesetzt werden kann. (Indem erstmal die bestehenden Stopwatches durchsucht
+werden nach einer, die die Gegner-ID als Namen hat.) Beim Tod eines Gegners wird
+die Stopuhr gelöscht. Übriggebliebene Stopuhren werden hoffentlich nicht so zahl-
+reich, dass sie zum Problem werden. (Wenn man mit aktiviertem Gegenangriff durch
+die Gegend rennt, gibt halt jeder agressive Gegner eine Stopuhr.) 
+Problematisch sind Specials wie: mehrere Gegner, fliehende Gegner (vor allem wenn
+es mehrere Gegner sind, die in unterschiedliche Richtungen fliehen...) usw. Da 
+soll die Kampfdauer aber natürlich auch irgendwie nachvollziehbare Werte anzeigen. ]]
 
 local objFight = {}
 
@@ -2385,7 +2398,52 @@ objFight.new = function()
 
   local self = {}
 
-  local varName = "varValue"
+  --local zaubern = 0         -- ATCP: AvalonZaubern
+  local kampf = false       -- ATCP: AvalonKampf
+  local angegriffen = ""    -- ATCP: AvalonAngegriffen
+  local getoetet = ""       -- ATCP: AvalonGetoetet
+  local gruppeGetoetet = "" -- ATCP: AvalonGruppeGetoetet
+  local allyGetoetet = ""   -- ATCP: AvalonAllyGetoetet
+
+  --[[
+  getter und setter ]]
+  self.getKampf = function() return kampf end
+  self.setKampf = function(newKampf)
+    if newKampf == "0" then
+      kampf = false
+      -- stoppe alle stopwatches
+      local listOfStopWatches = getStopWatches()
+      avalet.log("Anzahl Stopwatches derzeit: "..tostring(#listOfStopWatches), 2)
+      for _,v in ipairs(listOfStopWatches) do
+        avalet.log("Stopwatch gefunden: "..v["name"].."(running: "..tostring(v["isRunning"])..")", 2)
+        if v["isRunning"] then
+          avalet.log("Stopwatch gestoppt", 2)
+          stopStopWatch(v["name"])
+        end
+      end
+      inBattle = false
+      --[[
+      Der Timer aktualisiert sekündlich die Char-Info-Box, damit dort die Kampfdauer angezeigt wird.
+      Und der muss jetzt weg. ]]
+      if battleTimerID ~= nil then
+        avalet.log("Entferne Timer battleTimerID: "..tostring(battleTimerID), 2)
+        if killTimer(battleTimerID) then
+          battleTimerID = nil
+          avalet.log("Timer erfolgreich entfernt.", 2)
+        else
+          avalet.log("Timer konnte nicht entfernt werden!", 3)
+        end
+      end
+      
+    elseif newKampf == "1" then
+      kampf = true
+    else
+      avalet.log("Fehlerhafter Wert für 'Kampf': "..newKampf.." (0 oder 1 als String erwartet)", 3)
+    end
+    raiseEvent("UnderAttackChange")
+  end
+
+
   
   local privateFunction = function(privFuncParam)
   
@@ -2396,12 +2454,6 @@ objFight.new = function()
   end
 --[====[ 
 
-  local zaubern = 0         -- ATCP: AvalonZaubern
-  local kampf = false         -- ATCP: AvalonKampf
-  local angegriffen = ""    -- ATCP: AvalonAngegriffen
-  local getoetet = ""       -- ATCP: AvalonGetoetet
-  local gruppeGetoetet = "" -- ATCP: AvalonGruppeGetoetet
-  local allyGetoetet = ""   -- ATCP: AvalonAllyGetoetet
   local battleTimerID = nil  --Speichert die ID des Timers, der sekündlich die Statistiken aktualisiert (wenn Kampfdauer-Zähler läuft)
   local stopWatchName = nil  -- Gegen diesen Gegner wird grad gekämpft, der Kampfdauer-Zähler zeigt diesen Wert an.
   local thisFight = nil        -- Hier wird die Dauer eines Kampfes gespeichert, wenn der Kampf vorbei ist.
@@ -2458,42 +2510,7 @@ objFight.new = function()
     --return sec 
   end
 --raiseEvent("StatisticsChange")
-  self.getKampf = function() return kampf end
-  self.setKampf = function(newKampf)
-    --cecho("&lt;magenta&gt;Kampf: "..tostring(newKampf).."\n") 
-    if newKampf == "0" then
-      kampf = false
-      -- stoppe alle stopwatches
-      local listOfStopWatches = getStopWatches()
-      avalet.log("Anzahl Stopwatches derzeit: "..tostring(#listOfStopWatches), 2)
-      for _,v in ipairs(listOfStopWatches) do
-        avalet.log("Stopwatch gefunden: "..v["name"].."(running: "..tostring(v["isRunning"])..")", 2)
-        if v["isRunning"] then
-          avalet.log("Stopwatch gestoppt", 2)
-          stopStopWatch(v["name"])
-        end
-      end
-      inBattle = false
-      --[[
-      Der Timer aktualisiert sekündlich die Char-Info-Box, damit dort die Kampfdauer angezeigt wird.
-      Und der muss jetzt weg. ]]
-      if battleTimerID ~= nil then
-        avalet.log("Entferne Timer battleTimerID: "..tostring(battleTimerID), 2)
-        if killTimer(battleTimerID) then
-          battleTimerID = nil
-          avalet.log("Timer erfolgreich entfernt.", 2)
-        else
-          avalet.log("Timer konnte nicht entfernt werden!", 3)
-        end
-      end
-      
-    elseif newKampf == "1" then
-      kampf = true
-    else
-      avalet.log("Fehlerhafter Wert für 'Kampf': "..newKampf.." (0 oder 1 als String erwartet)", 3)
-    end
-    raiseEvent("UnderAttackChange")
-  end
+
   --self.getAngegriffen = function() return angegriffen end
   self.setAngegriffen = function(newAngegriffen) 
     angegriffen = newAngegriffen
@@ -2759,6 +2776,44 @@ function avalet.initRoom()
 	avalet.log("Funktion avalet.initRoom()", 1)
 
   return objRoom.new()
+  
+end
+</script>
+			<eventHandlerList />
+		</Script>
+		<Script isActive="yes" isFolder="no">
+			<name>objObject</name>
+			<packageName></packageName>
+			<script>--[[
+Dummy-Object, dann muss ich nicht immer googlen. ]]
+
+local objObject = {}
+
+objObject.new = function()
+
+  local self = {}
+
+  local varName = "varValue"
+  
+  local privateFunction = function(privFuncParam)
+  
+  end
+  
+  self.publicFunction = function()
+  
+  end
+  
+  return self
+  
+end
+
+--[[
+Funktion zum erzeugen des Objektes. Guter Platz dafür vielleicht
+der Install-Event. ]]
+function avalet.initDummyObject()
+	avalet.log("Funktion avalet.initDummyObject()", 1)
+
+  return objObject.new()
   
 end
 </script>
@@ -3605,6 +3660,10 @@ function avalet.onSysInstall(_, name)
   sinnvoll befüllt. (Also wenn der Name des Chars per ATCP geschickt wurde. ]]
   avalet.char = avalet.initCharacter()
   
+  avalet.fight = avalet.initFight()
+  
+  avalet.room = avalet.initRoom()
+  
   --[[
   Auch die ganzen statistischen Auswertungen, die ich mir erst noch ausdenken und
   implementieren muss, sind ausgelagert und werden hier einmal initialisiert. An-
@@ -3693,7 +3752,7 @@ function avalet.onSysInstallModule(_, name)
   sign = sign .."      |  das MUD Avalon. Eine Hilfe bekommst du mit 'avalet   |_      \n"
   sign = sign .."      |  hilfe' angezeigt.                                    | |     \n"
   if i:len() ~= 0 then
-  sign = sign .."      |  "..i.."  | |     \n"
+    sign = sign .."      |  "..i.."  | |     \n"
   end
   sign = sign .."      \\_______________________________________________________\\_/     \n"
   sign = sign .."                                                                      \n"

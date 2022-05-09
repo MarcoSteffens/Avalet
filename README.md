@@ -1,6 +1,6 @@
 # Avalet
 
-> **Avalet ist das, was ich für Avalon tun kann. Und ich denke, dass Avalet im Vergleich mit *Plain-Avalon* auch ziemlich gut abschneidet. Aber es ist auch mehr als deutlich, dass ich Avalet nicht alleine entwickeln kann. Klar, für Arkanmagier ist Avalet fantastisch! Für alle anderen aber vermutlich nur großartig... Nachdem ich den Code jetzt überarbeitet habe, möchte ich nochmal dafür werben, dass sich auch andere an diesem Projekt beteiligen. Ich denke, die konzeptionellen Ideen sind gut zu verstehen. Jede konkrete Beteiligung ist willkommen.**
+> **Für diese Version habe ich Avalet gründlich refaktorisiert, neue Funktionen eingearbeitet und letztlich praktisch jede Zeile Code angefasst. Dabei wird sicher auch ein bisschen was schief gegangen sein. Wer keine Lust auf Betatester hat, bleibt deshalb am besten noch ein paar Tage bei der alten Version.**
 
 Avalet ist ein Module für den Mud-Client [Mudlet](https://www.mudlet.org/) und das MUD [Avalon](https://avalon.mud.de/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
 
