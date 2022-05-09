@@ -6,7 +6,7 @@ Avalet ist ein Module für den Mud-Client [Mudlet](https://www.mudlet.org/) und 
 
 ![aktueller Screenshot](latest_screenshot.png)
 
-<img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img>
+<!--img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img-->
 
 Funktionen von Avalet:
 - Laufen mit dem Ziffernblock! ([Tastaturbelegung](https://github.com/MarcoSteffens/Avalet/wiki/Tastaturbelegung-f%C3%BCr-den-Ziffernblock))
@@ -36,12 +36,6 @@ Funktionen von Avalet:
             \_______________________________________________________\_/
 
 ```
-
-### Zum selber machen: MyAvalon, das DIY-Modul
-
-Du hast schon entdeckt, dass viele Aufgaben in Avalon sich durch Trigger sehr erleichtern lassen? Du hast schon ein paar Alias definiert und vielleicht sogar die ersten kleinen Skripte geschrieben? Du möchtest all dies auch bei deinen Zweities verwenden, und nicht jedesmal neu anlegen müssen?
-
-Dann gibt es hier das **MyAvalon**-Modul für Dich! Dieses Modul kannst Du benutzen, um eigene Trigger, Timer etc. in Mudlet zu bauen, und sie in verschiedenen Profilen, also mit verschiedenen Charakteren zu benutzen. Das Modul ist praktisch leer, aber wenn Du Dich nicht selber damit beschäftigen möchtest, dann nimmt es Dir die Arbeit ab, selber so ein Modul zu erstellen. Wie Du das **MyAvalon**-Modul verwenden kannst, habe ich [hier im Wiki](https://github.com/MarcoSteffens/Avalet/wiki/Das-MyAvalon-Modul) etwas ausführlicher beschrieben.
 
 ## Was Avalet ist
 
@@ -113,6 +107,12 @@ Alles gemacht? Alles nochmal überprüft? Trotzdem ein Problem? Sprich mich an! 
             \_______________________________________________________\_/
 
 ```
+
+## Zum selber machen: MyAvalon, das DIY-Modul für Dich
+
+Du hast schon entdeckt, dass viele Aufgaben in Avalon sich durch Trigger sehr erleichtern lassen? Du hast schon ein paar Alias definiert und vielleicht sogar die ersten kleinen Skripte geschrieben? Du möchtest all dies auch bei deinen Zweities verwenden, und nicht jedesmal neu anlegen müssen?
+
+Dann gibt es hier das **MyAvalon**-Modul für Dich! Dieses Modul kannst Du benutzen, um eigene Trigger, Timer etc. in Mudlet zu bauen, und sie in verschiedenen Profilen, also mit verschiedenen Charakteren zu benutzen. Das Modul ist praktisch leer, aber wenn Du Dich nicht selber damit beschäftigen möchtest, dann nimmt es Dir die Arbeit ab, selber so ein Modul zu erstellen. Wie Du das **MyAvalon**-Modul verwenden kannst, habe ich [hier im Wiki](https://github.com/MarcoSteffens/Avalet/wiki/Das-MyAvalon-Modul) etwas ausführlicher beschrieben.
 
 ## Mitmachen?
 
