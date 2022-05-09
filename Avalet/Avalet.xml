@@ -631,6 +631,12 @@ Müllberg Miobaas:
 Du hast auf einmal Visionen von riesigen Muellbergen, die Dich zu
 verschuetten drohen.
 
+Balrog:
+Die Flammen springen auf Dich ueber und Du beginnst am ganzen Koerper zu
+brennen.
+Die Flammen brennen heiss auf Deinem Koerper.
+Die Flammen auf Deinem Koerper erloeschen.
+
 ]]</script>
 				<triggerType>0</triggerType>
 				<conditonLineDelta>0</conditonLineDelta>
@@ -648,8 +654,10 @@ verschuetten drohen.
 					<string>Irgendwie bist Du krank.</string>
 					<string>Der Skorpion schnellt seinen Stachel nach vorn und rammt ihn Dir tief ins</string>
 					<string>Du hast das Gefuehl, als wenn Du Dich zersetzen wuerdest. Zum Glueck ist</string>
+					<string>Die Flammen springen auf Dich ueber und Du beginnst am ganzen Koerper zu</string>
 				</regexCodeList>
 				<regexCodePropertyList>
+					<integer>0</integer>
 					<integer>0</integer>
 					<integer>0</integer>
 					<integer>0</integer>
@@ -1059,7 +1067,7 @@ avalonUI.refreshTimer()</script>
 		<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
 			<name>DateTime</name>
 			<script>--avalonUI.getAvalonTime()
-avalonUI.Box42:echo(avalonUI.getAvalonTime())</script>
+avalonUI.Box42:echo("&lt;center&gt;"..avalonUI.getAvalonTime().."&lt;/center&gt;")</script>
 			<command></command>
 			<packageName></packageName>
 			<time>00:00:01.000</time>
@@ -1076,6 +1084,17 @@ _ = sendATCP("ava_req_update")</script>
 			<command></command>
 			<packageName></packageName>
 			<time>00:00:05.000</time>
+		</Timer>
+		<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+			<name>tikkTimer</name>
+			<script>--
+-- Dieser Timer sorgt für die Anzeige des "Ticks", das ist
+-- der schmale Timer oberhalb von TP/AP/ZP. Der Timer zeigt
+-- an, wann es wieder TP, ZP und AP dazu gibt. Also die 
+-- Default-Regeneration.</script>
+			<command></command>
+			<packageName></packageName>
+			<time>00:00:40.000</time>
 		</Timer>
 	</TimerPackage>
 	<AliasPackage>
@@ -1585,7 +1604,7 @@ function avalonUI.onSysInstall(_, name)
   -- dass die Submodule NACH Avalet installiert werden. (Das ist aber ungetestet
   -- und ich sehe auch nicht, wie das gehen kann. Wenn ich die Priorität erst
   -- NACH der installation setzen kann... Vermutlich also ein TODO.)  
-  setModulePriority("Avalet", 1)
+  setModulePriority("Avalet", -1)
   
   --	Nach einem Reconnect braucht Avalet den Charakternamen. Nach einem normalen
   -- Login wird der sehr schnell per ATCP gesendet. Nach einem reconnect (Statue)
@@ -3265,8 +3284,9 @@ avalonUI.CSS.MenuTabCSS = CSSMan.new([[
 ]])
 --purple
 --	border-radius: 10px;
+--background-color: rgba(52,128,23,255);
 avalonUI.CSS.MenuTabCurrentCSS = CSSMan.new([[
-	background-color: rgba(52,128,23,255);
+	background-color: rgba(96,96,96,255);
   color: black;
   font: bold;
   border: 2px solid white;
@@ -3275,8 +3295,9 @@ avalonUI.CSS.MenuTabCurrentCSS = CSSMan.new([[
 	margin-left: 1px;
 ]])
 --rgb(50,0,50);
+--background-color: rgba(52,128,23,120);
 avalonUI.CSS.MenuTabMarkedCSS = CSSMan.new([[
-	background-color: rgba(52,128,23,120);
+	background-color: rgba(96,96,96,120);
   border: 1px solid white;
   border-radius: 10px;
 	margin-right: 1px;
@@ -3562,15 +3583,18 @@ function avalonUI.initTimer()
     --{["name"]="Name", ["start"]="Start-RegExpr",["stop"]="", ["duration"]="600"},
     --{["name"]="Name", ["start"]="Start-RegExpr",["stop"]="Stop-RegExpr"},
     {["name"]="Arkanschild", ["start"]="Du wirst von einem Arkanschild umgeben\\.", ["stop"]="Dein Arkanschild loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Antimagie", ["start"]="Du hast eine Aura der Antimagie erschaffen\\.", ["stop"]="Die Aura der Antimagie loest sich auf\\.", ["duration"]="60"},
     {["name"]="Blaetterhaut", ["start"]="Deine Haut ist nun mit Blaettern bedeckt, die Dir ein angenehmes Klima|Deine Holzhaut ist nun mit Blaettern bedeckt, die Dir ein angenehmes Klima", ["stop"]="Deine Blaetterhaut loest sich auf\\.", ["duration"]="600"},  
     {["name"]="Blutrausch", ["start"]="Du laesst einen fuerchterlichen Urschrei von Dir. Es scheint so, als .*", ["stop"]="Die roetlichen Manawolken loesen sich auf\\.", ["duration"]="600"},
     {["name"]="Daemonenhaut", ["start"]="Du bist nun vollkommen in eine Daemonenhaut eingehuellt\\.", ["stop"]="Deine Daemonenhaut loest sich auf\\.", ["duration"]="600"},
-    {["name"]="Daemonenschwert", ["start"]="Vorsichtig streifst Du mit Deiner Hand ueber \\w+ \\w+\\.", ["stop"]="Dein \\w+ verliert seine magische Kraft\\.", ["duration"]="600"},
+    {["name"]="Daemonenschwert", ["start"]="Vorsichtig streifst Du mit Deiner Hand ueber (Deinen|Deine|Dein|den)([a-z ,]*)(([A-Za-z\\s]+)\\.)?", ["stop"]="Dein \\w+ verliert seine magische Kraft\\.", ["duration"]="600"},
     {["name"]="Erdaura", ["start"]="Du hebst Deine Haende, beschreibst einen Halbkreis.*|Die Partikel verdichten sich um Dich\\.", ["stop"]="Dein Staubschleier loest sich auf\\.", ["duration"]="600"},
     {["name"]="EP-Verdoppelung", ["start"]="^Du bekommst nun eine Zeit lang erhoehte Erfahrung\\.$", ["stop"]="", ["duration"]="3600"},
     {["name"]="Feueraura", ["start"]="Du senkst Deine Haende, aber der Schutz der Manawolken.*", ["stop"]="Deine Feueraura loest sich auf\\.", ["duration"]="600"},
     {["name"]="Feueraura III", ["start"]="Die Manawolken verdichten sich um Dich\\.", ["stop"]="Deine Feueraura loest sich auf\\.", ["duration"]="1200"},
+    {["name"]="Finsternis", ["start"]="Die Wolkendecke verdunkelt die Sonne nun vollstaendig.*", ["stop"]="Die Wolkendecke zieht wieder auf und es wird heller\\.", ["duration"]="300"},
     {["name"]="Friedfertigkeit", ["start"]="Du fuehlst Dich nun .* friedfertig\\.", ["stop"]="Du fuehlst Dich wieder kaempferischer, ungestuemer\\.", ["duration"]="600"},
+    {["name"]="GoettlicheFuehrung", ["start"]="Deine Schlaege werden von einem Gott gefuehrt\\.", ["stop"]="Deine goettliche Fuehrung schwindet\\.", ["duration"]="600"},
     {["name"]="Holzhaut", ["start"]="Deine Haut sieht nun hoelzern und sehr widerstandsfaehig aus\\.|Deine Blaetterhaut sieht nun hoelzern und sehr widerstandsfaehig aus\\.|Deine Blaetterhaut fuehlt sich nun recht hoelzern an\\.|Deine Haut fuehlt sich nun recht hoelzern an\\.", ["stop"]="Deine Holzhaut loest sich auf\\.", ["duration"]="600"},
     {["name"]="Kampfbeschwoerung", ["start"]="Du wirst von einer heiligen Aura umgeben\\.",["stop"]="Deine heilige Aura loest sich auf\\.", ["duration"]="600"},
     {["name"]="Kampfeslust", ["start"]="Du bekommst so langsam richtig Lust auf ein kleines Kraeftemessen\\.", ["stop"]="Du fuehlst Dich wieder ruhiger, besonnener\\.", ["duration"]="600"},
@@ -3971,7 +3995,8 @@ Heisst aber auch: es muss zu jedem Messwert ein Zeitwert gespeichert sein.
 --[[
 ]]
 
-  timeStr = wtage[((tag+(jahr*365)+3)%7)+1]..", "..atag.."."..monat.."."..jahr.." "..stunde..":"..minute.." ("..season..")"
+  timeStr = wtage[((tag+(jahr*365)+3)%7)+1]..", "..atag.."."..monat.."."..jahr.." "..stunde..":"..minute
+  --timeStr = wtage[((tag+(jahr*365)+3)%7)+1]..", "..atag.."."..monat.."."..jahr.." "..stunde..":"..minute.." ("..season..")"
 
   return timeStr
 
@@ -4380,7 +4405,7 @@ function avalonUI.updateInfoBoxDefault()
 			end
 		end
 		if string.len(player.level) ~= 0 then
-			content = content .. "Du bist Level " .. player.level .. "\n"
+			content = content .. "Du hast Level " .. player.level .. " erreicht.\n"
 		end
 --		if string.len(player.ep) ~= 0 then
 --			GUIModel.infobox = GUIModel.infobox .. "Dafür hast du bisher " .. player.ep .. " Erfahrungspunkte gesammelt.\n\n"
@@ -5702,7 +5727,8 @@ end
 
 function avalonUI.onRefreshHealthBar(event, args)
 	-- Das Gauge-Element wird bei einem "current value" von 0 vollständig
-	-- gefüllt angezeigt. Und ich hab keine Ahnung, was bei einem negativen
+	-- gefüllt angezeigt (statt ganz leer, was es ja bedeuten würde.)
+  -- Und ich hab keine Ahnung, was bei einem negativen
 	-- Wert geschehen würde. Deshalb wird hier jeder Wert unter 1 auf 1
 	-- gesetzt. In dem Text auf dem Gauge muss aber natürlich der wirkliche
 	-- Wert stehen, deshalb die unterschiedliche Behandlung hier.
@@ -6137,7 +6163,7 @@ function avalonUI.buildChat()
     name = "avalonUI.tabElement.Header",
     x = 0, y = 0,
     width = "100%",
-    height = "10%",
+    height = "8%",
   }, avalonUI.tabElement.Container)
 
 
@@ -6147,11 +6173,11 @@ function avalonUI.buildChat()
     name = "avalonUI.tabElement.Footer",
     x = 0, y = "10%",
     width = "100%",
-    height = "90%",
+    height = "92%",
   }, avalonUI.tabElement.Container)
   avalonUI.tabElement.Footer:setStyleSheet(avalonUI.CSS.tabElementFooterCSS:getCSS())
 
-
+--[[
   -- Each window actually has two labels. One for the light blue background,
   -- and another for the dark blue center. This will create that dark blue center. 
   avalonUI.tabElement.Center = Geyser.Label:new({
@@ -6161,7 +6187,7 @@ function avalonUI.buildChat()
     height = "100%",
   }, avalonUI.tabElement.Footer)
   avalonUI.tabElement.Center:setStyleSheet(avalonUI.CSS.tabElementCenterCSS:getCSS())
-
+]]
 
   -- Hier werden die Tabs und die Seiten dazu erzeugt.
   avalonUI.tabElement.tabs = {}
@@ -6193,6 +6219,8 @@ function avalonUI.buildChat()
 				height = "100%",
 			  }, avalonUI.tabElement.Footer)
 			avalonUI.tabElement.tabs[v]:setStyleSheet(avalonUI.CSS.tabElementAtopCSS:getCSS())
+
+--[[      
 			-- The second label serves as the window's center and has rounded edges on all sides. 
      -- And a margin of 5px from it's parent, the label we just created. When adding stuff
      -- to your windows, this is the label you'll want to use. avalonUI.tabElement.tabs.&lt;tabname&gt;center
@@ -6203,7 +6231,7 @@ function avalonUI.buildChat()
 				height = "100%",
 			  }, avalonUI.tabElement.tabs[v])
 			avalonUI.tabElement.tabs[v.."center"]:setStyleSheet(avalonUI.CSS.tabElementCenterTabCSS:getCSS())
-
+]]
 			--------
 			-- Inhalte der Tabs
 			-- Alle Tabs enthalten eine Mini-Console.
@@ -6219,7 +6247,7 @@ function avalonUI.buildChat()
 				color = "black",
 				scrollBar = true,--false,
 				fontSize = avalonUI.chatFontSize,
-			}, avalonUI.tabElement.tabs[v.."center"])
+			}, avalonUI.tabElement.tabs[v])--avalonUI.tabElement.tabs[v.."center"])
 			debugc("&lt;magenta&gt;Consolen-Name: "..string.title(v).."\n")
 			--setWindowWrap(string.title(v), 56) --wirkt nicht wegen "autowrap=true"
       --setWindowWrapIndent(string.title(v), 3) --wirkte auch ohne autowrap nicht.
@@ -6240,7 +6268,7 @@ function avalonUI.buildChat()
 		end -- if nil
 	end  -- for
 
-  raiseEvent("RefreshTabElement", GUIModel.tabElement.currentTab)
+--  raiseEvent("RefreshTabElement", GUIModel.tabElement.currentTab)
   --avalonUI.tabElement.tabs[GUIModel.tabElement.currentTab]:show()
   avalonUI.tabElementOnClick(GUIModel.tabElement.currentTab)
 
@@ -7823,8 +7851,7 @@ registerAnonymousEventHandler("AuthRequest", "onATCPEventAuthRequest")
 
 -- event == "AvalonName"
 function onATCPEventAvalonName(event, arg)
-  debugc("&lt;magenta&gt;AvalonName per ATCP empfangen!\n")
-  debugc("&lt;magenta&gt;AvalonName: " .. arg .."\n")
+  debugc("&lt;magenta&gt;AvalonName per ATCP empfangen: " .. arg .."\n")
   if player.name ~= arg then
     --cecho("&lt;magenta&gt;\nplayer.name ~= arg\n")
     if string.len(player.name) == 0 then
@@ -7998,6 +8025,7 @@ registerAnonymousEventHandler("AvalonFlucht", "onATCPEventAvalonFlucht")
 -- event == "AvalonSchutz"
 function onATCPEventAvalonSchutz(event, arg)
 	debugc("&lt;magenta&gt;AvalonSchutz per ATCP empfangen!\n")
+  --cecho("&lt;magenta&gt;AvalonSchutz: "..arg.."\n")
 	arg = string.trim(arg)
 	if player.schutz ~= arg then
 		player.schutz = arg
@@ -8029,6 +8057,7 @@ registerAnonymousEventHandler("AvalonGruppe", "onATCPEventAvalonGruppe")
 -- event == "AvalonZaubern"
 function onATCPEventAvalonZaubern(event, arg)
 	debugc("&lt;magenta&gt;AvalonZaubern per ATCP empfangen!")
+	--cecho("&lt;magenta&gt;AvalonZaubern per ATCP empfangen: "..arg)
 	arg = string.trim(arg)
 	if player.zaubern ~= arg then
 		player.zaubern = arg
@@ -8674,7 +8703,7 @@ registerAnonymousEventHandler("AvalonRoomBrief", "onATCPEventAvalonRoomBrief")
 -- event == "AvalonArea"
 function onATCPEventAvalonArea(event, arg)
 	debugc("AvalonArea = " .. tostring(arg) .. "\n")
-	--echo("AvalonArea = " .. tostring(arg) .. "\n")
+	cecho("&lt;magenta&gt;AvalonArea = " .. tostring(arg) .. "\n")
 
 --	-- tMapper.area gibt es nicht, bei bedarf anlegen	
 --	if tMapper.area ~= arg then
