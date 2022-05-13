@@ -18,7 +18,7 @@ Funktionen von Avalet:
 - Eine Anzeige von Schildzaubern, Auren und anderen Timern! Mit *fancy* *Rückschritts*balken! ;)
 - Eine übersichtliche Anzeige der wesentlichen Kommunikationskanäle!
 - Eine dauerhafte Anzeige einiger wichtiger (und einiger nicht so wichtiger) Charakter-Informationen!
-- Anzeigen bzw. Zähler für EP, Session-EP, Bonusstunden-EP!
+- Anzeigen bzw. Zähler für EP, Session-EP, Bonusstunden-EP, Schild-EP und Kampfdauer!
 - Eine temporäre Anzeige von Informationen wie dem Spielstand, dem Inventar und den Gruppeninformationen!
 - Eine schicke Darstellung von "ruebersicht" der Runenschmiede!
 - Eine Ausleitung der Ingame-Karte!
@@ -53,11 +53,13 @@ Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das A
            |                                                        | |
            \________________________________________________________\_/
             |                                                       |
-            |  "Mit Avalet haette ich es in 30 Tagen geschafft!"    |_
-            |                           Phileas Fogg ueber Avalet   | |
+            |     "Suuuuperschnelle Lieferung! Dafuer gibt es       |
+            |      ein extra <3 von mir!"                           |_
+            |                               Lorielle ueber Avalet   | |
             \_______________________________________________________\_/
 
 ```
+
 ## Installation
 
 Das eigentliche Modul besteht aus der Datei `Avalet.mpackage`. Die speicherst du bei dir irgendwo ab.
@@ -74,25 +76,13 @@ Danach sollte alles funktionieren.
 
 Für eine **Aktualisierung** einfach die neuere Version der Datei `Avalet.mpackage` (oder `Avalet.zip`) downloaden und die alte damit überschreiben. **Anschließend Mudlet neu starten.**
 
-```
-            __________________________________________________________
-           /                                                        / \
-           |                                                        | |
-           \________________________________________________________\_/
-            |                                                       |
-            |     "Suuuuperschnelle Lieferung! Dafuer gibt es       |
-            |      ein extra <3 von mir!"                           |_
-            |                               Lorielle ueber Avalet   | |
-            \_______________________________________________________\_/
-
-```
-
 ### Bekannte Fehlerquellen bei der Installation
 
 - Avalet MUSS als MODUL mit dem MODUL-Manager installiert sein. NICHT als Paket mit dem Paket-Manager.
 - Im Modul-Manager auf KEINEN Fall das Häkchen bei "Synchronisieren" setzen! Praktisch alles kann dann passieren.
 - Nach der Installation AUSLOGGEN mit "schlafe ein" oder "einschlafen", außerdem Mudlet einmal richtig SCHLIESSEN und NEU STARTEN.
 - Das Häkchen bei "Enable GMCP" ENTFERNEN. ("Settings", Tab "General", Abschnitt "Game protocols")
+- Bei einem Update bleiben manchmal Reste der alten Installation erhalten. In dem Fall entweder von Hand löschen oder mit einem neuen Profil starten.
 
 Alles gemacht? Alles nochmal überprüft? Trotzdem ein Problem? Sprich mich an! Am besten in Avalon, aber per Mail geht auch.
 
@@ -112,7 +102,7 @@ Alles gemacht? Alles nochmal überprüft? Trotzdem ein Problem? Sprich mich an! 
 
 Du hast schon entdeckt, dass viele Aufgaben in Avalon sich durch Trigger sehr erleichtern lassen? Du hast schon ein paar Alias definiert und vielleicht sogar die ersten kleinen Skripte geschrieben? Du möchtest all dies auch bei deinen Zweities verwenden, und nicht jedesmal neu anlegen müssen?
 
-Dann gibt es hier das **MyAvalon**-Modul für Dich! Dieses Modul kannst Du benutzen, um eigene Trigger, Timer etc. in Mudlet zu bauen, und sie in verschiedenen Profilen, also mit verschiedenen Charakteren zu benutzen. Das Modul ist praktisch leer, aber wenn Du Dich nicht selber damit beschäftigen möchtest, dann nimmt es Dir die Arbeit ab, selber so ein Modul zu erstellen. Wie Du das **MyAvalon**-Modul verwenden kannst, habe ich [hier im Wiki](https://github.com/MarcoSteffens/Avalet/wiki/Das-MyAvalon-Modul) etwas ausführlicher beschrieben.
+Dann gibt es hier das **MyAvalon**-Modul für Dich! Dieses Modul kannst Du benutzen, um darin eigene Trigger, Timer etc. zu speichern und sie in verschiedenen Profilen, also mit verschiedenen Charakteren zu benutzen. Das Modul ist praktisch leer, aber wenn Du Dich nicht selber damit beschäftigen möchtest, dann nimmt es Dir die Arbeit ab, selber so ein Modul zu erstellen. Wie Du das **MyAvalon**-Modul verwenden kannst, habe ich [hier im Wiki](https://github.com/MarcoSteffens/Avalet/wiki/Das-MyAvalon-Modul) etwas ausführlicher beschrieben.
 
 ## Mitmachen?
 
@@ -130,8 +120,8 @@ Avalet ist als "Avalon-GUI für jedermensch" gedacht. Die Funktionalität soll e
            |                                                        | |
            \________________________________________________________\_/
             |                                                       |
-            |   "Ich bin Groot!"                                    |_
-            |                                  Groot ueber Avalet   | |
+            |   "Ich habe Dich bereits erwartet."                   |_
+            |                             Ein Balrog ueber Avalet   | |
             \_______________________________________________________\_/
 
 ```
