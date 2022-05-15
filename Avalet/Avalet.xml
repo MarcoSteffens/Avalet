@@ -115,6 +115,9 @@ raiseEvent("InjectionBufferChange")
 		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 			<name>AvaletKampf</name>
 			<script>--[[
+Erlaubte Werte fuer die Kampfanzeige sind: "alles", "treffer", "sehr
+leicht", "leicht", "hart", "stark", "sehr stark", "extrem stark", "doppelt
+extrem" und "minimal".
 
   &lt;trigger
    custom_colour="6"
@@ -205,9 +208,19 @@ End Sub
 			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 				<name>Austeilen</name>
 				<script>avalet.CONSTS.TREFFER = {
+  ["doppelt extrem"] = "DOPPELT_EXTREM",
+  ["extrem stark"] = "EXTREM_STARK",
+  ["sehr stark"] = "SEHR_STARK",
+  ["stark"] = "STARK",
   ["hart"] = "HART",
-  ["extrem stark"] = "EXTREM"
-}</script>
+  --["???"] = "???",,
+  ["leicht"] = "LEICHT",
+  ["sehr leicht"] = "SEHR_LEICHT",
+}
+--[[
+Erlaubte Werte fuer die Kampfanzeige sind: "alles", "treffer", "sehr
+leicht", "leicht", "hart", "stark", "sehr stark", "extrem stark", "doppelt
+extrem" und "minimal". ]]</script>
 				<triggerType>0</triggerType>
 				<conditonLineDelta>0</conditonLineDelta>
 				<mStayOpen>0</mStayOpen>
@@ -245,7 +258,7 @@ End Sub
 				<colorTriggerFgColor>#000000</colorTriggerFgColor>
 				<colorTriggerBgColor>#000000</colorTriggerBgColor>
 				<regexCodeList>
-					<string>^   ((Der|Die|Das|Ein|Eine) .* (beisst|erwischt|trifft) Dich .*)$</string>
+					<string>^   ((Der|Die|Das|Ein|Eine) .* (rammt|tritt|beisst|erwischt|trifft) Dich .*)$</string>
 					<string>^   ((Der|Die|Das|Ein|Eine) .* (weicht).*)$</string>
 				</regexCodeList>
 				<regexCodePropertyList>
@@ -1291,89 +1304,48 @@ den das dazugehörige View-Objekt registriert ist. Das wird dadurch veranlasst,
 die Anzeige im GUI neu zu schreiben. So gelangt der neue "vollername" bis zur
 Oberfläche.
 
+(Jedenfalls ist das die Theorie. In der Praxis hat Avalet verschieden alte Teile,
+und grad am Anfang hab ich häufig mit normalen Funktionsaufrufen gearbeitet statt
+mit dem Event-System. Aber das wirst Du schon sehen.)
+
 Außerdem gibt es Standard-Events, die Mudlet selber auslöst. Die Behandlung dieser
 Events in Avalet findet sich im Abschnitt "Avalet --&gt; Events". Die Namen sind
 eigentlich Selbsterklärend - es gibt ein Event beim Installieren des Moduls Avalet.
 (Also immer beim Neustart von einem Mudlet-Profil, das Avalet installiert hat.)
 Es gibt einen Event beim Connect (zum MUD). Einen Event beim Disconnect... Usw.
 Innerhalb dieser Events wird Avalet initialisiert bzw. sinnvoll beendet. Ein 
-guter Startpunkt, um sich Avalet zu erschließen, wäre vielleicht "onSysInstallModule".
+guter Startpunkt, um sich Avalet zu erschließen, wäre vielleicht "onSysInstall".
 
-Profil und Charakter als Objekt auszulegen, also mit privaten Variablen und
-öffentlichen und privaten (und statischen) Funktionen, war eine dämliche Idee.
-Ich hab nur Probleme gehabt damit. Allerdings ist es von der Logik her nun-
-mal sinnvoll, die Daten zentral zu sammeln und dort auch alles weitere zu ver-
-anlassen. Also Änderungs-Events auszulösen zum Beispiel. Und ich weiß auch
+Profil und Charakter (und ein paar andere Sachen) als Objekt auszulegen, also mit 
+privaten Variablen und öffentlichen und privaten (und statischen) Funktionen, war 
+eine dämliche Idee. Ich hab nur Probleme gehabt damit. Allerdings ist es von der 
+Logik her nunmal sinnvoll, die Daten zentral zu sammeln und dort auch alles weitere 
+zu veranlassen. Also Änderungs-Events auszulösen zum Beispiel. Und ich weiß auch
 nicht, ob ich nicht einfach zu blöd war. Aber jedenfalls funktionieren deshalb
-Funktionsaufrufe wie "avalet.char:setName("Charname")" nicht - da kommt bei
+Funktionsaufrufe wie 'avalet.char:setName("Charname")' nicht - da kommt bei
 der Funktion das Char-Objekt als Parameter an (statt des Strings "Charname").
 Der weniger gut lesbare Funktionsaufruf mit Punkt statt Doppelpunkt funktioniert.
+Also 'avalet.char.setName("Charname")'
 
-Ach und falls es jemanden interessiert: Ursprünglich hatte ich ein Framework für die
-Oberfläche verwendet. Das war eine gute Entscheidung, weil ich so relativ zügig zu 
-einem Prototypen und letztlich auch zu einem schnellen Release gekommen bin. Und
-das ist ja nun mal immer gut für die Motivation. Dieses Framework rauszuschmeissen
-und selbst eine Oberfläche zu bauen - und zwar eine, die dann noch skaliert und 
-verschiedene Layouts anbietet - war sicher auch eine richtige Entscheidung. Schlicht
-weil die erste Oberfläche doch sehr eingeschränkt war. Aber es hat die Komplexität
-auch so erheblich erhöht, dass ich mir wirklich wünsche, ich hätte mir das nicht
-aufgehalst. Nur ist es jetzt zu spät, dafür ist jetzt schon zu viel Arbeit gemacht.
-]]</script>
-			<eventHandlerList />
-		</Script>
-		<Script isActive="yes" isFolder="no">
-			<name>init</name>
-			<packageName></packageName>
-			<script>--[[
-init - hier gehts los.
-Hier findet die Initialisierung von Avalet statt. Außerdem werden hier
-verschiedene Events behandelt, die mit dem Installieren, dem Start, dem 
-Beenden und der Deinstallation von Avalet im Zusammenhang stehen.
-Hier werden Service-Funktionen verwendet, die im "Misc"-Bereich zu finden
-sind.
-Die einzelnen Teile von Avalet, die auf der Oberfläche zu sehen sind,
-werden dann im Bereich "Model" und im Bereich "View" angelegt. Und dort
-finden sich dann auch die Funktionen, die konkret im Zusammenhang mit den
-einzelnen Bestandteilen von Avalet stehen.
-Die Trennung in "Model" und "View" (eigentlich in Model-View-Control)
-ist ein übliches "Design Pattern" in der Programmierung. Nach diesem 
-Pattern wird der Code aufgetrennt. Und zwar einmal in alles, was mit der eigent-
-lichen Oberfläche zu tun hat. Also das, was man konkret als "Grafical User Interface"
-sehen kann: die Oberflächenelemente, Dialogfenster, Menüs, Buttons, ... usw.
-Das ist die "View".
-Und auf der anderen Seite hat man dann die Daten, die auf der Oberfläche an-
-gezeigt werden sollen. Die Objekte, Variablen, etc. Und natürlich auch die
-Logik, also die Möglichhkeiten, diese Daten zu manipulieren. Das ist das 
-"Model" bzw. das "Control". Das macht Sinn, weil "MC" und "V" schon sehr
-unterschiedlich sind und man meist auch nur an einem von beidem gleichzeitig
-arbeiten will. Naja, und wenn ich unter diesen zig Fenster-Elementen, aus denn
-Avalet besteht, das suchen muss, was ich nun grade ändern will, dann ist es
-auf jeden Fall gut, wenn ich nicht auch noch durch das ganze Model scrollen
-muss dabei. Viel übersichtlicher. Und damit auch viel weniger fehleranfällig.
-Verbunden sind die beiden Teile hier in Avalet durch das "Event"-System von
-Mudlet. Das läuft so, dass wenn neue Daten eintreffen - per ATCP zum Beispiel -,
-dann werden diese Daten is "Model" weitergeleitet und dorf verarbeitet. Dadurch
-werden die vorherigen Daten in der Regel geändert. Und dann wird die Oberfläche
-darüber informiert, dass sie sich jetzt mal aktualisieren muss. (Weil die dort
-angezeigten Daten eben noch die alten sind.) Und informiert wird die View, 
-indem ein "Daten-haben-sich-geändert-Event" ausgelöst wird. Und die einzelnen 
-Elemente der View registrieren sich für diejenigen Events, die für sie jeweils
-interessant sind. Konkret: Der Char bewegt sich in Avalon ein Feld weiter, sagen
-wir auf Nereid. Dadurch ändern sich einige Daten für den Char. Zum Beispiel hat
-sein aktueller Aufenthaltsraum jetzt eine neue Raum-ID. Und es steht vielleicht
-auch noch was in diesem Raum, mindestens ja der Spieler. Und dann gibts auch eine
-neue Ingame-Karte. Diese neuen Daten kommen auf verschiedenem Weg zu Avalet. Per
-Trigger und per ATCP. Avalet zeigt diese Daten letztlich auf der Oberfläche an, und
-hat dafür erstmal ein Datenmodell. In diesem Modell gibt es zum einen Variablen
-für jede der anzuzeigenden Informationen (Room-ID, Map, Inventar). Und zum anderen
-gibt es dort Informationen, die die Rohdaten bearbeiten und für die Anzeige auf
-der Oberfläche vorbereiten. (RoomID zum Beispiel wird zurechtgeschnitten, die Karte
-wird relativ aufwändig aus der gesamten Raumbeschreibung extrahiert, das Inventar
-wird gruppiert usw. Und anschließend wir ein "MapHasChanged"-Event ausgelöst. Und
-der Teil der View, der die Map anzeigt, hat sich für genau diesen Event registiert.
-Der Event ruft dadurch eine Funktion der View auf, die die Anzeige aktualisiert.
-Das ist etwas idealisiert beschrieben, aber es sollte für eine Idee von dem, was 
-hier passiert, reichen.
+Die einzelnen Teile von Avalet, die auf der Oberfläche zu sehen sind, werden dann
+im Bereich "Model" und im Bereich "View" angelegt. Und dort finden sich dann auch 
+die Funktionen, die konkret im Zusammenhang mit den einzelnen Bestandteilen von 
+Avalet stehen.
+Die Trennung in "Model" und "View" (eigentlich in Model-View-Control, kurz MVC)
+ist ein übliches "Design Pattern" in der Programmierung. Nach diesem Pattern wird
+der Code aufgetrennt. Und zwar einmal in alles, was mit der eigentlichen Oberfläche 
+zu tun hat. Also das, was man konkret als "Grafical User Interface" sehen kann: 
+die Oberflächenelemente, Dialogfenster, Menüs, Buttons, ... usw. Das ist die "View".
+Und auf der anderen Seite hat man dann die Daten, die auf der Oberfläche angezeigt 
+werden sollen. Die Objekte, Variablen, etc. Und natürlich auch die Logik, also die 
+Möglichhkeiten, diese Daten zu manipulieren. Das ist das "Model" bzw. "Control". 
+Diese Aufteilung macht Sinn, weil "MC" und "V" schon sehr unterschiedlich sind und 
+man meist auch nur an einem von beidem gleichzeitig arbeiten will. Naja, und wenn ich 
+unter diesen zig Fenster-Elementen, aus denen Avalet besteht, das suchen muss, was 
+ich nun grade bearbeiten will, dann ist es schon hilfreich, wenn ich nicht auch noch 
+durch das ganze Model scrollen muss dabei. Viel übersichtlicher. Und damit auch viel 
+weniger fehleranfällig.
+
 Manche Daten werden auch NICHT im Model verarbeitet. Jedenfalls nicht in dem Model,
 das zur View passt. EP beispielsweise kommen auch per ATCP, und werden dann ins 
 Char-Objekt geschrieben. Das ist ein "Character-Model", aber das wird nicht in Reinform
@@ -1384,29 +1356,48 @@ werden. Anschließend würde die Funktion am "CharInfoModel" (wo die EP angezeig
 aufgerufen werden, die die Daten für die Anzeige zusammenstellt. Und dann gäbe es 
 wiederrum so einen Event, in diesem Fall dann vielleicht einen "CharInfo has changed"-
 Event. Wodurch die View der entsprechenden Stelle angeregt wird, sich zu aktualisieren.
- 
-Lua-Skripte (oder Mudlet-Module, keine Ahnung) werden beim Start einmal
-komplett eingelesen. Bei dieser Gelegenheit werden alle Funktionen angelegt.
-Und alles, was nicht in einer Funktion steht, wird ausgeführt. Es werden
-also beispielsweise globale Variablen angelegt. Aber auch Code würde ausge-
-führt werden, wenn er nicht in einer Funktion gekapselt ist. Ein Funktions-
-aufruf außerhalb einer Funktion würde also beispielsweise ausgeführt werden.
-Allerdings nur, wenn diese Funktion VOR dem Funktionsaufruf steht. Denn nur
-dann existiert sie schon zu diesem Zeitpunkt. Ich schreibe das so ausführlich,
-weil es mir und anderen immer mal wieder Probleme bereitet hat. Mein Vorschlag
-wäre, auf Funktionsaufrufe außerhalb von Funktionen zu verzichten.
- 
-Und dieses "alles erstmal einlesen und abarbeiten" passiert auch jedesmal,
-wenn man was am Code ändert und dann das Profil speichert.
 
-Die Abläufe im Modul selbst werden dann weitgehend durch "Events" gesteuert. Es 
-gibt Default-Events, die vorgegeben sind und durch bestimmte Ereigniss von
-Mudlet automatisch ausgelöst werden. Als Entwickler schreibt man dann 
-Funktionen, die sich für diese Events registrieren, und dann beim Auslösen 
-so eines Events automatisch ausgeführt werden.
-Außerdem ist es auch noch möglich, eigene Events zu definieren und 
-im Programmablauf auslösen zu lassen. Und dafür dann auch wieder Funktionen
-zu schreiben, die dann eben ausgeführt werden. ]] 
+Lua-Skripte (oder Mudlet-Module, keine Ahnung) werden beim Start einmal komplett einge-
+lesen. Bei dieser Gelegenheit werden alle Funktionen angelegt. Und alles, was nicht in 
+einer Funktion steht, wird ausgeführt. Es werden also beispielsweise globale Variablen 
+angelegt. Aber auch Code würde ausgeführt werden, wenn er nicht in einer Funktion ge-
+kapselt ist. Ein Funktionsaufruf außerhalb einer Funktion würde also beispielsweise 
+ausgeführt werden. Allerdings nur, wenn diese Funktion VOR dem Funktionsaufruf steht. 
+Denn nur dann existiert sie schon zu diesem Zeitpunkt. Ich schreibe das so ausführlich,
+weil es mir und anderen immer mal wieder Probleme bereitet hat. Mein Vorschlag wäre, auf 
+Funktionsaufrufe außerhalb von Funktionen zu verzichten.
+ 
+Und dieses "alles erstmal einlesen und abarbeiten" passiert auch jedesmal, wenn man was
+am Code ändert und dann das Profil speichert. Deshalb macht es Sinn, Variablen sich selbst
+zuzuordnen. (Im Sinne von: 'varName = varName or {}'.) Dadurch bleibt der Wert erhalten,
+wenn man was am Code ändert und das Profil speichert.
+
+Für potentielle Entwickler:
+---------------------------
+
+Wenn du selber was an Avalet ändern möchtest, dann musst du vorher die Installation
+verändern. Tust du das nicht, dann überschreibt sich Avalet mit sich selbst beim
+nächsten Neustart, und deine Änderungen sind weg. Damit das nicht passiert, gehst du
+wie folgt vor:
+- Entpacke das Archiv von Avalet, also die .mpackage bzw die .zip-Datei. Abgesehen vom
+  Namen sind beide identisch, du kannst also die .mpackage-Datei einfach wie eine
+  ZIP-Datei entpacken. Oder lade dir das Projekt von Github runter.
+- DEinstalliere Avalet, falls du es auf die herkömmliche Art installiert hast. Starte
+  dann vorsichtshalber Mudlet neu.
+- INstalliere Avalet neu. Aber diesmal NICHT die .mpackage bzw. die .zip-Datei, sondern
+  die grade eben entpackte Datei 'Avalet.xml'.
+- Achte darauf, dass im Modul-Manager das Sync-Häkchen gesetzt ist.
+Jetzt sollten deine Änderungen erhalten bleiben. ]]
+</script>
+			<eventHandlerList />
+		</Script>
+		<Script isActive="yes" isFolder="no">
+			<name>init</name>
+			<packageName></packageName>
+			<script>--[[
+init
+
+Alles was besonders früh angelegt werden muss ist hier gut aufgehoben. ]] 
 
 ----------------------------------------------------------------------------
 -- Globale Variablen
@@ -1447,32 +1438,54 @@ avalet.debug = avalet.debug or false
 avalet.loglevel = avalet.loglevel or 0
 if avalet.debug then
   -- Die avalet.log()-Funktion existiert hier noch nicht beim Systemstart. Deshalb von
-  -- Hand. Vor dem Release unbedingt auf false stellen!
+  -- Hand. Vor dem Release unbedingt debug auf false stellen!
   cecho("&lt;black:magenta&gt;                                                                               \n")
   cecho("&lt;black:magenta&gt; DEBUG MODE ist aktiviert! Das MUSS vor dem Release auf FALSE gestellt werden! \n")
   cecho("&lt;black:magenta&gt;                                                                               \n")
 end
 
--- Character-Objekt-Variable
+-- Objekt-Variable
+avalet.profile = avalet.profile or {}
 avalet.char = avalet.char or {}
+avalet.fight = avalet.fight or {}
+avalet.mapper = avalet.mapper or {}
 
 --[[
-Speicherort des Moduls. Zeigt auf den Speicherort des Downloads (mpackage oder zip)
-Bei einer Entwickler-Installation allerdings zeigt dieser Pfad auf die Entwicklungs-
-version. Das wäre dann also zu verwenden statt avalet.MODULE_HOME_DIR, um zum Beispiel
-auf die Bilder zugreifen zu können oder auf die Datei mit den Versions-Informationen.
-Letztere existiert aber natürlich nur, wenn sie vorher erzeugt wurde, und das geschieht
-durch die Batch-Datei. (Alternative: händisch die Ressourcen in das Profil-Verzeichnis
-kopieren bei einer Entwickler-Installation.) ]]
+Speicherort des Moduls. Zeigt auf den Speicherort des Downloads, also auf 'Avalet.mpackage'
+oder auf 'Avalet.zip'.
+Bei einer Entwickler-Installation allerdings zeigt dieser Pfad auf die Entwicklungsversion,
+also auf 'Avalet.xml'. Bei so einer Entwicklungsinstallation wird Avalet auch nicht richtig
+installiert, es werden also auch die Ressourcen-Dateien (Bilder, 'version.txt') nicht an den
+gewohnten Ort kopiert. Deshalb sucht Avalet in so einem Fall auch gleich im Entwicklungs-
+verzeichnis, nicht im homedir einer normalen Avalet-Installation. (Das kommt weiter unten.)
+Wird unter Windows beispielsweise zu
+C:/Users/&lt;usrdir&gt;/Downloads/Avalet/Avalet.mpackage (oder eben das Download-Verzeichnis)
+oder
+C:/Users/&lt;usrdir&gt;/Documents/Avalet/Avalet/Avalet.xml (Entwicklungs-Verzeichnis) ]]
 avalet.MODULE_PATH = getModulePath(avalet.MODULE_NAME)
 
--- Speicherort des geladenen Profils. Wird unter Windows zu:
--- C:/Users/&lt;usrdir&gt;/.config/mudlet/profiles/&lt;Profilname&gt;
+--[[
+Speicherort des geladenen Profils. Wird unter Windows zu:
+C:/Users/&lt;usrdir&gt;/.config/mudlet/profiles/&lt;Profilname&gt; ]]
 avalet.MUDLET_HOME_DIR = getMudletHomeDir()
 
-avalet.MODULE_HOME_DIR = avalet.MUDLET_HOME_DIR.."/"..avalet.MODULE_NAME.."/"
+--[[
+Wenn Avalet aus einer .xml-Datei installiert wurde, dann handelt es sich vermutlich um
+eine Entwicklungsinstallation. In diesem Fall kommen die Ressourcen (Bilder z.B.) eben-
+falls aus dem Entwicklungsverzeichnis. Und nicht aus dem MODULE_HOME_DIR, wie sonst. ]]
+local pattern = avalet.MODULE_NAME..".xml"
+if string.find(avalet.MODULE_PATH, pattern) ~= nil then
+  cecho("&lt;yellow&gt;[AVALET]  - Entwicklungsinstallation\n")
+  avalet.MODULE_HOME_DIR = string.gsub(avalet.MODULE_PATH, pattern, "")
+else
+  -- C:/Users/&lt;usrdir&gt;/.config/mudlet/profiles/&lt;Profilname&gt;/&lt;Modulname&gt;/
+  avalet.MODULE_HOME_DIR = avalet.MUDLET_HOME_DIR.."/"..avalet.MODULE_NAME.."/"
+end
 
-
+--[[
+Bei einer Standard-Installation:
+C:/Users/&lt;usrdir&gt;/.config/mudlet/profiles/&lt;Profilname&gt;/&lt;Modulname&gt;/imgs/ 
+sonst eben das entsprechende Unterverzeichnis im Entwicklungsverzeichnis. ]]
 avalet.IMAGE_FOLDER_PATH = avalet.MODULE_HOME_DIR.."imgs/"
 </script>
 			<eventHandlerList />
@@ -1571,32 +1584,11 @@ end
 		<Script isActive="yes" isFolder="no">
 			<name>settings</name>
 			<packageName></packageName>
-			<script>--avalet.log("settingsUI loaded", 1)
-
---avalet.debug = true
-
---[[
-application layout:
-three-column
-two-column 
-one-column 
-auto (beta)
-
-]]
---[[
-avaletUI.settings = avaletUI.settings or {}
-avaletUI.settings.appLayout = "three-column"
-avaletUI.settings.borderTop = 0
-avaletUI.settings.borderBottom = 0
-avaletUI.settings.borderLeft = 0
-avaletUI.settings.borderRight = 0
-avaletUI.top:show()--hide()
-avaletUI.bottom:show()--hide()
-avaletUI.left:show()--hide()
-avaletUI.right:show()--hide()
-]]
-
-</script>
+			<script>--[[
+Eigentlich sollten die User auch was einstellen können in Avalet. Also
+selber konfigurieren können. Aber bisher ist mir noch nichts eingefallen,
+bei dem die Vorgaben derart unzumutbar wären, dass ich mir die Mühe
+machen müsste. Also hab ich das nie ausgearbeitet. TODO ]]</script>
 			<eventHandlerList />
 		</Script>
 		<Script isActive="yes" isFolder="no">
@@ -1604,12 +1596,12 @@ avaletUI.right:show()--hide()
 			<packageName></packageName>
 			<script>--[[
 Hier sind alle Profil-bezogenen Funktionen versammelt.
+
 Im Unterschied zum Charakter kann das Profil sofort beim Start von Avalet
 geladen werden. Dieses Objekt wäre also der richtige Platz, um beispiels-
 weise Einstellungen zu speichern, die unabhängig vom gespielten
-Charakter sind. ]]
+Charakter sind.
 
---[[
 Genau wie der Charakter ist das Profil als Objekt ausgelegt. Also mit
 der Möglichkeit, öffentliche und private Attribute und Funktionen zu
 haben. Und statische Funktionen. Und getter und setter. ]]
@@ -1677,7 +1669,6 @@ objProfile.new = function()
     Datei, dann ist das Profil wohl neu. Dann wird die Datei angelegt, wenn 
     Mudlet das Profil schließt. ]]
 	  if io.exists(profileFilePath) then
-		  --cecho("&lt;magenta&gt;Charakter-Datei ist vorhanden, versuche Datei zu laden:\n" .. characterFilePath .. "\n")
       -- Daten laden
       local subset = avalet.readFileFromFS(profileFilePath, "r")
       -- Geladene Daten mit dem Profil-Objekt mergen
@@ -1690,10 +1681,7 @@ objProfile.new = function()
 end --objProfile.new = function()
 
 --[[
-Im Unterschied zum Charakter kann das Profil sofort beim Start von
-Avalet geladen werden. Dieses Objekt wäre also der richtige Platz, um beispiels-
-weise Einstellungen zu speichern, die unabhängig vom gespielten
-Charakter sind. ]]
+Hier wird das Profil-Objekt initialisiert. Aufruf in Events --&gt; onSysInstall ]]
 function avalet.initProfile()
   avalet.log("Function avalet.initProfile()", 1)
 
@@ -1727,11 +1715,13 @@ local objCharacter = {}
 
 --[[
 Hier beginnt das eigentliche Character-Objekt.
-Das ist hier sicherlich alles andere als Optimal. Ich behandel hier alles, was per
-ATCP kommt. Einfach weil es sich so entwickelt hat beim Programmieren. Eigentlich 
-wäre es aber sinnvoll, einzelne Teile auszulagern: einmal alles was mehr den Raum
-betrifft, in dem sich der Char grad befindet. Und dann auch alles, was mit dem
-aktuellen Kampf zu tun hat. TODO ist in arbeit, aber noch nicht abgeschlossen. ]]
+Das ist hier sicherlich noch nicht optimal. Ursprünglich hab ich hier alles behandelt,
+was per ATCP kommt. Das hatte sich so entwickelt. Mittlerweile hab ich wenigstens den
+Kampf ausgelagert (nach objFight). Das hat hier schonmal ein paar hundert Zeilen Code
+gespart. Noch auslagerungsfähig wäre alles, was sich mit dem Raum/der Map beschäftig.
+Und möglicherweise die Inventar-Verwaltung. Beides ist allerdings noch nicht realisiert,
+und deshalb halt auch noch nicht ausgelagert. TODO bzw. work in progress. Bis zur
+Realisierung ist es hier halt ein bisschen unübersichtlich. ]]
 objCharacter.new = function()
 
   local self = {}
@@ -2395,11 +2385,15 @@ Problematisch sind Sonderfälle wie:
 - Kämpfe, die der Char ausschließlich mit Zaubern durchführt (ohne Gegenangriff und
   ohne erstmal mit Fäusten oder so anzugreifen)
 - "one strike"-Kämpfe mit Zaubern,
-- usw. Da 
-soll die Kampfdauer aber natürlich auch irgendwie nachvollziehbare Werte anzeigen. ]]
+- usw. 
+Da soll die Kampfdauer aber natürlich auch irgendwie nachvollziehbare Werte anzeigen. TODO 
+
+Hier sollen auch die Treffer erfasst werden. Das ist aber noch nicht realisiert. TODO 
+
+Die Messung der Kampfdauer gehört zu den zuletzt implementierten Funktionen und ist
+sicherlich noch sehr BETA... ]]
 
 local objFight = {}
-
 
 objFight.new = function()
 
@@ -2558,9 +2552,6 @@ extrem" und "minimal".
   self.resetLastFight = function() lastFightDuration = nil end
 
 
-
-
-
   --[[
   Der ATCP-Wert "AvalonKampf" zeigt zwar an, ob der Char sich in einem
   Kampf befindet. Aber dazu zählt auch schon, wenn nur der Gegner kämpft,
@@ -2584,13 +2575,12 @@ extrem" und "minimal".
       avalet.log("Anzahl Stopwatches derzeit: "..tostring(#listOfStopWatches), 2)
       for _,v in ipairs(listOfStopWatches) do
         if string.find(v["name"], STOPWATCH_PREFIX) ~= nil then
-          cecho("&lt;magenta&gt;StopWatch-Name hat den Prefix")
-        end
-        avalet.log("Stopwatch gefunden: "..v["name"].."(running: "..tostring(v["isRunning"])..")", 2)
-        -- laufende Stopwatches stoppen
-        if v["isRunning"] then
-          stopStopWatch(v["name"])
-          avalet.log("Stopwatch gestoppt", 2)
+          avalet.log("Stopwatch mit dem richtigen Prefix gefunden: "..v["name"].."(running: "..tostring(v["isRunning"])..")", 2)
+          -- laufende Stopwatches stoppen
+          if v["isRunning"] then
+            stopStopWatch(v["name"])
+            avalet.log("Stopwatch gestoppt", 2)
+          end
         end
       end
       avalet.log("Setze iBattle auf false", 2)
@@ -2676,13 +2666,15 @@ extrem" und "minimal".
 
   end
   
-  local getOpponentsStopWatchName = function(arg)
+  local getOpponentsStopWatchName = function(strOppID)
     avalet.log("private function fight:getOpponentsStopWatchName()", 1)
-
+    
     if table.is_empty(fights) then avalet.log("table is_empty!", 2); return nil else avalet.log("table IST NICHT empty!", 2) end
-  
+    
+    local opponentID = strOppID
+    
     for key, value in pairs(fights) do
-      if value[arg] then
+      if value[opponentID] then
         return key
       end
     end
@@ -2691,6 +2683,7 @@ extrem" und "minimal".
   end
 
   --[[
+  ANGEGRIFFEN
   Der ATCP-Wert 'AvalonAngegriffen' enthält die Gegner-ID des angegriffenen Gegners. ]]
   self.setAngegriffen = function(arg)
     avalet.log("public function fight:setAngegriffen() mit param: "..tostring(arg), 1)
@@ -2729,7 +2722,7 @@ extrem" und "minimal".
       Sollte es noch einen Battle-Timer geben, muss der jetzt weg. (Das war mal in
       einer eher schrägen Konstellation der Fall. Sollte also selten vorkommen
       und stört auch nicht die Funktionsfähigkeit, wenn der alte Timer erhalten
-      bleibt, belastet aber Mudlet bis zum neustart. ]]
+      bleibt, kostet aber Laufzeit. ]]
       if battleTimerID ~= nil then
         avalet.log("BattleTimer läuft schon, wird entfernt: "..tostring(battleTimerID), 2)
         if killTimer(battleTimerID) then
@@ -2755,13 +2748,13 @@ extrem" und "minimal".
       
       if stopWatchName == nil then
         avalet.log("Unbekannter Gegner, erhält neue StopWatch", 2)
-        stopWatchName = opponentID
+        stopWatchName = STOPWATCH_PREFIX..opponentID
 
         --[[
         Der Gegner wird nochmal extra gespeichert, um Kämpfe gegen mehrere Gegner abbilden
         zu können. Zusätzlich wird die Bezeichnung des Gegners ("Schaf") aus dem roomInv
         geholt. ]]
-        opp = avalet.char.getRoomInv(stopWatchName)
+        opp = avalet.char.getRoomInv(opponentID)
         
         if opp == nil then avalet.log("Keinen Gegner-Namen erhalten", 3) end
 
@@ -2782,7 +2775,7 @@ extrem" und "minimal".
       startStopWatch(stopWatchName)
       raiseEvent("StatisticsChange")
       
-      avalet.log("Angegriffen: "..stopWatchName.." ("..tostring(opp["name"])..")", 2)
+      avalet.log("Angegriffen: "..opponentID.." ("..tostring(opp["name"])..")", 2)
 
     else --if inBattle
     
@@ -2806,7 +2799,7 @@ extrem" und "minimal".
 
       self.addOpponentToFight(stopWatchName, additionalOpponentID, opp["name"])
     
-      avalet.log("Dem Kampf gegen "..stopWatchName.." hinzugefügt:"..additionalOpponentID.." ("..tostring(opp["name"])..")", 2)
+      avalet.log("Dem Kampf "..stopWatchName.." hinzugefügt:"..additionalOpponentID.." ("..tostring(opp["name"])..")", 2)
       
     end
     
@@ -2818,15 +2811,15 @@ extrem" und "minimal".
   Gegner natürlich. Deshalb werden diese drei Werte hier einheitlich verarbeitet. ]]
   local gegnerGetoetet = function(arg, strWho)
   
-    local who = strWho -- wer hat getötet: "char", "ally", "gruppe"
+    local who = strWho -- wer hat getötet: "char", "ally", "gruppe"; doch nicht verwendet
   
     local opponentID = getOpponentID(arg)
     
     --[[
-    Der Name der StopWatch ist eigentlich die Gegner-ID - aber nur im Kampf gegen einzelne
-    Gegner. Im Kampf gegen mehrere wird die StopWatch des zuerst angegriffenen für alle
-    verwendet. Die Funktion getOpponentsStopWatchName gibt den verwendeten Namen zurück -
-    oder nil, wenn es keine StopWatch zu dieser Gegner-ID gibt. ]]
+    Der Name der StopWatch ist eigentlich die Gegner-ID (plus Prefix) - aber nur im Kampf 
+    gegen einzelne Gegner. Im Kampf gegen mehrere wird die StopWatch des zuerst angegriffenen
+    für alle verwendet. Die Funktion getOpponentsStopWatchName gibt den verwendeten Namen
+    zurück - oder nil, wenn es keine StopWatch zu dieser Gegner-ID gibt. ]]
     local oppStopWatchName = getOpponentsStopWatchName(opponentID)
     
     avalet.log("Der grade getötete Gegner hat die ID: '"..tostring(opponentID).."'", 2)
@@ -2841,7 +2834,10 @@ extrem" und "minimal".
     wenn Gruppenmitglieder den Gegner töten. Ohne dass man selbst angreifen konnte. Und es
     mag auch noch andere Gründe geben, warum das hier ausgeführt wird, ohne dass es eine
     StopWatch gibt. Deshalb ...]]
-    if oppStopWatchName == nil then raiseEvent("AvalonAngegriffen", arg); oppStopWatchName = getOpponentsStopWatchName(opponentID) end
+    if oppStopWatchName == nil then 
+      raiseEvent("AvalonAngegriffen", arg)
+      oppStopWatchName = getOpponentsStopWatchName(opponentID)
+    end
     --[[
     ... gibt es sie jetzt doch. Und die Variable 'stopWatchName' enthält jetzt ihren Namen. 
     Und gestartet ist sie jetzt auch. ]]
@@ -2949,7 +2945,11 @@ end
 		<Script isActive="yes" isFolder="no">
 			<name>test</name>
 			<packageName></packageName>
-			<script>function avalet.test()
+			<script>--[[
+Ich hatte Schwierigkeiten mit der fights-Liste und hab deshalb hier alle
+Zugriffsmöglichkeiten mal durch-dekliniert. Bleibt bis ich sicher bin,
+dass ich das jetzt im Griff hab. ]]
+function avalet.test()
 
   test = test or {}
   
@@ -3073,15 +3073,15 @@ end</script>
 			<eventHandlerList />
 		</Script>
 		<Script isActive="yes" isFolder="no">
-			<name>objRoom</name>
+			<name>objMapper</name>
 			<packageName></packageName>
 			<script>--[[
-Irgendwann müssen die Raum-bezogenen Daten vom Char-Objekt hierher
-umziehen. Vermutlich wenn ich am Mapper arbeite. (Also nie.) ]]
+Irgendwann müssen die Raum-/Map-bezogenen Daten vom Char-Objekt hierher
+umziehen. Aber zur Zeit ist das hier nur ein Platzhalter. TODO ]]
 
-local objRoom = {}
+local objMapper = {}
 
-objRoom.new = function()
+objMapper.new = function()
 
   local self = {}
 
@@ -3227,10 +3227,10 @@ end
 
 --[[
  ]]
-function avalet.initRoom()
-	avalet.log("Funktion avalet.initRoom()", 1)
+function avalet.initMapper()
+	avalet.log("Funktion avalet.initMapper()", 1)
 
-  return objRoom.new()
+  return objMapper.new()
   
 end
 </script>
@@ -3286,24 +3286,7 @@ end
 
 Statistiken, Zähler, etc.
 
-Idee: Tabelle mit functions, die alle als Rückgabewert den anzuzeigenden Text haben. 
-
-
-Kampfdauer
-Die Sache mit der Kampfdauer ist gar nicht mal so trivial. Per ATCP kommen verschiedene
-Daten dazu, die alle irgendwie unter einen Hut gebracht werden müssen. Da gibt es den
-Wert "kampf", der entweder 0 oder 1 ist. Allerdings zeigt der auch eine 1, wenn nur 
-ein Gegner auf einen eindrischt. Man selbst aber gar nicht zurückschlägt. Diese Zeit
-will man ja eher nicht messen. Greift man selbst an, bekommt man als Wert "angegriffen"
-die ID des Wesens, das man angreift. Aber nicht deren Namen. Den kann man sich aus RoomInv
-raussuchen. Allerdings kann man - vor allem auch mit Angriffstriggern - unter Umständen
-schneller angreifen als RoomInv zur Verfügung steht. Stirbt der Gegner, kommt dazu entweder
-eine Info über "getoetet", "allyGetoetet", "gruppeGetoetet"... Oder auch gar nicht, wenn
-der Gegner nämlich irgendwie anders ums Leben kommt. Und dann kann ein Gegner natürlich auch
-noch fliehen, nicht alleine sein, ... Und ein Kampf kann unterbrochen werden durch Schlaf
-oder Verwirrung oder irgendwelche Bardengesänge... Und so weiter. 
-
-]]
+Idee: Tabelle mit functions, die alle als Rückgabewert den anzuzeigenden Text haben. ]]
 
 avalet.statistics = avalet.statistics or {}
 
@@ -3352,235 +3335,8 @@ function avalet.initStatistics()
     --[9] = {["name"] = "", ["func"] = ""},
   }
   
---  avalet.statistics = {
---    function() return "function1" end,--stat1,
---    function() return "function2" end--stat2
---  }
---
---  for u,v in pairs(avalet.statistics) do
---    local i = v()
---    cecho("&lt;magenta&gt;"..tostring(i).."\n")
---  end
---[[
-  for u,v in pairs(avalet.statistics) do
-    local func = v["func"]
-    cecho("&lt;magenta&gt;"..tostring(v["name"])..": "..tostring(func()).."\n")
-  end
-]]
-  --raiseEvent("StatisticsChange")
-  
 end
-
-
-function avalet.statistics.kampfstatistik()
-
-
-
-
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function avalet.getEpPerShield()
-
-end
-
-
-function avalet.getEpPerBonusstunde()
-
-end
-
-
-function avalet.getFightDuration()
-
-end
-
-function avalet.refreshCounter()
-	--debugc("function refreshCounter")
---[=[  
-  for k, v in pairs(avalonUI.listOfCounter) do
-    avalonUI["Counter"..k]:show()
-    ---- mylabel:echo(string.format("&lt;span style='color: rgb(0,0,0)'&gt;Hello World&lt;/span&gt;", redv, greenv, bluev))
-    ----avalonUI["Counter"..k]:echo("&lt;span style='color: rgb(0,0,0)'&gt;&lt;b&gt;&amp;nbsp;"..v["Name"]..": " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "&lt;/b&gt;&lt;/span&gt;")
-    --avalonUI["Counter"..k]:echo("&lt;b&gt;&amp;nbsp;"..v["Name"]..": " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "&lt;/b&gt;")
-    if k == 1 then avalonUI["Counter"..k]:echo("&lt;b&gt;" .. v["Name"] ..":&lt;/b&gt;" .. thousands(tonumber(player.ep))) end
-    if k == 2 then avalonUI["Counter"..k]:echo("&lt;b&gt;".. v["Name"] ..":&lt;/b&gt; " .. thousands(tonumber(player.ep) - tonumber(player.sessionEP))) end
-    if k == 3 then avalonUI["Counter"..k]:echo("&lt;b&gt;".. v["Name"] ..":&lt;/b&gt; " .. thousands(tonumber(player.bonusEP))) end
-    if k == 4 then avalonUI["Counter"..k]:echo("&lt;b&gt;".. v["Name"] ..":&lt;/b&gt; " .. thousands(tonumber(player.schildEP))) end
-  end
-]=]
-end
--- Das Problem mit dem SessionEP-Zähler ist, dass es im Grunde keine Möglichkeit gibt,
--- ein echtes "Login", also den Session-Start, zu erkennen. Man kann ein "reconnect"
--- an Hand des Strings "Verwende alten Koerper..." erkennen (und dann nur hoffen, dass
--- das immer zuverlässig ist), aber um einen echten login davon unterscheiden zu können,
--- müsste man zuverlässigere Daten haben. (ODER?)
--- Naja, man könnte bei sysConnection ein Flag "isLogin = true" setzen, und durch den Trigger auf
--- "Verwende alten Koerper..." könnte man das Flag auf "false" setzen. Das funktioniert vermutlich,
--- wenn WIRKLICH der Char-Name nicht vorher per ATCP kommt. Sollte gehen. TODO.
--- "\nSession-EP: " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n"
---[=[
--- event == "AvalonEP"
-function avalet.updateSessionEP(_, arg)
-  debugc("Update SessionEP-Zaehler!")
-  --cecho("&lt;magenta&gt;\nupdate Session-EP\n")
-  --avalonUI["Counter1"]:echo("&lt;b&gt;&amp;nbsp;Session-EP: " .. tostring(tonumber(arg) - tonumber(player.sessionEP)) .. "&lt;/b&gt;")
-  avalonUI["Counter1"]:echo("&lt;b&gt;EP:&amp;nbsp;&lt;/b&gt;" .. thousands(player.ep))
-  avalonUI["Counter2"]:echo("&lt;b&gt;Session-EP:&amp;nbsp;&lt;/b&gt;" .. thousands(tonumber(arg) - tonumber(player.sessionEP)))
-end
-registerAnonymousEventHandler("AvalonEP", "avalonUI.updateSessionEP")
-
-]=]
---[===[
-
-
-    if avalonUI.counter ~= nil then 
-
-      for k, v in pairs(avalonUI.listOfCounter) do
-
-        if k == 1 then content = content .. "&lt;b&gt;" .. v["Name"] ..":&lt;/b&gt;              " .. avalet.utilities.thousands(tonumber(player.ep)) .. "\n" end
-        if k == 2 then content = content .. "&lt;b&gt;" .. v["Name"] ..":&lt;/b&gt;      " .. thousands(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n" end
-        if k == 3 then content = content .. "&lt;b&gt;" .. v["Name"] ..":&lt;/b&gt; " .. thousands(tonumber(player.bonusEP)) .. "\n" end
-        --if k == 4 then content = content .. "&lt;b&gt;" .. v["Name"] ..":&lt;/b&gt;    " .. thousands(tonumber(player.schildEP)) .. "\n" end
-        if k == 4 then content = content .. "&lt;b&gt;" .. v["Name"] ..":&lt;/b&gt;    n/a\n" end
-      end
-    end
-
-
-
-
-
-
-
---createCounterModel
-
-avalonUI.counter = avalonUI.counter or {}
-
-avalonUI.counter = {
-  {["Name"]="Session-EP", ["Groesse"]="EP", ["Basis"] = "Session"},
-  {["Name"]="Arkanschild", ["Groesse"]="EP", ["Basis"] = "Arkanschild"},
-  {["Name"]="Kampfdauer", ["Groesse"]="Zeit", ["Basis"] = "Kampf"},
-  {["Name"]="EP-Verdoppelung", ["Groesse"]="EP", ["Basis"] = "EP-Verdoppelung"},
-  {["Name"]="EP/Stunde", ["Groesse"]="EP", ["Basis"] = "Stunde"},
-}
-
-local schutzzauber = schutzzauber or {}
-schutzzauber = {"Arkanschild", "Schild", "Kampfbeschwoerung", ""}
-
-function avalonUI.createCounterModel()
-  avalonUI.listOfCounter = avalonUI.listOfCounter or {}
-  avalonUI.listOfCounter = {
-    [1] = {["Name"]="EP", ["Groesse"]="EP", ["Basis"] = "EP", ["Basiswert"] = 0},
-    [2] = {["Name"]="Session-EP", ["Groesse"]="EP", ["Basis"] = "Session", ["Basiswert"] = 0},
-    [3] = {["Name"]="Bonusstunden-EP", ["Groesse"]="EP", ["Basis"] = "Bonusstunde", ["Basiswert"] = 0},
-    [4] = {["Name"]="Schildzauber", ["Groesse"]="EP", ["Basis"] = "Schildzauber", ["Basiswert"] = 0},
-  }
-  
-end
-
-
-function avalonUI.recreateCounter()
-	--debugc("func initCounter()")
-  
-  -- Alle Counter unsichtbar machen und Beschriftung löschen. Es gibt
-  -- 6 Label-Elemente für Counter auf der Oberfläche, also (max) 6 Timer:
-  for k = 1, 4, 1 do
-    avalonUI["Counter"..k]:hide()
-    avalonUI["Counter"..k]:echo("")
-  end
-
-  -- Counter-Anzeige neu aufbauen:
-  avalonUI.refreshCounter()
-end --function initCounter()
-
-
-function avalonUI.refreshCounter()
-	--debugc("function refreshCounter")
-  
-  for k, v in pairs(avalonUI.listOfCounter) do
-    avalonUI["Counter"..k]:show()
-    ---- mylabel:echo(string.format("&lt;span style='color: rgb(0,0,0)'&gt;Hello World&lt;/span&gt;", redv, greenv, bluev))
-    ----avalonUI["Counter"..k]:echo("&lt;span style='color: rgb(0,0,0)'&gt;&lt;b&gt;&amp;nbsp;"..v["Name"]..": " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "&lt;/b&gt;&lt;/span&gt;")
-    --avalonUI["Counter"..k]:echo("&lt;b&gt;&amp;nbsp;"..v["Name"]..": " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "&lt;/b&gt;")
-    if k == 1 then avalonUI["Counter"..k]:echo("&lt;b&gt;" .. v["Name"] ..":&lt;/b&gt;" .. thousands(tonumber(player.ep))) end
-    if k == 2 then avalonUI["Counter"..k]:echo("&lt;b&gt;".. v["Name"] ..":&lt;/b&gt; " .. thousands(tonumber(player.ep) - tonumber(player.sessionEP))) end
-    if k == 3 then avalonUI["Counter"..k]:echo("&lt;b&gt;".. v["Name"] ..":&lt;/b&gt; " .. thousands(tonumber(player.bonusEP))) end
-    if k == 4 then avalonUI["Counter"..k]:echo("&lt;b&gt;".. v["Name"] ..":&lt;/b&gt; " .. thousands(tonumber(player.schildEP))) end
-  end
-end
-
--- Das Problem mit dem SessionEP-Zähler ist, dass es im Grunde keine Möglichkeit gibt,
--- ein echtes "Login", also den Session-Start, zu erkennen. Man kann ein "reconnect"
--- an Hand des Strings "Verwende alten Koerper..." erkennen (und dann nur hoffen, dass
--- das immer zuverlässig ist), aber um einen echten login davon unterscheiden zu können,
--- müsste man zuverlässigere Daten haben. (ODER?)
--- Naja, man könnte bei sysConnection ein Flag "isLogin = true" setzen, und durch den Trigger auf
--- "Verwende alten Koerper..." könnte man das Flag auf "false" setzen. Das funktioniert vermutlich,
--- wenn WIRKLICH der Char-Name nicht vorher per ATCP kommt. Sollte gehen. TODO.
--- "\nSession-EP: " .. tostring(tonumber(player.ep) - tonumber(player.sessionEP)) .. "\n"
-
--- event == "AvalonEP"
-function avalonUI.updateSessionEP(_, arg)
-  debugc("Update SessionEP-Zaehler!")
-  --cecho("&lt;magenta&gt;\nupdate Session-EP\n")
-  --avalonUI["Counter1"]:echo("&lt;b&gt;&amp;nbsp;Session-EP: " .. tostring(tonumber(arg) - tonumber(player.sessionEP)) .. "&lt;/b&gt;")
-  avalonUI["Counter1"]:echo("&lt;b&gt;EP:&amp;nbsp;&lt;/b&gt;" .. thousands(player.ep))
-  avalonUI["Counter2"]:echo("&lt;b&gt;Session-EP:&amp;nbsp;&lt;/b&gt;" .. thousands(tonumber(arg) - tonumber(player.sessionEP)))
-end
-registerAnonymousEventHandler("AvalonEP", "avalonUI.updateSessionEP")
-
-]===]
-
-
---[[
-Das ...-Objekt
- ]]
-local objShieldEPCounter = {}
-
---[==[
---[[
-Hier beginnt das eigentliche ...-Objekt ]]
-objShieldEPCounter.new = function()
-
-  local self = {}
-  
-  --[[
-  Von außen nicht sichtbare Werte ]]
-  -- local varname = varvalue
-
-  --[[
-  Von außen nicht sichtbare Funktionen ]]
-  --local funcname = function(funcparam) ... end
-
-  --[[
-  Von außen zugängliche Funktionen ]]
-  --self.funcname = function(funcparam) ... end
-    
-  return self
-
-end
-
---[[
-Objekt erzeugen ]]
-objShieldEPCounter.new()
-]==]</script>
+</script>
 			<eventHandlerList />
 		</Script>
 		<Script isActive="yes" isFolder="no">
@@ -3942,25 +3698,7 @@ end -- function avalonUI.createMixedTimer(timerStrings)
 Ein paar Konstante stehen auch unter "init". Und auch sonst hier und da. ]]
 
 avalet.CONSTS = {}
---avalet.CONST.GILDEN = {}
---avalet.CONST_GILDEN = {
---  ["RUNENSCHMIEDE"]="Runenschmiede"
---}
---cecho("&lt;magenta&gt;"..avalet.CONST_GILDEN.RUNENSCHMIEDE)
 
--- Wird vom keypad-Event benutzt:
---avalet.CONST.DIRECTIONS = {"sw","s","so","w","sc","o","nw","n","no","h","r","rein","raus"}
-
---avalet.CONSTS.INJECTION_BUFFER = avalet.CONSTS.INJECTION_BUFFER or tostring(math.random(100000,999999)).."InjectionBuffer"
-
---[[
-avalet.CONSTS.LAYOUT
-Eine "sprechendere" Variable für die verschiedenen Layouts.
-Usage:
-  local LAYOUT = avalet.CONSTS.LAYOUT
-  --LAYOUT["MULTIVIEW"] (= 1), LAYOUT["REDUCED"] (= 2),
-  --LAYOUT["COMPACT"] (= 3), LAYOUT["FULL"] (= 4),
-]]
 avalet.CONSTS.LAYOUT = {
   ["NONE"] = 0,        -- Als letzter Ausweg wird einfach gar nichts angezeigt, nur nacktes Mudlet.
   ["MULTIVIEW"] = 1,   -- 1 Spalte (mitte), keine Chats, keine Char- und keine Guild-Infos
@@ -4122,7 +3860,7 @@ function avalet.onSysInstall(_, name)
   
   avalet.fight = avalet.initFight()
   
-  avalet.room = avalet.initRoom()
+  avalet.mapper = avalet.initMapper()
   
   --[[
   Auch die ganzen statistischen Auswertungen, die ich mir erst noch ausdenken und
@@ -4266,6 +4004,7 @@ function avalet.onSysUninstall(_, name)
   
   -- Bei der Deinstallation von Avalet wird der Zustand des Default Anwendungsfensters
   -- wieder hergestellt. (Also die normale Spiel-Konsole im gesamten Fenster angezeigt.)
+  -- Edit: So weit zur Theorie. In der Praxis hat nichts davon funktioniert. TODO.
   --[[
   avaletUI.adjContTop:hide()
   avaletUI.adjContBottom:hide()
