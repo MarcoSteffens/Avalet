@@ -112,7 +112,7 @@ raiseEvent("InjectionBufferChange")
 				</regexCodePropertyList>
 			</Trigger>
 		</Trigger>
-		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+		<TriggerGroup isActive="no" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 			<name>AvaletKampf</name>
 			<script>--[[
 Erlaubte Werte fuer die Kampfanzeige sind: "alles", "treffer", "sehr
@@ -232,7 +232,7 @@ extrem" und "minimal". ]]</script>
 				<colorTriggerFgColor>#000000</colorTriggerFgColor>
 				<colorTriggerBgColor>#000000</colorTriggerBgColor>
 				<regexCodeList>
-					<string>^   (Du triffst .* (sehr leicht|leicht|hart|extrem stark) .*\.)$</string>
+					<string>^   (Du triffst .* (sehr leicht|leicht|hart|stark|extrem stark) .*)$</string>
 					<string>^   (Du parierst .* einen (Schlag|harten Schlag) .*\.)$</string>
 					<string>^  (Du triffst.*)$</string>
 					<string>^   (Du weichst .* aus\.)$</string>
@@ -258,7 +258,7 @@ extrem" und "minimal". ]]</script>
 				<colorTriggerFgColor>#000000</colorTriggerFgColor>
 				<colorTriggerBgColor>#000000</colorTriggerBgColor>
 				<regexCodeList>
-					<string>^   ((Der|Die|Das|Ein|Eine) .* (rammt|tritt|beisst|erwischt|trifft) Dich .*)$</string>
+					<string>^   ((Der|Die|Das|Ein|Eine) .* (beruehrt|rammt|tritt|beisst|erwischt|trifft) Dich .*)$</string>
 					<string>^   ((Der|Die|Das|Ein|Eine) .* (weicht).*)$</string>
 				</regexCodeList>
 				<regexCodePropertyList>
@@ -2681,9 +2681,6 @@ extrem" und "minimal".
     local opponentID = strOppID
     
     for key, value in pairs(fights) do
-      cecho("&lt;magenta&gt;key, value: "..tostring(key).."\n")
-      display(value)
-      cecho("&lt;magenta&gt;\nfertig\n")
       if value[opponentID] then
         return key
       end
@@ -2721,8 +2718,6 @@ extrem" und "minimal".
       if thisFightDuration ~= nil then
         avalet.log("thisFightDuration wird zu lastFightDuration", 2)
         lastFightDuration = thisFightDuration; 
-        cecho("&lt;magenta&gt;thisFightDuration: "..tostring(thisFightDuration).."\n")
-        cecho("&lt;magenta&gt;lastFightDuration: "..tostring(lastFightDuration).."\n")
         thisFightDuration = nil 
       end
       
@@ -3325,17 +3320,17 @@ function avalet.initStatistics()
         ["name"] = "Session-EP",
         ["isActive"] = function() return true end,
         ["func"] = function() return avalet.utilities.thousands(avalet.char.getSessionEP()) end,
-        ["last"] = function() return avalet.char.getLastSessionEP() end},
+        ["last"] = function() return avalet.utilities.thousands(avalet.char.getLastSessionEP()) end},
     [3] = {
         ["name"] = "Bonusstunden-EP",
         ["isActive"] = function() return avalet.char.getBonusEPState() end,
         ["func"] = function() return avalet.utilities.thousands(avalet.char.getBonusEP()) end,
-        ["last"] = function() return avalet.char.getLastBonusEP() end},
+        ["last"] = function() return avalet.utilities.thousands(avalet.char.getLastBonusEP()) end},
     [4] = {
         ["name"] = "Schildzauber",
         ["isActive"] = function() return avalet.char.getSchildEPActivityState() end,
         ["func"] = function() return avalet.utilities.thousands(avalet.char.getSchildEP()) end,
-        ["last"] = function() return avalet.char.getLastSchildEP() end},
+        ["last"] = function() return avalet.utilities.thousands(avalet.char.getLastSchildEP()) end},
     [5] = {
         ["name"] = "Kampfdauer",
         ["isActive"] = function() return avalet.fight.getFightStatus() end,
