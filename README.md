@@ -8,7 +8,7 @@ Avalet ist ein Module für den Mud-Client [Mudlet](https://www.mudlet.org/) und 
 
 ![aktueller Screenshot](latest_screenshot.png)
 
-<img src="screenshot_layout_compact.png" width="40%"></img> <img src="screenshot_layout_reduced.png" width="30%"></img> <img src="screenshot_layout_multiview.png" width="20%"></img> <!--img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img-->
+<img src="screenshot_layout_compact.png" width="30%"></img> <img src="screenshot_layout_reduced.png" width="30%"></img> <img src="screenshot_layout_multiview.png" width="30%"></img> <!--img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img-->
 
 Funktionen von Avalet:
 - Laufen mit dem Ziffernblock! ([Tastaturbelegung](https://github.com/MarcoSteffens/Avalet/wiki/Tastaturbelegung-f%C3%BCr-den-Ziffernblock))
