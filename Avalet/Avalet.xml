@@ -431,8 +431,10 @@ _ = sendATCP("ava_req_update")
 				<string>Dazu bist Du schon zu voll.</string>
 				<string>Du bist gesaettigt</string>
 				<string>Es schwappt und gluckert in Deinem Bauch.</string>
+				<string>Du hast ausreichend gegessen.</string>
 			</regexCodeList>
 			<regexCodePropertyList>
+				<integer>0</integer>
 				<integer>0</integer>
 				<integer>0</integer>
 				<integer>0</integer>
@@ -2452,11 +2454,12 @@ extrem" und "minimal".
   Param1: ID des Gegners als String (ist gleichzeitig der StopWatch-Name)
   Param2 (optional): Name des Gegners ("Schaf") als String 
   call: self.addFight("GegnerID"(, "GegnerName")) ]]
-  self.addFight = function(strOpponentID, strOpponentName)
+  self.addFight = function(strStopWatchName, strOpponentID, strOpponentName)
+    local stopWatchName = strStopWatchName
     local opponentID = strOpponentID
     local opponentName = strOpponentName or true
-    fights[opponentID]={}
-    fights[opponentID][opponentID]=opponentName
+    fights[stopWatchName]={}
+    fights[stopWatchName][opponentID]=opponentName
   end
   
   
@@ -2478,7 +2481,9 @@ extrem" und "minimal".
     avalet.log("inner function fight:removeOpponentFromFight() with param '"..tostring(strFightID).."' und '"..tostring(strOpponentIDToRemove), 1)
     local fightID = strFightID
     local opponentIDToRemove = strOpponentIDToRemove
-    fights[fightID][opponentIDToRemove] = nil
+    if fights[fightID] then
+      fights[fightID][opponentIDToRemove] = nil
+    end
   end
   
   self.removeFight = function(strFightID)
@@ -2614,7 +2619,9 @@ extrem" und "minimal".
   Dauer des letzten Kampfes, für die Anzeige auf der Oberfläche. Der Wert
   ist hier schon für die Anzeige formatiert. (m:ss) ]]
   self.getLastFightDuration = function()
-    if lastFightDuration == nil then
+    avalet.log("function fight:getLastFightDuration()", 1)
+    avalet.log("lastFightDuration: "..tostring(lastFightDuration), 2)
+    if lastFightDuration == nil or lastFightDuration == 0 then
       return nil
     else
       return formatFightDuration(lastFightDuration)
@@ -2674,6 +2681,9 @@ extrem" und "minimal".
     local opponentID = strOppID
     
     for key, value in pairs(fights) do
+      cecho("&lt;magenta&gt;key, value: "..tostring(key).."\n")
+      display(value)
+      cecho("&lt;magenta&gt;\nfertig\n")
       if value[opponentID] then
         return key
       end
@@ -2709,7 +2719,10 @@ extrem" und "minimal".
       angegriffen wurde, wird dieser letzte Wert erstmal gesichert, damit auf der Ober-
       fläche jeweils auch die Dauer des vorherigen Kampfes angezeigt werden kann. ]]
       if thisFightDuration ~= nil then
+        avalet.log("thisFightDuration wird zu lastFightDuration", 2)
         lastFightDuration = thisFightDuration; 
+        cecho("&lt;magenta&gt;thisFightDuration: "..tostring(thisFightDuration).."\n")
+        cecho("&lt;magenta&gt;lastFightDuration: "..tostring(lastFightDuration).."\n")
         thisFightDuration = nil 
       end
       

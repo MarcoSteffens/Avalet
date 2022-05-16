@@ -123,7 +123,7 @@ Avalet ist als "Avalon-GUI für jedermensch" gedacht. Die Funktionalität soll e
            \________________________________________________________\_/
             |                                                       |
             |   "Ich habe Dich bereits erwartet."                   |_
-            |          Ein Balrog zum neuesten Release von Avalet   | |
+            |                              Ein Balrog über Avalet   | |
             \_______________________________________________________\_/
 
 ```
