@@ -8,7 +8,7 @@ Avalet ist ein Module für den Mud-Client [Mudlet](https://www.mudlet.org/) und 
 
 ![aktueller Screenshot](latest_screenshot.png)
 
-<!--img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img-->
+<img src="screenshot_layout_compact.png" width="40%"></img> <img src="screenshot_layout_reduced.png" width="30%"></img> <img src="screenshot_layout_multiview.png" width="20%"></img> <!--img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img-->
 
 Funktionen von Avalet:
 - Laufen mit dem Ziffernblock! ([Tastaturbelegung](https://github.com/MarcoSteffens/Avalet/wiki/Tastaturbelegung-f%C3%BCr-den-Ziffernblock))
@@ -131,5 +131,3 @@ Avalet ist als "Avalon-GUI für jedermensch" gedacht. Die Funktionalität soll e
 ## Shownotes
 
 Im Laufe der Zeit haben mittlerweile einige Personen einen Betrag zu Avalet geleistet. Einfach durch Feedback, aber auch durch konkrete Zuarbeit, Code und anderes. Ich bin euch allen dafür dankbar. Vor allem das positive Feedback hat dazu geführt, dass ich Avalet so weit entwickelt habe, wie es das derzeit ist.
-
-Und es gäbe Avalet nicht ohne Twrx! Und wenn ich hier immer nur "ich" schreibe, dann liegt das daran, dass er so schlau ist, mich die ganze Tipperei erledigen zu lassen. Aber er hat alle meine doofen Fragen beantwortet, Code-Beispiele geliefert und mich überhaupt erst dazu gebracht, dass ich mich mit Mudlet beschäftigt habe. Also: wenn du Avalet doof findest - beschwer dich bei Twrx. ;)
