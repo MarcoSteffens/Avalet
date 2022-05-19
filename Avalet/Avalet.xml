@@ -1517,14 +1517,20 @@ function avalet.getHelp()
   hilfe = hilfe .. " | zunaechst mal mit Lauffunktionen: durch das Druecken der 'Richtungs-     |\n"
   hilfe = hilfe .. " | tasten' rund um den Mittelpunkt '5' laeuft der Charakter in die ent-     |\n"
   hilfe = hilfe .. " | sprechende Richtung. Dazu kommen das '-' fuer 'hoch' und das '+' fuer    |\n"
-  hilfe = hilfe .. " | 'runter'. Die Taste '5' ist mit dem Befehl 'schau' und die Taste '0' mit |\n"
-  hilfe = hilfe .. " | dem Befehl 'blicke gegner' belegt. Wenn der Charakter klettern oder      |\n"
-  hilfe = hilfe .. " | schwimmen muss, geschieht das automatisch beim Druecken einer Richtungs- |\n"
-  hilfe = hilfe .. " | taste. Dabei solltest du aber etwas Geschwindigkeit rausnehmen, sonst    |\n"
-  hilfe = hilfe .. " | wird der Charakter vermutlich verungluecken. Wenn sich ein Fernrohr im   |\n"
-  hilfe = hilfe .. " | Inventar befindet, kannst du durch druecken einer Richtungstaste zusam-  |\n"
-  hilfe = hilfe .. " | men mit der STRG-Taste den Char in die entsprechende Richtung 'spaehen'  |\n"
-  hilfe = hilfe .. " | lassen.                                                                  |\n"
+  hilfe = hilfe .. " | 'runter'. Die Taste '5' ist mit dem Befehl 'schau' belegt, hat aber noch |\n"
+  hilfe = hilfe .. " | zwei Nebenfunktionen: einmal wird die Standard-Anzeige des Info-Bereichs |\n"
+  hilfe = hilfe .. " | wieder hergestellt. Und dann wird die Anzeige unterhalb der Karte aktu-  |\n"
+  hilfe = hilfe .. " | alisiert. Also die Anzeige von dem, was sich im Raum befindet. Das ist   |\n"
+  hilfe = hilfe .. " | nützlich im Kampf, wenn man wissen will, welche Gruppenmitglieder grad   |\n"
+  hilfe = hilfe .. " | anwesend sind, welche Gegner sich schon in Leichen verwandelt haben oder |\n"
+  hilfe = hilfe .. " | was sonst noch so rumliegt (an Loot beispielsweise). Und die Taste '0'   |\n"
+  hilfe = hilfe .. " | ist mit dem Befehl 'blicke gegner' belegt.                               |\n"
+  hilfe = hilfe .. " | Wenn der Charakter klettern oder schwimmen muss, geschieht das automa-   |\n"
+  hilfe = hilfe .. " | tisch beim Druecken einer Richtungstaste. Dabei solltest du aber etwas   |\n"
+  hilfe = hilfe .. " | Geschwindigkeit rausnehmen, sonst wird der Character vermutlich verun-   |\n"
+  hilfe = hilfe .. " | gluecken. Wenn sich ein Fernrohr im Inventar befindet, kannst du durch   |\n"
+  hilfe = hilfe .. " | druecken einer Richtungstaste zusammen mit der STRG-Taste den Char in    |\n"
+  hilfe = hilfe .. " | die entsprechende Richtung 'spaehen' lassen.                             |\n"
   hilfe = hilfe .. " |                                                                          |\n"
   hilfe = hilfe .. " | Bei den Zaehlern interessiert dich vielleicht, dass der Zaehler fuer die |\n"
   hilfe = hilfe .. " | Bonussstunden-EP NUR die EP zaehlt, die du fuer Kaempfe bekommst. Die    |\n"
@@ -1555,9 +1561,9 @@ function avalet.getHelp()
   hilfe = hilfe .. " |                                                                          |\n"
   hilfe = hilfe .. " | Der schmale Fortschrittsbalken oberhalb der Anzeige von TP, ZP und AP    |\n"
   hilfe = hilfe .. " | soll den 'Tick' anzeigen. Das ist der regelmaeßige TP-, ZP und AP-Schub, |\n"
-  hilfe = hilfe .. " | der etwa alle 40 Sekunden kommt. Dieses Feature ist noch sehr experimen- |\n"
-  hilfe = hilfe .. " | tell und wird vielleicht nicht in jeder Situation zuverlaessig funktion- |\n"
-  hilfe = hilfe .. " | nieren.                                                                  |\n"
+  hilfe = hilfe .. " | der etwa alle 40 Sekunden kommt. Dieses Feature ist noch eher experimen- |\n"
+  hilfe = hilfe .. " | tell und liegt selbst unter guenstigen Umstaenden nur bei einer Genauig- |\n"
+  hilfe = hilfe .. " | kein von +/- einer Sekunde. Plus Lag.                                    |\n"
   hilfe = hilfe .. " |                                                                          |\n"
   hilfe = hilfe .. " | Das Flaschen-Symbol oberhalb der Anzeige von Hunger, Durst und Alkohol   |\n"
   hilfe = hilfe .. " | soll anzeigen, wenn der Char vergiftet, krank oder verflucht ist. Auch   |\n"
@@ -3754,7 +3760,12 @@ um die Karte besser capturen und auf der Oberfläche anzeigen
 zu können. ZUR ZEIT NICHT BENUTZT. ]]
 avalet.CONSTS.fixedWidthMap = {
   ["SKALEWAR"] = 9,
-}</script>
+}
+
+--[[
+Der Abstand zwischen zwei Ticks, also zwischen zwei Mal TP/AP/SP vom MUD. ]]
+avalet.CONSTS.TICK_TIMER_FREQUENCY = 40 -- Sekunden
+</script>
 			<eventHandlerList />
 		</Script>
 		<ScriptGroup isActive="yes" isFolder="yes">
@@ -3866,8 +3877,13 @@ function avalet.onSysInstall(_, name)
   sinnvoll befüllt. (Also wenn der Name des Chars per ATCP geschickt wurde. ]]
   avalet.char = avalet.initCharacter()
   
+  --[[
+  Im Fight-Objekt werden Kämpfe verwaltet. Hauptsächlich um Kampfdauer (und vllt.
+  irgendwann auch mal die Trefferanzahl) auf der Oberfläche anzeigen zu können. ]]
   avalet.fight = avalet.initFight()
   
+  --[[
+  Der Mapper existiert noch nicht, aber was solls. Stört nicht. Also: ]]
   avalet.mapper = avalet.initMapper()
   
   --[[
@@ -4155,7 +4171,7 @@ function avalet.onSysProtocolEnabled(event,arg)
   avalet.log("Function avalet.onSysProtocolEnabled()", 1)
 
 	if arg =="ATCP" then
-    avalet.log("ATCP Support ist aktiviert", 2)
+    avalet.log("Support fuer ATCP ist aktiv, konfiguriere ATCP.", 2)
 		sendATCP("ava_set_mapper",1)
 		sendATCP("ava_set_channel",1)
 		sendATCP("ava_set_comm",1)
@@ -4166,9 +4182,9 @@ function avalet.onSysProtocolEnabled(event,arg)
 		sendATCP("ava_req_update",1)
 		sendATCP("ava_req_graphics_status",1)
 	elseif arg=="GMCP" then
-		echo("&lt;red&gt;GMCP ist offenbar aktiviert. So wird Avalet nicht funktionieren.\nBitte GMXP in den Einstellungen deaktivieren und neu starten.")
+		cecho("&lt;magenta&gt;GMCP ist offenbar aktiviert. So wird Avalet nicht funktionieren.\nBitte GMXP in den Einstellungen deaktivieren und neu starten.")
 	else
-		--echo("Support fuer "..arg.." ist aktiv.\n")
+		avalet.log("Support fuer "..arg.." ist aktiv.", 2)
 	end
 end
 registerAnonymousEventHandler("sysProtocolEnabled", "avalet.onSysProtocolEnabled")
@@ -4545,7 +4561,7 @@ function Logger:SearchLog(file, pattern)
 	Logger:echo("Term matched " .. counter .. " times in " .. lines .. " lines.")
 end
 
--- Hinzugefügt von Marco Steffens
+-- Hinzugefügt von Rofhessa
 function Logger:logFileExists(file)
   self:_closeLog(file) -- close the log if its open, so we can access it
 	local filename = self:getLogDirectory() .. file .. ".txt"
@@ -4557,7 +4573,7 @@ function Logger:logFileExists(file)
 end
 
 
--- Hinzugefügt von Marco Steffens
+-- Hinzugefügt von Rofhessa
 function Logger:ReadLog(file)
 	self:_closeLog(file) -- close the log if its open, so we can access it
 	debugc("File: "..self:getLogDirectory() .. file .. ".txt\n")
@@ -4595,7 +4611,7 @@ end
 
 -- TEST
 
--- Hinzugefügt von Marco Steffens
+-- Hinzugefügt von Rofhessa
 function Logger:ReadLogWithLineLimit()
   --file = "C:/Users/mstef/.config/mudlet/profiles/Ava - Rofhessa - DEV\log\Sagen.txt"
   file = "Sagen"
@@ -5313,22 +5329,23 @@ registerAnonymousEventHandler("DistressChange", "avalet.DiseaseChange")
 			<Script isActive="yes" isFolder="no">
 				<name>createHDAModel</name>
 				<packageName></packageName>
-				<script>-- Hunger-/Durst-/Alkohol-Anzeige (HDA)
--- Die meisten Völker haben 7 unterschiedliche Hunger-Meldungen. Oger und Hobbits haben 13.
--- Die Meldung mit dem Index 1, das ist die "ist völlig gesättigt"-Meldung, soll auf der
--- Oberfläche nicht extra angezeigt werden. Die restlichen Meldungen müssen in den auf der
--- Oberfläche zu sehenden 6 Kästchen angezeigt werden. (Später gibts vielleicht  mal
--- halbe Kästchen, aber erstmal noch nicht.)
--- Zuordnung also:
--- Index Oger/Hobbits | Index andere | Kästchen
---        1                   1           keins
---        2- 3                2           1 (grün)
---        4- 5                3           2 (gelb)
---        6- 7                4           3 (gelb)
---        8- 9                5           4 (gelb)(?)
---       10-11                6           5 (rot)
---       12-13                7           6 (rot)
--- Formel also für Oger und Hobbits: math.ceil((Index + 1) / 2)
+				<script>--[[
+Hunger-/Durst-/Alkohol-Anzeige (HDA)
+Die meisten Völker haben 7 unterschiedliche Hunger-Meldungen. Oger und Hobbits haben 13.
+Die Meldung mit dem Index 1, das ist die "ist völlig gesättigt"-Meldung, soll auf der
+Oberfläche nicht extra angezeigt werden. Die restlichen Meldungen müssen in den auf der
+Oberfläche zu sehenden 6 Kästchen angezeigt werden. (Später gibts vielleicht mal
+halbe Kästchen.)
+Zuordnung also:
+Index Oger/Hobbits | Index andere | Kästchen
+       1                   1           keins
+       2- 3                2           1 (grün)
+       4- 5                3           2 (gelb)
+       6- 7                4           3 (gelb)
+       8- 9                5           4 (gelb)(?)
+      10-11                6           5 (rot)
+      12-13                7           6 (rot)
+Formel also für Oger und Hobbits: math.ceil((Index + 1) / 2) ]]
 
 
 local HUNGER_TEXT = {
@@ -5361,38 +5378,6 @@ local HUNGER_HOBBIT_TEXT = {
   "Wenn Du nicht langsam etwas isst, wirst Du Deine Vorfahren begruessen koennen."
 }
 
-
--- Hungermeldungen Oger
--- Texte mit Umbruch:
--- "Dein prall gefuellter, riesiger Ogerbauch ist Dein ganzer Stolz."
--- "Du fuehlst Dich satt und gluecklich, ganz so wie Fleissig-"
--- "Oger es verdient."
--- "Ein wenig Platz ist in Deinem Bauch schon noch, aber "
--- "dieses seltsame Knurren ist verschwunden. Fressen aus Leidenschaft "
--- "ist nun angesagt."
--- "Mit ausreichend vollem Magen kannst Du Dich wieder auf "
--- "andere Dinge als die Nahrungsbeschaffung konzentrieren - auf "
--- "das Toeten aus Spass zum Beispiel.
--- "Ein wenig Lust auf Naschen haettest Du ja schon, ob Du irgendwo "
--- "ein leichtes Opfer findest? Das schwarze Buch ist eine gute "
--- "Speisekarte."
--- "Wirklich Hunger hast Du nicht mehr, aber so ein paar kleine "
--- "Orks wuerden Dir noch munden."
--- "Langsam wird es wieder Zeit fuer einen kleinen Snack wie "
--- "zum Beispiel eine Kuh oder ein Schaf - sonst faellst Du noch "
--- "vom Fleisch!"
--- "Dein Magen knurrt in regelmaessigen Abstaenden, sehr zur "
--- "Beunruhigung Deiner Umgebung."
--- "Dein Bauch fuehlt sich leer und hungrig an. Jetzt wird es "
--- "langsam Zeit fuer eine kleinere Zwischenmahlzeit. Ein Elefant "
--- "waere jetzt lecker?"
--- "So hungrig faellt Dir das Denken schwer. Noch schwerer, "
--- "als ohnehin schon."
--- "Wenn Du jetzt nicht bald ein Orkdorf leernaschst..."
--- "So hungrig wie Du bist, wirst Du zur ernsten Gefahr "
--- "fuer Deine Umgebung."
--- "Kurz vor dem Verhungern treibt Dich nur noch ein "
--- "Gedanke an, die Suche nach Fressen!"
 
 local HUNGER_OGER_TEXT = {
 	"Dein prall gefuellter, riesiger Ogerbauch ist Dein ganzer Stolz.",
@@ -5451,11 +5436,6 @@ function avalet.createHDAModel()
   avalet.hda.durstIndex = 0
   avalet.hda.alkIndex = 0
   
-  --avalonUI.hungerIndex = getIndexOf(HUNGER_TEXT, player.hunger)
-  --avalonUI.durstIndex = getIndexOf(DURST_TEXT, player.durst)
-  --avalonUI.alkIndex = getIndexOf(ALKOHOL_TEXT, player.alk)
-  
-  --raiseEvent("RefreshHDA")
 end --function avalet.createHDAModel()
 
 
@@ -5492,7 +5472,7 @@ ATCP-Daten reagiert. Deshalb wird hier also für jedes Element eine
 entsprechende Funktion vorgesehen. Der Tick wird anders behandelt.
 
 Das "Tick"-Element ist eigentlich ein Timer, der anzeigt, wann es
-wieder TP, AP und ZP vom MUD gibt. Das ist alle 42 Sekunden der Fall.
+wieder TP, AP und ZP vom MUD gibt. Das ist alle 40 Sekunden der Fall.
 Die Anzeige funktioniert nicht fehlerfrei - aber wenn es drauf an-
 kommt, sollte sie auch zuverlässig sein. Also im Kampf. Schwieriger
 wirds wenn die "Vitals" alle auf Maximum sind. Oder wenn der Char 
@@ -5543,13 +5523,25 @@ function avalet.createVitalsModel()
     ["percent"] = 0
   }
   
-  avalet.vitals.tickTime = avalet.vitals.tickTime or 0
-  avalet.vitals.tickTimerList = avalet.vitals.tickTimerList or {}
+  --avalet.vitals.tickTime = avalet.vitals.tickTime or 0
+  --[[
+  Hier drin werden hauptsächlich die letzten Werte gespeichert, damit Veränderungen
+  im Vergleich zum letzten Wert ermittelt werden können. Steigende Werte wären ein
+  Zeichen für einen Tick, sinkende nicht. ]]
   avalet.vitals.tickTimer = avalet.vitals.tickTimer or {
     ["TP"] = {["maxValue"] = nil, ["lastValue"] = nil, ["thisValue"] = nil, ["time"] = nil}, 
     ["AP"] = {["maxValue"] = nil, ["lastValue"] = nil, ["thisValue"] = nil, ["time"] = nil}, 
     ["ZP"] = {["maxValue"] = nil, ["lastValue"] = nil, ["thisValue"] = nil, ["time"] = nil}
   }
+  avalet.vitals.tickTimerList = avalet.vitals.tickTimerList or {}
+  avalet.vitals.tickTimerItem = {
+    ["time"] = 0,
+    ["weight"] = 0,
+    --[""] = "",
+    --[""] = "",
+  }
+  
+  avalet.vitals.TICK_TIMER_FREQUENCY = avalet.CONSTS.TICK_TIMER_FREQUENCY
   
 end --function avalet.createVitalsModel()
 
@@ -5646,6 +5638,124 @@ Situationen, beispielsweise im Kampf, wenn die Frage ist, ob für die nächste R
 Angriffszauber vorhanden sein werden oder ob man den Kampf lieber vorher verlässt. Ob diese Funktion auch für
 andere Gilden nützlich ist muss ich erst noch ausprobieren. Aber mir würde es auch reichen, wenn sie nur für
 Magier interessant wäre.
+So ganz richtig funktioniert das noch nicht. Aber selbst wenn ich die kleine Ungenauigkeit noch finde, die sich
+im Moment im Nachlauf schnell summiert: um die Funktion deutlich robuster zu machen, müsste man sie vermutlich
+auf Stopwatch umstellen. Wegen der Genauigkeit im Millisekunden-Bereich. Und dann die genaue Distanz zwischen
+zwei Ticks messen und die dann verwenden statt pauschal "40 Sekunden". Ob sich das lohnt überlege ich mir,
+wenn ich ein bisschen damit gespielt habe. 
+
+Erstmal die Hilfsfunktionen]]
+
+function avalet.vitals.addTickTimer(intTime)
+
+  local t = intTime
+  local jobDone = false
+  
+  avalet.log("addTickTimer: #avalet.vitals.tickTimerList: "..tostring(#avalet.vitals.tickTimerList), 2)
+  if #avalet.vitals.tickTimerList == 0 then
+    avalet.log("addTickTimer: es gibt noch keine tickTimer, füge einen hinzu", 2)
+    table.insert(avalet.vitals.tickTimerList, {["time"]=t, ["weight"]=0})
+    return
+  end
+  
+  for k, v in pairs(avalet.vitals.tickTimerList) do
+    local period = t - v["time"]
+    --[[
+    Alte Timer laufen noch eine Zeit lang weiter, wenn keine neuen Timer hinzugefügt
+    werden. Und schön wäre es, wenn man das einfach so fortführen könnte, also wenn man
+    einen sicheren Tick-Timer gefunden hat den einfach immer weiter laufen lassen. Das
+    dürfte aber sehr Lag-anfällig sein. Deshalb hab ich das so gelöst, dass ein sehr
+    sicherer (=schwergewichtiger) Timer noch eine Zeit lang angezeigt wird, aber ein
+    neu hinzukommender Timer alte Timer erstmal löscht. "Alt" ist hier "Tick-Frequenz
+    plus 10 Sekunden", etwas willkürlich festgelegt. Muss aber größer als "Tick-Fre-
+    quenz" sein. ]]
+    local timerIsToOld = false
+    if period &gt; (avalet.vitals.TICK_TIMER_FREQUENCY+10) then timerIsToOld = true end
+    
+    local timerIsNearlyEqual = false
+    local diff = period%avalet.vitals.TICK_TIMER_FREQUENCY
+    local offset
+    
+    if diff &lt;= 1 then 
+      timerIsNearlyEqual = true
+      offset = diff
+    end
+    if diff == avalet.vitals.TICK_TIMER_FREQUENCY-1 then 
+      timerIsNearlyEqual = true
+      offset = -1
+    end
+    
+    if timerIsToOld then
+      avalet.log("Timer älter als "..tostring(avalet.vitals.TICK_TIMER_FREQUENCY+10).." Sekunden gefunden, lösche Timer", 2)
+      avalet.vitals.tickTimerList[k] = nil
+       --break
+    elseif timerIsNearlyEqual then
+      avalet.log("Passenden Timer gefunden, diff: "..tostring(offset)..", erhöhe Gewicht", 2)
+      v["weight"] = v["weight"] + 10
+      v["time"] = t -- - diff
+      jobDone = true
+    else
+      avalet.log("UNpassenden Timer gefunden, diff="..tostring(period%avalet.vitals.TICK_TIMER_FREQUENCY)..", REDUZIERE Gewicht", 2)
+      v["weight"] = v["weight"] - 1
+    end -- if
+  end -- for
+  
+  if not jobDone then
+    avalet.log("addTickTimer: füge zusätzlichen Timer hinzu", 2)
+    table.insert(avalet.vitals.tickTimerList, {["time"]=t, ["weight"]=10})
+  end
+  
+  --if avalet.debug then
+  --  cecho("&lt;yellow&gt;Liste der TickTimer:\n")
+  --  display(avalet.vitals.tickTimerList)
+  --  cecho("&lt;yellow&gt;\nEnde der Liste\n")
+  --end
+end
+
+function avalet.vitals.getHeaviestTickTimer()
+  local t = os.time()
+  
+  if #avalet.vitals.tickTimerList == 0 then
+    return nil
+  end
+
+  local sorted = {} 
+  for k, v in pairs(avalet.vitals.tickTimerList) do
+    --[[
+    Wenn der Wert älter ist, das Gewicht aber hoch, kann der TickTimer ja auch noch eine Zeit
+    lang anzeigen. Hier wird das Gewicht dabei immer weiter reduziert. Geht das dabei unter
+    Null, ist schluss mit anzeige. ]]
+    local time = v["time"]
+    local weight = v["weight"]
+    local timediff = os.time() - time
+    if timediff &gt; avalet.vitals.TICK_TIMER_FREQUENCY then 
+
+      -- Runden seit der TickTimer aktuell war:
+      local i = math.floor(timediff / avalet.vitals.TICK_TIMER_FREQUENCY)
+      -- mit jeder Runde wird das Gewicht des Timers reduziert. So wird
+      -- ein sehr sicherer (= gewichtiger) Timer noch eine gewisse Zeit
+      -- weiterlaufen, ein leichtgewicht wird schneller verschwinden.
+      -- Die Genauigkeit leidet dann übrigens recht schnell.
+      weight = math.floor(v["weight"]/(2^i))-10 
+
+    end
+ 
+    if weight &lt; 0 then break end
+
+    table.insert(sorted,{k,v})
+  end
+ 
+  if #sorted == 0 then return nil end
+
+  table.sort(sorted, function(a,b) return a[2]["weight"] &gt; b[2]["weight"] end)
+
+  return sorted[1][2]
+end
+
+
+--[[
+Und die Hauptfunktion für den Tick-Timer.
+
 Der Ansatz hier ist folgender: Bei jedem Plus an Punkten wird versucht, diesem Ereignis ein "Gewicht" zu geben.
 Das Gewicht drückt aus, wie zuverlässig das ein "Tick" ist. Und nicht z.B. Lebensaugen. Dabei werden verschiedene
 Faktoren berücksichtigt. Kommen beispielsweise mehr oder weniger gleichzeitig TP, AP und ZP, dann ist es mit
@@ -5656,16 +5766,6 @@ muss sich finden. Schwierig auch: Verbraucht man ZP oder TP oder AP im Moment de
 function avalet.vitals.tickTimerModel(event, args)
   avalet.log("Function avalet.vitals.tickTimerModel(event, args)", 1)
   
---  echo("los\n")
---  display(args)
---  echo("ende\n")
-  
---  local t = os.time()
---  
---  local h = math.floor(t / 3600) 
---  local m = math.floor((t % 3600) / 60)
---  local s = t - (h*3600) - (m * 60)
-  
   local vital = args[1]
 
   --[[
@@ -5675,13 +5775,15 @@ function avalet.vitals.tickTimerModel(event, args)
  	local currentValue = args[2]
   local maxValue = args[3]
   
-  if currentValue == maxValue then return end
+  avalet.log("Tick-Timer: vital="..vital..", last="..tostring(avalet.vitals.tickTimer[vital]["lastValue"])..", current="..tostring(currentValue)..", max="..tostring(maxValue), 2)
+
+  if maxValue == 0 then return end
   
   --[[
   Wenn das Model erst noch initialisiert werden muss, gibts noch nichts anzuzeigen.
   Hier wird currentValue zugewiesen (statt z.B. maxValue), damit der nächste Schritt
   hier funktioniert. Beim nächsten Durchlauf. ]]
-  if avalet.vitals.tickTimer[vital]["lastValue"] == nil then 
+  if avalet.vitals.tickTimer[vital]["lastValue"] == nil or avalet.vitals.tickTimer[vital]["lastValue"] == 0 then 
     avalet.vitals.tickTimer[vital]["lastValue"] = currentValue
     avalet.vitals.tickTimer[vital]["thisValue"] = currentValue
     return
@@ -5696,9 +5798,6 @@ function avalet.vitals.tickTimerModel(event, args)
     return 
   end
   
-  --local lastValue = maxValue  
-
---  avalet.vitals.tickTimer[vital]["lastValue"] = avalet.vitals.tickTimer[vital]["thisValue"]
   avalet.vitals.tickTimer[vital]["thisValue"] = currentValue
   avalet.vitals.tickTimer[vital]["maxValue"] = maxValue
   avalet.vitals.tickTimer[vital]["time"] = os.time()
@@ -5708,47 +5807,18 @@ function avalet.vitals.tickTimerModel(event, args)
   ist nur noch unklar, ob es ein regulärer Tick war, der zu dem Zuwachs geführt hat,
   oder ob es ein Heilzauber, -trank oder etwas ähnliches war. Aber prinzipiell spricht
   hier alles dafür, einen TickTimer zu starten. ]]
-  local letsHaveATickTimer = true
-  
-  --[[
-  außer... ]]
-  
-  --[[
-  .. wenn es schon einen Tick-Timer gibt, und der auch noch frisch ist.]]
-  if avalet.vitals.tickTime ~= 0 then
-    --if not ((avalet.vitals.tickTimer["TP"]["lastValue"] == avalet.vitals.tickTimer["TP"]["maxValue"]) or (2==2)) then
-    --  letsHaveATickTimer = false 
-    --end
-    -- WARUM FRAG ICH HIER NICHT EINFACH AB; OB ES EINEN TIMER GIBT DER FRISCH IST? (Laufzeitabfrage des Timers)
---    if (avalet.vitals.tickTimer["TP"]["time"] - avalet.vitals.tickTimer[vital]["time"]) &lt;= 2 then letsHaveATickTimer = false end
---    if (avalet.vitals.tickTimer["AP"]["time"] - avalet.vitals.tickTimer[vital]["time"]) &lt;= 2 then letsHaveATickTimer = false end
---    if (avalet.vitals.tickTimer["ZP"]["time"] - avalet.vitals.tickTimer[vital]["time"]) &lt;= 2 then letsHaveATickTimer = false end
-    
-    --[[
-    wenn es kürzlich keinen Vital-Wert hier zu verarbeiten gab, der aktuelle Wert aber auch nicht der maxWert ist,
-    dann ist a) der Vital-Wert einfach noch nicht eingetroffen (kommt aber sofort), oder hier fand tatsächlich eine
-    heilung statt (die dann keine ap/kein zp bringt) ]]
-  
-  end
-  
-  --[[
-  avalet.vitals.tickTimer = {
-    ["TP"] = {["maxTP"] = 0, ["lastTP"] = 0, ["thisTP"] = 0, ["time"] = 0}, 
-    ["AP"] = {["maxAP"] = 0, ["lastAP"] = 0, ["thisAP"] = 0, ["time"] = 0}, 
-    ["ZP"] = {["maxZP"] = 0, ["lastZP"] = 0, ["thisZP"] = 0, ["time"] = 0}
-  }
-]]
+
+  avalet.log("call addTickTimer", 2)
+  avalet.vitals.addTickTimer(os.time())
+
   avalet.log("TickTimerTimer wird aktiviert", 2)
-  if avalet.vitals.tickTime ~= 0 then
-    avalet.log("Sekunden seit dem letzten Tick: "..(os.time()-avalet.vitals.tickTime), 2)
-  end
-  avalet.vitals.tickTime = os.time()
+  --avalet.vitals.tickTime = os.time()
   enableTimer("tickTimerTimer")
-  avaletUI.Tick:setValue(0,39, [[]])
-  avaletUI.ABTick:setValue(0,39, [[]])
+  avalet.vitals.refreshTickTimer()
 
 end --function avalet.vitals.tickTimerModel(event, args)
 registerAnonymousEventHandler("VitalsChange", "avalet.vitals.tickTimerModel")
+
 
 --[[
 Diese Funktion wird sekündlich aufgerufen, so lange der Timer für den TickTimer
@@ -5756,29 +5826,16 @@ läuft ]]
 function avalet.vitals.refreshTickTimer()
   avalet.log("Function avalet.vitals.refreshTickTimer()", 1)
   
-  --disableTimer("tickTimerTimer")
-  --cecho("&lt;magenta&gt;Mach doch mal einer den tickTimerTimer aus!")
-  --cecho("&lt;magenta&gt;tickTime: ".. tostring(avalet.vitals.tickTime).."\n")
-  --cecho("&lt;magenta&gt;bla")
+  local tickTimer = avalet.vitals.getHeaviestTickTimer()
   
-  local remaining = os.time() - tonumber(avalet.vitals.tickTime)
+  if tickTimer == nil then avalet.log("tickTimer ist NIL, disable Timer", 2); disableTimer("tickTimerTimer"); return end
+  --display(tickTimer)
+  local remaining = os.time() - tonumber(tickTimer["time"])
+
+  remaining = remaining%41
   
-  if remaining &gt;= 40 then
-  
-    avalet.vitals.tickTime = 0
-    disableTimer("tickTimerTimer")
-    
-  else
-  
-    --cecho("Sekunden: "..tostring(remaining).."\n")
-    avaletUI.Tick:setValue(tonumber(remaining),39, [[]])
-    avaletUI.ABTick:setValue(tonumber(remaining),39, [[]])
-  
-  end
-  
-  --remaining = (tonumber(v["duration"]) - ((os.time() - v["starttime"])))
-  
-  --avalet.vitals.tickTime
+  avaletUI.Tick:setValue(math.min(40, tonumber(remaining)),40, [[]])
+  avaletUI.ABTick:setValue(math.min(40, tonumber(remaining)),40, [[]])
   
 end --function avalet.vitals.refreshTickTimer()</script>
 				<eventHandlerList />
@@ -6405,7 +6462,8 @@ mir so geholfen. Beim Aufruf (mit einem Alias z.B.) erzeugt diese Funktion Daten
 die denen entsprechen, die auch per ATCP geschickt werden. Und mit diesen Daten wird
 dann auch der Event ausgelöst, den ATCP-Daten ebenfalls auslösen würden.
 Erzeugt wird hier mit einer gewissen Zufälligkeit, jeder Aufruf wird also ein anderes
-Ergebnis  ergeben. ]]
+Ergebnis  ergeben. Diese Funktion funktioniert mittlerweile allerdings nur noch
+bei Runenschmieden. (Ist aber immer noch hilfreich zum debuggen.) ]]
 function avalet.ruebersichtTEST()
   avalet.log("avalet.ruebersichtTEST()", 1)
 
@@ -6575,15 +6633,6 @@ end
 				<script>CSSMan = CSSMan or {}
 avaletUI.CSS = {}
 
---  background-color: black;
---  border-color: DarkSlateBlue;
---  border-style: double;
---  border-radius: 1px;
---  border-width: 1px;
---  margin: 1px;
---  qproperty-alignment: 'AlignCenter | AlignCenter';
---  display:none;
---  visibility: hidden;
 avaletUI.CSS.base = CSSMan.new([[
 	background-color: rgba(0,0,0,100);
 	border-style: solid;
@@ -6630,36 +6679,11 @@ avaletUI.CSS.overlayCSS = CSSMan.new([[
 avaletUI.CSS.chatsBodyCSS = CSSMan.new([[
 	background-color: rgb(0,0,0);
 ]])
---	background-color: rgb(20,0,20);
---	border-bottom-left-radius: 10px;
---	border-bottom-right-radius: 10px;
 
---[=[
--- Each window actually has two labels. One for the light blue background, and another for the dark blue center. This will create that dark blue center. 
-avaletUI.CSS.tabElementCenterCSS = CSSMan.new([[
-	background-color: rgba(0,0,0,100);
-	border-radius: 10px;
-	margin: 5px;
-]])
-]=]
--- Now we create the windows that appear when each tab is clicked. Each window has two labels, one atop the other. The first, which we'll create here, has rounded edges on its bottom. 
---	background-color: rgb(20,0,20);
 avaletUI.CSS.chatsBodyTabsCSS = CSSMan.new([[
 	background-color: rgb(0,0,0);
 ]])
---[=[
--- The second label serves as the window's center and has rounded edges on all sides. And a margin of 5px from it's parent, the label we just created. When adding stuff to your windows, this is the label you'll want to use. menu.&lt;tabname&gt;center
-avaletUI.CSS.tabElementCenterTabCSS = CSSMan.new([[
-	background-color: rgba(0,0,0,100);
-	border-radius: 10px;
-	margin: 5px;
-]])
-]=]
--- Hier werden die Tabs und die Seiten dazu erzeugt.
--- Erzeugt einen Tab für jeden Eintrag in der Menu-Liste
--- Stylesheet für jeden Tab
---background-color: ]]..menu.color1..[[;
---background-color: rgb(20,0,20);
+
 avaletUI.CSS.MenuTabCSS = CSSMan.new([[
 	background-color: rgb(0,0,0);
   border: 1px solid white;
@@ -6667,8 +6691,7 @@ avaletUI.CSS.MenuTabCSS = CSSMan.new([[
 	margin-right: 1px;
 	margin-left: 1px;
 ]])
---purple
---	border-radius: 10px;
+
 avaletUI.CSS.MenuTabCurrentCSS = CSSMan.new([[
 	background-color: rgba(96,96,96,255);
   color: black;
@@ -6689,25 +6712,15 @@ avaletUI.CSS.MenuTabMarkedCSS = CSSMan.new([[
 
 -- CSS Top Menu ------------------------------------------------
 
---	border-width: 1px;
---	border-color: white;
---	margin: 2px; 
---	border-style: solid;
---	border-radius: 7;
---	padding: 3px;
--- 	qproperty-alignment: 'AlignTop';
 avaletUI.CSS.MenuLabelCSS = CSSMan.new([[
 	background-color: rgba(0,0,0,100);
 	font-weight: bold;
 	font-size: 16pt;
 	color: white;
 ]])
---avaletUI.TopMenuOptions:echo([[&lt;p style="font-size:22px"&gt;&lt;b&gt;&lt;font color="white"&gt;&amp;#9881;]])
 
 -- CSS Counter -------------------------------------------------
 
---background-color: rgb(50,0,50);
---background-color: rgb(98,119,0);
 avaletUI.CSS.counterCSS = CSSMan.new([[
 	background-color: black;
 	border-style: solid;
@@ -6845,50 +6858,15 @@ avaletUI.CSS.BottomBarGaugeFrontCSS = CSSMan.new([[
 	height: 80%;
 ]])
 
---	background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #78bd33, stop: 0.1 #6ebd20, stop: 0.49 #4c9900, stop: 0.5 #387000, stop: 1 #4c9900);
 avaletUI.CSS.GaugeTextCSS = CSSMan.new([[
 	padding: 0px;
 	font-weight: bold;
   font-size: 8pt;
 ]])
 
---	background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #78bd33, stop: 0.1 #6ebd20, stop: 0.49 #4c9900, stop: 0.5 #387000, stop: 1 #4c9900);
---	padding: 50px;
-	--font-weight: bold;
---  font-size: 22px;
 avaletUI.CSS.GaugeTimerTextCSS = CSSMan.new([[
   padding-left: 5px;
 ]])
-</script>
-				<eventHandlerList />
-			</Script>
-			<Script isActive="yes" isFolder="no">
-				<name>Layout Functions</name>
-				<packageName></packageName>
-				<script>function avaletUI.unlockUI()
-
-  Adjustable.Container:doAll(function(self) self:unlockContainer() end)
-
-end
-
-function avaletUI.lockUI()
-
-  Adjustable.Container:doAll(function(self) self:lockContainer() end)
-
-end
-
-function avaletUI.set3ColumnLayout()
-
-end
-
-function avaletUI.set2ColumnLayout()
-
-end
-
-function avaletUI.set1ColumnLayout()
-
-end
-
 </script>
 				<eventHandlerList />
 			</Script>
@@ -7072,33 +7050,25 @@ function avaletUI.calculateUI()
   -- CPL = Characters per line
   local minCPLMainConsole = 79  -- 79 reicht, 
   local maxCPLMainConsole = 84  -- 84 gibt Ava die volle genutzte Breite
-  -- Warum hab ich das hier genullt? Der Wert wird oben doch schon berechnet.
-  -- Und auch schon als lokale Variable angelegt. Mal auskommentieren und gucken was passiert.
-  --local widthMainConsole = 0
   
   --[[
   Die Breite des Scrollbar (von der Hauptconsole) muss auch berücksichtigt
   werden. Ich nehme mal erstmal eine Breite von 2 Zeichen. ]]
-  local widthScrollBar = 3*defaultFontWidth
+  local widthScrollBar = 2*defaultFontWidth
   
   -- Minimale und maximale Größe der Hauptkonsole.
   local widthMainConsoleMin = (defaultFontWidth * minCPLMainConsole) + widthScrollBar
   local widthMainConsoleMax = (defaultFontWidth * maxCPLMainConsole) + widthScrollBar
   
   --[[ 
-  Für die linke Spalte habe ich einfach eine Breite von 33 Zeichen fest-
+  Für die linke Spalte habe ich einfach eine Breite von 27 Zeichen fest-
   gelegt. Bestimmend ist hier eigentlich die Ingame-Map, die nunmal eine
   gewisse Breite hat. Die anderen Elemente kommen auch mit weniger Platz
   zurecht. (Oder bräuchten sehr viel mehr, die schneide ich einfach ab.)
-  Auch hier hat sich wieder ein Offset bewährt. Im linken Bereich gibt
-  es insgesamt wenig normalen Text, die Karte ist ja eher ASCII-Art.
-  Deshalb wird hier die Schriftgröße "tiny" angenommen. Also "Normale 
-  Schriftgröße - 4". Der richtige Text dort, den die User auch lesen
-  müssen, wird aber in der Schriftgröße "small" angezeigt werden.
-  ]]
+  Auch hier hat sich wieder ein Offset bewährt. ]]
   local minCPLLeftColumn = 27--33
   
-  -- Daraus resultierende Spaltenbreite. Angenommen wird der Tiny-Font.
+  -- Daraus resultierende Spaltenbreite.
   local widthLeftColumn = math.floor(smallFontWidth * minCPLLeftColumn * correctionFactor)
 
   --[[
@@ -7128,8 +7098,7 @@ function avaletUI.calculateUI()
   aber unter Umständen ein größerer leerer Bereich zwischen der Hauptkonsole
   und der rechter Spalte. Und das sieht auch nicht aus. Deshalb gibt es ein
   Kompensationselement, das in diesem Fall den überzähligen Platz am rechten
-  Rand einnimmt.  
-  ]]
+  Rand einnimmt. ]]
   
   local widthRightColumn = 0
   local widthRightColumnMax = 0
@@ -7196,7 +7165,7 @@ function avaletUI.calculateUI()
   --[[
   
   Hier wird jetzt ermittelt, welches Layout es denn nun sein soll. 
-  ========================================================== ]]
+  ================================================================ ]]
 
   --[[
   Wenn das Fenster groß genug ist für alle vorgesehenen Elemente (also für alle
@@ -7313,7 +7282,9 @@ function avaletUI.calculateUI()
 
   --[[
   Wenn die Fensterbreite aber auch für ein 1-spaltiges Avalet nicht mehr
-  reicht, dann wird alles ausgeblendet. Und die nackte Hauptkonsole angezeigt.]]
+  reicht, dann wird alles ausgeblendet. Und die nackte Hauptkonsole angezeigt.
+  (Das wird nicht funktionieren und ist nicht richtig implementiert. Ist auch
+  nicht wichtig, denke ich. Wäre sonst aber ein TODO. ]]
   elseif widthMainWindow &gt;= 0 then
     avalet.log("calculateUI: Fenster ist für gar nichts groß genug", 2)
 
@@ -7392,13 +7363,6 @@ function avaletUI.initUI()
   local widthCompensation = avaletUI.dimensions.widthCompensation
   
   local defaultFontHeight = avaletUI.dimensions.defaultFontHeight
-
-
---  local defaultFontWidth = avaletUI.dimensions.defaultFontWidth
---  local widthScrollBar = avaletUI.dimensions.widthScrollBar
---  local widthMainConsole = avaletUI.dimensions.widthMainConsole
---  local widthBottomBar = widthMainConsole - widthScrollBar
---  local widthBottomVitals = widthBottomBar * 0.45
 
 
   --[[
@@ -7632,39 +7596,6 @@ function avaletUI.initUI()
   local widthMainConsole = avaletUI.dimensions.widthMainConsole
   local defaultFontWidth = avaletUI.dimensions.defaultFontWidth
 
---  avaletUI.menuBarContainer = Geyser.Container:new({name="avaletUI.menuBarContainer", x=0, y=0, height="100%", width="100%"}, avaletUI.adjContTop)
---    avaletUI.menuBar = Geyser.Label:new({name="avaletUI.menuBar", x=0, y=0, height="100%", width="100%", color="purple"}, avaletUI.menuBarContainer)
-
---  avaletUI.topBarIGMapContainer = Geyser.Container:new({
---      name="avaletUI.topBarIGMapContainer", 
---      x=(widthMainConsole - (2*widthLeftColumn)), y=0, 
---      height="100%", width=(2*widthLeftColumn)
---  }, avaletUI.adjContTop)
---[[
-  avaletUI.topBarTimerContainer = Geyser.Container:new({
-      name="avaletUI.topBarTimerContainer", 
-      x=0, y=0, 
-      height=100, width=(widthMainConsole - (2*widthLeftColumn) - (2*defaultFontWidth))
-  })--, avaletUI.adjContTop)
-]]
---[=[  
-  avaletUI.topBarIGMapContainer = avaletUI.topBarIGMapContainer or Adjustable.Container:new({
-      name="avaletUI.topBarIGMapContainer",
-      adjLabelstyle = avaletUI.CSS.boxCSS:getCSS(),
-      x=(widthMainConsole - (2*widthLeftColumn) - (2*defaultFontWidth)), y=0, 
-      buttonstyle=[[
-          QLabel{ border-radius: 7px; background-color: rgba(140,140,140,100%);}
-          QLabel::hover{ background-color: rgba(160,160,160,50%);}
-      ]],
-      buttonFontSize = 10,
-      buttonsize = 20,     
-      height=100, width=(2*widthLeftColumn),
-      titleText = "Ingame-Karte",
-      titleTxtColor = "white",
-      padding = 15,
-  })
-  avaletUI.CSS.boxCSS:set("background-color", "rgba(0,0,0,150)")
-]=]
 
   avaletUI.topBarIGMapContainer = Geyser.Container:new({
       name="avaletUI.topBarIGMapContainer", 
@@ -7683,18 +7614,13 @@ function avaletUI.initUI()
 
   avaletUI.bottomBarContainer = Geyser.Container:new({name="avaletUI.bottomBarContainer", x=0, y=0, height="100%", width="100%"}, avaletUI.adjContBottom)
 
---    avaletUI.bottomBarTickContainer = Geyser.Label:new({name="avaletUI.bottomBarTickContainer", x=0, y=0, height=(defaultFontHeight * 0.3), width=widthBottomVitals, color="white"}, avaletUI.bottomBarContainer)
-
---avaletUI.vitalsContainer
-    avaletUI.bottomBarVitals = Geyser.Container:new({
-        name="avaletUI.bottomBarVitals",
-        x=0, y=0,
-        height="100%", width=widthBottomVitals,
-    }, avaletUI.bottomBarContainer)
-    --avaletUI.bottomBarVitals = Geyser.Label:new({name="avaletUI.bottomBarVitals", x=0, y=0, height="100%", width=widthBottomVitals, color="black"}, avaletUI.bottomBarContainer)
-    avaletUI.bottomBarUnderAttack = Geyser.Label:new({name="avaletUI.bottomBarUnderAttack", x=widthBottomVitals, y=0, height=adjContBottomHeight, width=adjContBottomHeight, color="black"}, avaletUI.bottomBarContainer)
-    avaletUI.bottomBarDistress = Geyser.Label:new({name="avaletUI.bottomBarDistress", x=widthBottomVitals+widthBottomIcons, y=0, height=adjContBottomHeight, width=adjContBottomHeight, color="black"}, avaletUI.bottomBarContainer)
---    avaletUI.bottomBarHDA = Geyser.Label:new({name="avaletUI.bottomBarHDA", x=widthBottomVitals+(widthBottomIcons*2), y=0, height="100%", width=widthBottomHDA, color="black"}, avaletUI.bottomBarContainer)
+  avaletUI.bottomBarVitals = Geyser.Container:new({
+      name="avaletUI.bottomBarVitals",
+      x=0, y=0,
+      height="100%", width=widthBottomVitals,
+  }, avaletUI.bottomBarContainer)
+  avaletUI.bottomBarUnderAttack = Geyser.Label:new({name="avaletUI.bottomBarUnderAttack", x=widthBottomVitals, y=0, height=adjContBottomHeight, width=adjContBottomHeight, color="black"}, avaletUI.bottomBarContainer)
+  avaletUI.bottomBarDistress = Geyser.Label:new({name="avaletUI.bottomBarDistress", x=widthBottomVitals+widthBottomIcons, y=0, height=adjContBottomHeight, width=adjContBottomHeight, color="black"}, avaletUI.bottomBarContainer)
 
 
   avaletUI.bottomBarTimerContainer = Geyser.Container:new({
@@ -7709,8 +7635,6 @@ function avaletUI.initUI()
       height=math.floor(avaletUI.dimensions.smallFontWidth * 0.7), width=widthBottomTimerContainer-10, 
   }, avaletUI.bottomBarContainer)
 
-
---avalet.log("Anzahl Zeichen: "..getColumnCount(), 2)
 
 end --function avaletGUI.initUI()
 </script>
@@ -7897,10 +7821,6 @@ function avaletUI.buildTopBarIGMapUI()
   avaletUI.igMapLeftBoxIcons:setAlignment ("right")
   avaletUI.igMapLeftBoxIcons:setFontSize(getFontSize())
   avaletUI.igMapLeftBoxIcons:setClickCallback("avaletUI.toggleTopBarMapView", "Left")
-  --avaletUI.igMapLeftBoxIcons:setStyleSheet([[qproperty-alignment: 'AlignHCenter | AlignVCenter';]])
-  --avaletUI.CSS.boxCSS:set("background-color", "rgba(0,0,0,20)")
-  --avaletUI.igMapLeftBoxIcons:setStyleSheet(avaletUI.CSS.boxCSS:getCSS())
-  --avaletUI.CSS.boxCSS:set("background-color", "rgba(0,0,0,255)")
 
   -- Box für den Rahmen der Karte
   avaletUI.igMapRightBox = Geyser.Label:new({
@@ -7910,7 +7830,6 @@ function avaletUI.buildTopBarIGMapUI()
   }, avaletUI.topBarIGMapContainer)
   avaletUI.CSS.boxCSS:set("background-color", "rgba(0,0,0,255)")
   avaletUI.igMapRightBox:setStyleSheet(avaletUI.CSS.boxCSS:getCSS())
-  --avaletUI.CSS.boxCSS:set("background-color", "rgba(0,0,0,255)")
   avaletUI.igMapRightBox:hide()
   
   --Minimize/Maximize-Button für den rechten Rahmen
@@ -8198,25 +8117,7 @@ function avaletUI.buildLeftColumnTimerUI()
   }, avaletUI.timerContainer)
   avaletUI.timerBox:setStyleSheet(avaletUI.CSS.boxCSS:getCSS())
   avaletUI.timerBox:hide()
---[[  
-  avaletUI.iconContainer = Geyser.Container:new({
-      name="avaletUI.iconContainer", 
-      x="84%", y="2%", 
-      height=2*iconWidthHeight, width=iconWidthHeight-5
-  }, avaletUI.timerContainer)
-  avaletUI.underAttack = Geyser.Label:new({
-      name="avaletUI.underAttack", 
-      x=0, y=0, 
-      height=iconWidthHeight, width=iconWidthHeight, 
-      color="black"
-  }, avaletUI.iconContainer)
-  avaletUI.distress = Geyser.Label:new({
-      name="avaletUI.distress", 
-      x=0, y="50%", 
-      height=iconWidthHeight, width=iconWidthHeight, 
-      color="black"
-  }, avaletUI.iconContainer)
-]]
+
   --[[
   Gauges für die Timer
   Hier werden (derzeit) 9 Gauge-Elemente für die Timer erzeugt und positioniert.
@@ -8509,13 +8410,9 @@ function avaletUI.buildIconsUI()
     	x=0, y=0, width=widthheight,	height=widthheight,
     }, avaletUI.bottomBarUnderAttack)
     
-    --if avalet.char.getKampf() ~= "0" and avalet.char.getKampf() ~= "1" then avalet.char.setKampf("0" end
-    
     if avalet.fight.getKampf() == false then
-  --    avaletUI.iconUnderAttack:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS()..[[;border-image: url("]]..imgFightNone..[[");]])
       avaletUI.iconBottomBarUnderAttack:setStyleSheet(avaletUI.CSS.IconsCSS:getCSS()..[[;border-image: url("]]..imgFightNone..[[");]])
     else
-  --    avaletUI.iconUnderAttack:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS()..[[;border-image: url("]]..imgFightUnderAttack..[[");]])
       avaletUI.iconBottomBarUnderAttack:setStyleSheet(avaletUI.CSS.IconsCSS:getCSS()..[[;border-image: url("]]..imgFightUnderAttack..[[");]])
     end
 
@@ -8536,60 +8433,9 @@ function avaletUI.buildIconsUI()
   else  
     -- NONE-Layout behandeln: alles ausblenden
   end
---[=[  
-  avaletUI.iconUnderAttack = Geyser.Label:new({
-  	name = "avaletUI.iconUnderAttack",
-  	x=0, y=0, width=widthheight,	height=widthheight,
-  }, avaletUI[target])--avaletUI.bottomBarUnderAttack)--avaletUI.underAttack)
-  
-  --if avalet.char.getKampf() ~= "0" and avalet.char.getKampf() ~= "1" then avalet.char.setKampf("0" end
-  
-  if avalet.char.getKampf() == false then
---    avaletUI.iconUnderAttack:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS()..[[;border-image: url("]]..imgFightNone..[[");]])
-    avaletUI.iconUnderAttack:setStyleSheet(avaletUI.CSS.IconsCSS:getCSS()..[[;border-image: url("]]..imgFightNone..[[");]])
-  else
---    avaletUI.iconUnderAttack:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS()..[[;border-image: url("]]..imgFightUnderAttack..[[");]])
-    avaletUI.iconUnderAttack:setStyleSheet(avaletUI.CSS.IconsCSS:getCSS()..[[;border-image: url("]]..imgFightUnderAttack..[[");]])
-  end
-]=]
 end
 registerAnonymousEventHandler("UnderAttackChange", "avaletUI.buildIconsUI")
 registerAnonymousEventHandler("DistressModelChange", "avaletUI.buildIconsUI")
-
---[=[
-  
-  local layout = avaletUI.dimensions.layout
-  local target = ""
-  local widthheight = 0
-    
-  if layout == 4 or layout == 2 then
-    target = "distress"
-    widthheight = avaletUI.dimensions.defaultFontWidth*3.5
-  elseif layout == 3 or layout == 1 then
-    target = "bottomBarDistress"
-    widthheight = (avaletUI.dimensions.defaultFontHeight * 2)
-  end
-
-  -- Icon für "Vergiftet/verflucht/erkrankt"
-  avaletUI.iconDistress = Geyser.Label:new({
-  	name = "avaletUI.iconDistress",
-  	x=0, y=0, width=widthheight,	height=widthheight,
-  }, avaletUI[target])--, avaletUI.Left)
-  avaletUI.iconDistress:setToolTip("Krankheiten, Gifte, Flüche (funktioniert nicht immer)", "12")
---  avaletUI.iconDistress:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS()..[[;border-image: url("]]..imgDiseaseNone..[[");]])
-  avaletUI.iconDistress:setDoubleClickCallback(function() avalet.char.setKrankheit(false);avalet.char.setFluch(false);avalet.char.setVergiftung(false) end)
-  --avaletUI.icondistress::setStyleSheet("QLabel{"..avaletUI.CSS.HDACSS:getCSS().."}QToolTip{"..avaletUI.CSS.boxCSS:getCSS()..";color:white;}")
-  avaletUI.iconDistress:setStyleSheet("QToolTip{"..avaletUI.CSS.boxCSS:getCSS()..";color:white;}")
-
-  if not avalet.distress then
-    avaletUI.iconDistress:setStyleSheet("QLabel{"..avaletUI.CSS.IconsCSS:getCSS()..[[;border-image: url("]]..imgDistressNone..[[");}]])
-  else
-    avaletUI.iconDistress:setStyleSheet("QLabel{"..avaletUI.CSS.IconsCSS:getCSS()..[[;border-image: url("]]..imgDistressAvoidDeath..[[");}]])
-  end
-  
-end
-
-]=]
 </script>
 				<eventHandlerList />
 			</Script>
@@ -8679,22 +8525,16 @@ function avaletUI.buildLeftSideHDAUI()
     	x="0%", y=(k*14+1).."%", width="33%", height="14%",
     }, avaletUI.hdaLabel)--, avaletUI.Left)
     if avalet.hda.hungerIndex &lt;= 1 then
-      --avaletUI["HDA_H"..k]:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS())
       avaletUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
     elseif avalet.hda.hungerIndex &gt; k then
       if avalet.hda.hungerIndex &lt;=2 then
-        --avaletUI["HDA_H"..k]:setStyleSheet(avaletUI.CSS.HDAGreenCSS:getCSS())
         avaletUI.CSS.HDACSS:set("background-color", "rgb(0,255,0)")
       elseif avalet.hda.hungerIndex &lt;= 4 then
-        --avaletUI["HDA_H"..k]:setStyleSheet(avaletUI.CSS.HDAYellowCSS:getCSS())
         avaletUI.CSS.HDACSS:set("background-color", "rgb(255,255,0)")
       else
-        --avaletUI["HDA_H"..k]:setStyleSheet(avaletUI.CSS.HDARedCSS:getCSS())
         avaletUI.CSS.HDACSS:set("background-color", "rgb(255,0,0)")
       end
-      --avaletUI["HDA_H"..k]:setStyleSheet(avaletUI.CSS.HDARedCSS:getCSS())
     else   
-      --avaletUI["HDA_H"..k]:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS())
       avaletUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
     end
     avaletUI.CSS.HDACSS:set("border-color", "rgb(255,255,255)")
@@ -8707,22 +8547,16 @@ function avaletUI.buildLeftSideHDAUI()
     	x="33%", y=(k*14+1).."%", width="33%", height="14%",
     }, avaletUI.hdaLabel)
     if avalet.hda.durstIndex &lt;= 1 then
-      --avaletUI["HDA_D"..k]:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS())
       avaletUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
     elseif avalet.hda.durstIndex &gt; k then
       if avalet.hda.durstIndex &lt;=2 then
-        --avaletUI["HDA_D"..k]:setStyleSheet(avaletUI.CSS.HDAGreenCSS:getCSS())
         avaletUI.CSS.HDACSS:set("background-color", "rgb(0,255,0)")
       elseif avalet.hda.durstIndex &lt;= 4 then
-        --avaletUI["HDA_D"..k]:setStyleSheet(avaletUI.CSS.HDAYellowCSS:getCSS())
         avaletUI.CSS.HDACSS:set("background-color", "rgb(255,255,0)")
       else
-        --avaletUI["HDA_D"..k]:setStyleSheet(avaletUI.CSS.HDARedCSS:getCSS())
         avaletUI.CSS.HDACSS:set("background-color", "rgb(255,0,0)")
       end
-      --avaletUI["HDA_D"..k]:setStyleSheet(avaletUI.CSS.HDARedCSS:getCSS())
     else   
-      --avaletUI["HDA_D"..k]:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS())
       avaletUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
     end
     avaletUI.CSS.HDACSS:set("border-color", "rgb(255,255,255)")
@@ -8734,40 +8568,30 @@ function avaletUI.buildLeftSideHDAUI()
     	name = "HDA_A"..k,
     	x="66%", y=(k*14+1).."%", width="33%", height="14%",
     }, avaletUI.hdaLabel)--, avaletUI.Left)
-    --avaletUI["HDA_A"..k]:setStyleSheet(avaletUI.CSS.HDARedCSS:getCSS())
     if (avalet.hda.alkIndex-1) &lt;= 1 then
-      --avaletUI["HDA_A"..k]:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS())
       avaletUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
     elseif (avalet.hda.alkIndex-1) &gt; k then
       if (avalet.hda.alkIndex-1) &gt;=5 then
-        --avaletUI["HDA_A"..k]:setStyleSheet(avaletUI.CSS.HDARedCSS:getCSS())
         avaletUI.CSS.HDACSS:set("background-color", "rgb(255,0,0)")
       elseif (avalet.hda.alkIndex-1) &gt;= 2 then
-        --avaletUI["HDA_A"..k]:setStyleSheet(avaletUI.CSS.HDAYellowCSS:getCSS())
         avaletUI.CSS.HDACSS:set("background-color", "rgb(255,255,0)")
       else
-        --avaletUI["HDA_A"..k]:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS())
         avaletUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
       end
-      --avaletUI["HDA_A"..k]:setStyleSheet(avaletUI.CSS.HDAGreenCSS:getCSS())
     else   
-      --avaletUI["HDA_A"..k]:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS())
       avaletUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
     end
     avaletUI["HDA_A"..k]:setToolTip("Hunger: "..avalet.char.getHunger().."\nDurst:    "..avalet.char.getDurst().."\nAlkohol: "..avalet.char.getAlk(), "12")
-    --avaletUI["HDA_A"..k]:setStyleSheet("QToolTip{background: yellow; color: blue; border:none;}")
     if avalet.char.getHangover() then
       avaletUI.CSS.HDACSS:set("border-color", "rgb(255,0,255)")
     else
       avaletUI.CSS.HDACSS:set("border-color", "rgb(255,255,255)")
     end
-    --avaletUI["HDA_A"..k]:setStyleSheet(avaletUI.CSS.HDACSS:getCSS())
     avaletUI["HDA_A"..k]:setStyleSheet("QLabel{"..avaletUI.CSS.HDACSS:getCSS().."}QToolTip{"..avaletUI.CSS.boxCSS:getCSS()..";color:white;}")
 
   end
---avaletUI.bottomBarHDA
 
-end --function avaletUI.buildHDAUI()
+end --function avaletUI.buildLeftSideHDAUI()
 
 --[[
 Dokumentation siehe über der vorherigen Funktion.
@@ -8831,22 +8655,16 @@ function avaletUI.buildBottomBarHDAUI()
     	x=(10+(k-1)*15).."%", y="0%", width="15%", height="32%",
     }, avaletUI.bottomBarHDA)--, avaletUI.Left)
     if avalet.hda.hungerIndex &lt;= 1 then
-      --avaletUI["HDA_H"..k]:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS())
       avaletUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
     elseif avalet.hda.hungerIndex &gt; k then
       if avalet.hda.hungerIndex &lt;=2 then
-        --avaletUI["HDA_H"..k]:setStyleSheet(avaletUI.CSS.HDAGreenCSS:getCSS())
         avaletUI.CSS.HDACSS:set("background-color", "rgb(0,255,0)")
       elseif avalet.hda.hungerIndex &lt;= 4 then
-        --avaletUI["HDA_H"..k]:setStyleSheet(avaletUI.CSS.HDAYellowCSS:getCSS())
         avaletUI.CSS.HDACSS:set("background-color", "rgb(255,255,0)")
       else
-        --avaletUI["HDA_H"..k]:setStyleSheet(avaletUI.CSS.HDARedCSS:getCSS())
         avaletUI.CSS.HDACSS:set("background-color", "rgb(255,0,0)")
       end
-      --avaletUI["HDA_H"..k]:setStyleSheet(avaletUI.CSS.HDARedCSS:getCSS())
     else   
-      --avaletUI["HDA_H"..k]:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS())
       avaletUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
     end
     avaletUI.CSS.HDACSS:set("border-color", "rgb(255,255,255)")
@@ -8859,22 +8677,16 @@ function avaletUI.buildBottomBarHDAUI()
     	x=(10+(k-1)*15).."%", y="34%", width="15%", height="32%",
     }, avaletUI.bottomBarHDA)
     if avalet.hda.durstIndex &lt;= 1 then
-      --avaletUI["HDA_D"..k]:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS())
       avaletUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
     elseif avalet.hda.durstIndex &gt; k then
       if avalet.hda.durstIndex &lt;=2 then
-        --avaletUI["HDA_D"..k]:setStyleSheet(avaletUI.CSS.HDAGreenCSS:getCSS())
         avaletUI.CSS.HDACSS:set("background-color", "rgb(0,255,0)")
       elseif avalet.hda.durstIndex &lt;= 4 then
-        --avaletUI["HDA_D"..k]:setStyleSheet(avaletUI.CSS.HDAYellowCSS:getCSS())
         avaletUI.CSS.HDACSS:set("background-color", "rgb(255,255,0)")
       else
-        --avaletUI["HDA_D"..k]:setStyleSheet(avaletUI.CSS.HDARedCSS:getCSS())
         avaletUI.CSS.HDACSS:set("background-color", "rgb(255,0,0)")
       end
-      --avaletUI["HDA_D"..k]:setStyleSheet(avaletUI.CSS.HDARedCSS:getCSS())
     else   
-      --avaletUI["HDA_D"..k]:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS())
       avaletUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
     end
     avaletUI.CSS.HDACSS:set("border-color", "rgb(255,255,255)")
@@ -8886,34 +8698,25 @@ function avaletUI.buildBottomBarHDAUI()
     	name = "ABHDA_A"..k,
     	x=(10+(k-1)*15).."%", y="68%", width="15%", height="32%",
     }, avaletUI.bottomBarHDA)--, avaletUI.Left)
-    --avaletUI["HDA_A"..k]:setStyleSheet(avaletUI.CSS.HDARedCSS:getCSS())
     if (avalet.hda.alkIndex-1) &lt;= 1 then
-      --avaletUI["HDA_A"..k]:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS())
       avaletUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
     elseif (avalet.hda.alkIndex-1) &gt; k then
       if (avalet.hda.alkIndex-1) &gt;=5 then
-        --avaletUI["HDA_A"..k]:setStyleSheet(avaletUI.CSS.HDARedCSS:getCSS())
         avaletUI.CSS.HDACSS:set("background-color", "rgb(255,0,0)")
       elseif (avalet.hda.alkIndex-1) &gt;= 2 then
-        --avaletUI["HDA_A"..k]:setStyleSheet(avaletUI.CSS.HDAYellowCSS:getCSS())
         avaletUI.CSS.HDACSS:set("background-color", "rgb(255,255,0)")
       else
-        --avaletUI["HDA_A"..k]:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS())
         avaletUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
       end
-      --avaletUI["HDA_A"..k]:setStyleSheet(avaletUI.CSS.HDAGreenCSS:getCSS())
     else   
-      --avaletUI["HDA_A"..k]:setStyleSheet(avaletUI.CSS.HDABlankCSS:getCSS())
       avaletUI.CSS.HDACSS:set("background-color", "rgb(0,0,0)")
     end
     avaletUI["HDA_A"..k]:setToolTip("Hunger: "..avalet.char.getHunger().."\nDurst:    "..avalet.char.getDurst().."\nAlkohol: "..avalet.char.getAlk(), "12")
-    --avaletUI["HDA_A"..k]:setStyleSheet("QToolTip{background: yellow; color: blue; border:none;}")
     if avalet.char.getHangover() then
       avaletUI.CSS.HDACSS:set("border-color", "rgb(255,0,255)")
     else
       avaletUI.CSS.HDACSS:set("border-color", "rgb(255,255,255)")
     end
-    --avaletUI["HDA_A"..k]:setStyleSheet(avaletUI.CSS.HDACSS:getCSS())
     avaletUI["ABHDA_A"..k]:setStyleSheet("QLabel{"..avaletUI.CSS.HDACSS:getCSS().."}QToolTip{"..avaletUI.CSS.boxCSS:getCSS()..";color:white;}")
 
   end
@@ -8927,7 +8730,7 @@ end --function avaletUI.buildBottomBarHDAUI()</script>
 				<script>function avaletUI.refreshTickTimer()
   avalet.log("Function avaletUI.refreshTickTimer()", 1)
 
--- die letzten 8 sekunden eine andere Farbe (reicht zum magiertrance zaubern)
+-- die letzten 8 sekunden eine andere Farbe (reicht zum magiertrance zaubern) TODO
 
 end
 registerAnonymousEventHandler("TickTimerModelChange", "avaletUI.refreshTickTimer")
@@ -8943,8 +8746,11 @@ function avaletUI.refreshVitalsView(event, arg)
   
   v = avalet.vitals[vital]
   
+  -- Wenn es noch nichts zum anzeigen gibt, muss auch nichts angezeigt werden
+  if v["maxValue"] == 0 then return end
+  
   -- maxValue darf nicht 0 sein, sonst gibts Probleme bei der Anzeige (ist immer beim Neustart 0)
-  v["maxValue"] = math.max(v["maxValue"],1)
+  --v["maxValue"] = math.max(v["maxValue"],1)
 
   local LAYOUT = avalet.CONSTS.LAYOUT
   local layout = avaletUI.dimensions.layout
@@ -8970,85 +8776,10 @@ function avaletUI.refreshVitalsView(event, arg)
     	avaletUI.ABMana:setValue(tonumber(v["valueToDisplay"]), tonumber(v["maxValue"]), "&lt;b&gt;&lt;center&gt;"..tostring(v["currentValue"]).."/".. tostring(v["maxValue"]).." Mana ("..v["percent"].."%)&lt;/center&gt;&lt;/b&gt;")
     end
   end
-  
---[[  
-  if vital == "health" then
-    avaletUI.Health:setValue(tonumber(v["valueToDisplay"]), tonumber(v["maxValue"]), "&lt;b&gt;&lt;center&gt;"..tostring(v["currentValue"]).."/".. tostring(v["maxValue"]).."&lt;/center&gt;&lt;/br&gt;&lt;center&gt;TP&lt;/center&gt;&lt;/br&gt;&lt;center&gt;("..v["percent"].."%)&lt;/center&gt;&lt;/b&gt;")
-    avaletUI.ABHealth:setValue(tonumber(v["valueToDisplay"]), tonumber(v["maxValue"]), "&lt;b&gt;&lt;center&gt;"..tostring(v["currentValue"]).."/".. tostring(v["maxValue"]).." TP ("..v["percent"].."%)&lt;/center&gt;&lt;/b&gt;")
-  elseif vital == "endurance" then
-	  avaletUI.Endurance:setValue(tonumber(v["valueToDisplay"]), tonumber(v["maxValue"]), "&lt;b&gt;&lt;center&gt;"..tostring(v["currentValue"]).."/".. tostring(v["maxValue"]).."&lt;/center&gt;&lt;/br&gt;&lt;center&gt;AP&lt;/center&gt;&lt;/br&gt;&lt;center&gt;("..v["percent"].."%)&lt;/center&gt;&lt;/b&gt;")
-	  avaletUI.ABEndurance:setValue(tonumber(v["valueToDisplay"]), tonumber(v["maxValue"]), "&lt;b&gt;&lt;center&gt;"..tostring(v["currentValue"]).."/".. tostring(v["maxValue"]).." AP ("..v["percent"].."%)&lt;/center&gt;&lt;/b&gt;")
-  elseif vital == "spellpoints" then
-  	avaletUI.Spellpoints:setValue(tonumber(v["valueToDisplay"]), tonumber(v["maxValue"]), "&lt;b&gt;&lt;center&gt;"..tostring(v["currentValue"]).."/".. tostring(v["maxValue"]).."&lt;/center&gt;&lt;/br&gt;&lt;center&gt;ZP&lt;/center&gt;&lt;/br&gt;&lt;center&gt;("..v["percent"].."%)&lt;/center&gt;&lt;/b&gt;")
-  	avaletUI.ABSpellpoints:setValue(tonumber(v["valueToDisplay"]), tonumber(v["maxValue"]), "&lt;b&gt;&lt;center&gt;"..tostring(v["currentValue"]).."/".. tostring(v["maxValue"]).." ZP ("..v["percent"].."%)&lt;/center&gt;&lt;/b&gt;")
-  elseif vital == "mana" then
- 	  avaletUI.Mana:setValue(tonumber(v["valueToDisplay"]), tonumber(v["maxValue"]), "&lt;b&gt;&lt;center&gt;"..tostring(v["currentValue"]).."/".. tostring(v["maxValue"]).." Mana ("..v["percent"].."%)&lt;/center&gt;&lt;/b&gt;")
-  	avaletUI.ABMana:setValue(tonumber(v["valueToDisplay"]), tonumber(v["maxValue"]), "&lt;b&gt;&lt;center&gt;"..tostring(v["currentValue"]).."/".. tostring(v["maxValue"]).." Mana ("..v["percent"].."%)&lt;/center&gt;&lt;/b&gt;")
-  end
-]]
+
 end
 registerAnonymousEventHandler("VitalsModelChange", "avaletUI.refreshVitalsView")
 
---[==[
-function avaletUI.refreshHealthBar(event, args)
-  avalet.log("Function avaletUI.refreshHealthBar(event, args)", 1)
-
-  local valueToDisplay = args[1]
-  local maxValue = args[2]
-  local currentValue = args[3]
-  local percent = args[4]
-  
-  avaletUI.Health:setValue(tonumber(valueToDisplay), tonumber(maxValue), "&lt;b&gt;&lt;center&gt;"..tostring(currentValue).."/".. tostring(maxValue).."&lt;/center&gt;&lt;/br&gt;&lt;center&gt;TP&lt;/center&gt;&lt;/br&gt;&lt;center&gt;("..percent.."%)&lt;/center&gt;&lt;/b&gt;")
-  avaletUI.ABHealth:setValue(tonumber(valueToDisplay), tonumber(maxValue), "&lt;b&gt;&lt;center&gt;"..tostring(currentValue).."/".. tostring(maxValue).."&lt;/center&gt;&lt;/br&gt;&lt;center&gt;TP&lt;/center&gt;&lt;/br&gt;&lt;center&gt;("..percent.."%)&lt;/center&gt;&lt;/b&gt;")
-
-end --avaletUI.refreshHealthBar(event, args)
-registerAnonymousEventHandler("VitalsHealthModelChange", "avaletUI.refreshHealthBar")
-
-
-function avaletUI.refreshEnduranceBar(event, args)
-  avalet.log("Function avaletUI.refreshEnduranceBar(event, args)", 1)
-
-  local valueToDisplay = args[1]
-  local maxValue = args[2]
-  local currentValue = args[3]
-  local percent = args[4]
-  
-	avaletUI.Endurance:setValue(tonumber(valueToDisplay), tonumber(maxValue), "&lt;b&gt;&lt;center&gt;"..tostring(currentValue).."/".. tostring(maxValue).."&lt;/center&gt;&lt;/br&gt;&lt;center&gt;AP&lt;/center&gt;&lt;/br&gt;&lt;center&gt;("..percent.."%)&lt;/center&gt;&lt;/b&gt;")
-	avaletUI.ABEndurance:setValue(tonumber(valueToDisplay), tonumber(maxValue), "&lt;b&gt;&lt;center&gt;"..tostring(currentValue).."/".. tostring(maxValue).."&lt;/center&gt;&lt;/br&gt;&lt;center&gt;AP&lt;/center&gt;&lt;/br&gt;&lt;center&gt;("..percent.."%)&lt;/center&gt;&lt;/b&gt;")
-
-end --avaletUI.refreshEnduranceBar(event, args)
-registerAnonymousEventHandler("VitalsEnduranceModelChange", "avaletUI.refreshEnduranceBar")
-
-
-function avaletUI.refreshSpellpointsBar(event, args)
-  avalet.log("Function avaletUI.refreshSpellpointsBar(event, args)", 1)
-
-  local valueToDisplay = args[1]
-  local maxValue = args[2]
-  local currentValue = args[3]
-  local percent = args[4]
-  
-	avaletUI.Spellpoints:setValue(tonumber(valueToDisplay), tonumber(maxValue), "&lt;b&gt;&lt;center&gt;"..tostring(currentValue).."/".. tostring(maxValue).."&lt;/center&gt;&lt;/br&gt;&lt;center&gt;ZP&lt;/center&gt;&lt;/br&gt;&lt;center&gt;("..percent.."%)&lt;/center&gt;&lt;/b&gt;")
-	avaletUI.ABSpellpoints:setValue(tonumber(valueToDisplay), tonumber(maxValue), "&lt;b&gt;&lt;center&gt;"..tostring(currentValue).."/".. tostring(maxValue).."&lt;/center&gt;&lt;/br&gt;&lt;center&gt;ZP&lt;/center&gt;&lt;/br&gt;&lt;center&gt;("..percent.."%)&lt;/center&gt;&lt;/b&gt;")
-
-end --avaletUI.refreshSpellpointsBar(event, args)
-registerAnonymousEventHandler("VitalsSpellpointsModelChange", "avaletUI.refreshSpellpointsBar")
-
-
-function avaletUI.refreshManaBar(event, args)
-  avalet.log("Function avaletUI.refreshManaBar(event, args)", 1)
-
-  local valueToDisplay = args[1]
-  local maxValue = args[2]
-  local currentValue = args[3]
-  local percent = args[4]
-  
-	avaletUI.Mana:setValue(tonumber(valueToDisplay), tonumber(maxValue), "&lt;b&gt;&lt;center&gt;"..tostring(currentValue).."/".. tostring(maxValue).." Mana ("..percent.."%)&lt;/center&gt;&lt;/b&gt;")
-	avaletUI.ABMana:setValue(tonumber(valueToDisplay), tonumber(maxValue), "&lt;b&gt;&lt;center&gt;"..tostring(currentValue).."/".. tostring(maxValue).." Mana ("..percent.."%)&lt;/center&gt;&lt;/b&gt;")
-
-end --avaletUI.refreshManaBar(event, args)
-registerAnonymousEventHandler("VitalsManaModelChange", "avaletUI.refreshManaBar")
-]==]
 
 function avaletUI.buildVitalsUI()
 
@@ -9288,9 +9019,7 @@ function avaletUI.buildInfoBoxUI()
   -- des Default-Textes und für die Anzeige von Spielstand, Inventar,
   -- Gruppen-Informationen und ähnlichem Generell ist es das richtige Element
   -- für alles, was direkt aus dem Hauptfenster übernommen wird. Oder für alles,
-  -- was reiner Text ist. Für die Anzeige der Runenschmiede-Informationen, die
-  -- grafisch (und auch funktional) etwas aufgehübscht wurde, gibt es ein extra
-  -- Element 
+  -- was reiner Text ist. 
   avaletUI.infoScreen = Geyser.MiniConsole:new({
       name="avaletUI.infoScreen",
       x="2%", y="3%", width="96%", height="94%",
@@ -9300,7 +9029,7 @@ function avaletUI.buildInfoBoxUI()
       fontSize = tonumber(getFontSize()-2),
   }, avaletUI.infoBox)
   avaletUI.infoScreen:setFont(getFont())
-  --Kann das auskommentierte da weg? Testweise auskommentiert. TODO
+  --Testweise auskommentiert. TODO
   --setWindowWrap("avaletUI.infoScreen", 79)
   clearWindow("avaletUI.infoScreen")  
   
@@ -10211,6 +9940,8 @@ end --function avaletUI.onRefreshChatUI(_, channel)
 registerAnonymousEventHandler("RefreshChatUI", "avaletUI.onRefreshChatUI")
 
 
+--[[
+work in progress... ]]
 function avaletUI.rightClickMenueTable()
 
 -- Geyser.Label:addMenuLabel (name, parent, index)
