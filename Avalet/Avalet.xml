@@ -1563,7 +1563,7 @@ function avalet.getHelp()
   hilfe = hilfe .. " | soll den 'Tick' anzeigen. Das ist der regelmaeßige TP-, ZP und AP-Schub, |\n"
   hilfe = hilfe .. " | der etwa alle 40 Sekunden kommt. Dieses Feature ist noch eher experimen- |\n"
   hilfe = hilfe .. " | tell und liegt selbst unter guenstigen Umstaenden nur bei einer Genauig- |\n"
-  hilfe = hilfe .. " | kein von +/- einer Sekunde. Plus Lag.                                    |\n"
+  hilfe = hilfe .. " | keit von +/- einer Sekunde. Plus Lag.                                    |\n"
   hilfe = hilfe .. " |                                                                          |\n"
   hilfe = hilfe .. " | Das Flaschen-Symbol oberhalb der Anzeige von Hunger, Durst und Alkohol   |\n"
   hilfe = hilfe .. " | soll anzeigen, wenn der Char vergiftet, krank oder verflucht ist. Auch   |\n"
@@ -1605,14 +1605,14 @@ machen müsste. Also hab ich das nie ausgearbeitet. TODO ]]</script>
 			<script>--[[
 Hier sind alle Profil-bezogenen Funktionen versammelt.
 
-Im Unterschied zum Charakter kann das Profil sofort beim Start von Avalet
-geladen werden. Dieses Objekt wäre also der richtige Platz, um beispiels-
-weise Einstellungen zu speichern, die unabhängig vom gespielten
-Charakter sind.
+Im Unterschied zum Charakter kann das Profil sofort beim Start von Avalet geladen
+werden, die hier gespeicherten Daten stehen also (fast) von Anfang an zur Verfügung.
+Dieses Objekt wäre also der richtige Platz, um beispielsweise Einstellungen zu
+speichern, die unabhängig vom gespielten Char sind.
 
-Genau wie der Charakter ist das Profil als Objekt ausgelegt. Also mit
-der Möglichkeit, öffentliche und private Attribute und Funktionen zu
-haben. Und statische Funktionen. Und getter und setter. ]]
+Genau wie der Charakter ist das Profil als Objekt ausgelegt. Also mit der Möglichkeit, 
+öffentliche und private Attribute und Funktionen zu haben. Und statische Funktionen. 
+Und getter und setter. ]]
 local objProfile = {}
 
 objProfile.new = function()
@@ -1621,9 +1621,8 @@ objProfile.new = function()
   
   --[[
   Rückgabewert dieser inneren Funktion ist der Pfad zu der Datei, in der profilbezogene
-  Daten gespeichert werden. Das ist eine "Static Function", und die steht hier vorne,
-  weil sie gleich verwendet wird. ]]
-  local function getProfileFilePath()
+  Daten gespeichert werden. ]]
+  local getProfileFilePath = function()
     --[[
     Der Separator in aktuellen System-Pfaden wird ermittelt und gespeichert.
     Notwendig weil unterschiedliche Betriebssysteme unterschiedliche Separatoren verwenden. ]]
@@ -1644,28 +1643,39 @@ objProfile.new = function()
 
   local profileFilePath = getProfileFilePath()
   
-  --[[
-  In der data-Tabelle steht alles, was gespeichert und beim Neustart wieder geladen
-  werden soll. Auf diesem Weg lässt sich einfach eine Tabelle serialisieren. Und 
-  durch einfaches drüber-iterieren auch wieder de-serialisieren. ]] 
-  local data = {}
-  data.collectionTab = "Sammeltab"
-  data.collectionList = {"Reden", "Sagen", "Gruppe"}
-  data.chatTabsList = {data.collectionTab, "Reden", "Sagen", "Laber", "Neuling", "Gruppe", "Volk", "Gilde", "Schwafel"}
+  local collectionTabLabel = avalet.CONSTS.SUMMING_TAB_NAME  -- "Sammeltab"
+  -- achtung, die keys müssen mit der liste unten übereinstimmen!
+  local collectionTabList = {"Reden", "Sagen", "Gruppe"}
+  local listOfChatTabs = {
+    [1] = collectionTabLabel,
+    [2] = "Reden", 
+    [3] = "Sagen", 
+    [4] = "Laber", 
+    [5] = "Neuling", 
+    [6] = "Gruppe", 
+    [7] = "Volk", 
+    [8] = "Gilde", 
+    [9] = "Schwafel"
+  }
   
-  function self.setCollectionTab(str) data.collectionTab = str end
-  function self.getCollectionTab() return data.collectionTab end
-  function self.setCollectionList(lst) data.collectionList = lst end
-  function self.getCollectionList() return data.collectionList end
-  function self.setChatTabsList(lst) data.chatTabsList = lst end
-  function self.getChatTabsList() return data.chatTabsList end
+  function self.changeTabContext(index, newContext) listOfChatTabs[tonumber(index)] = newContext end
+  --function self.setCollectionTab(str) collectionTab = str end
+  --function self.getCollectionTab() return ollectionTab end
+  --function self.setCollectionList(lst) collectionList = lst end
+  function self.getCollectionList() return collectionTabList end
+  --function self.setChatTabsList(lst) listOfChatTabs = lst end
+  function self.getChatTabsList() return listOfChatTabs end
  
-  -- Hier werden die Daten dieses Objektes (also die in der data-Tabelle) auf Festplatte geschrieben.
+  -- Hier werden die Daten dieses Objektes auf Festplatte geschrieben.
   function self.dumpProfile()
     -- Hier wird noch eine Kopie angelegt, damit Variablen aufgelöst werden.
-    -- (Z.B. "data.collectionTab" in "data.chatTabsList") 
-    local tblDump = data
-    avalet.writeDataToFS(profileFilePath, tblDump, "w") 
+    -- (Z.B. "data.collectionTab" in "data.newChatTabsList") 
+    local data = {}
+    
+    data.collectionTabList = collectionTabList
+    data.listOfChatTabs = listOfChatTabs
+
+    avalet.writeDataToFS(profileFilePath, data, "w") 
   end
   
   -- Hier werde vorher gespeicherte Daten wieder eingelesen
@@ -1678,9 +1688,17 @@ objProfile.new = function()
     Mudlet das Profil schließt. ]]
 	  if io.exists(profileFilePath) then
       -- Daten laden
-      local subset = avalet.readFileFromFS(profileFilePath, "r")
+      local data = avalet.readFileFromFS(profileFilePath, "r")
       -- Geladene Daten mit dem Profil-Objekt mergen
-      for k,v in pairs(subset) do data[k] = v end
+      
+      if data.collectionTabList ~= nil then
+        collectionTabList = data.collectionTabList
+      end
+      if data.listOfChatTabs ~= nil then
+        listOfChatTabs = data.listOfChatTabs 
+        -- Der Sammeltab wird wieder hergestellt (nur zur Sicherheit)
+        listOfChatTabs[1] = avalet.CONSTS.SUMMING_TAB_NAME
+      end
   	end
   end
   
@@ -3739,6 +3757,18 @@ avalet.CONSTS.SCHILDZAUBER = {
   --[""] = true,
 }
 
+--[[
+Der Name des Tabs, auf dem mehrere Kanäle vereint werden. Konfigurierbar
+im Kontextmenü. Warum ich den Namen hier gespeichert hab weiss ich nicht
+mehr, aber war vermutlich begründet. Wird jedenfalls verwendet. ]]
+avalet.CONSTS.SUMMING_TAB_NAME = "Sammeltab"
+
+--[[
+Liste der Kanäle, für die zur Zeit die Kommunikation gesammelt wird.
+Aus dieser Liste kann der Spieler sich im Kontextmenü von jedem Tab
+aussuchen, welchen Inhalt er auf dem Tab angezeigt bekommen will.
+Diese Liste ist durchaus absichtlich genau in dieser Reihenfolge, 
+bitte beibehalten. (Alphabetisch plus Console am Ende.) ]]
 avalet.CONSTS.CHANNELS = {
   [1] = "Gebruell",
   [2] = "Gilde", 
@@ -5705,11 +5735,6 @@ function avalet.vitals.addTickTimer(intTime)
     table.insert(avalet.vitals.tickTimerList, {["time"]=t, ["weight"]=10})
   end
   
-  --if avalet.debug then
-  --  cecho("&lt;yellow&gt;Liste der TickTimer:\n")
-  --  display(avalet.vitals.tickTimerList)
-  --  cecho("&lt;yellow&gt;\nEnde der Liste\n")
-  --end
 end
 
 function avalet.vitals.getHeaviestTickTimer()
@@ -6519,34 +6544,17 @@ avalet.chats = avalet.chats or {}
 function avalet.createChatModel()
   avalet.log("Function avalet.createChatModel()", 1)
 
-  --[[
-  Es gibt einen Sammel-Tab, auf dem mehrere Kommunikationskanäle zusammengefasst werden.
-  Hier wird einmal der Name festgelegt. Und dann, welche Kanäle dort angezeigt werden.
-  Die User können das über eine Menü beeinflussen. ]]
-  avalet.chats.collectionTab = avalet.profile:getCollectionTab()
-  avalet.chats.collectionList = avalet.profile:getCollectionList()
- 
   -- Speicherplatz für den Inhalt der einzelnen Tabs
   avalet.chats.chats = avalet.chats.chats or {}
 
-  -- Diese Liste an Tabs wird auf der Oberfläche angezeigt. Die Namen hier
-  -- sind nicht beliebig, sondern werden direkt als Key verwendet, um die
-  -- zugehörigen Inhalte zu identifizieren.
-  avalet.chats.tabs = avalet.chats.tabs or avalet.profile:getChatTabsList()--
-  
-  -- Speichert das aktuell ausgewählte Element, also das im Vordergrund.
-  -- Per Default ist es das erste Element.
-  avalet.chats.currentTab = avalet.chats.currentTab or avalet.chats.tabs[1]
-    
-  -- Liste von Tabs, für die es ungelesene Nachrichten gibt
-  avalet.chats.hasNewEntries = avalet.chats.hasNewEntries or {}
-
-  -- Legt für jeden Tab einen Speicherplatz für die anzuzeigenden Inhalte an
-  for k,v in pairs(avalet.chats.tabs) do
-  
+  -- Legt für jeden Kanal einen Speicherplatz für die anzuzeigenden Inhalte an.
+  for k,v in pairs(avalet.CONSTS.CHANNELS) do
     avalet.chats.chats[v] = {}
-    
+    --avalet.chats.chats[k] = {}
   end
+  
+  -- Speicherplatz für den Sammeltab hinzufügen
+  avalet.chats.chats[avalet.CONSTS.SUMMING_TAB_NAME] = {}
 
 end --function avalet.createchatModel()
 
@@ -6560,20 +6568,21 @@ local clearMessage = function(str)
   message = string.gsub(message, "%%%^NO_ITALIC%%%^", "")
   message = string.gsub(message, "%%%^NC_html_begin_colour%(%#[A-Za-z0-9]+%)%%%^", "")
   message = string.gsub(message, "%%%^NC_html_end_colour%%%^", "")
-  
   return message
 end
 
 
--- Hier wird die Kommunikation verarbeitet, die über die Comm-Kanäle per ATCP eingehen.
--- Eine erste Verarbeitung fand schon beim Eingang der Nachricht statt, also bei
--- ATCP --&gt; atcp (Trennung von channel und message nämlich, aber auch die Zuordnung von
--- einzelnen Kanälen zu Sammelbegriffen, bspswse "vr" zu "Volk".
+--[[
+Hier wird die Kommunikation verarbeitet, die über die Comm-Kanäle per ATCP eingehen.
+Eine erste Verarbeitung fand schon beim Eingang der Nachricht statt, also bei
+ATCP --&gt; atcp (Trennung von channel und message nämlich, aber auch die Zuordnung von
+einzelnen Kanälen zu Sammelbegriffen, bspswse "vr" zu "Volk". 
+Was hier ankommt wird einmal in der für den Kanal vorgesehenen Tabelle gespeichert.
+Und zusätzlich in ein Logfile geschrieben. ]]
 function avalet.chats.processNewMessage(channel, message)
   avalet.log("Function avalet.chats.processNewMessage(channel, message)", 1)
 
-  -- Die Nachricht kann Steuercode enthalten, beispielsweise für farbigen Text.
-  -- Der wird hier rausgefiltert.
+  -- Die Nachricht kann Steuercode enthalten, der wird hier entfernt
   message = clearMessage(message)
   
   local logfilename = ""
@@ -6590,11 +6599,13 @@ function avalet.chats.processNewMessage(channel, message)
   local line = ""
 
   -- Hier können auch Comm-Nachrichten landen, für die es keinen Tab gibt. Also:
+  -- (Mittlerweile sollte das nicht mehr vorkommen, aber man weiß ja nie)
   if avalet.chats.chats[channel] ~= nil then
-    -- Die Tabelle der einzelnen Chat-Tabs wird auf 500 Elemente begrenzt.
-    -- Um Speicher zu sparen. Die Zahl kann sich noch ändern, aber 500 schien
-    -- mir erstmal ausreichend zu sein. Wenn die Tabelle länger ist, wird
-    -- hier jeweils das erste Element entfernt.
+    --[[
+    Die Tabelle der einzelnen Chat-Tabs wird auf 500 Elemente begrenzt.
+    Um Speicher zu sparen. Die Zahl kann sich noch ändern, aber 500 schien
+    mir erstmal ausreichend zu sein. Wenn die Tabelle länger ist, wird
+    hier jeweils das erste Element entfernt. ]]
     while #avalet.chats.chats[channel] &gt;= 500 do
       table.remove(avalet.chats.chats[channel], 1)
     end
@@ -6606,9 +6617,10 @@ function avalet.chats.processNewMessage(channel, message)
     --[[
     Wenn der channel, über den eine Nachricht eingegangen ist, in der Liste
     für den Sammeltab steht, muss dessen Tabelle auch ergänzt werden. ]]
-    for _,v in pairs(avalet.chats.collectionList) do
+    local collectionList = avalet.profile:getCollectionList()
+    for _,v in pairs(collectionList) do
       if v == channel then
-        table.insert(avalet.chats.chats[avalet.chats.collectionTab], line)
+        table.insert(avalet.chats.chats[avalet.CONSTS.SUMMING_TAB_NAME], line)
         break
       end
     end
@@ -9448,45 +9460,57 @@ Hier findet sich alles, was für die Anzeige der Chats benötigt wird. Also
 erstmal die GUI-Elemente selbst und dann auch die Funktionen, die direkt
 auf die Anzeige wirken. Die hier angezeigten Daten werden im Model vorbe-
 reitet. (Avalet --&gt; Model --&gt; createChatModel) 
-EIGENTLICH sollte das hier so funktionieren: Im Kontextmenü (rechtsklick)
-jedes Tabs sollte es ein Menü geben, wie es das jetzt am Zahnrad-Symbol
-gibt. In diesem Kontextmenü sollte eine Liste aller möglichen Chat-Kanäle
-stehen, in der die einzelnen Einträge auswählbar wären. Am Sammeltab sind
-mehrere Einträge auswählbar (also wie jetzt am Zahnrad-Symbol). An den 
-anderen Tabs ist nur ein Eintrag auswählbar. Dieser Eintrag wäre dann der
-Kanal, der auf dem Tab angezeigt wird. Es ist mir aber nicht gelungen,
-dieses Element so zu bauen. Obwohl es eigentlich möglich sein sollte. Also
-entweder ich bin zu blöd. Oder die Rechtsklick-Menü-Komponente von Mudlet
-ist schwer verbugt. Das wäre jedenfalls ein TODO. Die Symbole im Kontext-
-menü der normalen Tabs wären dann z.B.: &amp;#10687; (Kreis mit Punkt drin)
-und &amp;#10686; (Nur Kreis).
-Als Alternative hatte ich erwogen, dem Zahnrad-Symbol ein verschachteltes
-Menü anzuhängen, mit dem man das alles einstellen kann. Also in etwas:
-- Sammeltab
-  - Channel1
-  - Channel2
-  . ...
-- &lt;Tab1&gt;
-  - Channel1
-  - Channel2
-  - ...
-- &lt;Tab2&gt;
-  - Channel1
-  - ...
-Und das hab ich auch nicht hinbekommen. ]]
+Die Idee ist, verschiedene Tabs für verschiedene Kanäle zu haben, also einen
+für "rede", einen für "laber" einen für "schwafel"... Und einen weiteren Tab,
+auf dem mehrere Kanäle zusammengefasst werden. Die Idee ist außerdem, dass
+die User die Belegung dieser Tabs selbst bestimmen können: auf dem Summen-Tab
+können sie selber festlegen, welche Kanäle dort zusammengefasst werden. Auf
+den Einzeltabs können sie bestimmen, welcher Kanal dort angezeigt wird. Eine
+weitere Idee ist, dass es noch einen Tab für Logging-Ausgaben geben soll. Aber
+das ist eigentlich eher was fürs Model. ]]
 
 -- Namensraum für das hier.
 avaletUI.chats = avaletUI.chats or {}
 
 --[[
-Die Funktion avaletUI.buildChatUI() baut die Oberfläche auf. Also die
-grafischen Elemente wie Rahmen, Tabulatoren und das Ausgabefeld für
-die Inhalte hinter den Tabulatoren. ]]
+Die Funktion avaletUI.buildChatUI() baut die Oberfläche auf. Also die grafischen
+Elemente wie Rahmen, Tabulatoren und das Ausgabefeld für die Inhalte hinter den 
+Tabulatoren. ]]
 function avaletUI.buildChatUI()
   avalet.log("Function avaletUI.buildChatUI()", 1)
 
-  -- Dieses Label zeichnet den Rahmen um den Chats-Bereich. Notwendig weil
-  -- Container unsichtbar sind und deshalb keinen Rahmen haben können.
+  --[[
+  Diese Liste an Tabs wird auf der Oberfläche angezeigt. Die Liste hat einen Index, 
+  der die Reihenfolge der Tabs bestimmt. Die Liste wird im Profil gespeichert, so
+  dass Änderungen durch die User persistent sind. ]]
+  avaletUI.chats.listOfDisplayedTabs = avaletUI.chats.listOfDisplayedTabs or avalet.profile:getChatTabsList()
+
+  --[[
+  Es gibt einen Sammel-Tab, auf dem mehrere Kommunikationskanäle zusammengefasst werden.
+  Eigentlich ist das immer der erste Tab, aber man weiß ja nie. Deshalb wird hier erstmal
+  der Index zu diesem Sammeltab geholt und gespeichert. ]]
+  avaletUI.chats.sumTabIndex = table.index_of(avaletUI.chats.listOfDisplayedTabs, avalet.CONSTS.SUMMING_TAB_NAME)
+  
+  --[[
+  Die Liste der Tabs, die auf dem Sammeltab angezeigt werden. ]]
+  avaletUI.chats.listOfSummedTabs = avalet.profile:getCollectionList()     -- default: sag, rede, gruppe
+   
+  --[[
+  Speichert das aktuell ausgewählte Element, also das derzeit angezeigt wird.
+  Per Default ist es das erste Element. ]]
+  avaletUI.chats.currentTabIndex = avaletUI.chats.currentTabIndex or tonumber(1)
+    
+  -- Liste von Tabs, für die es ungelesene Nachrichten gibt
+  avaletUI.chats.listOfTabsWithUnreadEntries = avaletUI.chats.listOfTabsWithUnreadEntries or {}
+
+  -- Speicherort für die Label, die die Tabulatoren darstellen. Wird weiter unten befüllt.
+  avaletUI.chats.tabs = {}
+
+  --[[
+  Hier gehts los mit den GUI-Elementen.
+  
+  Dieses Label zeichnet den Rahmen um den Chats-Bereich. Notwendig weil
+  Container unsichtbar sind und deshalb keinen Rahmen haben können. ]]
   avaletUI.chatsFrame = Geyser.Label:new({
       name="avaletUI.chatsFrame", 
       x=0, y=0, 
@@ -9502,45 +9526,11 @@ function avaletUI.buildChatUI()
       width = "98%", height = "96%",
   }, avaletUI.chatsFrame)
 
-  -- das Konfig-Symbol (Zahnrad) für das Tab-Element
-  avaletUI.chatsConfig = Geyser.Label:new({
-      name = "avaletUI.chatsConfig",
-      x = 0, y = 0,
-      width = "5%", height = "7%",
-      color="black",
-      message= [[&lt;center&gt;&amp;#9881;]]
-  }, avaletUI.chatsContainer)
-  avaletUI.chatsConfig:setFontSize(12)
-  avaletUI.chatsConfig:setToolTip("Sammeltab konfigurieren mit Rechtsklick", 3)
-  avaletUI.chatsConfig:setStyleSheet("QToolTip{"..avaletUI.CSS.boxCSS:getCSS()..";color:white;}")
-
-  -- Die Funktionalität erhält das Konfig-Symbol über das Kontextmenü. Die einzelnen
-  -- Einträge in das Menü werden weiter unten hinzugefügt.  
-  avaletUI.chatsConfig:createRightClickMenu({
-            MenuItems = {
-                "&amp;nbsp;&amp;nbsp;Änderungen sind", 
-                "&amp;nbsp;NICHT rückwirkend",
-                "&lt;hr&gt;"
-            },
-            --Style = "Dark",
-            MenuWidth = 150, 
-            MenuFormat = "l10",
-            MenuStyle = [[
-              QLabel::hover{ 
-                  background-color: rgba(96,96,96,255);
-                  color: white;} 
-              QLabel::!hover{
-                  color: black; 
-                  background-color: rgba(96,96,96,255);
-              } 
-            ]],
-        })
-
   -- die Kopfzeile des Tab-Elements, also da wo die Tabs sind
   avaletUI.chatsHeader = Geyser.HBox:new({
       name = "avaletUI.chatsHeader",
-      x = "5%", y = 0,
-      width = "95%", height = "8%",
+      x = 0, y = 0,
+      width = "100%", height = "8%",
   }, avaletUI.chatsContainer)
 
   -- Der Körper des Tab-Elements, also da wo der Inhalt steht.
@@ -9551,106 +9541,44 @@ function avaletUI.buildChatUI()
   }, avaletUI.chatsContainer)
   avaletUI.chatsBody:setStyleSheet(avaletUI.CSS.chatsBodyCSS:getCSS())
   
-  -- Hier werden die Tabulatoren und die Einträge im Konfig-Menü erzeugt.
-  avaletUI.chats.tabs = {}
+  -- Jetzt werden die einzelnen Tabs erzeugt.
+  for key=1, #avaletUI.chats.listOfDisplayedTabs do
   
-	for k, v in pairs(avalet.chats.tabs) do
+    --[[ 'value' enthält den Namen des Tabs, der auch auf dem Tab angezeigt wird.
+    Normalerweise ist das der Name des Kanals, der auf dem Tab angezeigt wird. ]]
+    local value = avaletUI.chats.listOfDisplayedTabs[key]
   
-		if avaletUI.chats.tabs[v.."tab"] == nil then
+		-- Tabs sind auch nur Label. 
+		avaletUI.chats.tabs[key] = Geyser.Label:new({
+			  name = "avaletUI.chats.tabs."..key,
+		}, avaletUI.chatsHeader)
+		avaletUI.chats.tabs[key]:setFontSize(getFontSize() - 2)	  
+		avaletUI.chats.tabs[key]:setFont(getFont())	  
+		avaletUI.chats.tabs[key]:echo("&lt;center&gt;"..value)
+    avaletUI.chats.tabs[key]:setStyleSheet(avaletUI.CSS.MenuTabCSS:getCSS())
 
-			-- Erzeugt einen Tab für jeden Eintrag in der Menu-Liste
-			avaletUI.chats.tabs[v.."tab"] = Geyser.Label:new({
-				  name = "avaletUI.chats.tabs."..v.."tab",
-			}, avaletUI.chatsHeader)
-			avaletUI.chats.tabs[v.."tab"]:setFontSize(getFontSize() - 2)	  
-			avaletUI.chats.tabs[v.."tab"]:setFont(getFont())	  
-			avaletUI.chats.tabs[v.."tab"]:echo("&lt;center&gt;"..v)
-      
-      --[[
-      Welches Stylesheet verwendet wird hängt davon ab, ob der Tab irgendwie
-      markiert ist oder nicht. Da gibt es drei Möglichkeiten: Tab ist NICHT
-      markiert. Tab ist als "aktiver Tab" markiert. Und Tab ist markiert, weil
-      dort neue Nachrichten eingegangen sind, die der User noch nicht gelesen
-      hat. (Das wird zurückgesetzt, wenn der Tab aktiviert wird.) Das CSS für
-      "aktivierte Tabs" wird woanders gesetzt. Hier geht es um "nicht markiert"
-      und um "markiert wegen neuer Nachrichten". Tabs die neue Nachrichten erhalten
-      aber dabei nicht "aktiv" sind, werden in der Liste avalet.chats.hasNewEntries
-      gespeichert. Hier wird erst das default-Layout (für nicht markierte Tabs)
-      gesetzt und dann überschriebe, wenn der Tab in der entsprechenden Liste steht.]]
- 			avaletUI.chats.tabs[v.."tab"]:setStyleSheet(avaletUI.CSS.MenuTabCSS:getCSS())
-      for _,t in pairs(avalet.chats.hasNewEntries) do
-        if t == v then
-          avaletUI.chats.tabs[v.."tab"]:setStyleSheet(avaletUI.CSS.MenuTabMarkedCSS:getCSS()) 
-          for _, j in pairs(avalet.chats.collectionList) do
-            if t == j then
-              avaletUI.chats.tabs[avalet.chats.collectionTab.."tab"]:setStyleSheet(avaletUI.CSS.MenuTabMarkedCSS:getCSS()) 
-            end
-          end
-        end
-      end
+    --[[
+    Zu jedem Tab wird ein "right click menu" erstellt, in dem der Tab konfiguriert werden kann.
+    Dieses Menü muss erzeugt werden, bevor der ClickCallback hinzugefügt wird. Sichtbar gemacht
+    wird das Kontextmenü in der Funktion, die duch den ClickCallback ausgelöst wird. ]] 
+    avaletUI.addRightClickMenue(key, value)
 
-      --[[
-      Damit die Tabs auch auf Anklicken reagieren, wird hier eine Callback-Funktion
-      hinzugefügt. Letztlich ist das auch ein Event, der beim Anklicken ausgelöst
-      wird. Parameter ist der Name des angeklickten Tabs. Die dazugehörige Funktion
-      steht unten. ]]
-			avaletUI.chats.tabs[v.."tab"]:setClickCallback("avaletUI.chats.tabOnClick", v)
+    --[[
+    Damit die Tabs auch auf Anklicken reagieren, wird hier eine Callback-Funktion
+    hinzugefügt. Letztlich ist das auch ein Event, der beim Anklicken ausgelöst
+    wird. Parameter ist der Name des angeklickten Tabs. Die dazugehörige Funktion
+    steht weiter unten. ]]
+		avaletUI.chats.tabs[key]:setClickCallback("avaletUI.chats.tabOnClick", key)
 
-      --[[
-      Der Sammeltab soll mit dem Summenzeichen beschriftet sein. Die anderen Tabs
-      sollen im Konfig-Menü als Option hinzugefügt werden. Das geschieht hier.]]
-      if v == avalet.chats.collectionTab then
-      
-        -- Sammeltab mit Summenzeichen versehen
-        avaletUI.chats.tabs[v.."tab"]:echo("&lt;center&gt;&amp;sum;")
-        
-      else
-      
-        local isItemInList = false
-        local menuLabelName = ""
-        
-        --[[
-        Bei den Einträgen im Konfig-Menü muss unterschieden werden zwischen
-        schon ausgewählten einträgen und aktuell auswählbaren Einträgen.
-        Die derzeit ausgewählten stehen in avalet.chats.collectionList. Diese
-        Liste wird hier für jeden Tab einmal durchgegangen. Steht der aktuelle
-        Tab drin, wird er entsprechend hinzugefügt und die Entscheidung wird
-        für den Rest des Durchlaufs (also für die äußere for-Schleife weiter oben!)
-        gemerkt. Steht der Tab nicht drin, wird es dann anschließend hinzugefügt. ]]
-        for u,w in pairs(avalet.chats.collectionList) do
-       
-          if v == w then
-            -- &amp;#9746; ist ein Kästchen mit Kreuz drin.
-            menuLabelName = "&amp;nbsp;&amp;#9746;&amp;nbsp;"..v
-            -- Der Menüeintrag wird hinzugefügt und...
-            avaletUI.chatsConfig:addMenuLabel(menuLabelName)
-            -- ... mit Funktionalität versehen. Beim Auswählen des
-            -- Menüpunkes wird die Funktion hier ausgeführt. Die
-            -- selbst nur eine Funktion (weiter unten) ausführt.
-            avaletUI.chatsConfig:setMenuAction((menuLabelName), function() avaletUI.toggleMenuEntry(u, w, true, menuLabelName) end)
-            isItemInList = true
-            break
-          end
-        end
-    
-        if isItemInList == false then
-          -- &amp;#9744; ist ein Kästchen ohne Kreuz
-          menuLabelName = "&amp;nbsp;&amp;#9744;&amp;nbsp;"..v
-          avaletUI.chatsConfig:addMenuLabel(menuLabelName)
-          avaletUI.chatsConfig:setMenuAction(menuLabelName, function() avaletUI.toggleMenuEntry(nil, v, false, menuLabelName) end)
-        else
-        
-        end
-      end
-		end -- if
+    --[[
+    Der Sammeltab soll mit dem Summenzeichen beschriftet sein. ]]
+    if key == avaletUI.chats.sumTabIndex then avaletUI.chats.tabs[key]:echo("&lt;center&gt;&amp;sum;") end
+
 	end  -- for
-  
-  avaletUI.chats.tabs[avalet.chats.currentTab.."tab"]:setStyleSheet(avaletUI.CSS.MenuTabCurrentCSS:getCSS())
 
   --[[
-  Alle Tabs sind erzeugt worden. Die Ausgabe _aller_ Tabs geschieht
-  aber in der gleichen Miniconsole. Es gibt also nicht zu jedem Tab
-  auch eine Miniconsole, sondern nur die hier: ]]
+  Alle Tabs sind erzeugt worden. Die Ausgabe der Tabs erfolgt aber in der gleichen
+  Miniconsole. Es gibt also nicht zu jedem Tab eine, sondern nur die hier: ]]
 	avaletUI.chats.miniConsole = Geyser.MiniConsole:new({
 		  name="avaletUI.chats.miniConsole",
 		  x="1%", y="2%",
@@ -9664,39 +9592,13 @@ function avaletUI.buildChatUI()
   avaletUI.chats.miniConsole:resetAutoWrap()
 
   --[[
-  Jetzt sind alle Anzeige-Elemente erzeugt worden, aber die Miniconsolen mit den
-  Inhalten sind alle ausgeblendet. Abschließend muss also noch der aktuelle Tab 
-  aktiviert und die dazugehörigen Inhalte angezeigt werden. Dies geschieht, indem
-  einfach auf den "currentTab", also auf den aktuell ausgewählten Tab, geklickt 
-  wird. Oder zumindest wird so getan als ob. ]]
-  avaletUI.chats.tabOnClick(avalet.chats.currentTab)
+  Abschließend müssen die Tabs noch mit ihren jeweiligen Stylesheets versehen werden. Dies
+  geschieht, indem einfach auf diesen "currentTab" geklickt wird. Oder zumindest wird so
+  getan als ob. ]]
+  avaletUI.chats.tabOnClick(avaletUI.chats.currentTabIndex)
 
 end --function avaletGUI.buildChatUI()
 
-
---[[
-Hier werden die Einträge im Konfigurations-Menü geändert. Konkret gibt
-es die Liste mit den Tabs, die aktuell auf dem Sammeltab angezeigt werden.
-Und wenn der User im Menü einen Tab hinzufügt oder entfernt, dann wird
-hier die Liste entsprechend aktualisiert. Anschließend muss die Oberfläche
-neu gebaut werden, damit diese Veränderung auch sichtbar wird. Und da
-der vom User ausgewählte Menüpunkt dabei sichtbar bleibt, wird er hier
-extra ausgeblendet. ]]
-function avaletUI.toggleMenuEntry(entryKey, entryValue, entryIsOnList, menuLabelName)
-  avalet.log("Function avaletUI.toggleMenuEntry(...)", 1)
-
-  if entryIsOnList then
-    --print("Eintrag wird entfernt: "..entryValue)
-    table.remove(avalet.chats.collectionList, entryKey)
-  else
-    --print("Eintrag wird hinzugefügt: "..entryValue)
-    table.insert(avalet.chats.collectionList, entryValue)
-  end
-  --closeAllLevels(avaletUI.chatsConfig)
-  avaletUI.chatsConfig:hideMenuLabel(menuLabelName)
-  avaletUI.buildChatUI()
-
-end
 
 --[[
 Diese Funktion wird ausgeführt, wenn auf einen Tab geklickt wird. Der Name
@@ -9705,56 +9607,88 @@ Tab-Body wird unsichtbar gemacht, und der angeklickte Tab wird zum aktuell
 aktivierten Tab und sichtbar gemacht. 
 Außerdem wird noch die Darstellung der Tabs aktualisiert: Der bisher "aktuelle
 Tab" wird als "nicht aktiviert" dargestellt, der jetzt aktivierte Tab wird als
-"aktiviert" dargestellt. ]] 
-function avaletUI.chats.tabOnClick(tab)
-  avalet.log("Function avaletUI.chats.tabOnClick(): "..tostring(tab), 1)
+"aktiviert" dargestellt. 
+Der Parameter 'arg' wird automatisch angehängt, wenn tatsächlich auf das
+Label geklickt wurde. Er ist eine Tabelle und enthält Informationen darüber,
+mit welcher Maustaste geklickt wurde und auf welche Koordinaten.
+Diese Funktion wird auch einfach so aufgerufen, ohne Label-klick, dann 
+fehlt dieser Parameter. ]] 
+function avaletUI.chats.tabOnClick(tab, arg)
+  avalet.log("Function avaletUI.chats.tabOnClick(): "..tostring(tabIndex), 1)
   
+  local tabIndex = tab                                      -- z.B. 4
+  local tabLabel = avaletUI.chats.listOfDisplayedTabs[tab]  -- z.B. "Laber"
+
+  --[[
+  Das Kontextmenü wird nur bei einem Rechtsklick geöffnet. Obs einer ist oder
+  nicht steht im Parameter 'arg' und wird automatisch ausgewertet. ]]
+  if arg ~= nil and arg.button ~= nil then
+    avaletUI.chats.tabs[tabIndex]:onRightClick(arg)
+  end
+
   -- bisher aktivierten Tab als "nicht aktiviert" anzeigen
-  avaletUI.chats.tabs[avalet.chats.currentTab.."tab"]:setStyleSheet(avaletUI.CSS.MenuTabCSS:getCSS())
+  avaletUI.chats.tabs[avaletUI.chats.currentTabIndex]:setStyleSheet(avaletUI.CSS.MenuTabCSS:getCSS())
 
   --[[
   Diesen Tab auch aus der Liste entfernen, in der die Tabs stehen, auf denen
   neue Nachrichten eingegangen sind. ]]
-  for k, j in pairs(avalet.chats.hasNewEntries) do
-    if j == tab then
-      table.remove(avalet.chats.hasNewEntries, k)
+  for k, j in pairs(avaletUI.chats.listOfTabsWithUnreadEntries) do
+    if j == tabLabel then
+      table.remove(avaletUI.chats.listOfTabsWithUnreadEntries, k)
     end
   end
   
   --[[
-  Wenn der Sammeltab geöffnet wird, dann müssen auch die dort gesammelten
-  Tabs bereinigt werden. Also das Tab-Stylecheat und eventuelle Einträge
-  in der Liste "hasNewEntries". ]]
-  if avalet.chats.currentTab == avalet.chats.collectionTab then
-    for _,v in pairs(avalet.chats.collectionList) do
-      for k, j in pairs(avalet.chats.hasNewEntries) do
-        if j == tab then
-          table.remove(avalet.chats.hasNewEntries, k)
-        end -- if
+  Wenn der Sammeltab geöffnet war, waren auch die dort gesammelten Kanal-Tabs
+  als "aktiv" markiert. Die müssen dann jetzt auch ein anderes Stylesheet be-
+  kommen. Und eventuelle Einträge in der Liste "UnreadEntries" entfernt werden. ]]
+  if avaletUI.chats.currentTabIndex == avaletUI.chats.sumTabIndex then
+    for i,v in pairs(avaletUI.chats.listOfSummedTabs) do
+      for k, j in pairs(avaletUI.chats.listOfTabsWithUnreadEntries) do
+          if v == j then table.remove(avaletUI.chats.listOfTabsWithUnreadEntries, k) end
       end -- for
-      avaletUI.chats.tabs[v.."tab"]:setStyleSheet(avaletUI.CSS.MenuTabCSS:getCSS())
+      local index = table.index_of(avaletUI.chats.listOfDisplayedTabs, v)
+      if index~= nil then avaletUI.chats.tabs[index]:setStyleSheet(avaletUI.CSS.MenuTabCSS:getCSS()) end
     end -- for
   end
 
-  clearWindow("avaletUI.chats.miniConsole")--avaletUI.chats.console
+  --[[
+  Der Dreizeiler hier behebt ein Problem mit einem nicht immer richtig
+  positionierten Cursor in der Miniconsole: ]]
+  clearWindow("avaletUI.chats.miniConsole")
   avaletUI.chats.miniConsole:echo(" ")
   clearWindow("avaletUI.chats.miniConsole")
 
   -- der angeklickte Tab wird zum "aktuellen Tab" (am Model!). Zwingend vor dem nächsten Schritt!
-	avalet.chats.currentTab = tab
+	avaletUI.chats.currentTabIndex = tabIndex
 
-  -- der Inhalt des neuen "currentTab" wird aktualisiert
-  raiseEvent("RefreshChatUI", avalet.chats.currentTab)
-  
   -- der neue "currenTab" wird entsprechend formatiert
-  avaletUI.chats.tabs[tab.."tab"]:setStyleSheet(avaletUI.CSS.MenuTabCurrentCSS:getCSS())
+  avaletUI.chats.tabs[tabIndex]:setStyleSheet(avaletUI.CSS.MenuTabCurrentCSS:getCSS())
+  
+  -- der Inhalt des neuen "currentTab" wird aktualisiert
+  raiseEvent("RefreshChatUI", avaletUI.chats.listOfDisplayedTabs[avaletUI.chats.currentTabIndex])
   
   --[[
-  Wenn der "aktuelle Tab" der Sammeltab ist, dann sollen alle Tabs, die dort angezeigt
-  werden, auch als "aktueller Tab" markiert werden.]]
-  if avalet.chats.currentTab == avalet.chats.collectionTab then
-    for _,v in pairs(avalet.chats.collectionList) do
-      avaletUI.chats.tabs[v.."tab"]:setStyleSheet(avaletUI.CSS.MenuTabCurrentCSS:getCSS())
+  Wenn der neue "aktuelle Tab" der Sammeltab ist, dann sollen alle Tabs, die dort
+  angezeigt werden, auch als "aktueller Tab" markiert werden.]]
+  if avaletUI.chats.currentTabIndex == avaletUI.chats.sumTabIndex then
+    for _,v in pairs(avaletUI.chats.listOfSummedTabs) do
+      local index = table.index_of(avaletUI.chats.listOfDisplayedTabs, v)
+      if index ~= nil then avaletUI.chats.tabs[index]:setStyleSheet(avaletUI.CSS.MenuTabCurrentCSS:getCSS()) end
+    end
+  --[[
+  Wenn der aktuelle Tab dagegen nicht der Sammeltab ist, aber auf einem der Tabs, die
+  auf dem Sammeltab angezeigt werden, eine ungelesene Nachricht ist, dann soll der 
+  Sammeltab auch als "hat neue Nachrichten" gekennzeichnet sein. Außerdem werden hier
+  alle Tabs aus der listOfTabsWithUnreadEntries entsprechend markiert. ]]
+  else
+    for i, j in pairs(avaletUI.chats.listOfTabsWithUnreadEntries) do
+      for k,v in pairs(avaletUI.chats.listOfSummedTabs) do
+        if j == v then avaletUI.chats.tabs[avaletUI.chats.sumTabIndex]:setStyleSheet(avaletUI.CSS.MenuTabMarkedCSS:getCSS()) end
+      end
+
+      local index = table.index_of(avaletUI.chats.listOfDisplayedTabs, j)
+      avaletUI.chats.tabs[index]:setStyleSheet(avaletUI.CSS.MenuTabMarkedCSS:getCSS())
     end
   end
     
@@ -9766,59 +9700,35 @@ Damit die User wissen, dass auf einem (grade nicht aktivierten) Tab neue Nachric
 eingegangen sind, erhalten diese Tabs eine Markierung, also eine eigene Formatierung.
 Die wird zurück gesetzt, wenn der Tab aktiviert wird. ]]
 function avaletUI.chats.markTab(tab)
-  avalet.log("Function avaletUI.chats.markTab()", 1)
-
-  --Manche Kanäle haben keinen Tab, der wäre dann hier "nil" (gebrüll z.b.)
-  if avaletUI.chats.tabs[tab.."tab"] == nil then
-    avalet.log("Tab zum Markieren ist nil: "..tab, 2)
-  elseif avaletUI.CSS.MenuTabMarkedCSS == nil then
-    avalet.log("CSS zum Markieren ist nil: "..tab, 2)
-  else
+  avalet.log("Function avaletUI.chats.markTab() mit Parameter: "..tostring(tab), 1)
   
-    local isOnCollectionTab = false
-  
-    --[[
-    Wenn der aktuell angezeigte Tab der Sammeltab ist, und eine neue
-    Nachricht für einen Tab eingeht, der auf dem Sammeltab angezeigt
-    wird, dann darf dieser Tag nicht als "hat neue Nachrichten" markiert
-    werden. Da er ja als "aktiver Tab" markiert ist. ]]
-    if avalet.chats.currentTab == avalet.chats.collectionTab then
+  local tabName = tab
+  local tabIndex = table.index_of(avaletUI.chats.listOfDisplayedTabs, tab)
 
-      for _,v in pairs(avalet.chats.collectionList) do
-        if v == tab then
-          isOnCollectionTab = true
-
-          break
-        end
-      end--for
-      
-    --[[
-    Wenn eine Nachricht für einen Tab eingeht, der auf dem Sammeltab auch
-    angezeigt wird, dann sollen beide Tabs markiert werden.]]
-    else
-
-      for _,v in pairs(avalet.chats.collectionList) do
-        if v == tab then
-          avaletUI.chats.tabs[avalet.chats.collectionTab.."tab"]:setStyleSheet(avaletUI.CSS.MenuTabMarkedCSS:getCSS())
-          break
-        end
-      end--for
-
-    end--if
-
-    if isOnCollectionTab == false then
-
-      -- doubletten entfernen    
-      for i, j in pairs(avalet.chats.hasNewEntries) do
-        if j == tab then
-          table.remove(avalet.chats.hasNewEntries, i)
-        end
-      end
-      table.insert(avalet.chats.hasNewEntries, tab)
-      avaletUI.chats.tabs[tab.."tab"]:setStyleSheet(avaletUI.CSS.MenuTabMarkedCSS:getCSS())
-    end
-
+  -- Manche Kanäle haben keinen Tab, der wäre dann hier "nil".
+  if tabIndex == nil then 
+    avalet.log("Tab zum Markieren ist nil: "..tostring(tabName), 2)
+    return
   end
+  
+  -- Wenn der zu markierende Tab auch auf dem Sammeltab angezeigt wird, ...
+  if table.index_of(avaletUI.chats.listOfSummedTabs, tabName) ~= nil then
+    -- ..., der aktuelle Tab aber nicht der Sammeltab ist, ...
+    if avaletUI.chats.currentTabIndex ~= avaletUI.chats.sumTabIndex then
+      -- ... dann soll auch der Sammeltab mit markiert werden.
+      avaletUI.chats.tabs[avaletUI.chats.sumTabIndex]:setStyleSheet(avaletUI.CSS.MenuTabMarkedCSS:getCSS())
+    end
+  end
+  
+  -- doubletten entfernen    
+  for i, j in pairs(avaletUI.chats.listOfTabsWithUnreadEntries) do
+    if j == tabName then
+      table.remove(avaletUI.chats.listOfTabsWithUnreadEntries, i)
+    end
+  end
+
+  table.insert(avaletUI.chats.listOfTabsWithUnreadEntries, tabName)
+  avaletUI.chats.tabs[tabIndex]:setStyleSheet(avaletUI.CSS.MenuTabMarkedCSS:getCSS())
 
 end --function avaletUI.chats.markTab(tab)
 
@@ -9835,11 +9745,21 @@ function avaletUI.onRefreshChatUI(_, channel)
   local date = ""
   local line = ""
   
+  local currentTabName = avaletUI.chats.listOfDisplayedTabs[avaletUI.chats.currentTabIndex]
+
+  --[[
+  Hier wird ermittelt, ob es der aktuell angezeigte Tab ist, für den die neue Nachricht
+  ist. Das kann einmal so sein, weil es eben der aktuelle Tab ist, auf dessen Kanal eine
+  neue Nachricht eingetroffen ist. Das kann aber auch sein, wenn der aktuelle Tab der
+  Sammeltab ist, und der Kanal der neuen Nachricht dort angezeigt wird. ]]
   local function currentTabNeedsUpdate()
     local value = false
-    if avalet.chats.currentTab == channel then value = true end
-    if avalet.chats.currentTab == avalet.chats.collectionTab then
-      for _,v in pairs(avalet.chats.collectionList) do
+    -- Ist der aktuelle Tab der Tab des Kanals?
+    if currentTabName == channel then value = true; return value end
+    -- Ist der aktuelle Tab der Sammeltab ...
+    if avaletUI.chats.currentTabIndex == avaletUI.chats.sumTabIndex then
+      -- ... und wird der Kanal der neuen Nachricht dort angezeigt?
+      for _,v in pairs(avaletUI.chats.listOfSummedTabs) do
         if v == channel then
           value = true
           break
@@ -9848,148 +9768,243 @@ function avaletUI.onRefreshChatUI(_, channel)
     end --if
     return value
   end
-  
-  
-  -- Wenn für den aktuell angezeigten Tab eine neue Nachricht eingeht ...
-  if currentTabNeedsUpdate() then
-    avalet.log("Der aktuelle TAB wird aktualisiert.", 1)
-
-    --... wird erstmal der alte Inhalt gelöscht.
-    clearWindow("avaletUI.chats.miniConsole")
-    avaletUI.chats.miniConsole:echo(" ")
-    clearWindow("avaletUI.chats.miniConsole")
-
-    --[[ 
-    Einträge aus der hasNewEntries-Liste entfernen, wenn der aktuelle
-    Tab der Sammeltab ist und in der Liste Tabs stehen, die hier angezeigt
-    werden. ]]    
-    if channel == avalet.chats.collectionTab then
-      for _,v in pairs(avalet.chats.collectionList) do
-        for k, j in pairs(avalet.chats.hasNewEntries) do
-          if j == v then
-            table.remove(avalet.chats.hasNewEntries, k)
-          end -- if
-        end -- for
-      end -- for
-    end -- if
-
-    -- Dann wird für jede Zeile in der ChatTab-Tabelle ...
-    --for _,v in pairs(avalet.chats.chats[channel]) do
-    for _,v in pairs(avalet.chats.chats[avalet.chats.currentTab]) do
-    
-
-      -- ... zunächst das Datum extrahiert. (Aus dem Timestamp am Anfang der Zeile.)
-      date = string.gsub(v, "^%[(%d+%.%d+%.%d+) %- %d+:%d+:%d+%.%d+%]: .*$", "%1", 1)
-      
-      --[[
-      Wenn der Tab noch ganz leer ist, dann wird als erste Zeile das Datum des ersten Eintrags
-      angezeigt. Und dann jedesmal wieder, wenn sich das Datum ändert. (Also um Mitternacht.) 
-      VOR diesen Datumszeilen wird eine Leerzeile ausgegeben - nur ganz am Anfang nicht. NACH
-      diesen Datumszeilen wird immer eine Leerzeile ausgegeben. ]]
-      
-      --[[
-      Die Trenn- bzw. Datumslinie richtet sich in der Breite nach dem 
-      zur Verfügung stehenden Platz. ]]
-      local i = math.floor((avaletUI.chats.miniConsole:getColumnCount() - 16) / 4)
-
-      local filler = ""
-      if i &gt; 0 then
-        for j=0, i, 1 do
-          filler = filler .. "~ "
-        end
-        filler = string.trim(filler)
-      end
-      
-      if lastdate ~= date then
-        -- Am Anfang ist "lastdate" noch leer, dann keine Leerzeile
-        if lastdate ~= "" then content = "\n" end
-        content = content .. filler .. "   " .. date .. "   " .. filler .. "\n\n"
-        lastdate = date
-      end
-      
-      -- Die eigentliche Zeile besteht nur aus dem Zeitstempel und dem eigentlichen Text
-      line = string.gsub(v, "^%[%d+%.%d+%.%d+ %- (%d+:%d+:%d+)%.%d+%]: (.*)$", "%1: %2", 1)
-      content = content .. line .. "\n"
- 
-      --[[
-      In Mudlet Version 4.8 konnte "echo()" plötzlich nur noch 10k Zeichen auf einmal ausgeben.
-      So weit ich das mitbekommen habe, wurde diese Änderung wieder zurückgenommen. Aber in 
-      den wenigen Tagen, in denen Avalet deshalb nicht funktionierte, hab ich den Bug halt 
-      schon gefixt. Und jetzt lass ich es so.
-      Hier wird also nach 8k Zeichen der Content einmal ausgegeben (und dann geleert). ]]
-      if #content &gt; 8000 then
-        avaletUI.chats.miniConsole:echo(content)
-        content = ""
-      end
-    end
-    
-    -- Zum Schluss wird noch der Rest vom Content ausgegeben, also alles unter 8k Zeichen.
-    if content ~= "" then
-      avaletUI.chats.miniConsole:echo(content)
-    end
 
   --[[ 
-  Wenn hingegen die Nachricht, die eingeht, NICHT für den aktuell angezeigten Tab ist, dann
-  wird einfach nur der entsprechende Tab farbig markiert. Damit der User sieht, dass da noch
+  Wenn die Nachricht, die eingeht, NICHT für den aktuell angezeigten Tab ist, dann wird
+  einfach nur der entsprechende Tab farbig markiert. Damit der User sieht, dass da noch
   ungelesene Nachrichten sind. ]]
-	else
-    avaletUI.chats.markTab(channel)
-	end
+	if not currentTabNeedsUpdate() then avaletUI.chats.markTab(channel); return end
+
+  --[[
+  Wenn die neue Nachricht allerdings für den aktuell angezeigten Tab ist, dann geschieht
+  deutlich mehr. ]]
+  avalet.log("Der aktuelle TAB wird aktualisiert.", 1)
+
+  -- Erstmal werden die alten Inhalte von der Miniconsole gelöscht
+  clearWindow("avaletUI.chats.miniConsole")
+  avaletUI.chats.miniConsole:echo(" ")
+  clearWindow("avaletUI.chats.miniConsole")
+  
+  --[[ 
+  Einträge aus der hasNewEntries-Liste entfernen, wenn der aktuelle
+  Tab der Sammeltab ist und in der hasNewEntries-Liste Tabs stehen, 
+  die auf dem Sammeltab angezeigt werden. ]]
+  if channel == avalet.CONSTS.SUMMING_TAB_NAME then
+    for _,v in pairs(avaletUI.chats.listOfSummedTabs) do
+      for k, j in pairs(avaletUI.chats.listOfTabsWithUnreadEntries) do
+        if j == v then
+          table.remove(avaletUI.chats.listOfTabsWithUnreadEntries, k)
+        end -- if
+      end -- for
+    end -- for
+  end -- if
+
+  -- Dann wird für jede Zeile in der ChatTab-Tabelle ...
+  for _,v in pairs(avalet.chats.chats[channel]) do
+
+    -- ... zunächst das Datum extrahiert. (Aus dem Timestamp am Anfang der Zeile.)
+    date = string.gsub(v, "^%[(%d+%.%d+%.%d+) %- %d+:%d+:%d+%.%d+%]: .*$", "%1", 1)
+    
+    --[[
+    Wenn der Tab noch ganz leer ist, dann wird als erste Zeile das Datum des ersten Eintrags
+    angezeigt. Und dann jedesmal wieder, wenn sich das Datum ändert. (Also um Mitternacht.) 
+    VOR diesen Datumszeilen wird eine Leerzeile ausgegeben - nur ganz am Anfang nicht. NACH
+    diesen Datumszeilen wird immer eine Leerzeile ausgegeben. ]]
+    
+    --[[
+    Die Trenn- bzw. Datumslinie richtet sich in der Breite nach dem 
+    zur Verfügung stehenden Platz. ]]
+    local i = math.floor((avaletUI.chats.miniConsole:getColumnCount() - 16) / 4)
+
+    local filler = ""
+    if i &gt; 0 then
+      for j=0, i, 1 do
+        filler = filler .. "~ "
+      end
+      filler = string.trim(filler)
+    end
+    
+    if lastdate ~= date then
+      -- Am Anfang ist "lastdate" noch leer, dann keine Leerzeile
+      if lastdate ~= "" then content = "\n" end
+      content = content .. filler .. "   " .. date .. "   " .. filler .. "\n\n"
+      lastdate = date
+    end
+    
+    -- Die eigentliche Zeile besteht nur aus dem Zeitstempel und dem eigentlichen Text
+    line = string.gsub(v, "^%[%d+%.%d+%.%d+ %- (%d+:%d+:%d+)%.%d+%]: (.*)$", "%1: %2", 1)
+    content = content .. line .. "\n"
+
+    --[[
+    In Mudlet Version 4.8 konnte "echo()" plötzlich nur noch 10k Zeichen auf einmal ausgeben.
+    So weit ich das mitbekommen habe, wurde diese Änderung wieder zurückgenommen. Aber in 
+    den wenigen Tagen, in denen Avalet deshalb nicht funktionierte, hab ich den Bug halt 
+    schon gefixt. Und jetzt lass ich es so.
+    Hier wird also nach 8k Zeichen der Content einmal ausgegeben (und dann geleert). ]]
+    if #content &gt; 8000 then
+      avaletUI.chats.miniConsole:echo(content)
+      content = ""
+    end
+  end
+  
+  -- Zum Schluss wird noch der Rest vom Content ausgegeben, also alles unter 8k Zeichen.
+  if content ~= "" then
+    avaletUI.chats.miniConsole:echo(content)
+  end
   
 end --function avaletUI.onRefreshChatUI(_, channel)
 registerAnonymousEventHandler("RefreshChatUI", "avaletUI.onRefreshChatUI")
 
 
 --[[
-work in progress... ]]
-function avaletUI.rightClickMenueTable()
+Zu jedem Tab gibt es ein Kontextmenü. Beim Sammeltab können in dem Menü die Kanäle
+ausgewählt werden, die auf dem Sammeltab angezeigt werden sollen. Bei den anderen
+Tabs kann der Kanal gewählt werden, der auf diesem Tab angezeigt werden soll. ]]
+function avaletUI.addRightClickMenue(intTabIndex, strTabName)
+avalet.log("function avaletUI.addRightClickMenue(strTabName): "..tostring(strTabName), 1) 
 
--- Geyser.Label:addMenuLabel (name, parent, index)
+  local tabIndex = tonumber(intTabIndex)
+  local tabName = strTabName
 
-  local menuTable = {}
+  -- Zuerst wird ein leeres Menü erzeugt und das Layout festgelegt.
+  avaletUI.chats.tabs[tabIndex]:createRightClickMenu(
+      {MenuItems = {}, 
+      MenuWidth = 150, 
+      MenuFormat = "l10",
+      MenuStyle = [[
+        QLabel::hover{ 
+            background-color: rgba(96,96,96,255);
+            color: white;} 
+        QLabel::!hover{
+            color: black; 
+            background-color: rgba(96,96,96,255);
+        } 
+      ]]})
+
+  -- anschließend werden die leeren Menüs befüllt.
+  local CHANNELS = avalet.CONSTS.CHANNELS                -- alle verfügbaren Kanäle
+  local chatTabs = avaletUI.chats.tabs                   -- die Kanäle, zu denen es derzeit einen Tab gibt
+  local collectionList = avaletUI.chats.listOfSummedTabs   -- Kanäle die auf dem Sammeltab angezeigt werden
   
-  local tabs = avalet.profile:getChatTabsList()
-  
-  local channels = avalet.CONSTS.CHANNELS
-  
-  for i, j in tabs do
-    for k, l in channels do
-      local submenu = channels
-      if j=="Sammeltab" then
-        if l == true then
-          l = "Kreuz"..l
-        else
-          l = "Kaestchen"..l
+  -- Der Sammeltab bekommt ein Menü, in dem mehrere Elemente ausgewählt werden können
+  if tabIndex == avaletUI.chats.sumTabIndex then
+
+    --[[
+    Alle Elemente aus der Channel-Konstante sollen angezeigt werden. Manche sind schon ausgewählt,
+    andere sind es nicht. Das wird mit einem entsprechenden Symbol (Kästen mit Kreuz, Kästchen ohne
+    Kreuz) symbolisiert. Die schon ausgewählten Kanäle stehen in der 'collectionList'. Hier wird
+    jetzt die Liste aller Kanäle einmal mit der Liste der schon gewählten Kanäle abgeglichen und 
+    das entsprechende Symbol hinzugefügt. ]]  
+    for channelIndex=1, #CHANNELS do
+    
+      -- der aktuelle Kanal-Name
+      local channelName = CHANNELS[channelIndex]
+
+      local isItemInList = false
+      local menuLabelName = ""
+      
+      for k,v in pairs(collectionList) do
+      
+        if channelName == v then
+          -- &amp;#9746; ist ein Kästchen mit Kreuz drin.
+          menuLabelName = "&amp;nbsp;&amp;#9746;&amp;nbsp;"..channelName
+          -- Der Menüeintrag wird hinzugefügt und...
+          avaletUI.chats.tabs[tabIndex]:addMenuLabel(menuLabelName)
+          --[[
+          ... mit Funktionalität versehen. Beim Auswählen des
+          Menüpunkes wird die Funktion hier ausgeführt. Die
+          selbst nur eine Funktion (weiter unten) ausführt. ]]
+          avaletUI.chats.tabs[tabIndex]:setMenuAction((menuLabelName), function() avaletUI.toggleMenuEntry(channelName, menuLabelName) end)
+          isItemInList = true
+          break
         end
       end
-      if j~="Sammeltab" and j==l then
-        if l == true then
-          l = "Punkt"..l
-        else
-          l = "Kreis"..l
-        end
+  
+      if isItemInList == false then
+        -- &amp;#9744; ist ein Kästchen ohne Kreuz
+        menuLabelName = "&amp;nbsp;&amp;#9744;&amp;nbsp;"..channelName
+        avaletUI.chats.tabs[tabIndex]:addMenuLabel(menuLabelName)
+        avaletUI.chats.tabs[tabIndex]:setMenuAction(menuLabelName, function() avaletUI.toggleMenuEntry(channelName, menuLabelName) end)
+      end    
+    end    
+    
+    
+    
+    -- Sammeltab mit Summenzeichen versehen
+    --avaletUI.chats.tabs[tab.."tab"]:echo("&lt;center&gt;&amp;sum;")
+  -- die normalen Tabs bekommen ein Menü, in dem jeweils nur eine Option gewählt werden kann  
+  else
+  
+     --for u,w in pairs(CHANNELS) do
+     for i=1, #CHANNELS, 1 do
+    
+      local w = CHANNELS[i]
+  
+      if w == tabName then
+        -- &amp;#10687; (Kreis mit Punkt drin).
+        menuLabelName = "&amp;nbsp;&amp;#10687;&amp;nbsp;"..w
+      else
+        -- &amp;#9711; (großer Kreis)     
+        menuLabelName = "&amp;nbsp;&amp;#9711;&amp;nbsp;"..w
       end
+       -- Der Menüeintrag wird hinzugefügt und...
+      --table.insert(menuTable, MenuLabelName)
+      avaletUI.chats.tabs[tabIndex]:addMenuLabel(menuLabelName)
+      -- ... mit Funktionalität versehen. Beim Auswählen des
+      -- Menüpunkes wird die Funktion hier ausgeführt. Die
+      -- selbst nur eine Funktion ausführt.
+      avaletUI.chats.tabs[tabIndex]:setMenuAction((menuLabelName), function() avaletUI.changeTabContext(tabIndex, tabName, w) end)
     end
-  end
-
-
--- &amp;#9746; ist ein Kästchen mit Kreuz drin.
---menuLabelName = "&amp;nbsp;&amp;#9746;&amp;nbsp;"..v
--- &amp;#9744; ist ein Kästchen ohne Kreuz
---menuLabelName = "&amp;nbsp;&amp;#9744;&amp;nbsp;"..v
-
---&amp;#10687; (Kreis mit Punkt drin)
---&amp;#10686; (Nur Kreis)
-
-
-  menuTable = {
-      "Sammeltab", {"","",""},
-      "Laber", {},
-      "", {},
-  }
+  end  
   
+end
+
+
+function avaletUI.changeTabContext(intTabIndex, strTabName, strNewContext)
+  avalet.log("Function avaletUI.changeTabContext(intTabIndex, strTabName): "..tostring(intTabIndex)..", "..tostring(strTabName), 1)
+
+  local index = intTabIndex
+  local tab = strTabName
+  local newContext = strNewContext
+
+  avalet.profile.changeTabContext(index, newContext)
+  -- alten Eintrag
+  avaletUI.chats.tabs[index]:hideMenuLabel("&amp;nbsp;&amp;#10687;&amp;nbsp;"..strTabName)
+  -- neuen Eintrag
+  avaletUI.chats.tabs[index]:hideMenuLabel("&amp;nbsp;&amp;#9711;&amp;nbsp;"..strNewContext)
+  avalet.createChatModel()
+  avaletUI.buildChatUI()
   
-  return menuTable
+end
+
+--[[
+Hier werden die Einträge im Konfigurations-Menü geändert. Konkret gibt
+es die Liste mit den Tabs, die aktuell auf dem Sammeltab angezeigt werden.
+Und wenn der User im Menü einen Tab hinzufügt oder entfernt, dann wird
+hier die Liste entsprechend aktualisiert. Anschließend muss die Oberfläche
+neu gebaut werden, damit diese Veränderung auch sichtbar wird. Und da
+der vom User ausgewählte Menüpunkt dabei sichtbar bleibt, wird er hier
+extra ausgeblendet. ]]
+function avaletUI.toggleMenuEntry(entryValue, menuLabelName)
+  avalet.log("Function avaletUI.toggleMenuEntry(...)", 1)
+  
+  local keyToRemove = nil
+  keyToRemove = table.index_of(avaletUI.chats.listOfSummedTabs, entryValue)
+  if keyToRemove == nil then
+    table.insert(avaletUI.chats.listOfSummedTabs, entryValue)
+  else
+    table.remove(avaletUI.chats.listOfSummedTabs, keyToRemove)
+  end  
+
+  --[[
+  Das Kontextmenü wird automatisch geschlossen, aber der ausgewählte Eintrag
+  blieb immer sichtbar. Der wird hier deshalb extra ausgeblendet. ]]
+  --closeAllLevels(avaletUI.chatsConfig)
+  avaletUI.chats.tabs[avaletUI.chats.sumTabIndex]:hideMenuLabel(menuLabelName)
+
+  avalet.createChatModel()
+  avaletUI.buildChatUI()
+
 end
 </script>
 				<eventHandlerList />
