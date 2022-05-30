@@ -713,8 +713,10 @@ avalet.char.setFluch(false)
 					<string>hat Dich entflucht.</string>
 					<string>Der Fluch scheint von Dir gewichen zu sein.</string>
 					<string>Du spuerst, wie eine grosse Last von Dir faellt.</string>
+					<string>Die Flammen auf Deinem Koerper erloeschen.</string>
 				</regexCodeList>
 				<regexCodePropertyList>
+					<integer>0</integer>
 					<integer>0</integer>
 					<integer>0</integer>
 					<integer>0</integer>
@@ -1052,7 +1054,7 @@ Trigger überschreiben oder so wenn eine Bonusstunde gestartet wird.)]]</script>
 		</TriggerGroup>
 	</TriggerPackage>
 	<TimerPackage>
-		<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+		<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
 			<name>avaletTimersTimer</name>
 			<script>--[[
 Timer-Timer
@@ -1086,7 +1088,7 @@ _ = sendATCP("ava_req_update")</script>
 			<packageName></packageName>
 			<time>00:00:05.000</time>
 		</Timer>
-		<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+		<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
 			<name>tickTimerTimer</name>
 			<script>--
 -- Dieser Timer sorgt für die Anzeige des "Ticks", das ist
