@@ -713,8 +713,10 @@ avalet.char.setFluch(false)
 					<string>hat Dich entflucht.</string>
 					<string>Der Fluch scheint von Dir gewichen zu sein.</string>
 					<string>Du spuerst, wie eine grosse Last von Dir faellt.</string>
+					<string>Die Flammen auf Deinem Koerper erloeschen.</string>
 				</regexCodeList>
 				<regexCodePropertyList>
+					<integer>0</integer>
 					<integer>0</integer>
 					<integer>0</integer>
 					<integer>0</integer>
@@ -1052,7 +1054,7 @@ Trigger überschreiben oder so wenn eine Bonusstunde gestartet wird.)]]</script>
 		</TriggerGroup>
 	</TriggerPackage>
 	<TimerPackage>
-		<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+		<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
 			<name>avaletTimersTimer</name>
 			<script>--[[
 Timer-Timer
@@ -1086,7 +1088,7 @@ _ = sendATCP("ava_req_update")</script>
 			<packageName></packageName>
 			<time>00:00:05.000</time>
 		</Timer>
-		<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+		<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
 			<name>tickTimerTimer</name>
 			<script>--
 -- Dieser Timer sorgt für die Anzeige des "Ticks", das ist
@@ -1545,9 +1547,8 @@ function avalet.getHelp()
   hilfe = hilfe .. " | den allermeisten Umstaenden sollte er zuverlaessig funktionieren.        |\n"
   hilfe = hilfe .. " |                                                                          |\n"
   hilfe = hilfe .. " | Bei den Kommunikations-Tabs findet sich ein Sammel-Tab, auf dem der      |\n"
-  hilfe = hilfe .. " | Inhalt mehrerer Kanaele angezeigt werden kann. Konfigurieren kannst du   |\n"
-  hilfe = hilfe .. " | dir das, indem du mit der RECHTEN Maustaste auf das Zahnrad-Symbol       |\n"
-  hilfe = hilfe .. " | klickst.                                                                 |\n"
+  hilfe = hilfe .. " | Inhalt mehrerer Kanaele angezeigt werden kann. Du kannst dir die Tabs    |\n"
+  hilfe = hilfe .. " | in deren Kontextmenue (rechte Maustaste) konfigurieren.                  |\n"
   hilfe = hilfe .. " |                                                                          |\n"
   hilfe = hilfe .. " | Fuer Runenschmiede gibt es eine Anzeige von beschaedigter Ausruestung    |\n"
   hilfe = hilfe .. " | und beschaedigten Runen. Diese Anzeige reagiert auf 'ruebersicht' und    |\n"
@@ -9737,13 +9738,15 @@ end --function avaletUI.chats.markTab(tab)
 Diese Funktion aktualisiert die Anzeige. Sie wird immer ausgeführt,
 wenn das ChatModel geändert wurde, also wenn auch auf der Oberfläche
 eine Änderung zu erkennen sein soll. ]]
-function avaletUI.onRefreshChatUI(_, channel)
-  avalet.log("Function avaletUI.onRefreshChatUI() mit Parameter "..channel, 1)
+function avaletUI.onRefreshChatUI(_, chan)
+  avalet.log("Function avaletUI.onRefreshChatUI() mit Parameter "..chan, 1)
 
   local content = ""
   local lastdate = ""
   local date = ""
   local line = ""
+  
+  local channel = chan
   
   local currentTabName = avaletUI.chats.listOfDisplayedTabs[avaletUI.chats.currentTabIndex]
 
@@ -9762,6 +9765,7 @@ function avaletUI.onRefreshChatUI(_, channel)
       for _,v in pairs(avaletUI.chats.listOfSummedTabs) do
         if v == channel then
           value = true
+          channel = avalet.CONSTS.SUMMING_TAB_NAME
           break
         end --if
       end --for
