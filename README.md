@@ -120,8 +120,9 @@ Avalet ist als "Avalon-GUI für jedermensch" gedacht. Die Funktionalität soll e
            |                                                        | |
            \________________________________________________________\_/
             |                                                       |
-            |   "Ich habe Dich bereits erwartet."                   |_
-            |                              Ein Balrog über Avalet   | |
+            |  "Frag nicht, was dein MUD fuer dich tun kann -       |
+            |   frag, was du fuer dein MUD tun kannst."             |_
+            |                        John F. Kennedy ueber Avalet   | |
             \_______________________________________________________\_/
 
 ```
