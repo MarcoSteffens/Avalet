@@ -1054,7 +1054,7 @@ Trigger überschreiben oder so wenn eine Bonusstunde gestartet wird.)]]</script>
 		</TriggerGroup>
 	</TriggerPackage>
 	<TimerPackage>
-		<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+		<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
 			<name>avaletTimersTimer</name>
 			<script>--[[
 Timer-Timer
@@ -1088,7 +1088,7 @@ _ = sendATCP("ava_req_update")</script>
 			<packageName></packageName>
 			<time>00:00:05.000</time>
 		</Timer>
-		<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+		<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
 			<name>tickTimerTimer</name>
 			<script>--
 -- Dieser Timer sorgt für die Anzeige des "Ticks", das ist
@@ -2156,7 +2156,7 @@ objCharacter.new = function()
   self.setFlucht = function(newFlucht) flucht = newFlucht end
   self.getSchutz = function() return schutz end
   self.setSchutz = function(newSchutz) schutz = newSchutz end
-  --self.getGruppenname = function() return gruppenname end
+  self.getGruppenname = function() return gruppenname end
   self.setGruppenname = function(newGruppenname) gruppenname = newGruppenname end
   --self.getZaubern = function() return zaubern end
 
@@ -2173,7 +2173,7 @@ objCharacter.new = function()
   self.setZaubern = function(newZaubern) zaubern = newZaubern end
 
   self.getStats = function() return stats end
-  --self.getStatsTP = function() return stats.tp end
+  self.getStatsTP = function() return stats.tp end
   self.setStatsTP = function(newTP)
     if stats.tp ~= newTP then 
       stats.tp = newTP
@@ -2307,7 +2307,7 @@ objCharacter.new = function()
     avalonRoomHash = str
     ]]  
   end
-  --self.getAvalonRoomHash = function() return avalonRoomHash end
+  self.getAvalonRoomHash = function() return avalonRoomHash end
   self.setAvalonRoomHash = function(newAvalonRoomHash)
     avalet.log("Function char:setAvalonRoomHash", 1)
     --cecho("&lt;magenta&gt;roomHash: "..newAvalonRoomHash.."\n")
@@ -2891,7 +2891,7 @@ extrem" und "minimal".
     else
       self.removeOpponentFromFight(oppStopWatchName, opponentID)
       if self.fightHasNoOpponents(oppStopWatchName) then 
-        removeFight(oppStopWatchName) 
+        self.removeFight(oppStopWatchName) 
         deleteStopWatch(oppStopWatchName)
       end
       return
@@ -9210,7 +9210,7 @@ function avaletUI.buildRuniGuildInfoUI()
   anzuzeigen sind. Plus 1, wegen dem Item-Namen. Aber nicht weniger als 5, sonst
   siehts komisch aus. ]]
   local symbolHeight = defaultFontHeight * math.max(tonumber(avalet.guildInfo.runiGuildInfoModel.maxNumbDispRunes)+1, 5)
-  
+
   local mainContainerX = nil
   local mainContainerY = nil
   local mainContainerWidth = nil
@@ -9356,10 +9356,10 @@ function avaletUI.buildRuniGuildInfoUI()
         end
 
         itemText = itemText..[[
-          &lt;tr &gt;            
-            &lt;td style="padding-right: 5px; padding-left: 5px; text-align: center; color: ]]..fontSymbColor..[[;background-color: ]]         ..fontDingsbumsColor..[[;"&gt;]]..k.rChargeSymbol..[[&lt;/td&gt;
+          &lt;tr style="border: 0px none black;"&gt;            
+            &lt;td style="border:0px none black;padding-right: 5px; padding-left: 5px; padding-top: 0px; padding-bottom:0px; margin:0px; text-align: center; color: ]]..fontSymbColor..[[;background-color: ]]         ..fontDingsbumsColor..[[;"&gt;]]..k.rChargeSymbol..[[&lt;/td&gt;
             &lt;!--td style="background-color: ]]         ..fontDingsbumsColor..[[;"&gt;&amp;nbsp;&amp;nbsp;&lt;/td--&gt;
-            &lt;td style="text-align: left; color: ]]..fontRuneColor..[[;"&gt;&amp;nbsp;]]..string.gsub(k.rName, "(.*)rune", "%1")..[[&lt;/td&gt;
+            &lt;td style="border:0px none black;padding: 0px; margin: 0px;text-align: left; color: ]]..fontRuneColor..[[;"&gt;&amp;nbsp;]]..string.gsub(k.rName, "(.*)rune", "%1")..[[&lt;/td&gt;
           &lt;/tr&gt;
         ]]
 
