@@ -1,7 +1,5 @@
 # Avalet
 
-> **Die neue Version von Avalet lässt sich nicht problemlos über die alte Version installieren. Ich empfehle, mit einem neuen, sauberen Profil zu beginnen. Alternativ wäre das alte Modul 'Avalet' zu deinstallieren, dann Mudlet neu starten, dann die neue Version von Avalet installieren.**
-
 Avalet ist ein Module für den Mud-Client [Mudlet](https://www.mudlet.org/) und das MUD [Avalon](https://avalon.mud.de/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
 
 ![aktueller Screenshot](latest_screenshot.png)
