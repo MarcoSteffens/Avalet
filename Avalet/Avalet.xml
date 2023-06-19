@@ -432,8 +432,10 @@ _ = sendATCP("ava_req_update")
 				<string>Du bist gesaettigt</string>
 				<string>Es schwappt und gluckert in Deinem Bauch.</string>
 				<string>Du hast ausreichend gegessen.</string>
+				<string>Du hast ausreichend getrunken.</string>
 			</regexCodeList>
 			<regexCodePropertyList>
+				<integer>0</integer>
 				<integer>0</integer>
 				<integer>0</integer>
 				<integer>0</integer>
@@ -878,8 +880,10 @@ tempTimer(0.2, [[ send(move, true) ]])
 				<string>^(Du musst hier schon (klettern), um weiterzukommen!)$</string>
 				<string>^(Dort musst Du (nicht) mehr klettern\.)$</string>
 				<string>^(Du musst hier (nicht) schwimmen\.)$</string>
+				<string>^(Das habe ich (nicht) verstanden. Meintest Du: \"kletter .\"\?)$</string>
 			</regexCodeList>
 			<regexCodePropertyList>
+				<integer>1</integer>
 				<integer>1</integer>
 				<integer>1</integer>
 				<integer>1</integer>
@@ -1052,6 +1056,51 @@ Trigger überschreiben oder so wenn eine Bonusstunde gestartet wird.)]]</script>
 				</regexCodePropertyList>
 			</Trigger>
 		</TriggerGroup>
+		<Trigger isActive="no" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>Artus</name>
+			<script>
+raiseGlobalEvent("avaletSendAllProfiles", "WARN", "Artus", "Und wird Dich gleich rausschmeissen!")
+
+</script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList>
+				<string>Artus warnt Dich.*</string>
+			</regexCodeList>
+			<regexCodePropertyList>
+				<integer>1</integer>
+			</regexCodePropertyList>
+		</Trigger>
+		<Trigger isActive="no" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>Armageddon</name>
+			<script>
+raiseGlobalEvent("avaletSendAllProfiles", "WARN", "ARMAGEDDON", "Und macht hier gleich das Licht aus!!!")
+</script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#000000</mFgColor>
+			<mBgColor>#ff00ff</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList>
+				<string>^Armageddon ruft.*$</string>
+			</regexCodeList>
+			<regexCodePropertyList>
+				<integer>1</integer>
+			</regexCodePropertyList>
+		</Trigger>
 	</TriggerPackage>
 	<TimerPackage>
 		<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
@@ -1251,14 +1300,43 @@ cecho("&lt;green&gt;"..avalet.getHelp())
 		<Alias isActive="yes" isFolder="no">
 			<name>Laufrichtung</name>
 			<script>--[[
-Hier wollte ich sicherlich dafür sorgen, dass die Laufrichtung auch dann erfasst wird,
-wenn der Spieler tatsächlich das Laufen richtig austippt. TODO ]]
+Hier wird die Laufrichtung auch dann erfasst, wenn der
+Spieler tatsächlich das Laufen richtig austippt. ]]
 mapCapture=nil
-send(matches[1],false)
+--cecho("&lt;magenta&gt;\n&gt;"..matches[1].."&lt;\n")
+
+local key = 0
+--local m = matches[1]
+
+if rex.find(matches[1], '^(sw|s(ue|ü)dwest(en)?)$') then
+  key = 1
+elseif rex.find(matches[1], '^(s|s(ue|ü)d(en)?)$') then
+  key = 2
+elseif rex.find(matches[1], '^(so|s(ue|ü)dost(en)?)$') then
+  key = 3
+elseif rex.find(matches[1], '^(w|west(en)?)$') then
+  key = 4
+elseif rex.find(matches[1], '^(o|ost(en)?)$') then
+  key = 6
+elseif rex.find(matches[1], '^(nw|nordwest(en)?)$') then
+  key = 7
+elseif rex.find(matches[1], '^(n|nord(en)?)$') then
+  key = 8
+elseif rex.find(matches[1], '^(no|nordost(en)?)$') then
+  key = 9
+elseif rex.find(matches[1], '^(h|hoch)$') then
+  key = 10
+elseif rex.find(matches[1], '^(r|runter)$') then
+  key = 11
+end
+
+--local listOfDirections = {"sw","s","so","w","sc","o","nw","n","no","h","r","rein","raus"}
+--cecho("&lt;magenta&gt;richtung: "..listOfDirections[key].."\n")
+raiseEvent("keyPadEvent", key)
 </script>
 			<command></command>
 			<packageName></packageName>
-			<regex>^(n|norden|s|sueden|o|osten|w|westen|no|nordost|so|suedost|sw|suedwest|nw|nordwest|no|nordosten|so|suedosten|sw|suedwesten|nw|nordwesten)$</regex>
+			<regex>^(n|nord(en)?|s|s(ue|ü)d(en)?|o|ost(en)?|w|west(en)?|no|nordost(en)?|so|s(ue|ü)dost(en)?|sw|s(ue|ü)dwest(en)?|nw|nordwest(en)?|h|hoch|r|runter)$</regex>
 		</Alias>
 		<Alias isActive="yes" isFolder="no">
 			<name>schau</name>
@@ -3448,7 +3526,10 @@ function avalet.initTimer()
     {["name"]="Blaetterhaut", ["start"]="Deine Haut ist nun mit Blaettern bedeckt, die Dir ein angenehmes Klima|Deine Holzhaut ist nun mit Blaettern bedeckt, die Dir ein angenehmes Klima", ["stop"]="Deine Blaetterhaut loest sich auf\\.", ["duration"]="600"},  
     {["name"]="Blutrausch", ["start"]="Du laesst einen fuerchterlichen Urschrei von Dir. Es scheint so, als .*", ["stop"]="Die roetlichen Manawolken loesen sich auf\\.", ["duration"]="600"},
     {["name"]="Daemonenhaut", ["start"]="Du bist nun vollkommen in eine Daemonenhaut eingehuellt\\.", ["stop"]="Deine Daemonenhaut loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Daemonenschutz", ["start"]="Der Bullrik ist bereit, die Dir geltenden Schlaege, abzufangen\\.",["stop"]="Der Bullrik .* hoert auf Dich zu beschuetzen.\\.", ["duration"]="600"},
     {["name"]="Daemonenschwert", ["start"]="Vorsichtig streifst Du mit Deiner Hand ueber (Deinen|Deine|Dein|den)([a-z ,]*)(([A-Za-z\\s]+)\\.)?", ["stop"]="Dein \\w+ verliert seine magische Kraft\\.", ["duration"]="600"},
+    {["name"]="Einstimmung", ["start"]="Du hast Dich nun vollends auf .* eingestimmt\\.", ["stop"]="Du (verlierst|beendest) Deine Einstimmung.*\\.", ["duration"]="600"},
+    {["name"]="EngelBeschwoeren", ["start"]="Dein Ankh blitzt kurz auf und ein Racheengel erhebt sich\\.", ["stop"]="Der Racheengel verschwindet in einer grellen Lichtsaeule\\."},
     {["name"]="Erdaura", ["start"]="Du hebst Deine Haende, beschreibst einen Halbkreis.*|Die Partikel verdichten sich um Dich\\.", ["stop"]="Dein Staubschleier loest sich auf\\.", ["duration"]="600"},
     {["name"]="EP-Verdoppelung", ["start"]="^Du bekommst nun eine Zeit lang erhoehte Erfahrung\\.$", ["stop"]="", ["duration"]="3600"},
     {["name"]="Feueraura", ["start"]="Du senkst Deine Haende, aber der Schutz der Manawolken.*", ["stop"]="Deine Feueraura loest sich auf\\.", ["duration"]="600"},
@@ -3474,7 +3555,7 @@ function avalet.initTimer()
     {["name"]="Manarausch", ["start"]="Dichte Manawolken bilden nun einen gewaltigen Schutz um Dich herum\\.",["stop"]="Dein Manarausch laesst wieder nach\\."},
     {["name"]="Pflanzenblick", ["start"]="Du siehst die Pflanzen um Dich herum jetzt viel klarer\\.", ["stop"]="Dein besonderer Blick fuer die Pflanzen an Deinem Weg verschwindet wieder\\.", ["duration"]="600"},
     {["name"]="Regenerationssegen", ["start"]="Du wirst von einem warmen Leuchten umgeben\\.", ["stop"]="Das Dich umgebende Leuchten erlischt wieder\\.", ["duration"]="600"},
-    {["name"]="Ruestungsverstaerkung", ["start"]="Erfolgreich hast Du Deinen Daemon in Deine Ruestung gebannt\\.",["stop"]=".* loest sich von Deiner Ruestung\\.", ["duration"]="600"},
+    {["name"]="Ruestungsverstaerkung", ["start"]="Erfolgreich hast Du Deinen Daemon in Deine Ruestung gebannt\\.",["stop"]="(.* loest sich von Deiner Ruestung\\.|Daemon aus Deiner Ruestung zu erloesen\\.)", ["duration"]="600"},
     {["name"]="Schild", ["start"]="Du wirst von einem magischen Schild umgeben\\.",["stop"]="Dein magischer Schild loest sich auf\\.", ["duration"]="600"},
     {["name"]="Schwarzschild", ["start"]="Du wirst von einem magischen Schild umgeben, der Dich besser parieren",["stop"]="Dein Schwarzschild loest sich auf\\.", ["duration"]="600"},
     {["name"]="Segen", ["start"]="^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-Za-z\\s]+) beginnt\\, schwach zu( leuchten\\.)?", ["stop"]="(Dein|Deine)([a-z ,]*)([A-z\\s]+) verliert .* magische Kraft.", ["duration"]="600"},
@@ -3483,7 +3564,8 @@ function avalet.initTimer()
     {["name"]="Todesaura", ["start"]="Du senkst Deine Haende, aber der Schutz der schwarzen Schleier.*|Die schwarzen Schleier verdichten sich um Dich\\.",["stop"]="Deine Todesaura loest sich auf\\.", ["duration"]="600"},
     {["name"]="Todkonvertieren", ["start"]="Du wirst von einem heiligen Schutz umgeben\\.", ["stop"]="Dein heiliger Schutz loest sich auf\\.", ["duration"]="600"},
     {["name"]="Trotz", ["start"]="Du hast nun verbesserte Verteidigungsfertigkeiten\\.", ["stop"]="Deine verbesserten Verteidigungsfertigkeiten schwinden\\.", ["duration"]="600"},
-    {["name"]="Vergeltung", ["start"]="Du oeffnest Deine Augen und buendelst Deine Wut\\.", ["stop"]="Die Wut in Dir scheint besiegt\\.", ["duration"]="600"},
+    {["name"]="Vergeltung", ["start"]="Du oeffnest Deine Augen und buendelst Deine Wut\\.", ["stop"]="Die Wut in Dir scheint besiegt\\."},
+    {["name"]="Waffenverstaerkung", ["start"]="Erfolgreich hast Du Deinen Daemon in Dein\\S* (?!Ruestung).* gebannt\\.",["stop"]="(.* loest sich von Deine\\S* (?!Ruestung).*\\.|Daemon aus Deiner Waffe zu erloesen\\.)", ["duration"]="600"},
     {["name"]="Wasseraura", ["start"]="Es regnet aus der Wolke auf Dich herab.*",["stop"]="Dein Wasserschleier loest sich auf\\.", ["duration"]="600"},
     {["name"]="Weissschild", ["start"]="Du wirst von einem magischen Schild umgeben, der Dich Deinen Gegner .*", ["stop"]="Dein Weissschild loest sich auf\\.", ["duration"]="600"},
     {["name"]="Windhaut", ["start"]="Du bist nun vollkommen in eine Windhaut eingehuellt\\.",["stop"]="Du befreist Dich von Deiner Windhaut\\.|Deine Windhaut loest sich auf\\.", ["duration"]="600"},
@@ -3843,10 +3925,21 @@ function avalet.onKeyPadEvent(eventName,key)
   else
     str = avalet.char.getLastMove()
   end
-  send(str, false)
+  raiseEvent("charMoveEvent",str)
+  send(str, true)
 
 end --function avalet.onKeyPadEvent(eventName,key)
 registerAnonymousEventHandler("keyPadEvent", "avalet.onKeyPadEvent")</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>onCharMoveEvent</name>
+				<packageName></packageName>
+				<script>function avalet.onCharMoveEvent(event, direction)
+
+  --cecho("&lt;magenta&gt;charMoveEvent, Richtung: "..tostring(direction).."\n")
+end
+registerAnonymousEventHandler("charMoveEvent", "avalet.onCharMoveEvent")</script>
 				<eventHandlerList />
 			</Script>
 			<Script isActive="yes" isFolder="no">
@@ -4320,6 +4413,55 @@ function avalet.onReconnectEvent()
   _ = sendATCP("ava_req_update")
 end
 registerAnonymousEventHandler("onReconnectEvent", "avalet.onReconnectEvent")</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>onSysSendAllProfiles</name>
+				<packageName></packageName>
+				<script>--[[
+]]
+function avalet.onAvaletSendAllProfiles(event, level, sender, message, profil )
+  cecho("&lt;magenta&gt;raiseGlobalEvent von "..tostring(sender).."\n")
+
+  -- lua raiseGlobalEvent("sysSendAllProfiles", "ALERT", avalet.char.getName(), "EINSTURZ!!!")
+
+  local width, height = getMainWindowSize()
+  local msg = ""
+  
+  
+  createLabel("messageBox",(width/2)-300,(height/2)-100,250,150,1)
+  resizeWindow("messageBox",500,150)
+  moveWindow("messageBox", (width/2)-300,(height/2)-100 )
+
+  if level == "ALERT" or level == "WARN" then
+    setBackgroundColor("messageBox", 255, 0, 0, 200)
+  elseif level == "INFORM" then
+    setBackgroundColor("messageBox", 255, 255, 0, 200)
+  else
+    setBackgroundColor("messageBox", 255, 255, 255, 200)
+  end
+  
+  msg = msg .. [[&lt;p style="font-size:35px"&gt;&lt;b&gt;&lt;center&gt;&lt;font color="black"&gt;]]..sender..[[ warnt Dich!&lt;/font&gt;&lt;/center&gt;&lt;/b&gt;&lt;/p&gt;]]
+  msg = msg .. [[&lt;p style="font-size:20px"&gt;&lt;b&gt;&lt;center&gt;&lt;font color="black"&gt;Und wird Dich gleich rausschmeissen.&lt;/font&gt;&lt;/center&gt;&lt;/b&gt;&lt;/p&gt;]]
+  msg = msg .. [[&lt;p style="font-size:20px"&gt;&lt;b&gt;&lt;center&gt;&lt;font color="Gray"&gt;(klicken zum schliessen)&lt;/font&gt;&lt;/center&gt;&lt;/b&gt;&lt;/p&gt;]]
+  --msg = msg .. [[&lt;p style="font-size:20px"&gt;&lt;b&gt;&lt;center&gt;&lt;font color="grey"&gt;(klicken zum schliessen)&lt;/font&gt;&lt;/center&gt;&lt;/b&gt;&lt;/p&gt;]]
+  
+  
+  --echo("messageBox", [[&lt;p style="font-size:35px"&gt;&lt;b&gt;&lt;center&gt;&lt;font color="black"&gt;]]..sender..[[ warnt Dich!&lt;/font&gt;&lt;/center&gt;&lt;/b&gt;&lt;/p&gt;&lt;p style="font-size:20px"&gt;&lt;b&gt;&lt;center&gt;&lt;font color="red"&gt;Und wird Dich gleich rausschmeissen.&lt;/font&gt;&lt;/center&gt;&lt;/b&gt;&lt;/p&gt;&lt;p style="font-size:20px"&gt;&lt;b&gt;&lt;center&gt;&lt;font color="grey"&gt;(klicken zum schliessen)&lt;/font&gt;&lt;/center&gt;&lt;/b&gt;&lt;/p&gt;]])
+  echo("messageBox", msg)
+  
+  -- you can also make it react to clicks!
+  avalet.messageBoxClicked = function()
+      deleteLabel("messageBox")
+  end
+  
+  setLabelClickCallback("messageBox", "avalet.messageBoxClicked")
+
+
+
+end
+registerAnonymousEventHandler("avaletSendAllProfiles", "avalet.onAvaletSendAllProfiles")
+</script>
 				<eventHandlerList />
 			</Script>
 		</ScriptGroup>
@@ -5215,9 +5357,40 @@ function avalet.registerTimer(name, duration, param)
       name = name .. " I"
     end
   end
+  
+  --[[
+  Der Zauber "Gedankenpeitsche" der Dämonenkrieger verlängert die Wirkung verschiedener
+  anderer DK-Zauber bzw. -Fähigkeiten. Nämlich Ruestungsverstaerkung, Waffenverstaerkung
+  und vermutlich auch Verschmelzung, aber dafür ist mein DK noch zu klein.
+  Die Dämonenkrieger haben außerdem die nette Fähigkeit, zauber aktualisieren zu können. 
+  Konkret kann man "beschützen" (Timer heißt "Daemonenschutz") jederzeit neu zaubern und 
+  erhält dann wieder 10 Minuten Schutz. Ohne vorher irgendwas beenden zu müssen. 
+  Avalet bildet das so ab, dass die starttime der dazugehörigen Timern resettet wird. ]]
+  -- --avalet.findTimerByName(name)["name"] = name, ["starttime"] = os.time(),
+  local key = avalet.findTimerByName(name)
+  if name == "Daemonenschutz" and key ~= nil then
+    avalet.listOfTimers[key]["starttime"] = os.time() 
+  elseif name == "Gedankenpeitsche" and key ~= nil then 
+    avalet.listOfTimers[key]["starttime"] = os.time() 
+  else
 
-  table.insert(avalet.listOfTimers, {["name"] = name, ["starttime"] = os.time(), ["duration"] = duration})
-
+    table.insert(avalet.listOfTimers, {["name"] = name, ["starttime"] = os.time(), ["duration"] = duration})
+  
+  end
+ 
+  if name == "Gedankenpeitsche" then
+    key = avalet.findTimerByName("Ruestungsverstaerkung")
+    if key ~= nil then 
+      avalet.listOfTimers[key]["starttime"] = os.time() 
+    end
+    key = avalet.findTimerByName("Waffenverstaerkung")
+    if key ~= nil then
+      avalet.listOfTimers[key]["starttime"] = os.time() 
+    end 
+  end
+  
+  --table.insert(avalet.listOfTimers, {["name"] = name, ["starttime"] = os.time(), ["duration"] = duration})
+  
   raiseEvent("RecreateTimerView")
 end --function avalet.registerTimer(name, duration, param)
 
@@ -5254,7 +5427,7 @@ function avalet.removeTimer(name)
     avalet.char.bonusEPStop()
   end
 
-  key = avalet.findTimerByName(name)
+  local key = avalet.findTimerByName(name)
   if key ~= nil then
     table.remove(avalet.listOfTimers, key)
   end
