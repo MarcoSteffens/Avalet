@@ -753,6 +753,43 @@ avalet.char.setVergiftung(false)
 			</Trigger>
 		</TriggerGroup>
 		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>Daemonenkrieger</name>
+			<script></script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList />
+			<regexCodePropertyList />
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>DaemonenNamenFuerWaffenverstaerkung</name>
+				<script>avalet.timerModel.dkWaffenDaemonenName = matches[2]
+</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>^Du tastest telepathisch nach dem Bewusstsein von \"(\S*)\" und beginnst.*$</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>1</integer>
+				</regexCodePropertyList>
+			</Trigger>
+		</TriggerGroup>
+		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 			<name>Runenschmiede</name>
 			<script></script>
 			<triggerType>0</triggerType>
@@ -1103,7 +1140,7 @@ raiseGlobalEvent("avaletSendAllProfiles", "WARN", "ARMAGEDDON", "Und macht hier 
 		</Trigger>
 	</TriggerPackage>
 	<TimerPackage>
-		<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+		<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
 			<name>avaletTimersTimer</name>
 			<script>--[[
 Timer-Timer
@@ -3526,7 +3563,7 @@ function avalet.initTimer()
     {["name"]="Blaetterhaut", ["start"]="Deine Haut ist nun mit Blaettern bedeckt, die Dir ein angenehmes Klima|Deine Holzhaut ist nun mit Blaettern bedeckt, die Dir ein angenehmes Klima", ["stop"]="Deine Blaetterhaut loest sich auf\\.", ["duration"]="600"},  
     {["name"]="Blutrausch", ["start"]="Du laesst einen fuerchterlichen Urschrei von Dir. Es scheint so, als .*", ["stop"]="Die roetlichen Manawolken loesen sich auf\\.", ["duration"]="600"},
     {["name"]="Daemonenhaut", ["start"]="Du bist nun vollkommen in eine Daemonenhaut eingehuellt\\.", ["stop"]="Deine Daemonenhaut loest sich auf\\.", ["duration"]="600"},
-    {["name"]="Daemonenschutz", ["start"]="Der Bullrik ist bereit, die Dir geltenden Schlaege, abzufangen\\.",["stop"]="Der Bullrik .* hoert auf Dich zu beschuetzen.\\.", ["duration"]="600"},
+    {["name"]="Daemonenschutz", ["start"]="Der Bullrik ist bereit, die Dir geltenden Schlaege, abzufangen\\.",["stop"]="Der Bullrik .* hoert auf Dich zu beschuetzen\\.", ["duration"]="600"},
     {["name"]="Daemonenschwert", ["start"]="Vorsichtig streifst Du mit Deiner Hand ueber (Deinen|Deine|Dein|den)([a-z ,]*)(([A-Za-z\\s]+)\\.)?", ["stop"]="Dein \\w+ verliert seine magische Kraft\\.", ["duration"]="600"},
     {["name"]="Einstimmung", ["start"]="Du hast Dich nun vollends auf .* eingestimmt\\.", ["stop"]="Du (verlierst|beendest) Deine Einstimmung.*\\.", ["duration"]="600"},
     {["name"]="EngelBeschwoeren", ["start"]="Dein Ankh blitzt kurz auf und ein Racheengel erhebt sich\\.", ["stop"]="Der Racheengel verschwindet in einer grellen Lichtsaeule\\."},
@@ -3565,6 +3602,7 @@ function avalet.initTimer()
     {["name"]="Todkonvertieren", ["start"]="Du wirst von einem heiligen Schutz umgeben\\.", ["stop"]="Dein heiliger Schutz loest sich auf\\.", ["duration"]="600"},
     {["name"]="Trotz", ["start"]="Du hast nun verbesserte Verteidigungsfertigkeiten\\.", ["stop"]="Deine verbesserten Verteidigungsfertigkeiten schwinden\\.", ["duration"]="600"},
     {["name"]="Vergeltung", ["start"]="Du oeffnest Deine Augen und buendelst Deine Wut\\.", ["stop"]="Die Wut in Dir scheint besiegt\\."},
+    {["name"]="Verschmelzung", ["start"]="^Kurz bevor Du die Kontrolle ueber Dich verlierst, rammst Du Dir instinktiv$", ["stop"]="^Der .* loest sich von Dir und Du nimmst wieder Dein urspruengliches$", ["duration"]="600"},
     {["name"]="Waffenverstaerkung", ["start"]="Erfolgreich hast Du Deinen Daemon in Dein\\S* (?!Ruestung).* gebannt\\.",["stop"]="(.* loest sich von Deine\\S* (?!Ruestung).*\\.|Daemon aus Deiner Waffe zu erloesen\\.)", ["duration"]="600"},
     {["name"]="Wasseraura", ["start"]="Es regnet aus der Wolke auf Dich herab.*",["stop"]="Dein Wasserschleier loest sich auf\\.", ["duration"]="600"},
     {["name"]="Weissschild", ["start"]="Du wirst von einem magischen Schild umgeben, der Dich Deinen Gegner .*", ["stop"]="Dein Weissschild loest sich auf\\.", ["duration"]="600"},
@@ -5203,6 +5241,8 @@ Restlaufzeit.) ]]
 function avalet.createTimerModel()
   avalet.log("Function avalet.createTimerModel()", 1)
   
+  avalet.timerModel = avalet.timerModel or {}
+  avalet.timerModel.dkWaffenDaemonenName = avalet.timerModel.dkWaffenDaemonenName or nil
   avalet.listOfTimers = avalet.listOfTimers or {}
 end --function avalet.createTimerModel()
 
@@ -5225,7 +5265,9 @@ frischer Arkanschild mit einer Laufzeit von 10 Minuten maximal. Ich fand das man
 irritierend und hab überlegt, die Restlaufzeit mit im Timer anzuzeigen. Aber 
 eigentlich sind mir das zu viele (letztlich überflüssige) Informationen.
 Diese Funktion wird jedesmal ausgeführt, wenn das UI-Element für die Timer aktualisiert
-wird. Also einmal pro Sekunde derzeit. ]]
+wird. Also einmal pro Sekunde derzeit.
+Es werden hier immer maximal 9 Timer zurückgegeben. Mehr ist auf der Oberfläche nicht
+geplant. ]]
 function avalet.sortListOfTimers()
 	avalet.log("Function avalet.sortListOfTimers()", 1)
   
@@ -5275,6 +5317,12 @@ function avalet.sortListOfTimers()
   -- Die fertige Timer-Liste wird jetzt noch nach Laufzeit sortiert
   local sortMyTimers = function(a, b) return a["remaining"] &gt; b["remaining"] end
   table.sort(sortedListOfTimers, sortMyTimers)
+  
+  -- Jetzt wird dafür gesorgt, dass die Liste maximal 9 Elemente enthält. Mehr wird
+  -- auf der Oberfläche nicht angezeigt.
+  while #sortedListOfTimers &gt; 9 do
+    table.remove(sortedListOfTimers, 1)
+  end
 
   return sortedListOfTimers
 
@@ -5285,7 +5333,9 @@ end --function avalet.sortListOfTimers()
 Hier wird der KEY des Timers in der Timer-Liste an Hand seines Namens ermittelt. Wenn kein
 Timer mit dem Namen zu finden ist, gibt die Funktion nil zurück.
 Wenn der Name bspswse "Erdaura" lautet, dann muss gefunden werden:
-"Erdaura I", "Erdaura II", "Erdaura III". Analog dazu die anderen Auren. Und Schild I bis V. ]]
+"Erdaura I", "Erdaura II", "Erdaura III". Analog dazu die anderen Auren. Und Schild I bis V.
+Diese Funtion gibt die ERSTE Fundstelle zurück und endet dann. Wenn man mehrere Treffer
+erwartet, sollte man die Funktion avalet.findListOfTimerByName() weiter unten verwenden. ]]
 function avalet.findTimerByName(name)
 	avalet.log("function avalet.findTimerByName(name)", 1)
 
@@ -5302,12 +5352,43 @@ end --function avalet.findTimerByName(name)
 
 
 --[[
+Hier wird der KEY der Timer in der Timer-Liste an Hand ihres Namens ermittelt. Wenn kein
+Timer mit dem Namen zu finden ist, gibt die Funktion eine leere Liste zurück. Diese
+Funktion ist für Timer, die für den gleichen Zauber (bzw. die gleiche Funktion) erzeugt
+werden. Ein Beispiel dafür ist die Waffenverstaerkung der Daemonenkrieger. Da man als DK
+mehrere Daemonen in mehrere Waffen binden kann, kann es auch mehrere Waffenverstaerkungs-
+Timer geben. Benannt sind die dann mit "Waffenverstaerkung &lt;Daemonenname&gt;". Die sollen 
+hier gefunden werden. ]]
+function avalet.findListOfTimerByName(name)
+	avalet.log("function avalet.findListOfTimerByName(name)", 1)
+
+  local retList = {}
+  --[[
+  string.find funktioniert nicht mit Zeichen wie dem Bindestrich. Das führte zu Problemen
+  bei dem Timer für "EP-Verdoppelung". Hier die Lösung. ]]
+  for k, v in pairs(avalet.listOfTimers) do
+
+      if string.find(v["name"], string.gsub(name, "%-", "%%-")) then 
+        table.insert(retList, k) 
+      end
+      
+  end
+  return retList
+end --function avalet.findTimerByName(name)
+
+
+--[[
 Diese Funktion wird von den Triggern verwendet, die einen Timer erzeugen.
 Der Timer wird hier der Tabelle "listOfTimer" hinzugefügt, anschließend
 wird die Tabelle mit den sortierten Timern neu erzeugt und die Anzeige
 auf der Oberfläche aktualisiert. ]]
 function avalet.registerTimer(name, duration, param)
   avalet.log("function avalet.registerTimer(name, duration, param)", 1)
+  
+  if name == "Waffenverstaerkung" then 
+    param = avalet.timerModel.dkWaffenDaemonenName
+    avalet.timerModel.dkWaffenDaemonenName = nil
+  end
   
   param = param or nil
   if param ~= nil then
@@ -5370,14 +5451,30 @@ function avalet.registerTimer(name, duration, param)
   local key = avalet.findTimerByName(name)
   if name == "Daemonenschutz" and key ~= nil then
     avalet.listOfTimers[key]["starttime"] = os.time() 
-  elseif name == "Gedankenpeitsche" and key ~= nil then 
-    avalet.listOfTimers[key]["starttime"] = os.time() 
+  elseif name == "Gedankenpeitsche" then
+    key = avalet.findTimerByName("Ruestungsverstaerkung")
+    if key ~= nil then 
+      avalet.listOfTimers[key]["starttime"] = os.time() 
+    end
+    local keyList = avalet.findListOfTimerByName("Waffenverstaerkung")
+    if #keyList &gt; 0 then
+      for _, j in pairs(keyList) do
+        avalet.listOfTimers[j]["starttime"] = os.time()
+      end
+      --avalet.listOfTimers[key]["starttime"] = os.time() 
+    end 
+    key = avalet.findTimerByName("Verschmelzung")
+    if key ~= nil then
+      avalet.listOfTimers[key]["starttime"] = os.time() 
+    end 
+  --elseif name == "Gedankenpeitsche" and key ~= nil then 
+  --  avalet.listOfTimers[key]["starttime"] = os.time() 
   else
 
     table.insert(avalet.listOfTimers, {["name"] = name, ["starttime"] = os.time(), ["duration"] = duration})
   
   end
- 
+--[[ 
   if name == "Gedankenpeitsche" then
     key = avalet.findTimerByName("Ruestungsverstaerkung")
     if key ~= nil then 
@@ -5387,11 +5484,16 @@ function avalet.registerTimer(name, duration, param)
     if key ~= nil then
       avalet.listOfTimers[key]["starttime"] = os.time() 
     end 
+    key = avalet.findTimerByName("Verschmelzung")
+    if key ~= nil then
+      avalet.listOfTimers[key]["starttime"] = os.time() 
+    end 
   end
-  
+  ]]
   --table.insert(avalet.listOfTimers, {["name"] = name, ["starttime"] = os.time(), ["duration"] = duration})
   
   raiseEvent("RecreateTimerView")
+
 end --function avalet.registerTimer(name, duration, param)
 
 
