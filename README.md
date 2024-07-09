@@ -1,6 +1,6 @@
 # Avalet
 
-Achtung: Seit dem 4.18er-Update von Mudlet funktioniert irgendwas mit der Anzeige in Avalet nicht. Ich hab teilweise weiße Schrift auf weißem Grund, andere erzählen von noch anderen Problemen. Da kann ich im Moment nicht viel machen. Mit der 4.17er Version von Mudlet funktiert noch alles.
+!Achtung: Seit dem 4.18er-Update von Mudlet funktioniert irgendwas mit der Anzeige in Avalet nicht. Ich hab teilweise weiße Schrift auf weißem Grund, andere erzählen von noch anderen Problemen. Da kann ich im Moment nicht viel machen, das müssten die Macher von Mudlet beheben. Mit der 4.17er Version von Mudlet funktiert noch alles.
 
 Avalet ist ein Module für den Mud-Client [Mudlet](https://www.mudlet.org/) und das MUD [Avalon](https://avalon.mud.de/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
 
