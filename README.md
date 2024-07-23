@@ -1,12 +1,15 @@
 # Avalet
 
-Avalet ist ein Module für den Mud-Client [Mudlet](https://www.mudlet.org/) und das MUD [Avalon](https://avalon.mud.de/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
+Achtung: Seit dem 4.18er-Update von Mudlet gibt es verschiedene Grafikfehler. Teilweise konnte ich die durch Änderungen an Avalet beheben, aber andere Probleme müssen durch die Mudlet-Entwickler bearbeitet werden. Ich empfehle deshalb, auf die Mudlet-Version 4.17.2 zurückzugreifen und die Software nicht zu aktualisieren. Aktuell ist Mudlet bei der Version 4.18.3.
+
+Avalet ist ein Module für das MUD [Avalon](https://avalon.mud.de/) und den Mud-Client [Mudlet](https://www.mudlet.org/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
 
 ![aktueller Screenshot](latest_screenshot.png)
 
 <img src="screenshot_layout_compact.png" width="30%"></img> <img src="screenshot_layout_reduced.png" width="30%"></img> <img src="screenshot_layout_multiview.png" width="30%"></img> <!--img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img> <img src="latest_screenshot.png" width="30%"></img-->
 
 Funktionen von Avalet:
+- Umwandeln von Umlauten und ß in ae, oe, ss etc.
 - Laufen mit dem Ziffernblock! ([Tastaturbelegung](https://github.com/MarcoSteffens/Avalet/wiki/Tastaturbelegung-f%C3%BCr-den-Ziffernblock))
   - Automatisches klettern und schwimmen!
   - Und "spaehen" mit dem Fernrohr durch gleichzeitiges drücken von 'STRG' und der entsprechenden Richtungstaste! (Fernrohr muss natürlich im Invenar sein.)
