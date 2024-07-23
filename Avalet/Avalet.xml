@@ -1140,7 +1140,7 @@ raiseGlobalEvent("avaletSendAllProfiles", "WARN", "ARMAGEDDON", "Und macht hier 
 		</Trigger>
 	</TriggerPackage>
 	<TimerPackage>
-		<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+		<Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
 			<name>avaletTimersTimer</name>
 			<script>--[[
 Timer-Timer
@@ -3543,7 +3543,14 @@ Die Trigger werden entweder als temporäre oder als permanente Trigger erzeugt, 
 jedem Fall werden sie "RegexTrigger" sein - die Texte, auf denen die Trigger reagieren
 sollen, müssen also reguläre Ausdrücke sein. 
 Außerdem ist es notwendig, die Zeichen zur Maskierung von Sonderzeichen ("\") extra einmal
-zu maskieren. 
+zu maskieren.
+Bei manchen Timern enthält der Name in der Anzeige die Bezeichnung des Gegenstandes, der 
+verzaubert wurde. Beispiel ist der Kleriker-Waffensegen. Da mehrere Waffen parallel einen 
+Waffensegen bekommen können, ist das notwendig, um die einzelnen Waffensegen voneinander 
+zu unterscheiden. Wenn so eine Timer hinzugefügt werden soll, dann muss der gleichzeitig 
+in den VIER(!) Funktionen weiter unten, mit denen die Timer erzeugt werden, ergänzt werden. 
+In allen VIER! (Dieses Feature funktioniert nur so lala. Wenn zwei gleiche Waffen jeweils 
+einen Waffensegen bekommen, dann kann Avalet da auch nichts mehr auseinanderhalten.)
 Die Angabe einer ["duration"] kann entfallen, der Timer wird dann OHNE Fortschrittsanzeige
 angezeigt, bis der Stop-Trigger ihn entfernt. (Also die ganze Zeit mit vollen Fortschritts-
 balken.) In dem Fall ist UNBEDINGT sicher zu stellen, dass das Löschen des Timers auch
@@ -3551,7 +3558,9 @@ wirklich funktioniert! Die Trigger MIT Laufzeit werden ebenfalls durch einen STO
 entfernt, zusätzlich aber auch (derzeit:) 30 Sekunde nach Ende ihrer eingetragenen Laufzeit.
 Bei den Trigger MIT Laufzeit ist es also möglich, auf einen STOP-String zu verzichten. Der
 muss in dem Fall aber trotzdem hier reingeschrieben werden, und zwar so: ["stop"] = ""
-Beim Hinzufügen weiterer Zeilen bitte die alphabetische Sortierung berücksichtigen... ]]
+Beim Hinzufügen weiterer Zeilen bitte die alphabetische Sortierung berücksichtigen... 
+(Ok, die alphabetische Sortierung ist mist, ich hab keine Ahnung was davon zu welcher
+Gilde gehört. Aber jetzt ist das halt so. Also weiter alphabetisch.) ]]
 function avalet.initTimer()
   
   local timerStrings = {
@@ -3560,11 +3569,14 @@ function avalet.initTimer()
     --{["name"]="Name", ["start"]="Start-RegExpr",["stop"]="Stop-RegExpr"},
     {["name"]="Arkanschild", ["start"]="Du wirst von einem Arkanschild umgeben\\.", ["stop"]="Dein Arkanschild loest sich auf\\.", ["duration"]="600"},
     {["name"]="Antimagie", ["start"]="Du hast eine Aura der Antimagie erschaffen\\.", ["stop"]="Die Aura der Antimagie loest sich auf\\.", ["duration"]="60"},
-    {["name"]="Blaetterhaut", ["start"]="Deine Haut ist nun mit Blaettern bedeckt, die Dir ein angenehmes Klima|Deine Holzhaut ist nun mit Blaettern bedeckt, die Dir ein angenehmes Klima", ["stop"]="Deine Blaetterhaut loest sich auf\\.", ["duration"]="600"},  
+    --{["name"]="Baumwaechter", ["start"]="", ["stop"]="", ["duration"]="1800"},  
+    {["name"]="Blaetterhaut", ["start"]="Deine Blaetterhaut sieht nun wieder frischer aus\\.|Deine Haut ist nun mit Blaettern bedeckt, die Dir ein angenehmes Klima|Deine Holzhaut ist nun mit Blaettern bedeckt, die Dir ein angenehmes Klima", ["stop"]="Deine Blaetterhaut loest sich auf\\.", ["duration"]="1800"},  
+    {["name"]="Blumenkind", ["start"]="Mit einem Laecheln beendest Du das Ritual\\. Ueberall um Dich wachsen", ["stop"]="Die Blumen fallen von Dir ab\\.", ["duration"]="1800"},  
     {["name"]="Blutrausch", ["start"]="Du laesst einen fuerchterlichen Urschrei von Dir. Es scheint so, als .*", ["stop"]="Die roetlichen Manawolken loesen sich auf\\.", ["duration"]="600"},
     {["name"]="Daemonenhaut", ["start"]="Du bist nun vollkommen in eine Daemonenhaut eingehuellt\\.", ["stop"]="Deine Daemonenhaut loest sich auf\\.", ["duration"]="600"},
     {["name"]="Daemonenschutz", ["start"]="Der Bullrik ist bereit, die Dir geltenden Schlaege, abzufangen\\.",["stop"]="Der Bullrik .* hoert auf Dich zu beschuetzen\\.", ["duration"]="600"},
     {["name"]="Daemonenschwert", ["start"]="Vorsichtig streifst Du mit Deiner Hand ueber (Deinen|Deine|Dein|den)([a-z ,]*)(([A-Za-z\\s]+)\\.)?", ["stop"]="Dein \\w+ verliert seine magische Kraft\\.", ["duration"]="600"},
+    --{["name"]="Egelschreck", ["start"]="", ["stop"]="", ["duration"]="1800"},  
     {["name"]="Einstimmung", ["start"]="Du hast Dich nun vollends auf .* eingestimmt\\.", ["stop"]="Du (verlierst|beendest) Deine Einstimmung.*\\.", ["duration"]="600"},
     {["name"]="EngelBeschwoeren", ["start"]="Dein Ankh blitzt kurz auf und ein Racheengel erhebt sich\\.", ["stop"]="Der Racheengel verschwindet in einer grellen Lichtsaeule\\."},
     {["name"]="Erdaura", ["start"]="Du hebst Deine Haende, beschreibst einen Halbkreis.*|Die Partikel verdichten sich um Dich\\.", ["stop"]="Dein Staubschleier loest sich auf\\.", ["duration"]="600"},
@@ -3572,16 +3584,21 @@ function avalet.initTimer()
     {["name"]="Feueraura", ["start"]="Du senkst Deine Haende, aber der Schutz der Manawolken.*", ["stop"]="Deine Feueraura loest sich auf\\.", ["duration"]="600"},
     {["name"]="Feueraura III", ["start"]="Die Manawolken verdichten sich um Dich\\.", ["stop"]="Deine Feueraura loest sich auf\\.", ["duration"]="1200"},
     {["name"]="Finsternis", ["start"]="Die Wolkendecke verdunkelt die Sonne nun vollstaendig.*", ["stop"]="Die Wolkendecke zieht wieder auf und es wird heller\\.", ["duration"]="300"},
-    {["name"]="Friedfertigkeit", ["start"]="Du fuehlst Dich nun .* friedfertig\\.", ["stop"]="Du fuehlst Dich wieder kaempferischer, ungestuemer\\.", ["duration"]="600"},
+    {["name"]="Friedfertigkeit", ["start"]="Du fuehlst Dich nun .* friedfertig\\.", ["stop"]="Du fuehlst Dich wieder kaempferischer, ungestuemer\\.", ["duration"]="1800"},
     {["name"]="Gedankenpeitsche", ["start"]="Du spuerst, wie sich Deine Daemonen ihrem Schicksal hingeben\\.",["stop"]="", ["duration"]="600"},
     {["name"]="GoettlicheFuehrung", ["start"]="Deine Schlaege werden von einem Gott gefuehrt\\.", ["stop"]="Deine goettliche Fuehrung schwindet\\.", ["duration"]="600"},
-    {["name"]="Holzhaut", ["start"]="Deine Haut sieht nun hoelzern und sehr widerstandsfaehig aus\\.|Deine Blaetterhaut sieht nun hoelzern und sehr widerstandsfaehig aus\\.|Deine Blaetterhaut fuehlt sich nun recht hoelzern an\\.|Deine Haut fuehlt sich nun recht hoelzern an\\.", ["stop"]="Deine Holzhaut loest sich auf\\.", ["duration"]="600"},
+    --{["name"]="Heilende Hand", ["start"]="", ["stop"]="", ["duration"]="960"},  
+    {["name"]="Holzhaut", ["start"]="Deine Haut sieht nun hoelzern und sehr widerstandsfaehig aus\\.|Deine Blaetterhaut sieht nun hoelzern und sehr widerstandsfaehig aus\\.|Deine Blaetterhaut fuehlt sich nun recht hoelzern an\\.|Deine Haut fuehlt sich nun recht hoelzern an\\.|Deine Holzhaut sieht nun wieder frischer aus\\.", ["stop"]="Deine Holzhaut loest sich auf\\.", ["duration"]="1800"},
+    --{["name"]="Immunitaet", ["start"]="", ["stop"]="", ["duration"]="1800"},  
     {["name"]="Kampfbeschwoerung", ["start"]="Du wirst von einer heiligen Aura umgeben\\.",["stop"]="Deine heilige Aura loest sich auf\\.", ["duration"]="600"},
-    {["name"]="Kampfeslust", ["start"]="Du bekommst so langsam richtig Lust auf ein kleines Kraeftemessen\\.", ["stop"]="Du fuehlst Dich wieder ruhiger, besonnener\\.", ["duration"]="600"},
+    {["name"]="Kampfeslust", ["start"]="Du fragst Dich, wo der naechste Gegner ist, mit dem Du Dich messen koenntest\\.|Du bekommst so langsam richtig Lust auf ein kleines Kraeftemessen\\.", ["stop"]="Du fuehlst Dich wieder ruhiger, besonnener\\.", ["duration"]="1800"},
     {["name"]="Kampfsegen", ["start"]="Du bist motiviert und willig zu kaempfen\\.", ["stop"]="Deine Motivation und Dein Kampfeswille schwinden\\.", ["duration"]="600"},
     {["name"]="Kernschild", ["start"]="Das Glitzern legt sich als schuetzendes Schild ueber Dich\\.", ["stop"]="Dein Kernschild loest sich auf\\.", ["duration"]="1000"},
+    --{["name"]="Kesselzwang", ["start"]="", ["stop"]="", ["duration"]="1800"},  
     {["name"]="Knochenschild", ["start"]="Du erhebst Dich wieder, der wirbelnde Schild aus Knochen umgibt Dich", ["stop"]="Deine schuetzende Knochenwolke loest sich auf\\.", ["duration"]="600"},
+    --{["name"]="Leben finden", ["start"]="", ["stop"]="", ["duration"]="1800"},  
     {["name"]="Lebensaura", ["start"]="Du oeffnest die Augen, aber der Schutz der Bluetenblaetter umgibt Dich", ["stop"]="Deine Lebensaura loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Lebenshaar", ["start"]="Du beendest das Ritual\\. Ueberall auf Dir wachsen nun kurze, weisse Haare\\.", ["stop"]="Dein Lebenshaar loest sich auf\\.", ["duration"]="1800"},  
     {["name"]="Lebenssegen", ["start"]="Du wirst von einem inneren Leuchten erfuellt\\.", ["stop"]="Dein inneres Leuchten erlischt wieder\\.", ["duration"]="600"},
     {["name"]="Licht I", ["start"]="Du erzeugst Dir eine kleine Feuerkugel\\.", ["stop"]="Deine Feuerkugel erlischt\\.", ["duration"]="240"},
     {["name"]="Licht II", ["start"]="Du erzeugst Dir eine kleine Leuchtflamme\\.",["stop"]="Deine Leuchtflamme erlischt\\.", ["duration"]="600"},
@@ -3590,19 +3607,23 @@ function avalet.initTimer()
     {["name"]="Magieaufladung", ["start"]="Du hast einen Teil Deiner regenerativen Energien in Deine Zauber umgelenkt\\.",["stop"]="Deine Energien fliessen wieder normal\\.", ["duration"]="600"},
     {["name"]="Magiertrance", ["start"]="^Die Welt um Dich herum verliert an Bedeutung. Nur noch Deine Zauber sind$",["stop"]="Du erwachst aus Deiner Trance\\.", ["duration"]="600"},
     {["name"]="Manarausch", ["start"]="Dichte Manawolken bilden nun einen gewaltigen Schutz um Dich herum\\.",["stop"]="Dein Manarausch laesst wieder nach\\."},
-    {["name"]="Pflanzenblick", ["start"]="Du siehst die Pflanzen um Dich herum jetzt viel klarer\\.", ["stop"]="Dein besonderer Blick fuer die Pflanzen an Deinem Weg verschwindet wieder\\.", ["duration"]="600"},
+    --{["name"]="Narbenheilung", ["start"]="", ["stop"]="", ["duration"]="1800"},  
+    {["name"]="Pflanzenblick", ["start"]="Du siehst die Pflanzen um Dich herum jetzt viel klarer\\.", ["stop"]="Dein besonderer Blick fuer die Pflanzen an Deinem Weg verschwindet wieder\\.", ["duration"]="720"},
+    --{["name"]="Puffpilz", ["start"]="", ["stop"]="", ["duration"]="1800"},  
     {["name"]="Regenerationssegen", ["start"]="Du wirst von einem warmen Leuchten umgeben\\.", ["stop"]="Das Dich umgebende Leuchten erlischt wieder\\.", ["duration"]="600"},
     {["name"]="Ruestungsverstaerkung", ["start"]="Erfolgreich hast Du Deinen Daemon in Deine Ruestung gebannt\\.",["stop"]="(.* loest sich von Deiner Ruestung\\.|Daemon aus Deiner Ruestung zu erloesen\\.)", ["duration"]="600"},
     {["name"]="Schild", ["start"]="Du wirst von einem magischen Schild umgeben\\.",["stop"]="Dein magischer Schild loest sich auf\\.", ["duration"]="600"},
     {["name"]="Schwarzschild", ["start"]="Du wirst von einem magischen Schild umgeben, der Dich besser parieren",["stop"]="Dein Schwarzschild loest sich auf\\.", ["duration"]="600"},
-    {["name"]="Segen", ["start"]="^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-Za-z\\s]+) beginnt\\, schwach zu( leuchten\\.)?", ["stop"]="(Dein|Deine)([a-z ,]*)([A-z\\s]+) verliert .* magische Kraft.", ["duration"]="600"},
+    {["name"]="Segen", ["start"]="^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-Za-z\\s]+) beginnt\\, schwach zu( leuchten\\.)?", ["stop"]="(Dein|Deine)([a-z ,]*)([A-z\\s]+) verliert .* magische Kraft\\.", ["duration"]="600"},
     {["name"]="Steinhaut", ["start"]="Du bist nun vollkommen in eine Steinhaut eingehuellt, .*",["stop"]=".*Du befreist Dich von Deiner Steinhaut.*|.*Deine Steinhaut loest sich auf.*|Das hat Deiner Steinhaut den letzten Rest gegeben, sie loest sich auf\\.", ["duration"]="1800"},
     {["name"]="Sternenstaub", ["start"]="Du wirst von Sternenstaub umgeben\\.",["stop"]="Dein Sternenstaub loest sich auf\\.", ["duration"]="600"},
     {["name"]="Todesaura", ["start"]="Du senkst Deine Haende, aber der Schutz der schwarzen Schleier.*|Die schwarzen Schleier verdichten sich um Dich\\.",["stop"]="Deine Todesaura loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Todeshaar", ["start"]="Du beendest das Ritual\\. Ueberall auf Dir wachsen nun kurze, schwarze Haare\\.", ["stop"]="Dein Todeshaar loest sich auf\\.", ["duration"]="1800"},  
     {["name"]="Todkonvertieren", ["start"]="Du wirst von einem heiligen Schutz umgeben\\.", ["stop"]="Dein heiliger Schutz loest sich auf\\.", ["duration"]="600"},
     {["name"]="Trotz", ["start"]="Du hast nun verbesserte Verteidigungsfertigkeiten\\.", ["stop"]="Deine verbesserten Verteidigungsfertigkeiten schwinden\\.", ["duration"]="600"},
     {["name"]="Vergeltung", ["start"]="Du oeffnest Deine Augen und buendelst Deine Wut\\.", ["stop"]="Die Wut in Dir scheint besiegt\\."},
     {["name"]="Verschmelzung", ["start"]="^Kurz bevor Du die Kontrolle ueber Dich verlierst, rammst Du Dir instinktiv$", ["stop"]="^Der .* loest sich von Dir und Du nimmst wieder Dein urspruengliches$", ["duration"]="600"},
+    {["name"]="Waffenleben", ["start"]="^Mit einem Laecheln beendest Du das Ritual\\. (Der|Die|Das)([a-z ,]*)([A-Za-z\\s]+) (ist|sind)( nun)?", ["stop"]="Das Leben in (Deinem|Deinen|Deiner)([a-z ,]*)([A-z\\s]+) zieht sich wieder zurueck\\.", ["duration"]="1800"},  
     {["name"]="Waffenverstaerkung", ["start"]="Erfolgreich hast Du Deinen Daemon in Dein\\S* (?!Ruestung).* gebannt\\.",["stop"]="(.* loest sich von Deine\\S* (?!Ruestung).*\\.|Daemon aus Deiner Waffe zu erloesen\\.)", ["duration"]="600"},
     {["name"]="Wasseraura", ["start"]="Es regnet aus der Wolke auf Dich herab.*",["stop"]="Dein Wasserschleier loest sich auf\\.", ["duration"]="600"},
     {["name"]="Weissschild", ["start"]="Du wirst von einem magischen Schild umgeben, der Dich Deinen Gegner .*", ["stop"]="Dein Weissschild loest sich auf\\.", ["duration"]="600"},
@@ -3655,6 +3676,7 @@ function avalet.createTempTimer(timerStrings)
     (Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.) ]]
     if v["name"] == "Segen" then param = ", matches[4]" end
     if v["name"] == "Zauberwaffe" then param = ", matches[4]" end
+    if v["name"] == "Waffenleben" then param = ", matches[4]" end
 
     -- START-Trigger:
     luaCode = [[avalet.registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[)]]
@@ -3697,6 +3719,7 @@ function avalet.createImprovedTempTimer(timerStrings)
     (Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.) ]]
     if v["name"] == "Segen" then param = ", matches[4]" end
     if v["name"] == "Zauberwaffe" then param = ", matches[4]" end
+    if v["name"] == "Waffenleben" then param = ", matches[4]" end
     
     --[[
     Wenn eine Stop-RegExpr existiert, wird beim Auslösen des Triggers ein temporärer 
@@ -3758,6 +3781,7 @@ function avalet.createPermTimer(timerStrings)
       (Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.) ]]
       if v["name"] == "Segen" then param = ", matches[4]" end
       if v["name"] == "Zauberwaffe" then param = ", matches[4]" end
+      if v["name"] == "Waffenleben" then param = ", matches[4]" end
       
       -- Zusammenbau und Erzeugen des START-Triggers als permanter Trigger:
       luaCode = [[avalet.registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[)]]
@@ -3819,6 +3843,7 @@ function avalet.createMixedTimer(timerStrings)
       (Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.) ]]
       if v["name"] == "Segen" then param = ", matches[4]" end
       if v["name"] == "Zauberwaffe" then param = ", matches[4]" end
+      if v["name"] == "Waffenleben" then param = ", matches[4]" end
       
       --[[
       Wenn eine Stop-RegExpr existiert, wird beim Auslösen des Triggers ein temporärer 
@@ -5445,7 +5470,8 @@ function avalet.registerTimer(name, duration, param)
   und vermutlich auch Verschmelzung, aber dafür ist mein DK noch zu klein.
   Die Dämonenkrieger haben außerdem die nette Fähigkeit, zauber aktualisieren zu können. 
   Konkret kann man "beschützen" (Timer heißt "Daemonenschutz") jederzeit neu zaubern und 
-  erhält dann wieder 10 Minuten Schutz. Ohne vorher irgendwas beenden zu müssen. 
+  erhält dann wieder 10 Minuten Schutz. Ohne vorher irgendwas beenden zu müssen.
+  Druiden koennen das auch, bei ihren Ritualen. 
   Avalet bildet das so ab, dass die starttime der dazugehörigen Timern resettet wird. ]]
   -- --avalet.findTimerByName(name)["name"] = name, ["starttime"] = os.time(),
   local key = avalet.findTimerByName(name)
@@ -5461,36 +5487,51 @@ function avalet.registerTimer(name, duration, param)
       for _, j in pairs(keyList) do
         avalet.listOfTimers[j]["starttime"] = os.time()
       end
-      --avalet.listOfTimers[key]["starttime"] = os.time() 
     end 
     key = avalet.findTimerByName("Verschmelzung")
     if key ~= nil then
       avalet.listOfTimers[key]["starttime"] = os.time() 
     end 
-  --elseif name == "Gedankenpeitsche" and key ~= nil then 
-  --  avalet.listOfTimers[key]["starttime"] = os.time() 
+  -- Und die Druiden-Rituale:
+  elseif name == "Baumwaechter" and key ~= nil then 
+    avalet.listOfTimers[key]["starttime"] = os.time() 
+  elseif name == "Blaetterhaut" and key ~= nil then 
+    avalet.listOfTimers[key]["starttime"] = os.time() 
+  elseif name == "Blumenkind" and key ~= nil then 
+    avalet.listOfTimers[key]["starttime"] = os.time() 
+  elseif name == "Egelschreck" and key ~= nil then 
+    avalet.listOfTimers[key]["starttime"] = os.time() 
+  elseif name == "Friedfertigkeit" and key ~= nil then 
+    avalet.listOfTimers[key]["starttime"] = os.time() 
+  elseif name == "Heilende Hand" and key ~= nil then 
+    avalet.listOfTimers[key]["starttime"] = os.time() 
+  elseif name == "Holzhaut" and key ~= nil then 
+    avalet.listOfTimers[key]["starttime"] = os.time() 
+  elseif name == "Immunitaet" and key ~= nil then 
+    avalet.listOfTimers[key]["starttime"] = os.time() 
+  elseif name == "Kampfeslust" and key ~= nil then 
+    avalet.listOfTimers[key]["starttime"] = os.time() 
+  elseif name == "Kesselzwang" and key ~= nil then 
+    avalet.listOfTimers[key]["starttime"] = os.time() 
+  elseif name == "Leben finden" and key ~= nil then 
+    avalet.listOfTimers[key]["starttime"] = os.time() 
+  elseif name == "Lebenshaar" and key ~= nil then 
+    avalet.listOfTimers[key]["starttime"] = os.time() 
+  elseif name == "Todeshaar" and key ~= nil then 
+    avalet.listOfTimers[key]["starttime"] = os.time() 
+  elseif name == "Narbenheilung" and key ~= nil then 
+    avalet.listOfTimers[key]["starttime"] = os.time() 
+  elseif name == "Pflanzenblick" and key ~= nil then 
+    avalet.listOfTimers[key]["starttime"] = os.time() 
+  elseif name == "Puffpilz" and key ~= nil then 
+    avalet.listOfTimers[key]["starttime"] = os.time() 
+  elseif name == "Waffenleben" and key ~= nil then 
+    avalet.listOfTimers[key]["starttime"] = os.time() 
   else
 
     table.insert(avalet.listOfTimers, {["name"] = name, ["starttime"] = os.time(), ["duration"] = duration})
   
   end
---[[ 
-  if name == "Gedankenpeitsche" then
-    key = avalet.findTimerByName("Ruestungsverstaerkung")
-    if key ~= nil then 
-      avalet.listOfTimers[key]["starttime"] = os.time() 
-    end
-    key = avalet.findTimerByName("Waffenverstaerkung")
-    if key ~= nil then
-      avalet.listOfTimers[key]["starttime"] = os.time() 
-    end 
-    key = avalet.findTimerByName("Verschmelzung")
-    if key ~= nil then
-      avalet.listOfTimers[key]["starttime"] = os.time() 
-    end 
-  end
-  ]]
-  --table.insert(avalet.listOfTimers, {["name"] = name, ["starttime"] = os.time(), ["duration"] = duration})
   
   raiseEvent("RecreateTimerView")
 
@@ -8022,7 +8063,6 @@ function avaletUI.buildLeftBarIGMapUI()
       height="100%", width="100%", 
       color="black"
   }, avaletUI.igmapContainer)
---  avaletUI.CSS.boxCSS:set("background-color", "rgba(0,0,0,255)")
   avaletUI.igmapBox:setStyleSheet(avaletUI.CSS.boxCSS:getCSS())
   avaletUI.igmapBox:hide()
 
@@ -8036,8 +8076,10 @@ function avaletUI.buildLeftBarIGMapUI()
   }, avaletUI.igmapBox)
   avaletUI.roomID:setFontSize(getFontSize())
   avaletUI.roomID:setFont(getFont())
-  avaletUI.roomID:setStyleSheet([[qproperty-alignment: 'AlignHCenter | AlignVCenter';]])
-  --avaletUI.roomID:hide()
+  avaletUI.roomID:setStyleSheet([[
+    qproperty-alignment: 'AlignHCenter | AlignVCenter';
+    background-color: black;
+  ]])
 
   -- Bereich für die Karte
   avaletUI.igmap = Geyser.MiniConsole:new({
@@ -8050,7 +8092,6 @@ function avaletUI.buildLeftBarIGMapUI()
       fontSize = tonumber(getFontSize()-2),
     }, avaletUI.igmapBox)
   avaletUI.igmap:setFont(getFont())
-  --avaletUI.igmap:hide()
 
   -- Bereich für RoomInv (Chars, Gegner, Leichen, Loot, Möbel, ...)
   avaletUI.roomInv = Geyser.Label:new({
@@ -8060,10 +8101,12 @@ function avaletUI.buildLeftBarIGMapUI()
       color="black", 
       message=avalet.IGMapModel.avalonRoomInv
   }, avaletUI.igmapBox)
-  avaletUI.roomInv:setStyleSheet([[qproperty-alignment: 'AlignLeft | AlignTop';]])
+  avaletUI.roomInv:setStyleSheet([[
+    qproperty-alignment: 'AlignLeft | AlignTop';
+    background-color: black;
+    ]])
   avaletUI.roomInv:setFontSize(getFontSize()-2)
   avaletUI.roomInv:setFont(getFont())
-  --avaletUI.roomInv:hide()
 
 end --avaletUI.buildLeftBarIGMapUI()
 
