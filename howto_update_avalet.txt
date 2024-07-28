@@ -1,0 +1,133 @@
+Avalet aktualisieren
+====================
+
+Avalet hat eine Versionsnummer, die von git erzeugt und hochgezählt wird, und die dann 
+in Mudlet angezeigt wird. Wenn ein Profil geladen wird, in dem Avalet verwendet wird.
+
+Die Versionsnummer sieht zum Beispiel so aus:
+
+v1.2-1-g3772436
+
+Sie besteht aus verschiedenen Teilen. Der Teil 'v1.2' ist das Tag der aktuellen Version. 
+Der Teil '1' ist vermutlich die Anzahl der commits in diesem Tag. Und 'g3772436' ist 
+vermutlich irgendein Hashwert, einfach für die Eindeutigkeit. (Weiß ich aber nicht, ist 
+auch grad nicht wichtig genug zum recherchieren.)
+
+Der Tag muss von Hand geändert (also hochgezählt) werden. Wie das geht steht weiter unten.
+
+Der Rest wird von git hochgezählt, und zwar immer bei einem 'commit'. Da die Versionsnummer 
+aber in dem jeweiligen Release verwendet wird, und zwar während durch das Batch-File die 
+Archive neu erzeugt werden, ergeben sich daraus ein paar Umstände im Release-Prozess. Dieser 
+Prozess wird hier beschrieben. 
+
+Release-Prozess
+---------------
+
+Voraussetzung für diesen Prozess ist, dass git installiert ist und Avalet ausgecheckt ist.
+Von Avalet gibt es (zur Zeit jedenfalls) nur einen Master- und einen DEV-Branch. Die lokale 
+Kopie ist vom DEV-Branch! Änderungen werden also auch in den DEV-Branch comitted. Und müssen 
+folglich noch in den Master-Branch überführt werden, damit die Änderungen bis zum Anwender 
+kommen. Das ist die minimalste, überhaupt noch vertretbare Arbeitsweise, wenn man eine 
+Versionsverwaltung verwendet. Wer direkt auf dem Master-Branch arbeitet schubst auch kleine 
+Kinder in Gräben!
+
+Eine neue Version hochladen geht dann so:
+
+Erstmal mit 
+
+> git status
+
+gucken, ob sich überhaupt was geändert hat. Dann mit
+
+> git add *
+
+alle Änderungen in den lokalen Branch aufnehmen. Jetzt mit 
+
+> git commit -m "Kurze Beschreibung der letzten Änderungen"
+
+einen abgeschlossenen Snapshot draus machen. Die 'Beschreibung der letzten 
+Änderungen' wird später auch im Github bei den geänderten Dateien angezeigt 
+und sollte deshalb aussagefähig sein.
+
+Durch den 'commit' hat git jetzt die Versionsnummer des Snapshots hochgezählt. 
+Und die soll aber in dem Release noch verwendet werden. Deshalb ist jetzt der 
+richtige Moment, um die Batch-Datei im Projekt ("makeModuleAvalet.bat") 
+auszuführen. Durch die Batch-Datei wird die Datei "" und anschließend die beiden 
+Archiv-Dateien ("" und "") erneuert. Diese geänderten Dateien sollen jetzt noch 
+in das Release, deshalb gehts jetzt nochmal von vorne los. Also mit
+
+> git status
+
+schauen, ob sich die drei Dateien tatsächlich geändert haben. (Müssen sie, sonst 
+läuft was falsch!) Dann mit
+
+> git add *
+
+die letzten Änderungen in den lokalen Branch aufnehmen. Und mit 
+
+> git commit -m "Kurze Beschreibung der letzten Änderungen"
+
+oder auch mit
+
+> git commit --allow-empty-message
+
+einen neuen Snapshot erzeugen. Hier wäre es ok, einfach den Befehl von weiter 
+oben nochmal zu verwenden, mit der gleichen "Beschreibung der letzten Änderungen".
+
+Jetzt endlich die Änderungen zum DEV-Branch hochladen mit
+
+> git push https://MarcoSteffens@github.com/MarcoSteffens/Avalet.git/
+
+(Das funktioniert natürlich nur, wenn man dann auch mein Passwort kennt. Ggf. also
+den Github-Benutzernamen vor dem @-Zeichen ändern.)
+
+Dann muss auf Git selbst noch die Differenz vom DEV-Branch zum Master-Branch in 
+den Master-Branch übertragen werden. Git unterstützt das auf der Webseite des Projektes 
+ganz gut, es läuft also nur auf einige Klickerei hinaus. Zuletzt wird - ebenfalls 
+durch den Assistenten unterstützt - noch der DEV-Branch gelöscht. 
+
+Dann muss der DEV-Branch wieder neu erzeugt werden, und zwar als Kopie vom Master-Branch. 
+Auch das geht ganz einfach auf der Projekt-Seite bei Github.
+
+Dieses löschen und neu erzeugen des DEV-Branchs hat den Zweck, dass der DEV-Branch jetzt 
+sicher neuer ist als der lokal vorhandene Clon. Dadurch kann jetzt nämlich einfach durch
+
+> git pull
+
+die lokale Version wieder mit der Server-Version synchronisiert werden. Und damit ist 
+der Prozess dann abgeschlossen.
+
+Arbeit an der NÄCHSTEN neuen Version
+------------------------------------
+
+Durch den zweiten commit ist die Versionsnummer in git jetzt nicht mehr identisch mit der 
+Versionsnummer des eben veröffentlichten Avalet-Releases. Ansehen kann man sich diese 
+(neue) Version mit
+
+> git describe DEV --tags
+
+Diese Versionsnummer sollte jetzt _neuer_ sein als die im Release, und das wäre ja optimal. 
+Man könnte beim nächsten Release also als _ersten_ Schritt die Batch-Datei ausführen und dann 
+einfach nur ein 'add', ein 'commit' ... und dann sofort den 'push'. Und auch bei der lokalen 
+Arbeit an einer neuen Version ist das praktisch, weil man so auch innerhalb von Mudlet eine 
+neuere Versionsnummer angezeigt bekommt. Ich hab allerdings meist das umständlichere, weiter 
+oben beschriebene Verfahren genommen. Einfach weil viel Zeit zwischen zwei Release vergeht 
+und ich so einen sauberen Abschluss habe. 
+
+Versionsnummer erhöhen (Tag setzen)
+-----------------------------------
+
+Welche Tags es schon gibt kann man sich durch
+
+> git tag
+
+anzeigen lassen. Einen neuen Tag setzten dann z.B. durch
+
+> git tag -a v1.2 -m "Neue aktuelle Version ist 1.2"
+
+Danach ergibt
+
+> git describe DEV --tags
+
+zunächst einfach nur den Tag, also hier dann "v1.2". Den Zeichensalat dahinter erhält man 
+dann wieder nach dem nächsten 'commit'.
