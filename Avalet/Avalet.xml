@@ -3544,6 +3544,12 @@ jedem Fall werden sie "RegexTrigger" sein - die Texte, auf denen die Trigger rea
 sollen, müssen also reguläre Ausdrücke sein. 
 Außerdem ist es notwendig, die Zeichen zur Maskierung von Sonderzeichen ("\") extra einmal
 zu maskieren.
+Anführungszeichen sind schwierig. Wenn man im Start-String welche hat, kann man die äußeren
+gegen ' tauschen. Also: ["start"]='Start-RegExpr'. Die inneren müssen dann maskiert sein,
+also: \\". Im stop-Teil funktioniert das aber nicht. Ich vermute, das liegt an der weiteren
+Implementierung, also daran, wie die Stop-Timer erzeugt werden. Aber nachgesehen hab ich
+nicht. Stattdessen verwende ich ".?" um Anführungszeichen zu finden. So lange das so
+taugt.
 Bei manchen Timern enthält der Name in der Anzeige die Bezeichnung des Gegenstandes, der 
 verzaubert wurde. Beispiel ist der Kleriker-Waffensegen. Da mehrere Waffen parallel einen 
 Waffensegen bekommen können, ist das notwendig, um die einzelnen Waffensegen voneinander 
@@ -3567,6 +3573,7 @@ function avalet.initTimer()
     --{["name"]="Name", ["start"]="Start-RegExpr",["stop"]="Stop-RegExpr", ["duration"]="600"},
     --{["name"]="Name", ["start"]="Start-RegExpr",["stop"]="", ["duration"]="600"},
     --{["name"]="Name", ["start"]="Start-RegExpr",["stop"]="Stop-RegExpr"},
+    {["name"]="Angriffsfebron", ["start"]="Als Du Deinen Spruch zu Ende gesprochen hast, ist .?([A-Za-z\\s]+).? vollstaendig*", ["stop"]="Dein Angriffsfebron .?([A-Za-z\\s]+).? ist vom Kampf erschoepft\\.", ["duration"]="600"}, 
     {["name"]="Arkanschild", ["start"]="Du wirst von einem Arkanschild umgeben\\.", ["stop"]="Dein Arkanschild loest sich auf\\.", ["duration"]="600"},
     {["name"]="Antimagie", ["start"]="Du hast eine Aura der Antimagie erschaffen\\.", ["stop"]="Die Aura der Antimagie loest sich auf\\.", ["duration"]="60"},
     --{["name"]="Baumwaechter", ["start"]="", ["stop"]="", ["duration"]="1800"},  
@@ -3608,15 +3615,18 @@ function avalet.initTimer()
     {["name"]="Magiertrance", ["start"]="^Die Welt um Dich herum verliert an Bedeutung. Nur noch Deine Zauber sind$",["stop"]="Du erwachst aus Deiner Trance\\.", ["duration"]="600"},
     {["name"]="Manarausch", ["start"]="Dichte Manawolken bilden nun einen gewaltigen Schutz um Dich herum\\.",["stop"]="Dein Manarausch laesst wieder nach\\."},
     --{["name"]="Narbenheilung", ["start"]="", ["stop"]="", ["duration"]="1800"},  
+    {["name"]="Offensivfebron", ["start"]="Mit einem Schlag schiesst .?([A-Za-z\\s]+).? nach oben. Er ist nun bereit*", ["stop"]="Dein Offensivfebron .?([A-Za-z\\s]+).? ist vom Kampf erschoepft\\.", ["duration"]="600"}, 
     {["name"]="Pflanzenblick", ["start"]="Du siehst die Pflanzen um Dich herum jetzt viel klarer\\.", ["stop"]="Dein besonderer Blick fuer die Pflanzen an Deinem Weg verschwindet wieder\\.", ["duration"]="720"},
     --{["name"]="Puffpilz", ["start"]="", ["stop"]="", ["duration"]="1800"},  
     {["name"]="Regenerationssegen", ["start"]="Du wirst von einem warmen Leuchten umgeben\\.", ["stop"]="Das Dich umgebende Leuchten erlischt wieder\\.", ["duration"]="600"},
     {["name"]="Ruestungsverstaerkung", ["start"]="Erfolgreich hast Du Deinen Daemon in Deine Ruestung gebannt\\.",["stop"]="(.* loest sich von Deiner Ruestung\\.|Daemon aus Deiner Ruestung zu erloesen\\.)", ["duration"]="600"},
     {["name"]="Schild", ["start"]="Du wirst von einem magischen Schild umgeben\\.",["stop"]="Dein magischer Schild loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Schutzfebron", ["start"]="Dein Febron .?([A-Za-z\\s]+).? fliegt um Dich herum und bildet einen schuetzenden*", ["stop"]="Dein Schutzfebron .?([A-Za-z\\s]+).? ist vom Kampf erschoepft\\.", ["duration"]="600"}, 
     {["name"]="Schwarzschild", ["start"]="Du wirst von einem magischen Schild umgeben, der Dich besser parieren",["stop"]="Dein Schwarzschild loest sich auf\\.", ["duration"]="600"},
     {["name"]="Segen", ["start"]="^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-Za-z\\s]+) beginnt\\, schwach zu( leuchten\\.)?", ["stop"]="(Dein|Deine)([a-z ,]*)([A-z\\s]+) verliert .* magische Kraft\\.", ["duration"]="600"},
     {["name"]="Steinhaut", ["start"]="Du bist nun vollkommen in eine Steinhaut eingehuellt, .*",["stop"]=".*Du befreist Dich von Deiner Steinhaut.*|.*Deine Steinhaut loest sich auf.*|Das hat Deiner Steinhaut den letzten Rest gegeben, sie loest sich auf\\.", ["duration"]="1800"},
     {["name"]="Sternenstaub", ["start"]="Du wirst von Sternenstaub umgeben\\.",["stop"]="Dein Sternenstaub loest sich auf\\.", ["duration"]="600"},
+    {["name"]="Stressfebron", ["start"]="Als Du Deinen Spruch zu Ende gesprochen hast ist .?([A-Za-z\\s]+).? bereits*", ["stop"]="Dein Stressfebron .?([A-Za-z\\s]+).? ist vom Kampf erschoepft\\.", ["duration"]="600"}, 
     {["name"]="Todesaura", ["start"]="Du senkst Deine Haende, aber der Schutz der schwarzen Schleier.*|Die schwarzen Schleier verdichten sich um Dich\\.",["stop"]="Deine Todesaura loest sich auf\\.", ["duration"]="600"},
     {["name"]="Todeshaar", ["start"]="Du beendest das Ritual\\. Ueberall auf Dir wachsen nun kurze, schwarze Haare\\.", ["stop"]="Dein Todeshaar loest sich auf\\.", ["duration"]="1800"},  
     {["name"]="Todkonvertieren", ["start"]="Du wirst von einem heiligen Schutz umgeben\\.", ["stop"]="Dein heiliger Schutz loest sich auf\\.", ["duration"]="600"},
@@ -3677,6 +3687,7 @@ function avalet.createTempTimer(timerStrings)
     if v["name"] == "Segen" then param = ", matches[4]" end
     if v["name"] == "Zauberwaffe" then param = ", matches[4]" end
     if v["name"] == "Waffenleben" then param = ", matches[4]" end
+    if v["name"] == "Schutzfebron" then param = ", matches[2]" end
 
     -- START-Trigger:
     luaCode = [[avalet.registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[)]]
@@ -3720,6 +3731,7 @@ function avalet.createImprovedTempTimer(timerStrings)
     if v["name"] == "Segen" then param = ", matches[4]" end
     if v["name"] == "Zauberwaffe" then param = ", matches[4]" end
     if v["name"] == "Waffenleben" then param = ", matches[4]" end
+    if v["name"] == "Schutzfebron" then param = ", matches[2]" end
     
     --[[
     Wenn eine Stop-RegExpr existiert, wird beim Auslösen des Triggers ein temporärer 
@@ -3782,6 +3794,7 @@ function avalet.createPermTimer(timerStrings)
       if v["name"] == "Segen" then param = ", matches[4]" end
       if v["name"] == "Zauberwaffe" then param = ", matches[4]" end
       if v["name"] == "Waffenleben" then param = ", matches[4]" end
+      if v["name"] == "Schutzfebron" then param = ", matches[2]" end
       
       -- Zusammenbau und Erzeugen des START-Triggers als permanter Trigger:
       luaCode = [[avalet.registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[)]]
@@ -3844,7 +3857,8 @@ function avalet.createMixedTimer(timerStrings)
       if v["name"] == "Segen" then param = ", matches[4]" end
       if v["name"] == "Zauberwaffe" then param = ", matches[4]" end
       if v["name"] == "Waffenleben" then param = ", matches[4]" end
-      
+      if v["name"] == "Schutzfebron" then param = ", matches[2]" end
+    
       --[[
       Wenn eine Stop-RegExpr existiert, wird beim Auslösen des Triggers ein temporärer 
       One-Time-Stop-Trigger gesetzt. Da ich das folgende schon vor mehr als 20 Minuten 
