@@ -1,6 +1,6 @@
 # Avalet
 
-Achtung: Seit dem 4.18er-Update von Mudlet gibt es verschiedene Grafikfehler. Teilweise konnte ich die durch Änderungen an Avalet beheben, aber andere Probleme müssen durch die Mudlet-Entwickler bearbeitet werden. Ich empfehle deshalb, auf die Mudlet-Version 4.17.2 zurückzugreifen und die Software nicht zu aktualisieren. Aktuell ist Mudlet bei der Version 4.18.5.
+Achtung: Seit dem 4.18er-Update von Mudlet gibt es verschiedene Grafikfehler. Das liegt offenbar daran, dass durch die Weiterentwicklung von Mudlet diverse Bugs sichtbar wurden, sowohl in Avalet als auch in Avalon. Ich empfehle deshalb, vorläufig bei der Mudlet-Version 4.17.2 zu bleiben und die Software nicht zu aktualisieren. Wenn die mir bekannten Fehler behoben sind, entferne ich diese Meldung.
 
 Avalet ist ein Module für das MUD [Avalon](https://avalon.mud.de/) und den Mud-Client [Mudlet](https://www.mudlet.org/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
 
