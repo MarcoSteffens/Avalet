@@ -1,7 +1,5 @@
 # Avalet
 
-Achtung: Seit dem 4.18er-Update von Mudlet gibt es verschiedene Grafikfehler. Das liegt offenbar daran, dass durch die Weiterentwicklung von Mudlet diverse Bugs sichtbar wurden, sowohl in Avalet als auch in Avalon. Ich empfehle deshalb, vorläufig bei der Mudlet-Version 4.17.2 zu bleiben und die Software nicht zu aktualisieren. Wenn die mir bekannten Fehler behoben sind, entferne ich diese Meldung.
-
 Avalet ist ein Module für das MUD [Avalon](https://avalon.mud.de/) und den Mud-Client [Mudlet](https://www.mudlet.org/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
 
 ![aktueller Screenshot](latest_screenshot.png)
@@ -44,7 +42,7 @@ Avalet ist für Mudlet-Benutzer gedacht, die sich nicht selbst in die Programmie
 
 ## Was Avalet NICHT ist
 
-Avalet ist kein Ersatz für [das Soundpack](http://www.avalon-soundpack.de) oder für die Arbeit von Ban. Wenn du eine Sprachausgabe benutzt, dann ist dir mit diesen beiden Werkzeugen (und mit MUSHclient) derzeit sicher besser geholfen.
+Avalet ist kein Ersatz für [das Soundpack](https://github.com/Timtam/Avalon) oder für die Arbeit von Ban. Wenn du eine Sprachausgabe benutzt, dann ist dir mit diesen beiden Werkzeugen (und mit MUSHclient) derzeit sicher besser geholfen.
 
 Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das Avalon-Volk zu bringen. Oder um meine Script-Sammlung zu teilen. Irgendwelche Geheimnisse werden hier nicht aufgedeckt.
 
