@@ -2,7 +2,7 @@
 
 Avalet ist ein Module für das MUD [Avalon](https://avalon.mud.de/) und den Mud-Client [Mudlet](https://www.mudlet.org/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
 
-Aktuelle Version: [v1.2-2 vom 28.07.2024](https://github.com/MarcoSteffens/Avalet/raw/refs/heads/master/Avalet.mpackage)
+Aktuelle Version: [v1.2 vom 28.07.2024](https://github.com/MarcoSteffens/Avalet/raw/refs/heads/master/Avalet.mpackage)
 
 ![aktueller Screenshot](latest_screenshot.png)
 
