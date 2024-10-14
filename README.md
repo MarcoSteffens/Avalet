@@ -2,7 +2,7 @@
 
 Avalet ist ein Module für das MUD [Avalon](https://avalon.mud.de/) und den Mud-Client [Mudlet](https://www.mudlet.org/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
 
-Aktuelle Version: [v1.2-2 vom 28.07.2024](https://github.com/MarcoSteffens/Avalet/raw/refs/heads/master/Avalet.mpackage)   (<a href="https://github.com/MarcoSteffens/Avalet/raw/refs/heads/master/Avalet.mpackage" download>download</a>)
+Aktuelle Version: [v1.2-2 vom 28.07.2024](https://github.com/MarcoSteffens/Avalet/raw/refs/heads/master/Avalet.mpackage)
 
 ![aktueller Screenshot](latest_screenshot.png)
 
@@ -63,7 +63,7 @@ Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das A
 
 ## Installation
 
-Das eigentliche Modul besteht aus der Datei `Avalet.mpackage`. Die speicherst du bei dir irgendwo ab.
+Das eigentliche Modul besteht aus der Datei `Avalet.mpackage` (<a href="https://github.com/MarcoSteffens/Avalet/raw/refs/heads/master/Avalet.mpackage" download>download</a>). Die speicherst du bei dir irgendwo ab.
 
 Dann legst du dir am besten ein sauberes (also neues) Profil in Mudlet an. Und *entfernst* als erstes in den `Preferences` auf dem Reiter `General` und in der Rubrik `Game protocols` den Haken bei `Enable GMCP`. Ava*lon* sendet per ATCP statt per GMCP, und mit eingeschaltetem GMCP funktioniert Ava*let* nicht.
 
