@@ -56,6 +56,10 @@ Version holt. Also wenn man sich nicht erinnert, was man verändert hat. User
 meckern manchmal, dass ich das nicht mache, und im Grunde ist das auch berechtigt. 
 Aber ich hab da trotzdem kleine Lust zu.
 
+Jetzt noch die beiden(!) Download-Links in der README checken, ob da der Text 
+geändert werden muss. (Der 2. Link ist einfach mit "download" beschriftet derzeit,
+aber der erste Link enthält Versionsnummer - also Major und Minor - und Datum.)
+
 Jetzt mit 
 
 > git commit -m "Kurze Beschreibung der letzten Änderungen"

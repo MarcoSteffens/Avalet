@@ -4046,6 +4046,12 @@ function avalet.onSysInstall(_, name)
 
   -- Erstmal prüfen, ob es Avalet ist, was da installiert wurde:
   if name ~= avalet.MODULE_NAME then return end
+  
+  --[[
+  Seit Mudlet 4.16 ist es möglich, GMCP zu deaktivieren. Das
+  geschieht hier jetzt also auch. ]]
+  avalet.log("GMCP wird deaktiviert. (Notwendig für Avalet.)", 2)
+  setConfig("enableGMCP", false)
 
   --[[
   Für eine vernünftige Versionierung bzw. für einen irgendwie gearteten
@@ -4367,9 +4373,14 @@ Was allerdings notwendig für Avalet ist.
 Ich hab versucht, hier auch auf "GMCP" zu prüfen und eine
 Warnung auszugeben. Aber offenbar wird GMCP nicht wie die
 anderen Protokolle aktiviert, ich hatte jedenfalls keinen
-Auslöser des "elseif", trotz aktiviertem GMCP. ]]
+Auslöser des "elseif", trotz aktiviertem GMCP. 
+Seit Mudlet 4.16 ist es möglich, GMCP zu deaktivieren. Das
+geschieht in der Funktion onSysInstall weiter oben. ]]
 function avalet.onSysProtocolEnabled(event,arg)
   avalet.log("Function avalet.onSysProtocolEnabled()", 1)
+
+  --avalet.log("GMCP  wird deaktiviert. (Notwendig für Avalet.)", 2)
+  --setConfig("enableGMCP", false)
 
 	if arg =="ATCP" then
     avalet.log("Support fuer ATCP ist aktiv, konfiguriere ATCP.", 2)
@@ -4380,6 +4391,7 @@ function avalet.onSysProtocolEnabled(event,arg)
 		sendATCP("ava_set_soul",1)
 		sendATCP("ava_set_rsoul",1)
 		--sendATCP("ava_set_soundpack",1)
+		sendATCP("ava_req_targets",1)
 		sendATCP("ava_req_update",1)
 		sendATCP("ava_req_graphics_status",1)
 	elseif arg=="GMCP" then
@@ -10750,6 +10762,9 @@ function avalet.atcp.onATCPEventAvalonComm(event, arg)
   Die eigentliche Nachricht ist der Teil hinter dem ersten Leerzeichen,
   alles vorher wird hier abgeschnitten. ]]
   local message = arg:gsub("^.-%s", "", 1)
+  --[[
+  Hier werden MXP-Daten entfernt, die sind nur Zeichensalat. ]]
+  message = message:gsub('%[1z[^[]*%[7z','')
 
   -- Hier wird die Nachricht weiter verarbeitet (Model --&gt; createChatModel):
   avalet.chats.processNewMessage(channel, message)
@@ -10765,6 +10780,9 @@ function avalet.atcp.onATCPEventAvalonRComm(event, arg)
 
 	local channel = "Reden"
 	local message = arg:gsub("^.-%s", "", 1)
+  --[[
+  Hier werden MXP-Daten entfernt, die sind nur Zeichensalat. ]]
+  message = message:gsub('%[1z[^[]*%[7z','')
 
   avalet.chats.processNewMessage(channel, message)
 
@@ -10967,6 +10985,21 @@ function avalet.atcp.onATCPEventAvalonInv(event, arg)
 
 end
 registerAnonymousEventHandler("AvalonInv", "avalet.atcp.onATCPEventAvalonInv")
+
+
+-- AvalonZiele
+function avalet.atcp.onATCPEventAvalonZiele(event, arg)
+	avalet.log("AvalonZiele = " .. tostring(arg), 1)
+	avalet.log("AvalonZiele = " .. tostring(arg), 3)
+  
+  --echo("\n\n AVALON.TARGETS START\n\n")
+  --display(arg)
+  --echo("\n\n AVALON.TARGETS STOP\n\n")
+  
+  --avalet.char.setAvalonRoomZiele(arg)
+
+end
+registerAnonymousEventHandler("AvalonZiele", "avalet.atcp.onATCPEventAvalonZiele")
 
 
 -- AvalonSite

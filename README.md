@@ -2,7 +2,7 @@
 
 Avalet ist ein Module für das MUD [Avalon](https://avalon.mud.de/) und den Mud-Client [Mudlet](https://www.mudlet.org/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
 
-Aktuelle Version: [v1.2 vom 28.07.2024](https://github.com/MarcoSteffens/Avalet/raw/refs/heads/master/Avalet.mpackage)
+Aktuelle Version: [v1.3 vom 10.12.2024](https://github.com/MarcoSteffens/Avalet/raw/refs/heads/master/Avalet.mpackage)
 
 ![aktueller Screenshot](latest_screenshot.png)
 
@@ -65,7 +65,7 @@ Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das A
 
 Das eigentliche Modul besteht aus der Datei `Avalet.mpackage` (<a href="https://github.com/MarcoSteffens/Avalet/raw/refs/heads/master/Avalet.mpackage" download>download</a>). Die speicherst du bei dir irgendwo ab.
 
-Dann legst du dir am besten ein sauberes (also neues) Profil in Mudlet an. Und *entfernst* als erstes in den `Preferences` auf dem Reiter `General` und in der Rubrik `Game protocols` den Haken bei `Enable GMCP`. Ava*lon* sendet per ATCP statt per GMCP, und mit eingeschaltetem GMCP funktioniert Ava*let* nicht.
+Dann legst du dir am besten ein sauberes (also neues) Profil in Mudlet an. ~~Und *entfernst* als erstes in den `Preferences` auf dem Reiter `General` und in der Rubrik `Game protocols` den Haken bei `Enable GMCP`.~~ (Das würde zwar nicht schaden, aber Avalet macht das mittlerweile auch selbst.) Ava*lon* sendet per ATCP statt per GMCP, und mit eingeschaltetem GMCP funktioniert Ava*let* nicht.
 
 Anschließend importierst du dann mit dem **Modul-Manager** das vorhin gespeicherte Modul (`Avalet.mpackage`) in dein Profil. Avalet funktioniert nur, wenn es als Modul installiert wird. Nicht als Paket!
 
@@ -82,7 +82,7 @@ Für eine **Aktualisierung** einfach die neuere Version der Datei `Avalet.mpacka
 - Avalet MUSS als MODUL mit dem MODUL-Manager installiert sein. NICHT als Paket mit dem Paket-Manager.
 - Im Modul-Manager auf KEINEN Fall das Häkchen bei "Synchronisieren" setzen! Praktisch alles kann dann passieren.
 - Nach der Installation AUSLOGGEN mit "schlafe ein" oder "einschlafen", außerdem Mudlet einmal richtig SCHLIESSEN und NEU STARTEN.
-- Das Häkchen bei "Enable GMCP" ENTFERNEN. ("Settings", Tab "General", Abschnitt "Game protocols")
+- ~~Das Häkchen bei "Enable GMCP" ENTFERNEN. ("Settings", Tab "General", Abschnitt "Game protocols")~~ (Macht Avalet selbst, aber eine Kontrolle kann nicht schaden.)
 - Bei einem Update bleiben manchmal Reste der alten Installation erhalten. In dem Fall entweder von Hand löschen oder mit einem neuen Profil starten.
 
 Alles gemacht? Alles nochmal überprüft? Trotzdem ein Problem? Sprich mich an! Am besten in Avalon, aber per Mail geht auch.
