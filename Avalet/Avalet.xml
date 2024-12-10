@@ -4046,6 +4046,12 @@ function avalet.onSysInstall(_, name)
 
   -- Erstmal prüfen, ob es Avalet ist, was da installiert wurde:
   if name ~= avalet.MODULE_NAME then return end
+  
+  --[[
+  Seit Mudlet 4.16 ist es möglich, GMCP zu deaktivieren. Das
+  geschieht hier jetzt also auch. ]]
+  avalet.log("GMCP wird deaktiviert. (Notwendig für Avalet.)", 2)
+  setConfig("enableGMCP", false)
 
   --[[
   Für eine vernünftige Versionierung bzw. für einen irgendwie gearteten
@@ -4367,9 +4373,14 @@ Was allerdings notwendig für Avalet ist.
 Ich hab versucht, hier auch auf "GMCP" zu prüfen und eine
 Warnung auszugeben. Aber offenbar wird GMCP nicht wie die
 anderen Protokolle aktiviert, ich hatte jedenfalls keinen
-Auslöser des "elseif", trotz aktiviertem GMCP. ]]
+Auslöser des "elseif", trotz aktiviertem GMCP. 
+Seit Mudlet 4.16 ist es möglich, GMCP zu deaktivieren. Das
+geschieht in der Funktion onSysInstall weiter oben. ]]
 function avalet.onSysProtocolEnabled(event,arg)
   avalet.log("Function avalet.onSysProtocolEnabled()", 1)
+
+  --avalet.log("GMCP  wird deaktiviert. (Notwendig für Avalet.)", 2)
+  --setConfig("enableGMCP", false)
 
 	if arg =="ATCP" then
     avalet.log("Support fuer ATCP ist aktiv, konfiguriere ATCP.", 2)
