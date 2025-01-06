@@ -4228,7 +4228,7 @@ Diese Funktion wird ausgeführt, wenn Avalet DEinstalliert wird. Warum auch
 immer jemand so etwas verrücktes tun sollte. Hier wird aufgeräumt. ]]
 function avalet.onSysUninstall(_, name)
   avalet.log("Function avalet.onSysUninstall()", 1)
-  cecho("&lt;magenta&gt;Function avalet.onSysUninstall()")
+  --cecho("&lt;magenta&gt;Function avalet.onSysUninstall(): "..name)
 
   -- Erstmal prüfen, ob es Avalet ist, was da deinstalliert wurde:
   if name ~= avalet.MODULE_NAME then return end
@@ -4236,7 +4236,7 @@ function avalet.onSysUninstall(_, name)
   -- Bei der Deinstallation von Avalet wird der Zustand des Default Anwendungsfensters
   -- wieder hergestellt. (Also die normale Spiel-Konsole im gesamten Fenster angezeigt.)
   -- Edit: So weit zur Theorie. In der Praxis hat nichts davon funktioniert. TODO.
-  --[[
+--[[
   avaletUI.adjContTop:hide()
   avaletUI.adjContBottom:hide()
   avaletUI.adjContLeft:hide()
