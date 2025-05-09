@@ -1975,7 +1975,10 @@ objCharacter.new = function()
       local subset = avalet.readFileFromFS(strCharFilePath, "r")
       --[=[
       --[[
-      Also eigentlich finde ich, das hier müsste gehen. Geht aber nicht. TODO ]]
+      Also eigentlich finde ich, das hier müsste gehen. Geht aber nicht. TODO 
+      Toll, Twrx hat mir die Lösung geschickt, irgendwas mit deepcopy, aber ich
+      finde den Code grade nicht... :( Sorry Twrx. Mach ich in einem der 
+      nächsten Updates. ]]
       for k,v in pairs(subset) do
         if k ~= "loginIsReconnect" then
           avalet.log("Geladenes Datum: "..k.." mit wert: "..tostring(v).."\n", 2)
@@ -10089,6 +10092,7 @@ function avaletUI.onRefreshChatUI(_, chan)
   local lastdate = ""
   local date = ""
   local line = ""
+  local lineCount = nil
   
   local channel = chan
   
@@ -10175,13 +10179,23 @@ function avaletUI.onRefreshChatUI(_, chan)
     if lastdate ~= date then
       -- Am Anfang ist "lastdate" noch leer, dann keine Leerzeile
       if lastdate ~= "" then content = "\n" end
-      content = content .. filler .. "   " .. date .. "   " .. filler .. "\n\n"
+      content = content .. "&lt;white&gt;" .. filler .. "   " .. date .. "   " .. filler .. "\n\n"
       lastdate = date
+      lineCount = nil
     end
     
     -- Die eigentliche Zeile besteht nur aus dem Zeitstempel und dem eigentlichen Text
     line = string.gsub(v, "^%[%d+%.%d+%.%d+ %- (%d+:%d+:%d+)%.%d+%]: (.*)$", "%1: %2", 1)
-    content = content .. line .. "\n"
+    --content = content .. line .. "\n"
+    
+    if lineCount == nil or lineCount == 1 then
+      content = content .."&lt;LimeGreen&gt;" .. line .. "\n"--"\n\n"
+      lineCount = 2
+    else
+      content = content .."&lt;white&gt;" .. line .. "\n"--"\n\n"
+      lineCount = 1
+    end
+    
 
     --[[
     In Mudlet Version 4.8 konnte "echo()" plötzlich nur noch 10k Zeichen auf einmal ausgeben.
@@ -10190,14 +10204,15 @@ function avaletUI.onRefreshChatUI(_, chan)
     schon gefixt. Und jetzt lass ich es so.
     Hier wird also nach 8k Zeichen der Content einmal ausgegeben (und dann geleert). ]]
     if #content &gt; 8000 then
-      avaletUI.chats.miniConsole:echo(content)
+      avaletUI.chats.miniConsole:cecho(content)
       content = ""
+      lineCount = nil
     end
   end
   
   -- Zum Schluss wird noch der Rest vom Content ausgegeben, also alles unter 8k Zeichen.
   if content ~= "" then
-    avaletUI.chats.miniConsole:echo(content)
+    avaletUI.chats.miniConsole:cecho(content)
   end
   
 end --function avaletUI.onRefreshChatUI(_, channel)

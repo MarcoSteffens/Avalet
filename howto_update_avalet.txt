@@ -29,7 +29,7 @@ Voraussetzung für diesen Prozess ist, dass git installiert ist und Avalet ausge
 Von Avalet gibt es (zur Zeit jedenfalls) nur einen Master- und einen DEV-Branch. Die lokale 
 Kopie ist vom DEV-Branch! Änderungen werden also auch in den DEV-Branch comitted. Und müssen 
 folglich noch in den Master-Branch überführt werden, damit die Änderungen bis zum Anwender 
-kommen. Das ist die minimalste, überhaupt noch vertretbare Arbeitsweise, wenn man eine 
+kommen. Das ist die minimalste überhaupt noch vertretbare Arbeitsweise, wenn man eine 
 Versionsverwaltung verwendet. Wer direkt auf dem Master-Branch arbeitet schubst auch kleine 
 Kinder in Gräben!
 
