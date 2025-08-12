@@ -60,6 +60,8 @@ Jetzt noch die beiden(!) Download-Links in der README checken, ob da der Text
 geändert werden muss. (Der 2. Link ist einfach mit "download" beschriftet derzeit,
 aber der erste Link enthält Versionsnummer - also Major und Minor - und Datum.)
 
+(Bei Änderungen an der readme jetzt nochmal git add *, oder?)
+
 Jetzt mit 
 
 > git commit -m "Kurze Beschreibung der letzten Änderungen"

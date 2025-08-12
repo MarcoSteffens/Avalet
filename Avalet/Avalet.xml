@@ -4115,20 +4115,21 @@ function avalet.onSysInstall(_, name)
   avalet.initModel()
   
   --[[
-  Und nachdem jetzt die Daten für die Anzeige vorbereitet sind, kann die Anzeige
-  gebaut werden. Anfangs natürlich mit Platzhaltern bzw. leeren Feldern. Das wird
-  dann später aktualisiert. ]]
-  avaletUI.buildUI()
-  
-  --[[
   Die ausgesprochen Komplexe Umsetzung der "Timer", also der Fortschrittsbalken, mit
   denen zum Beispiel die Laufzeit von Schild-Zaubern (und ähnlichem) visualisiert 
   wird, erfordert auch eine Initialisierung. Vor alle werden dabei die Trigger
   erzeugt, mit denen die anzuzeigenden Zauber (etc.) erkannt werden. Wird so ein Trigger
   ausgelöst, erzeugt der sich dann wiederrum einen Einmal-Trigger, der das Ende des
   Zaubers (etc.) erkennt. Wenn das möglich ist. Aber das wird bei den Timern auch
-  nochmal ausführlich beschrieben. ]]
+  nochmal ausführlich beschrieben. MUSS VOR buildUI laufen!]]
   avalet.initTimer()
+  
+  --[[
+  Und nachdem jetzt die Daten für die Anzeige vorbereitet sind, kann die Anzeige
+  gebaut werden. Anfangs natürlich mit Platzhaltern bzw. leeren Feldern. Das wird
+  dann später aktualisiert. Muss zum Schluss laufen, weil die Funktion crashed 
+  wenn die Fenstergröße kein Layout zulaesst. TODO.  ]]
+  avaletUI.buildUI()
   
   --[[
   Nach einem Reconnect braucht Avalet den Charakternamen. Nach einem normalen
