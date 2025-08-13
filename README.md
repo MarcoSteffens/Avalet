@@ -2,7 +2,7 @@
 
 Avalet ist ein Module für das MUD [Avalon](https://avalon.mud.de/) und den Mud-Client [Mudlet](https://www.mudlet.org/). Für ein bisschen mehr Farbe, ein bisschen mehr Übersicht und ein bisschen mehr Klicki-Bunti.
 
-Aktuelle Version: [v1.5 vom 12.08.2025](https://github.com/MarcoSteffens/Avalet/raw/refs/heads/master/Avalet.mpackage)
+Aktuelle Version: [v1.5 vom 13.08.2025](https://github.com/MarcoSteffens/Avalet/raw/refs/heads/master/Avalet.mpackage)
 
 Achtung: Bei Anzeigeproblemen mit der 64-bit-Version bitte auf die [32-bit-Version](https://www.mudlet.org/de/herunterladen/) von Mudlet zurückgreifen. 
 
@@ -61,6 +61,33 @@ Avalet ist auch nicht gedacht, um mühsam erworbenes "Geheim"-Wissen unter das A
             |                               Lorielle ueber Avalet   | |
             \_______________________________________________________\_/
 
+```
+
+## Bugs finden und Bugs melden
+
+Mittlerweile ist Avalet wirklich ziemlich groß und auch schon ganz schön kompliziert geworden. Und es kommt häufiger vor, dass mir von Fehlern berichtet wird, die ich dann nicht nachstellen kann bei mir. Was das Beheben des Fehlers ziemlich schwierig macht.
+
+Du kannst mir helfen, einen von dir beobachteten Fehler zu finden. Und zwar durch eine einfache und durch eine etwas weniger einfache Maßnahme.
+
+Zunächst einmal könntest du in den Einstellungen von Mudlet, auf dem Reiter "Hauptanzeige" ("Main display"), die Funktion "Zeige Lua Fehler in der Hauptanzeige" ("Echo Lua errors to main console") aktivieren.
+
+Außerdem könntest du eine Datei mit dem Namen "debug.txt" oder nur "debug" in das gleiche Verzeichnis legen, in dem du die Avalet-Datei abgelegt hast. Also die Datei "avalet.mpackage" oder "avalet.zip". In dieser debug-Datei muss nichts stehen, sie muss nur existieren.
+
+Wenn du anschließend Mudlet und ein Profil mit installiertem Avalet neu startest, und anschließend den Fehler noch einmal reproduzierst, dann wirst du auf jeden Fall sehr viele Logausgaben und vielleicht auch Fehlermeldungen sehen. Und das interessiert mich dann alles. Das müsstest du mir dann bitte schicken.
+
+Rückgängig machen kannst du das dann einfach, indem du die debug-Datei löschst oder umbenennst und die aktivierte Funktion wieder deaktivierst.
+
+Vielen Dank für deine Hilfe!
+
+```
+            __________________________________________________________
+           /                                                        / \
+           |                                                        | |
+           \________________________________________________________\_/
+            |                                                       |
+            |  "They all float down here. You'll float, too."       |_
+            |                     Pennywise über Bugs in Avalet     | |
+            \_______________________________________________________\_/
 ```
 
 ## Installation

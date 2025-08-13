@@ -1551,17 +1551,45 @@ als Variable an, falls mal jemandem was schöneres einfällt.
 Man kann das auch auf der Eingabezeile erledigen. Mit "lua avalet.debug=true" 
 schaltet man den Debug-Modus ein. Und mit "lua avalet.loglevel=2" legt man die 
 Schwelle, aber der Logausgaben angezeigt werden, auf INFO. Dann erspart man sich
-die ganzen DEBUG-Ausgaben. loglevel=0 zeigt alles. ]]
+die ganzen DEBUG-Ausgaben. loglevel=0 zeigt alles. 
+Und ab sofort gibt es noch die Moeglichkeit, eine Datei mit dem Namen "debug" oder
+"debug.txt" in das Verzeichnis zu legen, wo das Modul Avalet liegt. Also in das 
+Verzeichnis, wo entweder die Datei "avalet.mpackage" oder "avalet.zip" liegt. 
+Oder in das Verzeichnis, wo die Datei "avalet.xml" liegt, wenn es eine Entwickler-
+Installation ist. Ist so eine Datei vorhanden, dann werden Debug-Ausgaben hier 
+auch schon aktiviert, so dass auch die Installation des Moduls in Mudlet schon 
+von Log-Ausgaben begleitet wird. Die anderen Methoden, also "Profilname mit -DEV" 
+und Variable hier von Hand aendern, funktionieren erstmal weiterhin.]]
 avalet.DEBUG_PATTERN = ".- DEV"
 avalet.debug = avalet.debug or false
-avalet.loglevel = avalet.loglevel or 0
+
+--[[
+Schaut ob eine Datei namens "debug" oder "debug.txt" im gleichen Verzeichnis wie 
+die Avalet-Installationsdatei liegt. Wird danach verwendet. ]]
+local function debugMode()
+  local modulePath = getModulePath(avalet.MODULE_NAME)
+  modulePath = string.gsub(modulePath, avalet.MODULE_NAME..".xml", "")
+  modulePath = string.gsub(modulePath, avalet.MODULE_NAME..".mpackage", "")
+  modulePath = string.gsub(modulePath, avalet.MODULE_NAME..".zip", "")
+  if (io.exists(modulePath.."debug") or io.exists(modulePath.."debug.txt")) then
+    return true
+  else
+    return false
+  end
+end
+
+if debugMode() then 
+  avalet.debug = true 
+end
+
 if avalet.debug then
-  -- Die avalet.log()-Funktion existiert hier noch nicht beim Systemstart. Deshalb von
-  -- Hand. Vor dem Release unbedingt debug auf false stellen!
+  -- Die avalet.log()-Funktion existiert hier noch nicht beim Systemstart. Deshalb von Hand.
   cecho("&lt;black:magenta&gt;                                                                               \n")
-  cecho("&lt;black:magenta&gt; DEBUG MODE ist aktiviert! Das MUSS vor dem Release auf FALSE gestellt werden! \n")
+  cecho("&lt;black:magenta&gt; DEBUG MODE ist aktiviert!                                                     \n")
   cecho("&lt;black:magenta&gt;                                                                               \n")
 end
+
+avalet.loglevel = avalet.loglevel or 0
 
 -- Objekt-Variable
 avalet.profile = avalet.profile or {}
