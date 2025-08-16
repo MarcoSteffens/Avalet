@@ -790,6 +790,45 @@ avalet.char.setVergiftung(false)
 			</Trigger>
 		</TriggerGroup>
 		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>Hyraskrieger</name>
+			<script></script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList />
+			<regexCodePropertyList />
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>Febronenname</name>
+				<script>avalet.timerModel.hyrasFebronEvo = true
+avalet.timerModel.hyrasFebronName = matches[2]
+--cecho("&lt;magenta&gt;Febronennamen-Trigger: avalet.timerModel.hyrasFebronName = "..matches[2].."\n")
+</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>^Du holst Deinen Febron \"(\S*)\" aus Deinem Febronenbeutel.*$</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>1</integer>
+				</regexCodePropertyList>
+			</Trigger>
+		</TriggerGroup>
+		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 			<name>Runenschmiede</name>
 			<script></script>
 			<triggerType>0</triggerType>
@@ -1399,6 +1438,348 @@ send(matches[1],false)
 			<packageName></packageName>
 			<regex>^(b|betrachte|betrachten|schau)$</regex>
 		</Alias>
+		<AliasGroup isActive="yes" isFolder="yes">
+			<name>Hilfsfunktionen</name>
+			<script></script>
+			<command></command>
+			<packageName></packageName>
+			<regex></regex>
+			<Alias isActive="yes" isFolder="no">
+				<name>PokemonTest</name>
+				<script>--[[
+Das hier ist eine Möglichkeit um die Febronen-Timer zu testen. Ich hab hier die 
+Standardtexte sowohl für die lange als auch für die kurze Anzeige versammelt und 
+spiele sie einmal durch, zusätzlich werden noch als "Ende" das normale Ende sowie 
+das Einpacken eines einzelnen als auch das Einpacken aller Febronen gleichzeitig 
+simuliert. Wenn das hier alles durchläuft kann es aber trotzdem sein, dann ist das 
+erstmal ein gutes Zeichen. Aber da zum Beispiel durch die Benennung der Febronen 
+bei anderen auch anders formatierte Texte auftreten können, kann es natürlich 
+trotzdem noch zu Problemen kommen. 
+
+Aufruf mit:
+'test evo febron &lt;parameter&gt;'
+
+Parameter können sein:
+'angriff', 'defensiv', 'fuehrung', 'offensiv', 'schutz', 'stress' und 'alles'
+]]
+
+
+local febname = ""
+local vorbereitung = ""
+local langerText = ""
+local kurzerText = ""
+local normalesEnde = ""
+local abbruchEiner = ""
+local abbruchAlle = ""
+
+
+local function pokemonTestStrings(welche)
+
+  if (welche == "angriff") then
+    febname = "Ahoernchen"
+    vorbereitung = "Du holst Deinen Febron \""..febname.."\" aus Deinem Febronenbeutel und beginnst Dich\nzu konzentrieren."
+    langerText = "Als Du Deinen Spruch zu Ende gesprochen hast, ist \""..febname.."\" vollstaendig\nevoliert und beginnt aus Deiner Hand zu schweben. \""..febname.."\" ist nun fuer den\nKampf gegen Deine Feinde geruestet und fliegt kaempferisch um Dich herum."
+    kurzerText = "Als Du Deinen Spruch zu Ende gesprochen hast, ist \""..febname.."\" nun fuer den\nKampf gegen Deine Feinde geruestet."
+    normalesEnde = "Dein Febron \""..febname.."\" ist vom ewigen Herumschwirren erschoepft. Er verliert\nlangsam aber sicher sein Leuchten. Er wird kleiner und rettet sich mit\nletzter Kraft in Deinen Febronenbeutel, wo er sein duesteres Leuchten\nkomplett verliert."
+    abbruchEiner = "Du faengst Dein Febron \""..febname.."\" ein und legst ihn in Deinen Febronenbeutel."
+    abbruchAlle = "Du faengst vorsichtig alle Deine Febrone ein und legst sie in Deinen\nFebronenbeutel."
+  elseif (welche == "defensiv") then
+    febname = "Bhoernchen"
+    vorbereitung = "Du holst Deinen Febron \""..febname.."\" aus Deinem Febronenbeutel und beginnst Dich\nzu konzentrieren."
+    langerText = "Mit einem Schlag schiesst \""..febname.."\" nach oben. Er ist nun bereit, Dich vor\nden Attacken Deiner Gegner telepathisch zu schuetzen. Kommen sie Dir zu\nnahe, wirst Du es spueren und kannst nun schnell parieren."
+    kurzerText = "Mit einem Schlag schiesst \""..febname.."\" nach oben. Er wird Dich vor Schlaegen\nwarnen."
+    normalesEnde = "Dein Defensivfebron \""..febname.."\" ist vom Kampf erschoepft. Er wird kleiner und\nschwirrt in Deinen Beutel zurueck."
+    abbruchEiner = "Du faengst Dein Febron \""..febname.."\" ein und legst ihn in Deinen Febronenbeutel."
+    abbruchAlle = "Du faengst vorsichtig alle Deine Febrone ein und legst sie in Deinen\nFebronenbeutel."
+  elseif (welche == "fuehrung") then
+    febname = "Choernchen"
+    vorbereitung = "Du holst Deinen Febron \""..febname.."\" aus Deinem Febronenbeutel und beginnst Dich\nzu konzentrieren."
+    langerText = "Mit einem Schlag schiesst \""..febname.."\" nach oben. Er ist nun bereit, andere\nFebrone so zu leiten, dass sie ihre Aufgaben besser vollziehen koennen."
+    kurzerText = "Mit einem Schlag schiesst \""..febname.."\" nach oben. Er ist nun bereit, andere\nFebrone so zu leiten, dass sie ihre Aufgaben besser vollziehen koennen."
+    normalesEnde = "Dein Fuehrungsfebron \""..febname.."\" ist vom Kampf erschoepft. Er wird kleiner und\nschwirrt in Deinen Beutel zurueck."
+    abbruchEiner = "Du faengst Dein Febron \""..febname.."\" ein und legst ihn in Deinen Febronenbeutel."
+    abbruchAlle = "Du faengst vorsichtig alle Deine Febrone ein und legst sie in Deinen\nFebronenbeutel."
+  elseif (welche == "offensiv") then
+    febname = "Dhoernchen"
+    vorbereitung = "Du holst Deinen Febron \""..febname.."\" aus Deinem Febronenbeutel und beginnst Dich\nzu konzentrieren."
+    langerText = "Mit einem Schlag schiesst \""..febname.."\" nach oben. Er ist nun bereit, Dich\ntelepathisch zu staerkeren Attacken anzufeuern. Kommen Gegner Dir zu nahe,\nwird er es spueren und Dich zu einem starken Schlag zwingen."
+    kurzerText = "Mit einem Schlag schiesst \""..febname.."\" nach oben. Er wird Dich nun staerker\nzuschlagen lassen."
+    normalesEnde = "Dein Offensivfebron \""..febname.."\" ist vom Kampf erschoepft. Er wird kleiner und\nschwirrt in Deinen Beutel zurueck."
+    abbruchEiner = "Du faengst Dein Febron \""..febname.."\" ein und legst ihn in Deinen Febronenbeutel."
+    abbruchAlle = "Du faengst vorsichtig alle Deine Febrone ein und legst sie in Deinen\nFebronenbeutel."
+  elseif (welche == "schutz") then
+    febname = "Ehoernchen"
+    vorbereitung = "Du holst Deinen Febron \""..febname.."\" aus Deinem Febronenbeutel und beginnst Dich\nzu konzentrieren."
+    langerText = "Dein Febron \""..febname.."\" fliegt um Dich herum und bildet einen schuetzenden\nSchild um Dich."
+    kurzerText = "Dein Febron \""..febname.."\" fliegt um Dich herum und bildet einen schuetzenden\nSchild um Dich."
+    normalesEnde = "Dein Schutzfebron \""..febname.."\" ist vom Kampf erschoepft. Er wird kleiner und\nschwirrt in Deinen Beutel zurueck."
+    abbruchEiner = "Du faengst Dein Febron \""..febname.."\" ein und legst ihn in Deinen Febronenbeutel."
+    abbruchAlle = "Du faengst vorsichtig alle Deine Febrone ein und legst sie in Deinen\nFebronenbeutel."
+  elseif (welche == "stress") then
+    febname = "Fhoernchen"
+    vorbereitung = "Du holst Deinen Febron \""..febname.."\" aus Deinem Febronenbeutel und beginnst Dich\nzu konzentrieren."
+    langerText = "Als Du Deinen Spruch zu Ende gesprochen hast ist \""..febname.."\" bereits vollstaendig\nevoliert. Er beginnt bereits Dich zu nerven, springt vor Deinen Augen umher\nund schlaegt Dir an Deinen Kopf. Man, das war der groesste Fehler Deines\nLebens, den zu evolieren! Du faehrst fast aus Deiner Haut, als er Dich\nkraeftig erwischt und schlaegst um Dich. GNAAAAAAaaaa, DU BIST BOESE!"
+    kurzerText = "Als Du Deinen Spruch zu Ende gesprochen hast, beginnt \""..febname.."\" Dich nun\nanzutreiben."
+    normalesEnde = "Dein Stressfebron \""..febname.."\" ist vom Kampf erschoepft. Er wird kleiner und\nschwirrt in Deinen Beutel zurueck."
+    abbruchEiner = "Du faengst Dein Febron \""..febname.."\" ein und legst ihn in Deinen Febronenbeutel."
+    abbruchAlle = "Du faengst vorsichtig alle Deine Febrone ein und legst sie in Deinen\nFebronenbeutel."
+  else
+    cecho("&lt;magenta&gt;\nFalscher Parameter\n")
+  end
+
+
+end
+
+pokemonTestStrings(matches[2])
+
+if ((matches[2] == "angriff") or 
+    (matches[2] == "defensiv") or 
+    (matches[2] == "fuehrung") or 
+    (matches[2] == "offensiv") or 
+    (matches[2] == "schutz") or 
+    (matches[2] == "stress")) then
+  cecho("&lt;magenta&gt;teste "..matches[2].."febron\n")
+  
+  pokemonTestStrings(matches[2])
+
+  tempTimer(0, function() 
+        msg = "Vorbereitung (nötig damit das Skript den Namen kennt)"
+        cecho("&lt;magenta&gt;\nStep 1: "..msg.."\n")
+        feedTriggers("\n"..vorbereitung.."\n")
+      end)
+  tempTimer(1, function() 
+        msg = "Langer Text"
+        cecho("&lt;magenta&gt;\n"..msg.."\n")
+        feedTriggers("\n"..langerText.."\n") 
+      end)
+  tempTimer(5, function() 
+        msg = "Normales Ende"
+        cecho("&lt;magenta&gt;\n"..msg.."\n")
+        feedTriggers("\n"..normalesEnde.."\n") 
+      end)
+  tempTimer(6, function() 
+        msg = "Vorbereitung (nötig damit das Skript den Namen kennt)"
+        cecho("&lt;magenta&gt;\nStep 2: "..msg.."\n")
+        feedTriggers("\n"..vorbereitung.."\n")
+      end)
+  tempTimer(7, function() 
+        msg = "Kurzer Text"
+        cecho("&lt;magenta&gt;\n"..msg.."\n")
+        feedTriggers("\n"..kurzerText.."\n") 
+      end)
+  tempTimer(11, function() 
+        msg = "Abbruch, einzelner Febron"
+        cecho("&lt;magenta&gt;\n"..msg.."\n")
+        feedTriggers("\n"..abbruchEiner.."\n") 
+      end)
+  tempTimer(12, function() 
+        msg = "Vorbereitung (nötig damit das Skript den Namen kennt)"
+        cecho("&lt;magenta&gt;\nStep 3: "..msg.."\n")
+        feedTriggers("\n"..vorbereitung.."\n")
+      end)
+  tempTimer(13, function() 
+        msg = "Langer Text"
+        cecho("&lt;magenta&gt;\n"..msg.."\n")
+        feedTriggers("\n"..langerText.."\n") 
+      end)
+  tempTimer(17, function() 
+        msg = "Abbruch, alle Febronen"
+        cecho("&lt;magenta&gt;\n"..msg.."\n")
+        feedTriggers("\n"..abbruchAlle.."\n")
+        cecho("&lt;magenta&gt;ende test\n")
+      end)
+elseif (matches[2] == "alles") then
+  cecho("&lt;magenta&gt;teste alles\n")
+  
+  --[[
+  pokemonTestStrings("angriff")
+  pokemonTestStrings("defensiv")
+  pokemonTestStrings("fuehrung")
+  pokemonTestStrings("offensiv")
+  pokemonTestStrings("schutz")
+  pokemonTestStrings("stress")
+  ]]
+  local i = 0
+  tempTimer(i, function() 
+        msg = "Vorbereitung (nötig damit das Skript den Namen kennt)"
+        cecho("&lt;magenta&gt;\nStep 1: "..msg.."\n")
+        pokemonTestStrings("angriff")
+        feedTriggers("\n"..vorbereitung.."\n")
+      end)
+  i = i + 1
+  tempTimer(i, function() 
+        msg = "Langer Text"
+        cecho("&lt;magenta&gt;\n"..msg.."\n")
+        pokemonTestStrings("angriff")
+        feedTriggers("\n"..langerText.."\n") 
+      end)
+  i = i + 24
+  
+  tempTimer(i, function() 
+        msg = "Vorbereitung (nötig damit das Skript den Namen kennt)"
+        cecho("&lt;magenta&gt;\nStep 1: "..msg.."\n")
+        pokemonTestStrings("defensiv")
+        feedTriggers("\n"..vorbereitung.."\n")
+      end)
+  i = i + 1
+  tempTimer(i, function() 
+        msg = "Langer Text"
+        cecho("&lt;magenta&gt;\n"..msg.."\n")
+        pokemonTestStrings("defensiv")
+        feedTriggers("\n"..langerText.."\n") 
+      end)
+  i = i + 24
+  
+  tempTimer(i, function() 
+        msg = "Vorbereitung (nötig damit das Skript den Namen kennt)"
+        cecho("&lt;magenta&gt;\nStep 1: "..msg.."\n")
+        pokemonTestStrings("fuehrung")
+        feedTriggers("\n"..vorbereitung.."\n")
+      end)
+  i = i + 1
+  tempTimer(i, function() 
+        msg = "Langer Text"
+        cecho("&lt;magenta&gt;\n"..msg.."\n")
+        pokemonTestStrings("fuehrung")
+        feedTriggers("\n"..langerText.."\n") 
+      end)
+  i = i + 24
+  
+  tempTimer(i, function() 
+        msg = "Vorbereitung (nötig damit das Skript den Namen kennt)"
+        cecho("&lt;magenta&gt;\nStep 1: "..msg.."\n")
+        pokemonTestStrings("offensiv")
+        feedTriggers("\n"..vorbereitung.."\n")
+      end)
+  i = i + 1
+  tempTimer(i, function() 
+        msg = "Langer Text"
+        cecho("&lt;magenta&gt;\n"..msg.."\n")
+        pokemonTestStrings("offensiv")
+        feedTriggers("\n"..langerText.."\n") 
+      end)
+  i = i + 24
+  
+  tempTimer(i, function() 
+        msg = "Vorbereitung (nötig damit das Skript den Namen kennt)"
+        cecho("&lt;magenta&gt;\nStep 1: "..msg.."\n")
+        pokemonTestStrings("schutz")
+        feedTriggers("\n"..vorbereitung.."\n")
+      end)
+  i = i + 1
+  tempTimer(i, function() 
+        msg = "Langer Text"
+        cecho("&lt;magenta&gt;\n"..msg.."\n")
+        pokemonTestStrings("schutz")
+        feedTriggers("\n"..langerText.."\n") 
+      end)
+  i = i + 24
+  
+  tempTimer(i, function() 
+        msg = "Vorbereitung (nötig damit das Skript den Namen kennt)"
+        cecho("&lt;magenta&gt;\nStep 1: "..msg.."\n")
+        pokemonTestStrings("stress")
+        feedTriggers("\n"..vorbereitung.."\n")
+      end)
+  i = i + 1
+  tempTimer(i, function() 
+        msg = "Langer Text"
+        cecho("&lt;magenta&gt;\n"..msg.."\n")
+        pokemonTestStrings("stress")
+        feedTriggers("\n"..langerText.."\n") 
+      end)
+  i = i + 24
+  
+  tempTimer(i, function() 
+        msg = "Normales Ende"
+        cecho("&lt;magenta&gt;\n"..msg.."\n")
+        pokemonTestStrings("schutz")
+        cecho("&lt;magenta&gt;\nBeende Schutz-Febron")
+        feedTriggers("\n"..normalesEnde.."\n") 
+      end)
+  i = i + 24
+
+  tempTimer(i, function() 
+        msg = "Abbruch, einzelner Febron"
+        cecho("&lt;magenta&gt;\n"..msg.."\n")
+        pokemonTestStrings("defensiv")
+        cecho("&lt;magenta&gt;\nBeende Defensiv-Febron")
+        feedTriggers("\n"..abbruchEiner.."\n") 
+      end)
+  i = i + 24
+
+  tempTimer(i, function() 
+        msg = "Abbruch, alle Febronen"
+        cecho("&lt;magenta&gt;\n"..msg.."\n")
+        pokemonTestStrings("schutz")
+        cecho("&lt;magenta&gt;\nBeende alle Febronen")
+        feedTriggers("\n"..abbruchAlle.."\n")
+        cecho("&lt;magenta&gt;ende test alle\n")
+      end)
+
+--[=[
+
+  tempTimer(i, function() 
+        msg = "Vorbereitung (nötig damit das Skript den Namen kennt)"
+        cecho("&lt;magenta&gt;\nStep 2: "..msg)
+        feedTriggers("\n"..vorbereitung.."\n")
+      end)
+  i = i + 1
+  tempTimer(i, function() 
+        msg = "Kurzer Text"
+        cecho("&lt;magenta&gt;\n"..msg)
+        feedTriggers("\n"..kurzerText.."\n") 
+      end)
+  i = i + 4
+  tempTimer(i, function() 
+        msg = "Abbruch, einzelner Febron"
+        cecho("&lt;magenta&gt;\n"..msg)
+        feedTriggers("\n"..abbruchEiner.."\n") 
+      end)
+  i = i + 1
+  tempTimer(i, function() 
+        msg = "Vorbereitung (nötig damit das Skript den Namen kennt)"
+        cecho("&lt;magenta&gt;\nStep 3: "..msg)
+        feedTriggers("\n"..vorbereitung.."\n")
+      end)
+  i = i + 1
+  tempTimer(i, function() 
+        msg = "Langer Text"
+        cecho("&lt;magenta&gt;\n"..msg)
+        feedTriggers("\n"..langerText.."\n") 
+      end)
+  i = i + 4
+  tempTimer(i, function() 
+        msg = "Abbruch, alle Febronen"
+        cecho("&lt;magenta&gt;\n"..msg)
+        feedTriggers("\n"..abbruchAlle.."\n")
+        cecho("&lt;magenta&gt;ende test angriffsfebron\n")
+      end)
+    ]=]
+      
+else
+  cecho("&lt;magenta&gt;\nFalscher Befehl?!\n")
+end
+
+--[=[
+tempTimer(1, [[ send("sag huhu") ]])
+tempTimer(3, [[ send("sag 3 sekunden später") ]])
+
+
+lua feedTriggers("\nDu holst Deinen Febron \"Tirfea\" aus Deinem Febronenbeutel und beginnst Dich\nzu konzentrieren.\n")
+
+lua feedTriggers("\nMit einem Schlag schiesst \"Tirfea\" nach oben. Er ist nun bereit, Dich vor\nden Attacken Deiner Gegner telepathisch zu schuetzen. Kommen sie Dir zu\nnahe, wirst Du es spueren und kannst nun schnell parieren.\n")
+lua feedTriggers("\nMit einem Schlag schiesst \"Tirfea\" nach oben. Er wird Dich vor Schlaegen\nwarnen.\n")
+
+lua feedTriggers("\nDu faengst Dein Febron \"Tirfea\" ein und legst ihn in Deinen Febronenbeutel.\n")
+lua feedTriggers("\nDein Defensivfebron \"Tirfea\" ist vom Kampf erschoepft. Er wird kleiner und\nschwirrt in Deinen Beutel zurueck.\n")
+lua feedTriggers("\nDu faengst vorsichtig alle Deine Febrone ein und legst sie in Deinen\nFebronenbeutel.\n")
+]=]</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^test evo febron (\S*)$</regex>
+			</Alias>
+		</AliasGroup>
 	</AliasPackage>
 	<ActionPackage />
 	<ScriptPackage>
@@ -1565,7 +1946,10 @@ avalet.debug = avalet.debug or false
 
 --[[
 Schaut ob eine Datei namens "debug" oder "debug.txt" im gleichen Verzeichnis wie 
-die Avalet-Installationsdatei liegt. Wird danach verwendet. ]]
+die Avalet-Installationsdatei liegt. Wird danach verwendet. Ich haette auch die 
+Variable nehmen koennen, die ich weiter unten erzeuge, aber ich wollte die Log-
+ausgabe moeglichst frueh und die Reihenfolge nicht aendern. Deshalb ist hier 
+jetzt was doppelt. Erstmal. ]]
 local function debugMode()
   local modulePath = getModulePath(avalet.MODULE_NAME)
   modulePath = string.gsub(modulePath, avalet.MODULE_NAME..".xml", "")
@@ -3597,14 +3981,29 @@ Bei den Trigger MIT Laufzeit ist es also möglich, auf einen STOP-String zu verz
 muss in dem Fall aber trotzdem hier reingeschrieben werden, und zwar so: ["stop"] = ""
 Beim Hinzufügen weiterer Zeilen bitte die alphabetische Sortierung berücksichtigen... 
 (Ok, die alphabetische Sortierung ist mist, ich hab keine Ahnung was davon zu welcher
-Gilde gehört. Aber jetzt ist das halt so. Also weiter alphabetisch.) ]]
+Gilde gehört. Aber jetzt ist das halt so. Also weiter alphabetisch.) 
+An den Febronen-Timern ist besonders schwierig, dass man den Namen des Febrons braucht, 
+und zwar einmal für die Beschriftung des Timers und dann aber auf jeden Fall um den richtigen 
+Timer beenden zu können. Und der Name ist erst beim zaubern (evolieren oder so) bekannt. UND 
+zusätzlich steht der Name sicher nur im ersten Text, also nichtmal in dem, durch den der 
+Timer gestartet wird. Deshalb gibt es einen Trigger, der den Namen aus dem ersten Text 
+zwischenspeichert. Und der Code, der durch den Start-Trigger ausgeführt wird (und der dann 
+den Stop-Trigger erzeugt) liest diese Variable aus und setzt sie entsprechend ein. Und damit 
+das für mich nicht so langweilig wird funktioniert das nur sehr begrenzt, so dass der Stop-
+Trigger dann wieder den Namen des Febron aus dem auslösenden Text extrahieren und an den 
+vom Stop-Trigger ausgeführten Code durchreichen muss. Auf komplizierte Weise. Und dann ist 
+es auch noch möglich, alle Febronen mit einem einzigen Befehl wieder einzusammeln, was 
+wieder ein Sonderfall darstellt. Kurz: Die Febronen-Angelegenheit hier ist ziemlicher Mist. 
+Dagegen sind die Waffen der Daemonenkrieger direkt einfach gewesen. Und so sieht der Code 
+auch aus. Leider funktioniert nur die Erzeugung von temporären Triggern sowohl für Start 
+als auch für Stop mit den Febronen-Timern. ]]
 function avalet.initTimer()
   
   local timerStrings = {
     --{["name"]="Name", ["start"]="Start-RegExpr",["stop"]="Stop-RegExpr", ["duration"]="600"},
     --{["name"]="Name", ["start"]="Start-RegExpr",["stop"]="", ["duration"]="600"},
     --{["name"]="Name", ["start"]="Start-RegExpr",["stop"]="Stop-RegExpr"},
-    {["name"]="Angriffsfebron", ["start"]="Als Du Deinen Spruch zu Ende gesprochen hast, ist .?([A-Za-z\\s]+).? vollstaendig*", ["stop"]="Dein Angriffsfebron .?([A-Za-z\\s]+).? ist vom Kampf erschoepft\\.", ["duration"]="600"}, 
+    {["name"]="Angriffsfebron", ["start"]="^.*gegen Deine Feinde geruestet.*$", ["stop"]="(Du faengst vorsichtig (alle) Deine Febrone ein|Du faengst Dein Febron .?(febNamePlatzhalter).? ein|Dein Febron .?(febNamePlatzhalter).? ist vom ewigen Herumschwirren erschoepft\\.)", ["duration"]="780"}, 
     {["name"]="Arkanschild", ["start"]="Du wirst von einem Arkanschild umgeben\\.", ["stop"]="Dein Arkanschild loest sich auf\\.", ["duration"]="600"},
     {["name"]="Antimagie", ["start"]="Du hast eine Aura der Antimagie erschaffen\\.", ["stop"]="Die Aura der Antimagie loest sich auf\\.", ["duration"]="60"},
     --{["name"]="Baumwaechter", ["start"]="", ["stop"]="", ["duration"]="1800"},  
@@ -3614,6 +4013,7 @@ function avalet.initTimer()
     {["name"]="Daemonenhaut", ["start"]="Du bist nun vollkommen in eine Daemonenhaut eingehuellt\\.", ["stop"]="Deine Daemonenhaut loest sich auf\\.", ["duration"]="600"},
     {["name"]="Daemonenschutz", ["start"]="Der Bullrik ist bereit, die Dir geltenden Schlaege, abzufangen\\.",["stop"]="Der Bullrik .* hoert auf Dich zu beschuetzen\\.", ["duration"]="600"},
     {["name"]="Daemonenschwert", ["start"]="Vorsichtig streifst Du mit Deiner Hand ueber (Deinen|Deine|Dein|den)([a-z ,]*)(([A-Za-z\\s]+)\\.)?", ["stop"]="Dein \\w+ verliert seine magische Kraft\\.", ["duration"]="600"},
+    {["name"]="Defensivfebron", ["start"]="^.*(Attacken Deiner Gegner|Er wird Dich vor Schlaegen|Schlaegen warnen\\.).*$", ["stop"]="(Du faengst vorsichtig (alle) Deine Febrone ein|Du faengst Dein Febron .?(febNamePlatzhalter).? ein|Dein Defensivfebron .?(febNamePlatzhalter).? ist vom Kampf erschoepft\\.)", ["duration"]="840"}, 
     --{["name"]="Egelschreck", ["start"]="", ["stop"]="", ["duration"]="1800"},  
     {["name"]="Einstimmung", ["start"]="Du hast Dich nun vollends auf .* eingestimmt\\.", ["stop"]="Du (verlierst|beendest) Deine Einstimmung.*\\.", ["duration"]="600"},
     {["name"]="EngelBeschwoeren", ["start"]="Dein Ankh blitzt kurz auf und ein Racheengel erhebt sich\\.", ["stop"]="Der Racheengel verschwindet in einer grellen Lichtsaeule\\."},
@@ -3623,6 +4023,7 @@ function avalet.initTimer()
     {["name"]="Feueraura III", ["start"]="Die Manawolken verdichten sich um Dich\\.", ["stop"]="Deine Feueraura loest sich auf\\.", ["duration"]="1200"},
     {["name"]="Finsternis", ["start"]="Die Wolkendecke verdunkelt die Sonne nun vollstaendig.*", ["stop"]="Die Wolkendecke zieht wieder auf und es wird heller\\.", ["duration"]="300"},
     {["name"]="Friedfertigkeit", ["start"]="Du fuehlst Dich nun .* friedfertig\\.", ["stop"]="Du fuehlst Dich wieder kaempferischer, ungestuemer\\.", ["duration"]="1800"},
+    {["name"]="Fuehrungsfebron", ["start"]="^.*zu leiten, dass sie ihre Aufgaben.*$", ["stop"]="(Du faengst vorsichtig (alle) Deine Febrone ein|Du faengst Dein Febron .?(febNamePlatzhalter).? ein|Dein Fuehrungsfebron .?(febNamePlatzhalter).? ist vom Kampf erschoepft\\.)", ["duration"]="1680"}, 
     {["name"]="Gedankenpeitsche", ["start"]="Du spuerst, wie sich Deine Daemonen ihrem Schicksal hingeben\\.",["stop"]="", ["duration"]="600"},
     {["name"]="GoettlicheFuehrung", ["start"]="Deine Schlaege werden von einem Gott gefuehrt\\.", ["stop"]="Deine goettliche Fuehrung schwindet\\.", ["duration"]="600"},
     --{["name"]="Heilende Hand", ["start"]="", ["stop"]="", ["duration"]="960"},  
@@ -3646,18 +4047,18 @@ function avalet.initTimer()
     {["name"]="Magiertrance", ["start"]="^Die Welt um Dich herum verliert an Bedeutung. Nur noch Deine Zauber sind$",["stop"]="Du erwachst aus Deiner Trance\\.", ["duration"]="600"},
     {["name"]="Manarausch", ["start"]="Dichte Manawolken bilden nun einen gewaltigen Schutz um Dich herum\\.",["stop"]="Dein Manarausch laesst wieder nach\\."},
     --{["name"]="Narbenheilung", ["start"]="", ["stop"]="", ["duration"]="1800"},  
-    {["name"]="Offensivfebron", ["start"]="Mit einem Schlag schiesst .?([A-Za-z\\s]+).? nach oben. Er ist nun bereit*", ["stop"]="Dein Offensivfebron .?([A-Za-z\\s]+).? ist vom Kampf erschoepft\\.", ["duration"]="600"}, 
+    {["name"]="Offensivfebron", ["start"]="^.*(zu staerkeren Attacken anzufeuern\\.|Er wird Dich nun staerker|staerker zuschlagen lassen\\.).*$", ["stop"]="(Du faengst vorsichtig (alle) Deine Febrone ein|Du faengst Dein Febron .?(febNamePlatzhalter).? ein|Dein Offensivfebron .?(febNamePlatzhalter).? ist vom Kampf erschoepft\\.)", ["duration"]="840"}, 
     {["name"]="Pflanzenblick", ["start"]="Du siehst die Pflanzen um Dich herum jetzt viel klarer\\.", ["stop"]="Dein besonderer Blick fuer die Pflanzen an Deinem Weg verschwindet wieder\\.", ["duration"]="720"},
     --{["name"]="Puffpilz", ["start"]="", ["stop"]="", ["duration"]="1800"},  
     {["name"]="Regenerationssegen", ["start"]="Du wirst von einem warmen Leuchten umgeben\\.", ["stop"]="Das Dich umgebende Leuchten erlischt wieder\\.", ["duration"]="600"},
     {["name"]="Ruestungsverstaerkung", ["start"]="Erfolgreich hast Du Deinen Daemon in Deine Ruestung gebannt\\.",["stop"]="(.* loest sich von Deiner Ruestung\\.|Daemon aus Deiner Ruestung zu erloesen\\.)", ["duration"]="600"},
     {["name"]="Schild", ["start"]="Du wirst von einem magischen Schild umgeben\\.",["stop"]="Dein magischer Schild loest sich auf\\.", ["duration"]="600"},
-    {["name"]="Schutzfebron", ["start"]="Dein Febron .?([A-Za-z\\s]+).? fliegt um Dich herum und bildet einen schuetzenden*", ["stop"]="Dein Schutzfebron .?([A-Za-z\\s]+).? ist vom Kampf erschoepft\\.", ["duration"]="600"}, 
+    {["name"]="Schutzfebron", ["start"]="Dein Febron .?([A-Za-z\\s]+).? fliegt um Dich herum und bildet einen.*", ["stop"]="(Du faengst vorsichtig (alle) Deine Febrone ein|Du faengst Dein Febron .?(febNamePlatzhalter).? ein|Dein Schutzfebron .?(febNamePlatzhalter).? ist vom Kampf erschoepft\\.)", ["duration"]="840"}, 
     {["name"]="Schwarzschild", ["start"]="Du wirst von einem magischen Schild umgeben, der Dich besser parieren",["stop"]="Dein Schwarzschild loest sich auf\\.", ["duration"]="600"},
     {["name"]="Segen", ["start"]="^Das Ankh auf (Deiner|Deinem|den)([a-z ,]*)([A-Za-z\\s]+) beginnt\\, schwach zu( leuchten\\.)?", ["stop"]="(Dein|Deine)([a-z ,]*)([A-z\\s]+) verliert .* magische Kraft\\.", ["duration"]="600"},
     {["name"]="Steinhaut", ["start"]="Du bist nun vollkommen in eine Steinhaut eingehuellt, .*",["stop"]=".*Du befreist Dich von Deiner Steinhaut.*|.*Deine Steinhaut loest sich auf.*|Das hat Deiner Steinhaut den letzten Rest gegeben, sie loest sich auf\\.", ["duration"]="1800"},
     {["name"]="Sternenstaub", ["start"]="Du wirst von Sternenstaub umgeben\\.",["stop"]="Dein Sternenstaub loest sich auf\\.", ["duration"]="600"},
-    {["name"]="Stressfebron", ["start"]="Als Du Deinen Spruch zu Ende gesprochen hast ist .?([A-Za-z\\s]+).? bereits*", ["stop"]="Dein Stressfebron .?([A-Za-z\\s]+).? ist vom Kampf erschoepft\\.", ["duration"]="600"}, 
+    {["name"]="Stressfebron", ["start"]=".*(Er beginnt bereits Dich zu nerven|hast.? beginnt .?([A-Za-z\\s]+).? Dich nun).*", ["stop"]="(Du faengst vorsichtig (alle) Deine Febrone ein|Du faengst Dein Febron .?(febNamePlatzhalter).? ein|Dein Stressfebron .?(febNamePlatzhalter).? ist vom Kampf erschoepft\\.)", ["duration"]="840"}, 
     {["name"]="Todesaura", ["start"]="Du senkst Deine Haende, aber der Schutz der schwarzen Schleier.*|Die schwarzen Schleier verdichten sich um Dich\\.",["stop"]="Deine Todesaura loest sich auf\\.", ["duration"]="600"},
     {["name"]="Todeshaar", ["start"]="Du beendest das Ritual\\. Ueberall auf Dir wachsen nun kurze, schwarze Haare\\.", ["stop"]="Dein Todeshaar loest sich auf\\.", ["duration"]="1800"},  
     {["name"]="Todkonvertieren", ["start"]="Du wirst von einem heiligen Schutz umgeben\\.", ["stop"]="Dein heiliger Schutz loest sich auf\\.", ["duration"]="600"},
@@ -3700,7 +4101,8 @@ end -- function avalonUI.initTimer()
 
 --[[
 function avalonUI.createTempTimer(timerStrings)
-Hier werden die Start- UND die Stop-Trigger als TEMPORÄRE Trigger erzeugt ]]
+Hier werden die Start- UND die Stop-Trigger als TEMPORÄRE Trigger erzeugt 
+FUNKTIONIERT NICHT MIT DEN FEBRON-TIMERN! ]]
 function avalet.createTempTimer(timerStrings)
 
   for _, v in pairs(timerStrings) do
@@ -3739,6 +4141,7 @@ Hier werden die START-Trigger als temporäre Trigger erzeugt. Und zwar so,
 dass sie sich beim Auslösen ihren eigenen temporären One-Time-STOP-Trigger
 erzeugen ]]
 function avalet.createImprovedTempTimer(timerStrings)
+  avalet.log("Function avalet.createImprovedTempTimer(timerStrings)", 1)
   --[=[
   Beispiel für einen Timer-Trigger, der sich seinen eigenen Timer-Ende-Trigger setzt:
   permRegexTrigger("Flamme", "AvaletTriggerFuerTimer", {"^Flamme an!$"}, [[registerTimer("Flamme", "60"); tempRegexTrigger("^Flamme aus!$", function() removeTimer("Flamme") end, 1)]])
@@ -3755,32 +4158,65 @@ function avalet.createImprovedTempTimer(timerStrings)
     local stopTimer = ""
     local luaCode = ""
     --[[
-    Bei bestimmten Zaubern werden Begriffe aus dem auslösenden Text verwendet, um den
-    Namen für den Timer zu bauen. Und zwar ist das bei den Kleriker-Segen der Fall,
-    weil die anders nicht zu unterscheiden sind. Hier wird der dafür notwendige Parameter gesetzt.
-    (Beim Stop-Trigger dann das Gegenstück, damit der richtige Timer gelöscht wird.) ]]
+    Bei bestimmten Zaubern werden Begriffe aus dem auslösenden Text verwendet, 
+    um den Namen für den Timer zu bauen. Und zwar ist das bei den Kleriker-
+    Segen der Fall, weil die anders nicht zu unterscheiden sind. Hier wird der 
+    dafür notwendige Parameter gesetzt. (Beim Stop-Trigger dann das Gegenstück,
+    damit der richtige Timer gelöscht wird.) 
+    Notiz fuer mich: das Komma wird hier beim 'param' absichtlich (mehrfach) 
+    hinzugefuegt, und nicht einmalig erst beim Zusammenbau des endgueltigen 
+    Strings. Also versuch nicht schlauer zu sein als du selbst und das 
+    'schoener' zu machen! Danke schonmal. ]]
     if v["name"] == "Segen" then param = ", matches[4]" end
     if v["name"] == "Zauberwaffe" then param = ", matches[4]" end
     if v["name"] == "Waffenleben" then param = ", matches[4]" end
-    if v["name"] == "Schutzfebron" then param = ", matches[2]" end
     
     --[[
-    Wenn eine Stop-RegExpr existiert, wird beim Auslösen des Triggers ein temporärer 
-    One-Time-Stop-Trigger gesetzt. Da ich das folgende schon vor mehr als 20 Minuten
-    geschrieben habe, verstehe ich es jetzt selber nicht mehr. Aber die Ersetzung von
-    "\" durch "\\" MUSS sein, weil die einzelnen Maskierungen beim Verarbeiten entfallen,
-    also jeweils immer eine. Und weil beim Stop-Timer-Trigger eine Verarbeitung mehr
-    erfolgt als beim Start-Dings. ]]
+    Um die Febronen-Timer sicher beenden zu können muss der Stop-Trigger den Namen 
+    des Febron enthalten. Der Name ist aber erst in dem Moment bekannt, wenn der 
+    Start-Trigger den Stop-Trigger erzeugt. Dann steht er in avalet.timerModel.hyrasFebronName.
+    Und weil diese temporaeren Trigger offenbar einen eigenen Namensraum haben wird hier
+    eine Variable eingefuegt und weiter unten dann wie die Variable gesetzt wird. 
+    Das Komma wird hier absichtlich schon hinzugefügt, weil da sonst am Ende ein 'nil' 
+    als Parameter an eine Funktion übergeben werden würde, was nicht geht. ]]
+    if (string.find(v["name"], "febron") ~= nil) then
+      param = ", hyrasFebronName"
+      v["stop"] = v["stop"]:gsub("febNamePlatzhalter", "\"..hyrasFebronName..\"")
+    end
+    
+    --[[
+    Wenn eine Stop-RegExpr existiert, wird beim Ausloesen des Triggers ein temporaerer 
+    One-Time-Stop-Trigger gesetzt. ]]
     if v["stop"] ~= nil and v["stop"] ~= "" then
-      stopTimer = [[; tempRegexTrigger("]]..string.gsub(v["stop"], [[\]], [[\\]])..[[", function() avalet.deregisterTimer("]]..v["name"]..[["]]..param..[[) end, 1)]]
+      --[[Die Sonderzeichen in der RegExp, die den Stop-Timer ausloesen soll, muss 
+      einmal extra maskiert werden, weil sie einmal haeufiger verarbeitet werden. ]]
+      v["stop"] = string.gsub(v["stop"], [[\]], [[\\]])
+      stopTimer = [[tempRegexTrigger("]]..v["stop"]..[[", function() avalet.deregisterTimer("]]..v["name"]..[["]]..param..[[) end, 1)]]
+      if (string.find(v["name"], "febron") ~= nil) then
+        --[[ Damit die Stop-Timer bei den Febronen auch den richtigen Timer beenden, 
+        muessen sie den Namen des Febronen aus dem ausloesenden Text entnehmen. Dafuer
+        wird hier der Code noch an den Anfang der Code-Sektion gesetzt. Je nachdem mit 
+        welchem Befehl der Febrone eingesammelt wird steht dieser Name dann in matches[]
+        3, 4 oder 5. Die anderen beiden sind in dem Fall leere Strings oder nil. ]]
+        stopTimer = string.gsub(stopTimer, "function%(%)", [[function() local hyrasFebronName; if (matches[3] and matches[3] ~= "") then hyrasFebronName = matches[3] elseif (matches[4] and matches[4] ~= "") then hyrasFebronName = matches[4] elseif (matches[5] and matches[5] ~= "") then hyrasFebronName = matches[5] end;]])
+      end
     end
 
     -- Zusammenbau und Erzeugen des temporären Triggers:
-    luaCode = [[avalet.registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[)]] .. stopTimer
+    luaCode = [[avalet.registerTimer("]]..v["name"]..[[", "]]..v["duration"]..[["]]..param..[[); ]] .. stopTimer
+    if (string.find(v["name"], "febron") ~= nil) then
+      --[[ Hier wird der Code-Sektion des Start-Triggers eine Zeile hinzugefuegt, die 
+      eine Variable ausliest, die beim Start des Febronen-Start-Zaubers belegt wurde. 
+      Die lokale Variable wird dann beim Erzeugen des Stop-Timers verwendet, so dass 
+      dieser auf den Namen des Febronen reagieren kann. ]]
+      luaCode = "local hyrasFebronName = avalet.timerModel.hyrasFebronName; "..luaCode
+    end
+    avalet.log("Erzeuge Start-Trigger fuer Timer: "..v["name"], 2)
+    --cecho("&lt;magenta&gt;\n\ntempRegexTrigger([["..v["start"].."]], [["..luaCode.."]])\n\n")
     tempRegexTrigger(v["start"], luaCode)
       
   end -- for  
-end -- function avalonUI.createMixedTimer(timerStrings)
+end -- avalet.createImprovedTempTimer(timerStrings)
 
 
 
@@ -3798,7 +4234,8 @@ START wieder neu erzeugt werden. Aber da ich da nicht dran denken werde, benutze
 dessen die temporären Trigger. (Und die permanenten Trigger zur zum Debuggen.)
 Sollte sich dieser Vorbehalt mal ändern, warum auch immer, dann wäre es vielleicht
 besser, die START-Trigger als permanente Trigger auszulegen, die STOP-Trigger dann als 
-temporäre. Wie in der Funktion "avalonUI.createMixedTimer()" ]]
+temporäre. Wie in der Funktion "avalonUI.createMixedTimer()"
+FUNKTIONIERT NICHT MIT DEN FEBRON-TIMERN! ]]
 function avalet.createPermTimer(timerStrings)
 
   -- Erzeugt eine sortierte Liste von Triggern. Weil es einfach schöner ist, wenn man die
@@ -3848,7 +4285,8 @@ function avalonUI.createMixedTimer(timerStrings)
 Hier werden die START-Trigger als PERMANENTE Trigger erzeugt. Und zwar so,
 dass sie sich beim Auslösen ihren eigenen TEMPORÄREN One-Time-STOP-Trigger
 erzeugen
-Siehe auch Kommentar zur vorherigen Funktion (createPermTimer()) ]]
+Siehe auch Kommentar zur vorherigen Funktion (createPermTimer())
+FUNKTIONIERT NICHT MIT DEN FEBRON-TIMERN! ]]
 function avalet.createMixedTimer(timerStrings)
   --[=[
   Beispiel für einen Timer-Trigger, der sich seinen eigenen Timer-Ende-Trigger setzt:
@@ -4712,7 +5150,7 @@ Dieses Logging (inklusive auch von Triggern, Timern etc.) basiert erstmal auf ei
 Arbeit vom User Wyd aus dem Mudlet-Forum, die ich unter dieser Adresse gefunden habe:
 https://forums.mudlet.org/viewtopic.php?t=1424
 
-Anpassungen von mir
+Anpassungen von mir.
 
 Das Ziel des Avalet-Loggers ist, eine Möglichkeit zu haben, aus verschiedenen
 Quellen Ausgaben in verschiedene Dateien umzuleiten. Um diese dann optional in den
@@ -5075,11 +5513,11 @@ function avalet.log(message, level)
   -- Aufbereitung und Ausgabe in der Hauptconsole
   if avalet.debug then
     if level == nil then color = ""
-    elseif level == 0 then color = "&lt;green&gt;";   prefix = "[AVALET]  - " --system 
-    elseif level == 1 then color = "&lt;green&gt;";   prefix = "[DEBUG] "     -- info
-    elseif level == 2 then color = "&lt;yellow&gt;";  prefix = "[INFO]  "     -- warning
-    elseif level == 3 then color = "&lt;red&gt;";     prefix = "[WARN]  "     -- error
-    elseif level == 4 then color = "&lt;magenta&gt;"; prefix = "[ERROR] "     -- fatal
+    elseif level == 0 then color = "&lt;green&gt;";   prefix = "[AVALET]  - " --system (immer an!)
+    elseif level == 1 then color = "&lt;green&gt;";   prefix = "[DEBUG] "     --allgemeines (minimum normalerweise!)
+    elseif level == 2 then color = "&lt;yellow&gt;";  prefix = "[INFO]  "     --informatives
+    elseif level == 3 then color = "&lt;red&gt;";     prefix = "[WARN]  "     --warnungen
+    elseif level == 4 then color = "&lt;magenta&gt;"; prefix = "[ERROR] "     --schwerwiegendes
     else color = ""
     end
     
@@ -5326,6 +5764,8 @@ function avalet.createTimerModel()
   
   avalet.timerModel = avalet.timerModel or {}
   avalet.timerModel.dkWaffenDaemonenName = avalet.timerModel.dkWaffenDaemonenName or nil
+  avalet.timerModel.hyrasFebronEvo = avalet.timerModel.hyrasFebronEvo or false
+  avalet.timerModel.hyrasFebronName = avalet.timerModel.hyrasFebronName or ""
   avalet.listOfTimers = avalet.listOfTimers or {}
 end --function avalet.createTimerModel()
 
@@ -5467,12 +5907,35 @@ wird die Tabelle mit den sortierten Timern neu erzeugt und die Anzeige
 auf der Oberfläche aktualisiert. ]]
 function avalet.registerTimer(name, duration, param)
   avalet.log("function avalet.registerTimer(name, duration, param)", 1)
-  
+
+  -- Sonderloesung fuer DKs, weil hier der Name des Daemon verwendet wird.
   if name == "Waffenverstaerkung" then 
     param = avalet.timerModel.dkWaffenDaemonenName
     avalet.timerModel.dkWaffenDaemonenName = nil
   end
   
+  --[[
+  Sonderloesung fuer Hyraskrieger, weil hier der Febronen-Name verwendet wird.
+  Die Texte (bzw. die RexExp-Patterns dafuer) bei den Febronen scheinen mir 
+  nicht sicher eindeutig zu sein, ich schliess deshalb hier erstmal false 
+  positives aus. Und dann wird der Febronenname als Parameter gesetzt. Das 
+  funktioniert so:
+  Sowohl 'hyrasFebronEvo' als auch 'hyrasFebronName' werden durch einen Trigger 
+  auf die erste Zeile beim evolieren erkannt und gesetzt. Die sollte eindeutig
+  sein. Wenn also der eigentliche Start-Trigger auf irgendwas anderes als den 
+  gewuenschten Text reagiert, dann wird hier "hyrasFebroEvo" NICHT true sein.
+  Zurueckgesetzt werden die Werte hier dann auch. ]]
+  if (string.find(name, "febron") ~= nil) then
+    if (avalet.timerModel.hyrasFebronEvo ~= true) then
+      avalet.log("ABBRUCH weil hyrasFebronEvo nicht 'true' (false positive?)", 3)
+      return
+    else
+      avalet.log("Febronentimer erkannt: "..name..", "..param, 2)
+      avalet.timerModel.hyrasFebronEvo = false
+      avalet.timerModel.hyrasFebronName = ""
+    end
+  end
+
   param = param or nil
   if param ~= nil then
     name = name .. " " .. param
@@ -5499,7 +5962,7 @@ function avalet.registerTimer(name, duration, param)
       name = name .. " II"
     elseif string.find(avalet.char.getSchutz(), name .. " I") then
       name = name .. " I"
-      duration = "180"
+      duration = "180"       -- Schild I hat eine verringerte Dauer
     end
   end
   
@@ -5619,6 +6082,8 @@ Parameter "param". Diese Lösung ist nicht schön, und wenn die Götter mein fle
 erhören, bekommt Avalet hoffentlich künftig den Zauber per ATCP. Aber erstmal ist es jetzt so. ]]
 function avalet.removeTimer(name)
   avalet.log("function avalet.removeTimer(name)", 1)
+  
+  --cecho("&lt;magenta&gt;\nfunction avalet.removeTimer("..name..")\n")
 
   --[[
   Hier wird der Zähler für die EP-Verdoppelung beendet, wenn der Timer gelöscht wird.
@@ -5630,6 +6095,7 @@ function avalet.removeTimer(name)
 
   local key = avalet.findTimerByName(name)
   if key ~= nil then
+    --cecho("&lt;magenta&gt;\ngelöscht wird der timer mit dem key: "..key.."\n")
     table.remove(avalet.listOfTimers, key)
   end
   
@@ -5638,6 +6104,9 @@ function avalet.removeTimer(name)
 end --function avalet.removeTimer(name)
 
 
+
+--[[
+]]
 function avalet.deregisterTimer(name, param)
   avalet.log("function avalet.deregisterTimer(name, param)", 1)
 
@@ -5648,6 +6117,20 @@ function avalet.deregisterTimer(name, param)
     avalet.char.schildEPStop()
   end
   
+  --[[
+  Sonderloesung fuer Hyraskrieger, weil hier der Febronen-Name verwendet wird.
+  Die Suchstrings bei den Febronen auch (und grade) beim Ende der Laufzeit 
+  nicht so pralle, deshalb wird auch hier der Umweg über den Namen gemacht.
+  Wieder werden sowohl 'hyrasFebronEvo' als auch 'hyrasFebronName' durch einen 
+  Trigger erkannt und gesetzt. Und hier dann gleich noch wieder ge-nil-t. ]]
+  if (string.find(name, "febron") ~= nil) then
+    --cecho("&lt;magenta&gt;\nEin Febron wird eingesackt: "..name.." "..param.."\n")
+    if param == "alle" then
+      --cecho("&lt;magenta&gt;\nParam 'alle' wird genilt.\n")
+      param = nil
+    end
+  end
+
   --[[
   Der Parameter "param" ist optional und wird hier deshalb erstmal zuverlässig gemacht.
   Wenn ein param gegeben ist, wird er zum Teil des Namens. ]]
