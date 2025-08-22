@@ -1918,38 +1918,44 @@ avalet.VERSION_DATE = nil
 --[[
 Ich habe einen "DEBUG-Modus" gebraucht, durch den ich Code nur dann ausführen
 kann, wenn ich an Avalet arbeite. Damit ich nicht immer ein- und auskommentieren
-muss. (Und damit ich das vor allem nicht mehr immer wieder vergesse.)
+muss. (Und damit ich vor allem nicht mehr immer wieder vergesse, das vor dem 
+Release wieder auszuschalten.)
 Dieser Debug-Modus kann hier ganz generell eingeschaltet werden, dann ist er sehr
-früh aktiv. Also schon während der Installation des Moduls.
-Er kann aber auch durch den Profil-Namen gesteuert werden. Ich habe Entwicklungs-
-Profile in Mudlet angelegt, deren Namen mit einem "- DEV" enden. Wenn das Profil
-geladen ist, wird der "SysLoadEvent" ausgelöst, und in der Funktion "onSysLoadEvent"
-wird dann die Variable avalet.debug auf "true" gesetzt. Wenn diese Variable hier auf
-"false" gesetzt ist, das Profil aber ein Entwicklungsprofil ist, wird der Debug-
-Modus also dort dann aktiviert. Damit gibt es dann KEINE Debug-Ausgaben, bis der
-"SysLoadEvent" feuert. Und ab dann schon. Und ich leg das "DEBUG_PATTERN" auch mal
-als Variable an, falls mal jemandem was schöneres einfällt. 
-Man kann das auch auf der Eingabezeile erledigen. Mit "lua avalet.debug=true" 
-schaltet man den Debug-Modus ein. Und mit "lua avalet.loglevel=2" legt man die 
-Schwelle, aber der Logausgaben angezeigt werden, auf INFO. Dann erspart man sich
-die ganzen DEBUG-Ausgaben. loglevel=0 zeigt alles. 
+früh aktiv. Also schon während der Installation des Moduls. Einfach die Variable 
+auf 'true' setzten und das Profil neu starten.
 Und ab sofort gibt es noch die Moeglichkeit, eine Datei mit dem Namen "debug" oder
 "debug.txt" in das Verzeichnis zu legen, wo das Modul Avalet liegt. Also in das 
 Verzeichnis, wo entweder die Datei "avalet.mpackage" oder "avalet.zip" liegt. 
 Oder in das Verzeichnis, wo die Datei "avalet.xml" liegt, wenn es eine Entwickler-
 Installation ist. Ist so eine Datei vorhanden, dann werden Debug-Ausgaben hier 
 auch schon aktiviert, so dass auch die Installation des Moduls in Mudlet schon 
-von Log-Ausgaben begleitet wird. Die anderen Methoden, also "Profilname mit -DEV" 
-und Variable hier von Hand aendern, funktionieren erstmal weiterhin.]]
+von Log-Ausgaben begleitet wird.
+Eine aeltere Loesung erhalte ich aus Gruenden der Abwaertskompatibilitaet:
+Der Debug-Modus kann aber auch durch den Profil-Namen gesteuert werden. Ich habe 
+Entwicklungs-Profile in Mudlet angelegt, deren Namen mit einem "- DEV" enden. Wenn 
+das Profil geladen ist, wird der "SysLoadEvent" ausgelöst, und in der Funktion 
+"onSysLoadEvent" wird dann die Variable avalet.debug auf "true" gesetzt. Wenn 
+diese Variable hier auf "false" gesetzt ist, das Profil aber ein Entwicklungsprofil 
+ist, wird der Debug-Modus also dort dann aktiviert. Damit gibt es dann KEINE 
+Debug-Ausgaben, bis der "SysLoadEvent" feuert. Und ab dann schon.
+Man kann das auch auf der Eingabezeile von Mudlet erledigen. Mit 
+"lua avalet.debug=true" schaltet man den Debug-Modus ein. ]]
 avalet.DEBUG_PATTERN = ".- DEV"
 avalet.debug = avalet.debug or false
 
 --[[
-Schaut ob eine Datei namens "debug" oder "debug.txt" im gleichen Verzeichnis wie 
-die Avalet-Installationsdatei liegt. Wird danach verwendet. Ich haette auch die 
-Variable nehmen koennen, die ich weiter unten erzeuge, aber ich wollte die Log-
-ausgabe moeglichst frueh und die Reihenfolge nicht aendern. Deshalb ist hier 
-jetzt was doppelt. Erstmal. ]]
+Schaut ob eine Datei namens "debug" oder "debug.txt" im gleichen 
+Verzeichnis wie die Installationsdatei liegt. Wird weiter unten 
+verwendet.
+Diese 3zeilige sting.gsub-Sache funktioniert so: Wenn der gesuchte 
+Modul-Name im Modul-Pfad steht, dann wird der Pfad OHNE Modul am Ende 
+zurückgegeben. Also der Pfad in das Verzeichnis, wo das installierte 
+Modul liegt. Wird der Modul-Name nicht gefunden, dann gibt die Funktion 
+den ganzen zu durchsuchenden String zurück. In irgendeiner der drei 
+Zeilen wird also auf jeden Fall der richtige Pfad ermittelt, die anderen 
+beiden Zeilen geben den einfach unverändert zurück. 
+Am Ende wird dann geschaut, ob in diesem Verzeichnis eine Datei mit dem 
+Namen "debug(.txt)" liegt.]]
 local function debugMode()
   local modulePath = getModulePath(avalet.MODULE_NAME)
   modulePath = string.gsub(modulePath, avalet.MODULE_NAME..".xml", "")
@@ -1966,13 +1972,26 @@ if debugMode() then
   avalet.debug = true 
 end
 
+--[[
+Ich hab gelegentlich mal ein neues Release von Avalet veroeffentlicht, bei dem 
+der Debug-Mode aktiv war. Deshalb hab ich mir hier eine Erinnerung eingebaut. 
+Spaeter kam dann das Avalet-Logging dazu, durch den man das jetzt auch an 
+unzaehligen Logging-Ausgaben erkennen kann. 
+Aber was solls, doppelt haelt besser.]]
 if avalet.debug then
   -- Die avalet.log()-Funktion existiert hier noch nicht beim Systemstart. Deshalb von Hand.
   cecho("&lt;black:magenta&gt;                                                                               \n")
-  cecho("&lt;black:magenta&gt; DEBUG MODE ist aktiviert!                                                     \n")
+  cecho("&lt;black:magenta&gt; DEBUG MODE von Avalet ist aktiviert!                                          \n")
   cecho("&lt;black:magenta&gt;                                                                               \n")
 end
 
+--[[
+Der eingestellte 'loglevel' bestimmt, wie viele Logging-Ausgaben man zu 
+sehen bekommt. Dokumentiert ist das unter '/Misc/avalet.log'.
+Konfigurieren kann man das hier. Oder über die Eingabezeile von Mudlet.
+Mit z.B. "lua avalet.loglevel=2" legt man die Schwelle, ab der Logausgaben 
+angezeigt werden, auf INFO. Dann erspart man sich die ganzen DEBUG-Ausgaben. 
+loglevel=0 zeigt alles. ]]
 avalet.loglevel = avalet.loglevel or 0
 
 -- Objekt-Variable
@@ -2351,6 +2370,7 @@ objCharacter.new = function()
   local roomInv = {}
   local istDunkel = ""
   local locomotion = ""         -- speichert die Fortbewegungsart ("kletter"/"schwimme") für das automatische Klettern/Schwimmen
+  local dataStorage = {}
   
   --[[
   Rückgabewert dieser inneren Funktion ist der Pfad zu der Datei, in der charakterbezogene
@@ -2390,7 +2410,14 @@ objCharacter.new = function()
       Also eigentlich finde ich, das hier müsste gehen. Geht aber nicht. TODO 
       Toll, Twrx hat mir die Lösung geschickt, irgendwas mit deepcopy, aber ich
       finde den Code grade nicht... :( Sorry Twrx. Mach ich in einem der 
-      nächsten Updates. ]]
+      nächsten Updates. 
+      Artox redet zu Dir: beim laden des chars hast du ne pairs schleife drin die
+        nicht funktioniert...kann auch nicht, weil teile von subset tables
+        sind, da koennte eine types abfrage helfen und vieleicht ein deepcopy
+        wenns ein table ist
+      Artox redet zu Dir: if type(v)~="table" then avalet.char[k] = v else
+        avalet.char[k] = table.deepcopy(v) end      
+      ]]
       for k,v in pairs(subset) do
         if k ~= "loginIsReconnect" then
           avalet.log("Geladenes Datum: "..k.." mit wert: "..tostring(v).."\n", 2)
@@ -2448,7 +2475,8 @@ objCharacter.new = function()
       --avalonRoomID = subset["avalonRoomID"]
       --avalonRoomHash = subset["avalonRoomHash"]
       --istDunkel = subset["istDunkel"]
-      locomotion = subset["locomotion"]   
+      locomotion = subset["locomotion"]
+      dataStorage = subset["dataStorage"] or {}
      
       if not loginIsReconnect then
         lastSessionEP = ep - sessionEPBasis
@@ -2472,6 +2500,9 @@ objCharacter.new = function()
       else
         avalet.log("SessionEP-Zähler wird NICHT zurückgesetzt, weil reconnect! ", 2)
       end
+      
+      avalet.log("Charakter-Datei wurde geladen!", 2)
+      raiseEvent("characterFileLoadedEvent")
       
       -- Anzeige von TP, AP, ... aktualisieren
       avalet.vitals.updateAllVitals()
@@ -2534,6 +2565,7 @@ objCharacter.new = function()
     --data["avalonRoomHash"] = avalonRoomHash
     --data["istDunkel"] = istDunkel
     data["locomotion"] = locomotion
+    data["dataStorage"] = dataStorage
 
     avalet.log("Schreibe Character-Daten ...", 2)
     avalet.writeDataToFS(getCharacterFilePath(name), data, "w")
@@ -2543,10 +2575,18 @@ objCharacter.new = function()
     
   self.getName = function() return name end
   self.setName = function(arg)
+    --[[ Ich setze den Namen auf "nil" bei einem disconnect, damit 
+    bei einem reconnect OHNE vorher Mudlet zu schließen das Char-
+    File neu eingelesen wird. Ich hoffe das geht so. ]]
+    if arg == nil then 
+      avalet.log("Setze char.name auf Leerstring wegen disconnect (logout).", 2)
+      name = ""
+      return 
+    end
     local newName = string.trim(tostring(arg))
     if name ~= newName then
-      -- Wenn der Name noch nil ist, dann wird grade zum ersten Mal
-      -- der Name per ATCP gesendet. Damit kann das ein bestehendes
+      -- Wenn der Name noch leer ist, dann wird grade zum ersten Mal
+      -- der Name per ATCP gesendet. Damit kann dann ein bestehendes
       -- Char-File geladen werden. 
       if string.len(name) == 0 then
         loadCharDataFromDisk(newName)
@@ -2894,6 +2934,33 @@ objCharacter.new = function()
   self.setIstDunkel = function(newIstDunkel) istDunkel = newIstDunkel end
   self.getLocomotion = function() return locomotion end
   self.setLocomotion = function(newLocomotion) locomotion = newLocomotion end
+  
+  self.getDataStorage = function(moduleName) 
+                          if(moduleName == nil) then 
+                          	avalet.log("Funktion avalet.char.getDataStorage(): Parameter ist nil.", 2)
+                            return {"Parameter ist nil"} 
+                          end;
+                          if dataStorage[moduleName] ~= nil then 
+                          	avalet.log("Funktion avalet.char.getDataStorage(): Daten gefunden.", 2)
+                            return dataStorage[moduleName] 
+                          else 
+                          	avalet.log("Funktion avalet.char.getDataStorage(): Keine Daten unter dem Namen.", 2)
+                            dataStorage[moduleName]={}
+                            return dataStorage[moduleName]
+                          end 
+                        end
+  self.setDataStorage = function(moduleName, data) 
+                          if moduleName == nil then 
+                          	avalet.log("Funktion avalet.char.setDataStorage(): Parameter modulName ist nil.", 2)
+                            return 
+                          end
+                          if data == nil then 
+                          	avalet.log("Funktion avalet.char.setDataStorage(): Parameter data ist nil.", 2)
+                            return 
+                          end
+                         	avalet.log("Funktion avalet.char.setDataStorage(): Daten werden gespeichert.", 2)
+                          dataStorage[moduleName] = data 
+                        end
   
   self.getChatBuffer = function(key) return chatsBuffer[key] end
   
@@ -4648,8 +4715,8 @@ function avalet.onSysInstallModule(_, name)
   sign = sign .."     \\________________________________________________________\\_/     \n"
   sign = sign .."      |                                                       |       \n"
   sign = sign .."      |  Du hast Avalet installiert, ein Mudlet-Plugin für    |       \n"
-  sign = sign .."      |  das MUD Avalon. Eine Hilfe bekommst du mit 'avalet   |_      \n"
-  sign = sign .."      |  hilfe' angezeigt.                                    | |     \n"
+  sign = sign .."      |  das MUD Avalon. Eine Hilfe bekommst du mit 'avalet   |       \n"
+  sign = sign .."      |  hilfe' angezeigt.                                    |_      \n"
   if i:len() ~= 0 then
     sign = sign .."      |  "..i.."  | |     \n"
   end
@@ -4804,6 +4871,17 @@ function avalet.onSysConnectionEvent()
     end
   end
   
+  --[[
+  Wenn man richtig ausloggt (mit 'einschlafen'), Mudlet bzw. den Reiter 
+  mit dem Profil dann aber NICHT schliesst, sondern die Verbindung ueber 
+  reconnect ('Neu verbinden') wieder herstellt, dann wurde das CharFile 
+  nicht neu eingelesen. Das war bisher kein Problem, aber jetzt wird es 
+  das vielleicht, deshalb setze ich hier bei einem "connect" den Char-
+  Namen auf nil (bzw. eigentlich auf ""). Dadurch wird das CharFile neu 
+  eingelesen. ]]
+  avalet.log("avalet.onSysConnectionEvent(): setze char.name auf nil", 2)
+  if avalet.char.getName() then avalet.char.setName(nil) end
+  
 end
 registerAnonymousEventHandler("sysConnectionEvent", "avalet.onSysConnectionEvent")</script>
 				<eventHandlerList />
@@ -4827,7 +4905,7 @@ function avalet.onSysDisconnectionEvent()
 
   --[[
   Bei einem Disconnect werden die Character-Daten auf Festplatte geschrieben.
-  (Und beim reconnect wieder eingelesen.) ]]
+  (Und beim neuen connect wieder eingelesen.) ]]
   avalet.char.saveCharDataToDisk()
 
 end
@@ -5021,6 +5099,26 @@ function avalet.onAvaletSendAllProfiles(event, level, sender, message, profil )
 end
 registerAnonymousEventHandler("avaletSendAllProfiles", "avalet.onAvaletSendAllProfiles")
 </script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>onTimerAddedEvent</name>
+				<packageName></packageName>
+				<script>--[[
+Funktion: onTimerAddedEvent()
+Jemand - und ich sehe hier keinen an, vor allem Twrx nicht - hat sich eine 
+Moeglichkeit gewuenscht, gezauberte Schilde mitzuzaehlen. Das zaehlen selbst 
+uebernehme ich derzeit nicht, aber ich lasse Avalet immer einen "timerAdded"-
+Event werfen, wenn ein Timer hinzugefuegt wurde. Zur freien Verwendung. Die 
+Funktion hier dient nur zum debuggen. Den Char-Name schicke ich mit falls im 
+Profil verschiedene Chars gespielt werden. ]]
+function avalet.onTimerAddedEvent(eventName, charName, timerName)
+  avalet.log("avalet.onTimerAddedEvent(eventName, charName, timerName)", 1)
+  
+  --avalet.log("Timer wurde hinzugefuegt fuer: "..timerName..", Charakter: "..charName..", eventName: "..eventName, 2)
+
+end --function avalet.onTimerAddedEvent(eventName, charName, timerName)
+registerAnonymousEventHandler("timerAddedEvent", "avalet.onTimerAddedEvent")</script>
 				<eventHandlerList />
 			</Script>
 		</ScriptGroup>
@@ -5495,12 +5593,21 @@ end
 				<script>--[[
 avalet.log
 
-Beim Entwickeln fehlte mir irgendwann sowas wie log4j, also eine konfigurierbare
-Möglichkeit, Debug-Texte auszugeben. Ohne sie später dann immer wieder löschen
-zu müssen. Das hier ist mein workaround dafür. 
-Die log-message hier wird _immer_ in der Debug-Console ausgegeben. Und wenn
-der debug-Modus in Avalet aktiviert ist, dann auch im Hauptfenster. Zu diesem
+Beim Entwickeln fehlte mir irgendwann sowas wie log4j, also eine 
+konfigurierbare Möglichkeit, Debug-Texte auszugeben. Ohne sie später 
+dann immer wieder löschen zu müssen. Das hier ist mein workaround dafür. 
+Die log-message hier wird _immer_ in der Debug-Console von Mudlet 
+ausgegeben. Die sieht man, wenn man hier im Code-Editor ganz Links 
+auf "Fehler" klickt. Und wenn der debug-Modus in Avalet aktiviert ist, 
+dann erfolgt die Ausgabe auch im Hauptfenster. Zu diesem
 debug-Modus steht was ganz am Anfang, unter "init".
+
+Der Log-Level gewichtet die einzelnen Meldungen. Und durch die Einstellung 
+in 'avalet.loglevel' (auch im Abschnitt 'init') kann man sich einstellen, 
+wie viele Ausgaben man sehen will. Stellt man 'avalet.loglevel' auf 0, 
+dann bekommt man alle Ausgaben angezeigt. Stellt man den Wert auf 2, dann 
+bekommt man nur [INFO] und schwerwiegendere Meldungen zu sehen. 
+
 Logging in einer Datei findet derzeit nicht statt. ]]
 function avalet.log(message, level)
  
@@ -6051,6 +6158,9 @@ function avalet.registerTimer(name, duration, param)
   else
 
     table.insert(avalet.listOfTimers, {["name"] = name, ["starttime"] = os.time(), ["duration"] = duration})
+    -- Fuer Statistik etc.
+    -- avalet.onTimerAddedEvent(eventName, charName, timerName)
+    raiseEvent("timerAddedEvent", avalet.char.getName(), name)
   
   end
   
@@ -11517,7 +11627,6 @@ registerAnonymousEventHandler("AvalonInv", "avalet.atcp.onATCPEventAvalonInv")
 -- AvalonZiele
 function avalet.atcp.onATCPEventAvalonZiele(event, arg)
 	avalet.log("AvalonZiele = " .. tostring(arg), 1)
-	avalet.log("AvalonZiele = " .. tostring(arg), 3)
   
   --echo("\n\n AVALON.TARGETS START\n\n")
   --display(arg)
